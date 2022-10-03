@@ -10,8 +10,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { PhysiciansService } from './physicians.service';
-import { CreatePhysicianDto } from './dto/create-Physician.dto';
-import { UpdatePhysicianDto } from './dto/update-Physician.dto';
+import { CreatePhysicianDto } from './dto/create-physician.dto';
+import { UpdatePhysicianDto } from './dto/update-physician.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 /**
