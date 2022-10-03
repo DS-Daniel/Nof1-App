@@ -1,0 +1,11 @@
+{
+	"logbookTitle": "Carnet de relevés des paramètres de santé",
+	"subtitle": "Durant votre traitement, veuillez s’il-vous plaît remplir quotidiennement le formulaire ci-dessous.",
+	"response": "Réponse :",
+	"period": "Période",
+	"import-btn": "Importer les données depuis un fichier (format JSON)",
+	"save-btn": "Enregistrer les modifications",
+	"go-to-result-btn": "Aller à la page des résultats",
+	"import-alert-fail": "Le fichier n'est pas un fichier JSON valide !",
+	"import-alert-success": "Fichier importé avec succès"
+}

@@ -1,0 +1,11 @@
+{
+	"logbookTitle": "Health parameter logbook",
+	"subtitle": "During your treatment, please fill out the form below daily.",
+	"response": "Response :",
+	"period": "Period",
+	"import-btn": "Import data from a file (JSON format)",
+	"save-btn": "Save modifications",
+	"go-to-result-btn": "Go to results page",
+	"import-alert-fail": "Not a valid JSON file !",
+	"import-alert-success": "File successfully imported"
+}

@@ -1,0 +1,76 @@
+{
+	"nav": {
+		"title": "N-of-1 tool",
+		"nof1List": "Tests N-of-1",
+		"profile": "Profil",
+		"logout": "Déconnexion"
+	},
+	"form": {
+		"signIn": "Connexion",
+		"signUp": "Créer un compte",
+		"email": "Email",
+		"password": "Mot de passe",
+		"passwordConfirm": "Confirmer le mot de passe",
+		"title": "Titre",
+		"institution": "Institution",
+		"firstname": "Prénom",
+		"lastname": "Nom",
+		"phone": "Téléphone",
+		"street": "Adresse",
+		"zip": "NPA",
+		"city": "Ville",
+		"insurance": "Assurance",
+		"insuranceNb": "Numéro d'assuré"
+	},
+	"formErrors": {
+		"requiredField": "Champ requis",
+		"emailInvalid": "L'email est malformée",
+		"minLen": "Minimum 8 caractères",
+		"maxLen": "Maximum 32 caractères",
+		"oneUpperLetter": "Contient au moins une lettre majuscule",
+		"oneLowerLetter": "Contient au moins une lettre minuscule",
+		"oneDigitOrSpecial": "Contient au moins un chiffre ou un caractère spécial",
+		"passwordConfirm": "Veuillez confirmer votre mot de passe",
+		"passwordConfirmNoMatch": "Le mot de passe ne correspond pas",
+		"digitsRequired": "Autorisé: chiffres (pas d'espace)",
+		"digitsMax": "Maximum 20 numéros",
+		"userAlreadyExists": "L'utilisateur existe déjà !",
+		"userAlreadyExists2": "Un utilisateur avec cette adresse e-mail existe déjà !",
+		"invalidCredentials": "Identifiants de connexion non valides",
+		"errorMsg": "Veuillez vérifier les champs incorrects",
+		"unexpectedErrorMsg": "Une erreur s'est produite, veuillez réessayer",
+		"successMsg": "Les données ont été enregistrées"
+	},
+	"button": {
+		"add": "Ajouter",
+		"cancel": "Annuler",
+		"saveDataBtn": "Enregistrer"
+	},
+	"measure-unit-label": "Unité de mesure",
+	"posology-table": {
+		"day": "Jour",
+		"morning": "Matin",
+		"noon": "Midi",
+		"evening": "Soir",
+		"night": "Nuit",
+		"fraction": "Fraction(s)"
+	},
+	"loading": "Chargement...",
+	"date": "Date",
+	"day": "Jour",
+	"days": "jours",
+	"substance": "Substance",
+	"period": "Période",
+	"table": {
+		"labelRowsPerPage": "Lignes par page :",
+		"ofLabel": "sur",
+		"moreLabel": "plus de"
+	},
+	"patient": "Patient",
+	"physician": "Médecin",
+	"nof1-physician": "Médecin responsable du test N-of-1",
+	"sub-recap": {
+		"qty": "Quantité totale pour substance",
+		"dose": "doses (fractions)"
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"warning": "In case of further contact, please use the contact information below (do not reply directly to this e-mail).",
+	"hello": "Dear Madam or Sir,",
+	"intro": "Thank you for your collaboration.",
+	"intro1": "Please find attached the Excel file containing the information needed to prepare the N-of-1 test treatments.",
+	"intro2": "The file contains the information of the patient, the treating physician, the physician responsible for the N-of-1 test and the dosages of the different treatments.",
+	"contact": "Contact information:",
+	"contact-name": "Physician: {{name}}",
+	"contact-email": "Email address: {{email}}",
+	"contact-phone": "Phone: {{phone}}",
+	"greetings": "Thank you in advance. Best regards."
+}

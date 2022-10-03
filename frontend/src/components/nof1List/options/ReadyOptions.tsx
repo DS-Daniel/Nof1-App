@@ -1,0 +1,166 @@
+import ReadyMenu from '../menus/ReadyMenu';
+import useTranslation from 'next-translate/useTranslation';
+import OptionBtn from './OptionBtn';
+import Stack from '@mui/material/Stack';
+import DatePicker from '../../common/DatePicker';
+import { OptionsProps } from '../Nof1TableItem';
+import { useRouter } from 'next/router';
+import { Dispatch, SetStateAction, useState } from 'react';
+import dayjs from 'dayjs';
+import { TestStatus } from '../../../utils/constants';
+import { sendEmail, updateNof1Test } from '../../../utils/apiCalls';
+import { Nof1Test } from '../../../entities/nof1Test';
+import FailSnackbar from '../../common/FailSnackbar';
+import { useUserContext } from '../../../context/UserContext';
+import {
+	generateAdministrationSchema,
+	generateSequence,
+	selectRandomPosology,
+	substancesRecap,
+} from '../../../utils/nof1-lib/lib';
+import { useEmailInfos } from '../../../utils/customHooks';
+import EmailConfirmDialog from '../EmailConfirmDialog';
+
+interface ReadyOptionsProps extends OptionsProps {
+	setItem: Dispatch<SetStateAction<Nof1Test>>;
+}
+
+/**
+ * Component rendering the options for a test with the status ready.
+ */
+export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
+	const { t } = useTranslation('nof1List');
+	const router = useRouter();
+	const { userContext } = useUserContext();
+	const [beginningDate, setBeginningDate] = useState<dayjs.Dayjs | null>(null);
+	const [openFailSnackbar, setOpenFailSnackbar] = useState(false);
+	const [openEmailDialog, setOpenEmailDialog] = useState(false);
+	const [openEmailFailSnackbar, setOpenEmailFailSnackbar] = useState(false);
+	const {
+		schemaHeaders,
+		patientInfos,
+		physicianInfos,
+		nof1PhysicianInfos,
+		msg,
+	} = useEmailInfos(item.patient, item.physician, item.nof1Physician);
+
+	/**
+	 * Handle click on the start button, triggering the email confirmation dialog.
+	 */
+	const handleReady = () => {
+		if (beginningDate) {
+			setOpenEmailDialog(true);
+		} else {
+			setOpenFailSnackbar(true);
+		}
+	};
+
+	/**
+	 * Trigger the generation of the randomized parameters of the test,
+	 * sending the email to the pharmacy and updating the test information.
+	 * @param email Pharmacy email address.
+	 */
+	const updateTestAndSendEmail = async (email: string) => {
+		const test = { ...item };
+		test.beginningDate = beginningDate!.toDate();
+		test.endingDate = beginningDate!
+			.add(test.periodLen * test.nbPeriods - 1, 'day')
+			.toDate();
+		test.selectedPosologies = selectRandomPosology(test.posologies);
+		test.substancesSequence = generateSequence(
+			test.substances,
+			test.randomization,
+			test.nbPeriods,
+		);
+		test.administrationSchema = generateAdministrationSchema(
+			test.substances,
+			test.substancesSequence,
+			test.selectedPosologies,
+			test.beginningDate!,
+			test.periodLen,
+			test.nbPeriods,
+		);
+		test.status = TestStatus.Ongoing;
+		test.meta_info!.emailSendingDate = new Date();
+		test.pharmaEmail = email;
+
+		const response = await sendEmail(
+			userContext.access_token,
+			{
+				patientInfos,
+				physicianInfos,
+				nof1PhysicianInfos,
+				schemaHeaders,
+				schema: test.administrationSchema,
+				substancesRecap: substancesRecap(
+					test.substances,
+					test.administrationSchema,
+					t('common:sub-recap.qty'),
+					t('common:sub-recap.dose'),
+				),
+			},
+			msg,
+			email,
+		);
+
+		if (response.success) {
+			updateNof1Test(userContext.access_token, test.uid!, test);
+			setItem(test); // update display
+		} else {
+			setOpenEmailFailSnackbar(true);
+		}
+	};
+
+	/**
+	 * Handle click on the edit button.
+	 */
+	const handleEdit = () => {
+		router.push({
+			pathname: '/create-test',
+			query: { id: item.uid, edit: true },
+		});
+	};
+
+	return (
+		<>
+			<Stack
+				direction="row"
+				justifyContent="flex-end"
+				alignItems="center"
+				spacing={2}
+			>
+				<DatePicker value={beginningDate} setValue={setBeginningDate} />
+				<OptionBtn variant="contained" onClick={handleReady}>
+					{t('btnStatus.ready')}
+				</OptionBtn>
+			</Stack>
+			<Stack
+				direction="row"
+				justifyContent="flex-end"
+				alignItems="center"
+				spacing={2}
+			>
+				<OptionBtn variant="outlined" onClick={handleEdit}>
+					{t('btn.edit')}
+				</OptionBtn>
+				<ReadyMenu item={item} />
+			</Stack>
+			<FailSnackbar
+				open={openFailSnackbar}
+				setOpen={setOpenFailSnackbar}
+				msg={t('alert-date')}
+			/>
+			<FailSnackbar
+				open={openEmailFailSnackbar}
+				setOpen={setOpenEmailFailSnackbar}
+				msg={t('alert-email')}
+			/>
+			<EmailConfirmDialog
+				open={openEmailDialog}
+				handleClose={() => setOpenEmailDialog(false)}
+				handleDialogSubmit={(email) => updateTestAndSendEmail(email)}
+				pharmaEmail={item.pharmaEmail}
+			/>
+		</>
+	);
+}

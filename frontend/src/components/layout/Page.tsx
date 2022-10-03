@@ -1,0 +1,27 @@
+import Container from '@mui/material/Container';
+import { ReactNode } from 'react';
+import NavBar from './NavBar';
+
+type PageProps = {
+	children: ReactNode;
+};
+
+/**
+ * Page layout.
+ */
+export default function Page({ children }: PageProps) {
+	return (
+		<>
+			<NavBar />
+			<Container
+				component="main"
+				maxWidth="lg"
+				sx={{
+					my: 5,
+				}}
+			>
+				{children}
+			</Container>
+		</>
+	);
+}

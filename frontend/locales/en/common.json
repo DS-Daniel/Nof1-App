@@ -1,0 +1,76 @@
+{
+	"nav": {
+		"title": "N-of-1 tool",
+		"nof1List": "N-of-1 tests",
+		"profile": "Profile",
+		"logout": "Logout"
+	},
+	"form": {
+		"signIn": "Sign In",
+		"signUp": "Sign Up",
+		"email": "Email",
+		"password": "Password",
+		"passwordConfirm": "Confirm Password",
+		"title": "Title:",
+		"institution": "Institution",
+		"firstname": "First Name",
+		"lastname": "Last Name",
+		"phone": "Phone",
+		"street": "Address",
+		"zip": "Zip",
+		"city": "City",
+		"insurance": "Insurance",
+		"insuranceNb": "Insurance number"
+	},
+	"formErrors": {
+		"requiredField": "Required Field",
+		"emailInvalid": "Email is malformed",
+		"minLen": "Must be more than 8 characters",
+		"maxLen": "Must be less than 32 characters",
+		"oneUpperLetter": "Has at least one uppercase letter",
+		"oneLowerLetter": "Has at least one lowercase letter",
+		"oneDigitOrSpecial": "Has at least one digit or one special character",
+		"passwordConfirm": "Please confirm your password",
+		"passwordConfirmNoMatch": "Passwords do not match",
+		"digitsRequired": "Only digits (no space)",
+		"digitsMax": "Must be less than 20 digits",
+		"userAlreadyExists": "User already exists !",
+		"userAlreadyExists2": "An user with the same email address already exists !",
+		"invalidCredentials": "Invalid credentials",
+		"errorMsg": "Please check incorrect fields",
+		"unexpectedErrorMsg": "An error occurred, please try again",
+		"successMsg": "Data have been saved"
+	},
+	"button": {
+		"add": "Add",
+		"cancel": "Cancel",
+		"saveDataBtn": "Save"
+	},
+	"measure-unit-label": "Measurement unit",
+	"posology-table": {
+		"day": "Day",
+		"morning": "Morning",
+		"noon": "Noon",
+		"evening": "Evening",
+		"night": "Night",
+		"fraction": "Fraction(s)"
+	},
+	"loading": "Loading...",
+	"date": "Date",
+	"day": "Day",
+	"days": "days",
+	"substance": "Substance",
+	"period": "Period",
+	"table": {
+		"labelRowsPerPage": "Rows per page:",
+		"ofLabel": "of",
+		"moreLabel": "more than"
+	},
+	"patient": "Patient",
+	"physician": "Physician",
+	"nof1-physician": "Physician responsible of the N-of-1 test",
+	"sub-recap": {
+		"qty": "Total quantity for substance",
+		"dose": "doses (fractions)"
+	}
+}

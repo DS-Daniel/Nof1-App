@@ -1,0 +1,36 @@
+{
+	"btn": {
+		"create": "créer un nouveau test N-of-1",
+		"create-fromID": "créer un nouveau test N-of-1, à partir d'un autre",
+		"stop": "Stopper le test",
+		"edit": "Modifier le test",
+		"delete": "Supprimer le test",
+		"print": "Imprimer le carnet (imprimer en pdf)*"
+	},
+	"print-warning": "(*vérifier l'orientation (portrait) et les marges (par défaut) dans la fenêtre d'impression si le rendu n'est pas correct)",
+	"create-fromID-dialog-title": "Choisissez l'ID du test qui servira comme modèle",
+	"headerId": "ID du test",
+	"headerDate": "Date de création",
+	"headerState": "Statut",
+	"optionsMenu": "Options",
+	"menu": {
+		"parameters": "Consulter les paramètres",
+		"dataImport": "Importer les données patient",
+		"xmlExport": "Exporter en XML",
+		"varBooklet": "Carnet des variables patient",
+		"varBooklet-preview": "Aperçu du carnet de relevés des variables (date actuelle)",
+		"sendEmail": "Envoyer e-mail à la pharmacie"
+	},
+	"btnStatus": {
+		"draft": "Reprendre le brouillon",
+		"ended": "Résultat",
+		"ongoing": "En cours",
+		"ready": "Démarrer le test"
+	},
+	"startingDate": "Date de début du test",
+	"endingDate": "Date de fin du test",
+	"alert-date": "Veuillez indiquer une date de début du test",
+	"alert-email": "L'e-mail n'a pas pu être envoyé, veuillez vérifier l'adresse et réessayer!",
+	"email-sent": "E-mail envoyé avec succès",
+	"email-confirm": "Veuillez vérifier l'adresse e-mail avant d'envoyer l'e-mail (une adresse inexistante ne sera pas détectée) :"
+}

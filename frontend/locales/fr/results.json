@@ -1,0 +1,26 @@
+{
+	"btn": {
+		"dataImport": "Importer les données du patient",
+		"report": "Générer le rapport médical",
+		"xml": "Exporter données du test N-of-1 en XML"
+	},
+	"title": "Résultats détaillés",
+	"test-id": "ID test :",
+	"start-date": "Date de début:",
+	"end-date": "Date de fin:",
+	"interrupted": "Test interrompu",
+	"random-sub-seq-title": "Séquence aléatoire d'administration des substances",
+	"period-duration": "Durée d'une période :",
+	"randomStrategy": "Stratégie de randomisation :",
+	"selected-posologies": "Posologies sélectionnées",
+	"posology-repeat": "Posologie du dernier jour répétée pour la période suivante, si deux périodes consécutives concernent la même substance.",
+	"admin-schema-title": "Schéma d'administration",
+	"patient-data-title": "Relevés des variables de santé du patient",
+	"no-data": "Vous n'avez pas encore importé les données du patient.",
+	"xlsx-export": "Exporter fichier excel",
+	"xlsx-admin-schema": "Schéma_d'administration",
+	"xlsx-patient-data": "Données_de_santé_du_patient",
+	"xlsx-posology-sub-x": "Posologie_{{substance}}",
+	"graph-title": "Graphiques des variables quantitatives",
+	"dl-graph": "Télécharger"
+}
