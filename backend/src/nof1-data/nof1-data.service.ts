@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Error as MongooseError } from 'mongoose';
+import { Nof1TestsService } from '../nof1-tests/nof1-tests.service';
 import { CreateNof1DataDto } from './dto/create-nof1-data.dto';
 import { UpdateNof1DataDto } from './dto/update-nof1-data.dto';
 import { Nof1Data, Nof1DataDoc } from './schemas/nof1Data.schema';
@@ -13,6 +14,7 @@ export class Nof1DataService {
   constructor(
     @InjectModel(Nof1Data.name)
     private readonly nof1DataModel: Model<Nof1DataDoc>,
+    private readonly nof1TestsService: Nof1TestsService,
   ) {}
 
   /**
@@ -40,6 +42,17 @@ export class Nof1DataService {
   async findOne(testId: string) {
     const response = await this.nof1DataModel.findOne({ testId }).lean();
     return { response };
+  }
+
+  /**
+   * Retrieve a N-of-1 health variables data document.
+   * @param testId The id of the document to retrieve.
+   * @returns The document or null.
+   */
+  async patientData(testId: string) {
+    const test = await this.nof1TestsService.findOne(testId);
+    const nof1Data = await this.nof1DataModel.findOne({ testId }).lean();
+    return { test, data: nof1Data.data };
   }
 
   /**

@@ -10,6 +10,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/utils/customDecorators/publicEndpoint';
 import { CreateNof1DataDto } from './dto/create-nof1-data.dto';
 import { UpdateNof1DataDto } from './dto/update-nof1-data.dto';
 import { Nof1DataService } from './nof1-data.service';
@@ -34,6 +35,13 @@ export class Nof1DataController {
     return this.nof1DataService.create(createNof1DataDto);
   }
 
+  @Public()
+  @Post('/public')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  createPublic(@Body() createNof1DataDto: CreateNof1DataDto) {
+    return this.nof1DataService.create(createNof1DataDto);
+  }
+
   /**
    * Retrieve a N-of-1 health variables data document.
    * @param testId The id of the document to retrieve.
@@ -45,6 +53,17 @@ export class Nof1DataController {
   }
 
   /**
+   * Retrieve a N-of-1 health variables data document.
+   * @param testId The id of the document to retrieve.
+   * @returns The document.
+   */
+  @Public()
+  @Get('/public/:testId')
+  patientData(@Param('testId') testId: string) {
+    return this.nof1DataService.patientData(testId);
+  }
+
+  /**
    * Update a N-of-1 health variables data document.
    * @param testId The id of the document.
    * @param updateNof1DataDto Dto representing data.
@@ -53,6 +72,15 @@ export class Nof1DataController {
    */
   @Patch(':testId')
   update(
+    @Param('testId') testId: string,
+    @Body() updateNof1DataDto: UpdateNof1DataDto,
+  ) {
+    return this.nof1DataService.update(testId, updateNof1DataDto);
+  }
+
+  @Public()
+  @Patch('/public/:testId')
+  updatePublic(
     @Param('testId') testId: string,
     @Body() updateNof1DataDto: UpdateNof1DataDto,
   ) {
