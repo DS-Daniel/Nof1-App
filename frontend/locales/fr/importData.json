@@ -7,5 +7,8 @@
 	"save-btn": "Enregistrer les modifications",
 	"go-to-result-btn": "Aller à la page des résultats",
 	"import-alert-fail": "Le fichier n'est pas un fichier JSON valide !",
-	"import-alert-success": "Fichier importé avec succès"
+	"import-alert-success": "Fichier importé avec succès",
+	"patient": {
+		"welcome": "Bienvenue sur la page contenant le formulaire lié à votre traitement actuel.\nMerci de bien vouloir le remplir quotidiennement.\n\n"
+	}
 }

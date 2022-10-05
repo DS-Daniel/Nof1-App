@@ -1,5 +1,5 @@
 import { UserContextType } from '../context/UserContext';
-import { Nof1Data } from '../entities/nof1Data';
+import { Nof1Data, TestData } from '../entities/nof1Data';
 import { AdministrationSchema, Nof1Test } from '../entities/nof1Test';
 import { Patient, Physician } from '../entities/people';
 
@@ -367,6 +367,88 @@ export const updateNof1Data = (
  */
 export const findNof1Data = (token: string, testId: string) => {
 	return apiGet(token, '/nof1-data', `/${testId}`);
+};
+
+
+/**
+ * Find a N-of-1 test by its id. This call does not require an access token.
+ * @param id Id of the test.
+ * @returns The result of the request.
+ */
+export const getPatientData = async (id: string) => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/nof1-data/public/${id}`,
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		},
+	);
+	const res: { test: Nof1Test; data: TestData | null } | any =
+		await response.json();
+	return { success: response.ok, response: res };
+};
+
+/**
+ * Generic API request.
+ * @param token JWT API authorization token.
+ * @param body Body of the request.
+ * @param method HTTP method of the request.
+ * @param endpoint Endpoint to reach.
+ * @param param Parameter of the HTTP request.
+ * @returns An object with the status of the request and the response.
+ */
+const patientApiCall = async (
+	// token: string,
+	body: Partial<Nof1Data>,
+	method: string,
+	param: string = '',
+) => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/nof1-data/public${param}`,
+		{
+			method: method,
+			headers: {
+				'Content-Type': 'application/json',
+				// Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(body),
+		},
+	);
+	const result = await response.json();
+	console.log('get data', result);
+	return { success: response.ok, response: result };
+};
+
+/**
+ * Create a N-of-1 data.
+ * @param token JWT API authorization token.
+ * @param body N-of-1 data.
+ * @returns An object with the status of the request and the response.
+ */
+export const createNof1DataPublic = (body: Nof1Data) => {
+	// return patientApiCall(body, 'POST');
+	const response = patientApiCall(body, 'POST');
+	console.log('create data', response);
+	return response;
+};
+
+/**
+ * Update a N-of-1 data.
+ * @param token JWT API authorization token.
+ * @param testId Id of the N-of-1 test which is concerned.
+ * @param body Data to update.
+ * @returns An object with the status of the request and the response.
+ */
+export const updateNof1DataPublic = (
+	testId: string,
+	body: Partial<Nof1Data>,
+) => {
+	// return patientApiCall(body, 'PATCH', `/${testId}`);
+		const response = patientApiCall(body, 'PATCH', `/${testId}`);
+		console.log('update data', response);
+		return response;
 };
 
 /**

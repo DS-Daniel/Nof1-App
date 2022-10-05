@@ -7,5 +7,8 @@
 	"save-btn": "Save modifications",
 	"go-to-result-btn": "Go to results page",
 	"import-alert-fail": "Not a valid JSON file !",
-	"import-alert-success": "File successfully imported"
+	"import-alert-success": "File successfully imported",
+	"patient": {
+		"welcome": "TODO"
+	}
 }
