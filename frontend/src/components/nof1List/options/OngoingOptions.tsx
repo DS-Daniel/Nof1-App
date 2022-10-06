@@ -8,7 +8,7 @@ import { updateNof1Test } from '../../../utils/apiCalls';
 import { Nof1Test } from '../../../entities/nof1Test';
 import dayjs from 'dayjs';
 import { useUserContext } from '../../../context/UserContext';
-import OngoingMenu from '../menus/OngoingMenu';
+import OngoingMenu from '../dropDownMenus/OngoingMenu';
 
 interface OngoingOptionsProps extends OptionsProps {
 	setItem: Dispatch<SetStateAction<Nof1Test>>;

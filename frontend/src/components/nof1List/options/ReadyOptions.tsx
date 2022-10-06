@@ -1,4 +1,4 @@
-import ReadyMenu from '../menus/ReadyMenu';
+import ReadyMenu from '../dropDownMenus/ReadyMenu';
 import useTranslation from 'next-translate/useTranslation';
 import OptionBtn from './OptionBtn';
 import Stack from '@mui/material/Stack';
@@ -20,6 +20,7 @@ import {
 } from '../../../utils/nof1-lib/lib';
 import { useEmailInfos } from '../../../utils/customHooks';
 import EmailConfirmDialog from '../EmailConfirmDialog';
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface ReadyOptionsProps extends OptionsProps {
 	setItem: Dispatch<SetStateAction<Nof1Test>>;
@@ -33,6 +34,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 	const router = useRouter();
 	const { userContext } = useUserContext();
 	const [beginningDate, setBeginningDate] = useState<dayjs.Dayjs | null>(null);
+	const [sendingEmail, setSendingEmail] = useState(false);
 	const [openFailSnackbar, setOpenFailSnackbar] = useState(false);
 	const [openEmailDialog, setOpenEmailDialog] = useState(false);
 	const [openEmailFailSnackbar, setOpenEmailFailSnackbar] = useState(false);
@@ -50,6 +52,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 	const handleReady = () => {
 		if (beginningDate) {
 			setOpenEmailDialog(true);
+			setSendingEmail((prevState) => !prevState);
 		} else {
 			setOpenFailSnackbar(true);
 		}
@@ -108,6 +111,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 			setItem(test); // update display
 		} else {
 			setOpenEmailFailSnackbar(true);
+			setSendingEmail((prevState) => !prevState);
 		}
 	};
 
@@ -130,9 +134,15 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 				spacing={2}
 			>
 				<DatePicker value={beginningDate} setValue={setBeginningDate} />
-				<OptionBtn variant="contained" onClick={handleReady}>
-					{t('btnStatus.ready')}
-				</OptionBtn>
+				{sendingEmail ? (
+					<OptionBtn variant="contained" disabled>
+						<CircularProgress size="2em" />
+					</OptionBtn>
+				) : (
+					<OptionBtn variant="contained" onClick={handleReady}>
+						{t('btnStatus.ready')}
+					</OptionBtn>
+				)}
 			</Stack>
 			<Stack
 				direction="row"

@@ -1,4 +1,4 @@
-import EndedTestMenu from '../menus/EndedTestMenu';
+import EndedTestMenu from '../dropDownMenus/EndedTestMenu';
 import useTranslation from 'next-translate/useTranslation';
 import OptionBtn from './OptionBtn';
 import { OptionsProps } from '../Nof1TableItem';
