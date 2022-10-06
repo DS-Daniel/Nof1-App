@@ -20,7 +20,8 @@
 		"zip": "NPA",
 		"city": "Ville",
 		"insurance": "Assurance",
-		"insuranceNb": "Numéro d'assuré"
+		"insuranceNb": "Numéro d'assuré",
+		"pwd-instructions": "Prérequis du mot de passe:\n- minimum 8 caractères\n- minimum 1 lettre majuscule et 1 lettre minuscule\n- minimum 1 chiffre ou caractère spécial"
 	},
 	"formErrors": {
 		"requiredField": "Champ requis",

@@ -20,7 +20,8 @@
 		"zip": "Zip",
 		"city": "City",
 		"insurance": "Insurance",
-		"insuranceNb": "Insurance number"
+		"insuranceNb": "Insurance number",
+		"pwd-instructions": "Password requirements:\n- minimum 8 characters\n- minimum 1 upper and 1 lower case letter\n- minimum 1 digit or special character"
 	},
 	"formErrors": {
 		"requiredField": "Required Field",

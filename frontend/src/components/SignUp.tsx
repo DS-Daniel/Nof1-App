@@ -200,6 +200,17 @@ export default function SignUp({ login }: SignUpProps) {
 								{...register('passwordConfirm')}
 							/>
 						</Grid>
+						<Grid item xs={12}>
+							<Alert variant="outlined" severity="warning">
+								<Typography
+									variant="body2"
+									// align="center"
+									sx={{ whiteSpace: 'pre-line' }}
+								>
+									{t('form.pwd-instructions')}
+								</Typography>
+							</Alert>
+						</Grid>
 						{userExists && (
 							<Grid item xs={12}>
 								<Alert severity="error">
