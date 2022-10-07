@@ -5,6 +5,10 @@ export type Nof1Data = {
 	data: TestData;
 };
 
+export type Nof1DataUpdate = Nof1Data & {
+	testEndDate: Date;
+};
+
 export type TestData = {
 	day: number;
 	date: Date;

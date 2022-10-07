@@ -18,3 +18,6 @@ export enum TestStatus {
 
 // N-of-1 creation: parameter for randomization strategy
 export const maxRepOptions = [1, 2, 3, 4, 5];
+
+// Token expiration margin, in days.
+export const tokenExpMargin = 14;

@@ -4,16 +4,12 @@ import Stack from '@mui/material/Stack';
 import dayjs from 'dayjs';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Nof1Test } from '../entities/nof1Test';
 import {
 	createNof1Data,
-	createNof1DataPublic,
-	findNof1Data,
-	findNof1TestById,
 	getPatientData,
-	updateNof1Data,
-  updateNof1DataPublic,
+	patientDataUpdate,
 } from '../utils/apiCalls';
 import { useUserContext } from '../context/UserContext';
 import { Variable, VariableType } from '../entities/variable';
@@ -63,30 +59,34 @@ export default function PatientData() {
 	const { t } = useTranslation('importData');
 	const router = useRouter();
 	const { userContext } = useUserContext();
-	const [test, setTest] = useState<Nof1Test | null>(null);
-	const testData = useRef<TestData | null>(null);
-	const foundData = useRef<boolean>(false);
-	const [success, setSuccess] = useState(false);
+	const [test, setTest] = useState<Nof1Test | undefined>(undefined);
+	const testData = useRef<TestData | undefined>(undefined);
+	const dataFound = useRef<boolean>(false);
+	const [successSB, setSuccessSB] = useState(false);
 	const [dbError, setDbError] = useState(false);
-  console.log('data', testData.current)
+	const [apiToken, setApiToken] = useState('');
 
 	// fetch test information and initialize default health data.
 	useEffect(() => {
-		async function initData(id: string) {
-			const { success, response } = await getPatientData(id);
-			const test: Nof1Test = response.test;
-			setTest(test);
-      // check if previous data already exist.
-      // tout dans le même call (test ou data endpoint ?) et renvoie les 2 infos
-      foundData.current = response.data !== null;
-      console.log('found', foundData.current)
-			testData.current = foundData.current ? response.data : defaultData(test);
-      // const data: TestData = response.data;
-			// testData.current = data ? data : defaultData(test);
+		async function initData(id: string, token: string) {
+			const { success, response } = await getPatientData(token, id);
+			if (success) {
+				setApiToken(token);
+				const test: Nof1Test = response.test;
+				setTest(test);
+				// check if previous data already exist.
+				const data: TestData = response.data;
+				dataFound.current = data !== undefined;
+				console.log('data found?', dataFound.current);
+				testData.current = dataFound.current ? data : defaultData(test);
+			} else {
+				// TODO display something
+				// router.push('/404');
+			}
 		}
-		const { id } = router.query;
-		if (id) {
-			initData(id as string);
+		const { id, token } = router.query;
+		if (id && token) {
+			initData(id as string, token as string);
 		}
 	}, [router.query, userContext]);
 
@@ -164,24 +164,20 @@ export default function PatientData() {
 	const createOrUpdateData = async () => {
 		const testId = router.query.id as string;
 		let error = false;
-		// const { response } = await findNof1Data(userContext.access_token, testId);
-		// if (response) {
-		if (foundData.current) {
-			const { success } = await updateNof1DataPublic(
-				// userContext.access_token,
+		if (dataFound.current) {
+			const { success } = await patientDataUpdate(apiToken, testId, {
 				testId,
-				{ data: testData.current! },
-			);
+				data: testData.current!,
+				testEndDate: test!.endingDate!,
+			});
 			if (!success) error = true;
 		} else {
-			const { success } = await createNof1DataPublic(
-				// userContext.access_token,
-				{
-					testId,
-					data: testData.current!,
-				},
-			);
-			if (!success) error = true;
+			// TODO own create API request ? and test period validity ?
+			const { statusCode } = await createNof1Data(apiToken, {
+				testId,
+				data: testData.current!,
+			});
+			if (statusCode !== 201) error = true;
 		}
 		return error;
 	};
@@ -192,7 +188,7 @@ export default function PatientData() {
 	 */
 	const handleSave = async () => {
 		const error = await createOrUpdateData();
-		error ? setDbError(true) : setSuccess(true);
+		error ? setDbError(true) : setSuccessSB(true);
 	};
 
 	return (
@@ -208,7 +204,11 @@ export default function PatientData() {
 					width: 180,
 				}}
 			>
-				<Button variant="contained" onClick={handleSave}>
+				<Button
+					variant="contained"
+					onClick={handleSave}
+					disabled={testData.current === undefined}
+				>
 					{t('save-btn')}
 				</Button>
 			</Box>
@@ -242,8 +242,8 @@ export default function PatientData() {
 				)}
 			</Stack>
 			<SuccessSnackbar
-				open={success}
-				setOpen={setSuccess}
+				open={successSB}
+				setOpen={setSuccessSB}
 				msg={t('common:formErrors.successMsg')}
 			/>
 			<FailSnackbar
