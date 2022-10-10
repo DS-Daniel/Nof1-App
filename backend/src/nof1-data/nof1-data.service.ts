@@ -85,25 +85,17 @@ export class Nof1DataService {
    * a BadRequest exception.
    */
   updatePatientData(testId: string, updateNof1DataDto: UpdateNof1DataDto) {
+    const deadline = new Date(updateNof1DataDto.testEndDate);
     console.log('date now: ', new Date().toLocaleDateString());
-    console.log(
-      'end date: ',
-      updateNof1DataDto.testEndDate.toLocaleDateString(),
-    );
+    console.log('end date: ', deadline.toLocaleDateString());
 
-    updateNof1DataDto.testEndDate.setDate(
-      updateNof1DataDto.testEndDate.getDate() + 14,
-    ); // modifications deadline
+    deadline.setDate(deadline.getDate() + 14); // modifications deadline
+    console.log('end date: ', deadline.toLocaleDateString());
 
-    console.log(
-      'end date: ',
-      updateNof1DataDto.testEndDate.toLocaleDateString(),
-    );
-
-    if (new Date() > updateNof1DataDto.testEndDate) {
+    if (new Date() > deadline) {
       throw new BadRequestException('Deadline exceeded');
     }
-    this.update(testId, updateNof1DataDto);
+    return this.update(testId, updateNof1DataDto);
   }
 
   /**
