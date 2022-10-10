@@ -9,6 +9,7 @@
 	"import-alert-fail": "Le fichier n'est pas un fichier JSON valide !",
 	"import-alert-success": "Fichier importé avec succès",
 	"patient": {
-		"welcome": "Bienvenue sur la page contenant le formulaire lié à votre traitement actuel.\nMerci de bien vouloir le remplir quotidiennement.\n\n"
+		"welcome": "Bienvenue sur la page contenant le formulaire lié à votre traitement actuel.\nMerci de bien vouloir le remplir quotidiennement.\n\n",
+		"deadline-error": "Ce test thérapeutique est terminé, vous ne pouvez plus accéder au formulaire."
 	}
 }

@@ -1,56 +1,22 @@
-import Page from '../components/layout/Page';
-import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
-import dayjs from 'dayjs';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
+import { useUserContext } from '../context/UserContext';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Page from '../components/layout/Page';
+import FailSnackbar from '../components/common/FailSnackbar';
+import SuccessSnackbar from '../components/common/SuccessSnackbar';
+import Logbook from '../components/dataImport/Logbook';
 import { Nof1Test } from '../entities/nof1Test';
+import { TestData } from '../entities/nof1Data';
 import {
 	createNof1Data,
 	getPatientData,
 	patientDataUpdate,
 } from '../utils/apiCalls';
-import { useUserContext } from '../context/UserContext';
-import { Variable, VariableType } from '../entities/variable';
-import LogbookCard from '../components/dataImport/LogbookCard';
-import Binary from '../components/dataImport/Binary';
-import Numeric from '../components/dataImport/Numeric';
-import Text from '../components/dataImport/Text';
-import Qualitative from '../components/dataImport/Qualitative';
-import Button from '@mui/material/Button';
-import FailSnackbar from '../components/common/FailSnackbar';
-import SuccessSnackbar from '../components/common/SuccessSnackbar';
-import { TestData } from '../entities/nof1Data';
-import { TestStatus } from '../utils/constants';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-
-/**
- * Generate and return the default data for the N-of-1 test.
- * @param test N-of-1 test.
- * @returns The default test data array.
- */
-const defaultData = (test: Nof1Test): TestData => {
-	let totalDuration = test.nbPeriods * test.periodLen;
-	if (test.status === TestStatus.Interrupted) {
-		totalDuration =
-			dayjs(test.endingDate).diff(dayjs(test.beginningDate), 'day') + 1;
-	}
-	const data: TestData = [];
-	for (let i = 0; i < totalDuration; i++) {
-		data.push({
-			day: i + 1,
-			date: dayjs(test.beginningDate).add(i, 'day').toDate(),
-			substance: test.administrationSchema![i].substance,
-			data: test.monitoredVariables.map((variable) => ({
-				variableName: variable.name,
-				value: '',
-			})),
-		});
-	}
-	return data;
-};
+import { defaultData } from '../utils/nof1-lib/lib';
 
 /**
  * Patient's health variables data import page.
@@ -60,10 +26,11 @@ export default function PatientData() {
 	const router = useRouter();
 	const { userContext } = useUserContext();
 	const [test, setTest] = useState<Nof1Test | undefined>(undefined);
-	const testData = useRef<TestData | undefined>(undefined);
+	const testData = useRef<TestData | undefined>(undefined); // Ref to avoid useless re-render.
 	const dataFound = useRef<boolean>(false);
 	const [successSB, setSuccessSB] = useState(false);
 	const [dbError, setDbError] = useState(false);
+	const [deadlineExceeded, setDeadlineExceeded] = useState(false);
 	const [apiToken, setApiToken] = useState('');
 
 	// fetch test information and initialize default health data.
@@ -80,8 +47,9 @@ export default function PatientData() {
 				console.log('data found?', dataFound.current);
 				testData.current = dataFound.current ? data : defaultData(test);
 			} else {
-				// TODO display something
+				// TODO display new page or replace content ?
 				// router.push('/404');
+				setDeadlineExceeded(true);
 			}
 		}
 		const { id, token } = router.query;
@@ -89,73 +57,6 @@ export default function PatientData() {
 			initData(id as string, token as string);
 		}
 	}, [router.query, userContext]);
-
-	/**
-	 * Curry fonction to update the health data.
-	 * @param dayIdx index of the day.
-	 * @param varIdx index of the variable.
-	 * @returns A function to update the health data.
-	 */
-	const updateTestData = (dayIdx: number, varIdx: number) => {
-		return (value: string) => {
-			testData.current![dayIdx].data[varIdx].value = value;
-		};
-	};
-
-	/**
-	 * Helper to render the right Variable component.
-	 * @param variable Variable.
-	 * @param varIndex Variable index.
-	 * @param defaultValue Default value.
-	 * @param updateTestData Method to update the data.
-	 * @returns The appropriate component.
-	 */
-	const renderVariable = (
-		variable: Variable,
-		varIndex: number,
-		defaultValue: string,
-		updateTestData: (value: string) => void,
-	) => {
-		switch (variable.type) {
-			case VariableType.Text:
-				return (
-					<Text
-						key={varIndex}
-						variable={variable}
-						defaultValue={defaultValue}
-						onChange={updateTestData}
-					/>
-				);
-			case VariableType.Binary:
-				return (
-					<Binary
-						key={varIndex}
-						variable={variable}
-						defaultValue={defaultValue}
-						onChange={updateTestData}
-					/>
-				);
-			case VariableType.VAS:
-			case VariableType.Numeric:
-				return (
-					<Numeric
-						key={varIndex}
-						variable={variable}
-						defaultValue={defaultValue}
-						onChange={updateTestData}
-					/>
-				);
-			case VariableType.Qualitative:
-				return (
-					<Qualitative
-						key={varIndex}
-						variable={variable}
-						defaultValue={defaultValue}
-						onChange={updateTestData}
-					/>
-				);
-		}
-	};
 
 	/**
 	 * API call to create or update the patient's health data of the database.
@@ -191,6 +92,16 @@ export default function PatientData() {
 		error ? setDbError(true) : setSuccessSB(true);
 	};
 
+	if (deadlineExceeded) {
+		return (
+			<Page>
+				<Typography variant="h5" align="center">
+					{t('deadline-error')}
+				</Typography>
+			</Page>
+		);
+	}
+
 	return (
 		<Page>
 			<Typography variant="h5" align="center" sx={{ whiteSpace: 'pre-line' }}>
@@ -212,35 +123,7 @@ export default function PatientData() {
 					{t('save-btn')}
 				</Button>
 			</Box>
-			<Stack alignItems="center" spacing={3}>
-				{test && testData.current ? (
-					testData.current.map((dayData, dayIdx) => (
-						<LogbookCard
-							key={dayIdx}
-							startDate={test.beginningDate!}
-							idx={dayIdx}
-							periodLen={test.periodLen}
-						>
-							{test.monitoredVariables.map((v, varIdx) => {
-								const defaultValue = dayData.data[varIdx].value;
-								return renderVariable(
-									v,
-									varIdx,
-									defaultValue,
-									updateTestData(dayIdx, varIdx),
-								);
-							})}
-						</LogbookCard>
-					))
-				) : (
-					<Skeleton
-						variant="rectangular"
-						animation="wave"
-						width={'65%'}
-						height={'80vh'}
-					/>
-				)}
-			</Stack>
+			<Logbook test={test} testData={testData} />
 			<SuccessSnackbar
 				open={successSB}
 				setOpen={setSuccessSB}

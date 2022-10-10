@@ -9,6 +9,7 @@
 	"import-alert-fail": "Not a valid JSON file !",
 	"import-alert-success": "File successfully imported",
 	"patient": {
-		"welcome": "TODO"
+		"welcome": "Welcome to the page containing the form related to your current treatment.\nPlease fill it out daily.\n\n",
+		"deadline-error": "This therapeutic test is over, you can no longer access the form."
 	}
 }

@@ -13,8 +13,9 @@ import {
 	RandomStrategy,
 } from './randomizationStrategy';
 import { Substance } from '../../entities/substance';
-import { AdministrationSchema } from '../../entities/nof1Test';
+import { AdministrationSchema, Nof1Test } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
+import { TestStatus } from '../constants';
 
 /**
  * For each substance in the passed array, select a random posology from all
@@ -180,4 +181,30 @@ export const formatPatientDataToTable = (data: TestData) => {
 			...variables,
 		};
 	});
+};
+
+/**
+ * Generate and return the default data for the N-of-1 test.
+ * @param test N-of-1 test.
+ * @returns The default test data array.
+ */
+export const defaultData = (test: Nof1Test): TestData => {
+	let totalDuration = test.nbPeriods * test.periodLen;
+	if (test.status === TestStatus.Interrupted) {
+		totalDuration =
+			dayjs(test.endingDate).diff(dayjs(test.beginningDate), 'day') + 1;
+	}
+	const data: TestData = [];
+	for (let i = 0; i < totalDuration; i++) {
+		data.push({
+			day: i + 1,
+			date: dayjs(test.beginningDate).add(i, 'day').toDate(),
+			substance: test.administrationSchema![i].substance,
+			data: test.monitoredVariables.map((variable) => ({
+				variableName: variable.name,
+				value: '',
+			})),
+		});
+	}
+	return data;
 };

@@ -43,9 +43,9 @@ export default function CreateTest() {
 	const router = useRouter();
 
 	// Test data.
-	const pharmaEmail = useRef('');
-	const patient = useRef<Patient>(defaultPatient());
+	const patient = useRef<Patient>(defaultPatient()); // Ref to avoid useless re-render.
 	const physician = useRef<Physician>(defaultPhysician());
+	const pharmaEmail = useRef('');
 	const [substances, setSubstances] = useState<Substance[]>([
 		{ ...emptySubstance },
 		{ ...emptySubstance },
