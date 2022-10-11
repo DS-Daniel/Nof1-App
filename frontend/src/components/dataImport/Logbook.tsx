@@ -8,6 +8,7 @@ import Binary from './Binary';
 import Numeric from './Numeric';
 import Text from './Text';
 import Qualitative from './Qualitative';
+import VAS from './VAS';
 import { MutableRefObject } from 'react';
 
 interface LogbookProps {
@@ -16,7 +17,7 @@ interface LogbookProps {
 }
 
 /**
- * Component that render the patient's health variables form, for the entire test period.
+ * Component that renders the patient's health variables form, for the entire test period.
  */
 export default function Logbook({ test, testData }: LogbookProps) {
 	/**
@@ -32,7 +33,7 @@ export default function Logbook({ test, testData }: LogbookProps) {
 	};
 
 	/**
-	 * Helper to render the right Variable component.
+	 * Helper to render the correct Variable component, depending on its type.
 	 * @param variable Variable.
 	 * @param varIndex Variable index.
 	 * @param defaultValue Default value.
@@ -65,6 +66,14 @@ export default function Logbook({ test, testData }: LogbookProps) {
 					/>
 				);
 			case VariableType.VAS:
+				return (
+					<VAS
+						key={varIndex}
+						variable={variable}
+						defaultValue={defaultValue}
+						onChange={updateTestData}
+					/>
+				);
 			case VariableType.Numeric:
 				return (
 					<Numeric
@@ -111,7 +120,7 @@ export default function Logbook({ test, testData }: LogbookProps) {
 				<Skeleton
 					variant="rectangular"
 					animation="wave"
-					width={'65%'}
+					width={'80%'}
 					height={'80vh'}
 				/>
 			)}

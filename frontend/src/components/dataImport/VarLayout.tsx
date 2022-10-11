@@ -1,3 +1,4 @@
+import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
@@ -9,18 +10,20 @@ interface VarLayoutProps {
 }
 
 /**
- * Component that render a variable input layout.
+ * Component that renders the form layout of a variable.
  */
 export default function VarLayout({ children, name, desc }: VarLayoutProps) {
 	return (
-		<Stack direction="row" spacing={4}>
-			<Typography fontWeight="bold" width={150}>
-				{name}
-			</Typography>
-			<Stack spacing={1} width={'100%'}>
-				<Typography>{desc}</Typography>
-				{children}
-			</Stack>
-		</Stack>
+		<>
+			<Grid item xs={12} sm={3}>
+				<Typography fontWeight="bold">{name}</Typography>
+			</Grid>
+			<Grid item xs={12} sm={9} mb={2}>
+				<Stack spacing={1} alignItems="flex-start">
+					<Typography>{desc}</Typography>
+					{children}
+				</Stack>
+			</Grid>
+		</>
 	);
 }

@@ -7,7 +7,7 @@ import VarLayout from './VarLayout';
 import { VarProps } from './varCommon';
 
 /**
- * Component that render input for a qualitative type variable.
+ * Component that renders an input for a qualitative type variable.
  */
 export default function Qualitative({
 	variable,
@@ -18,7 +18,7 @@ export default function Qualitative({
 	const [value, setValue] = useState(defaultValue);
 
 	/**
-	 * Handle input value changes.
+	 * Handles input value changes.
 	 * @param e HTML event.
 	 */
 	const handleChange = (

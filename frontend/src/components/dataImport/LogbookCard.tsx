@@ -1,3 +1,4 @@
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -13,7 +14,7 @@ interface LogbookCardProps {
 }
 
 /**
- * Component that render the card layout of the variable inputs for a day.
+ * Component that renders the card layout of the variable inputs for a day.
  */
 export default function LogbookCard({
 	children,
@@ -24,8 +25,9 @@ export default function LogbookCard({
 	const { t } = useTranslation('common');
 
 	return (
-		<Paper variant="outlined" sx={{ padding: 3, minWidth: 750 }}>
-			<Stack direction="row" justifyContent="space-between">
+		<Paper variant="outlined" sx={{ padding: 3, maxWidth: 800 }}>
+			{/* header */}
+			<Stack direction="row" justifyContent="space-between" mb={2}>
 				<Typography>
 					{t('date')} :{' '}
 					{dayjs(startDate).add(idx, 'day').toDate().toLocaleDateString()}
@@ -35,9 +37,10 @@ export default function LogbookCard({
 					{Math.floor(idx / periodLen) + 1}
 				</Typography>
 			</Stack>
-			<Stack mx={3} my={2} spacing={3}>
+			{/* content */}
+			<Grid container spacing={1} px={1}>
 				{children}
-			</Stack>
+			</Grid>
 		</Paper>
 	);
 }

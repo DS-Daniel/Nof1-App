@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useUserContext } from '../context/UserContext';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Page from '../components/layout/Page';
 import FailSnackbar from '../components/common/FailSnackbar';
@@ -107,13 +107,13 @@ export default function PatientData() {
 			<Typography variant="h5" align="center" sx={{ whiteSpace: 'pre-line' }}>
 				{t('patient.welcome')}
 			</Typography>
-			<Box
-				sx={{
-					position: 'fixed',
-					top: (theme) => theme.spacing(10),
-					right: (theme) => theme.spacing(2),
-					width: 180,
-				}}
+			<Stack
+				alignItems="center"
+				paddingY={2}
+				position="sticky"
+				top={(theme) => theme.spacing(0)}
+				bgcolor="background.default"
+				zIndex={2}
 			>
 				<Button
 					variant="contained"
@@ -122,7 +122,7 @@ export default function PatientData() {
 				>
 					{t('save-btn')}
 				</Button>
-			</Box>
+			</Stack>
 			<Logbook test={test} testData={testData} />
 			<SuccessSnackbar
 				open={successSB}
