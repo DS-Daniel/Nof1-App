@@ -1,22 +1,22 @@
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
-import { useUserContext } from '../context/UserContext';
+import { useUserContext } from '../../context/UserContext';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Page from '../components/layout/Page';
-import FailSnackbar from '../components/common/FailSnackbar';
-import SuccessSnackbar from '../components/common/SuccessSnackbar';
-import Logbook from '../components/dataImport/Logbook';
-import { Nof1Test } from '../entities/nof1Test';
-import { TestData } from '../entities/nof1Data';
+import Page from '../../components/layout/Page';
+import FailSnackbar from '../../components/common/FailSnackbar';
+import SuccessSnackbar from '../../components/common/SuccessSnackbar';
+import Logbook from '../../components/dataImport/Logbook';
+import { Nof1Test } from '../../entities/nof1Test';
+import { TestData } from '../../entities/nof1Data';
 import {
 	createNof1Data,
 	getPatientData,
 	patientDataUpdate,
-} from '../utils/apiCalls';
-import { defaultData } from '../utils/nof1-lib/lib';
+} from '../../utils/apiCalls';
+import { defaultData } from '../../utils/nof1-lib/lib';
 
 /**
  * Patient's health variables data import page.
@@ -123,7 +123,7 @@ export default function PatientData() {
 					{t('save-btn')}
 				</Button>
 			</Stack>
-			<Logbook test={test} testData={testData} />
+			<Logbook test={test} testData={testData} patientView />
 			<SuccessSnackbar
 				open={successSB}
 				setOpen={setSuccessSB}

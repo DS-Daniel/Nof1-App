@@ -32,7 +32,7 @@ export default function Numeric({
 			<TextField
 				id="numeric-input"
 				label={t('response')}
-				inputProps={{ inputMode: 'numeric', pattern: '^d*.?d*$' }}
+				inputProps={{ inputMode: 'numeric', pattern: `^\d*(\.\d+)?$` }}
 				InputProps={{
 					endAdornment: (
 						<InputAdornment position="end">{variable.unit}</InputAdornment>

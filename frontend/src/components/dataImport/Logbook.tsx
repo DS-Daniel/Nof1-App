@@ -14,12 +14,17 @@ import { MutableRefObject } from 'react';
 interface LogbookProps {
 	test: Nof1Test | undefined;
 	testData: MutableRefObject<TestData | undefined>;
+	patientView?: boolean;
 }
 
 /**
  * Component that renders the patient's health variables form, for the entire test period.
  */
-export default function Logbook({ test, testData }: LogbookProps) {
+export default function Logbook({
+	test,
+	testData,
+	patientView = false,
+}: LogbookProps) {
 	/**
 	 * Curry fonction to update the health data.
 	 * @param dayIdx index of the day.
@@ -66,8 +71,15 @@ export default function Logbook({ test, testData }: LogbookProps) {
 					/>
 				);
 			case VariableType.VAS:
-				return (
+				return patientView ? (
 					<VAS
+						key={varIndex}
+						variable={variable}
+						defaultValue={defaultValue}
+						onChange={updateTestData}
+					/>
+				) : (
+					<Numeric
 						key={varIndex}
 						variable={variable}
 						defaultValue={defaultValue}

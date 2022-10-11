@@ -30,7 +30,8 @@ export default function Text({ variable, defaultValue, onChange }: VarProps) {
 				size="small"
 				fullWidth
 				multiline
-				rows={3}
+				minRows={3}
+				maxRows={5}
 				value={value}
 				onChange={handleChange}
 			/>

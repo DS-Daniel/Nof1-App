@@ -51,7 +51,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 	} = useEmailInfos(item.patient, item.physician, item.nof1Physician);
 	const patientEmailMsg = usePatientEmailMsg(
 		process.env.NEXT_PUBLIC_APP_URL +
-			'patient-data?id=' +
+			'import-data/patient?id=' +
 			item.uid! +
 			'&token=TOKEN',
 		item.nof1Physician.lastname + ' ' + item.nof1Physician.firstname,

@@ -8,7 +8,7 @@ module.exports = {
     '/create-test': ['createTest'],
     '/profile': ['profile'],
     '/import-data': ['importData'],
-    '/patient-data': ['importData'],
+    '/import-data/patient': ['importData'],
     '/results': ['results', 'createTest'],
   },
 };
