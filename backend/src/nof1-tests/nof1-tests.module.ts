@@ -15,5 +15,6 @@ import { Nof1Test, Nof1TestSchema } from './schemas/nof1Test.schema';
   ],
   controllers: [Nof1TestsController],
   providers: [Nof1TestsService],
+  exports: [Nof1TestsService],
 })
 export class Nof1TestsModule {}

@@ -7,5 +7,9 @@
 	"save-btn": "Save modifications",
 	"go-to-result-btn": "Go to results page",
 	"import-alert-fail": "Not a valid JSON file !",
-	"import-alert-success": "File successfully imported"
+	"import-alert-success": "File successfully imported",
+	"patient": {
+		"welcome": "Welcome to the page containing the form related to your current treatment.\nPlease fill it out daily.\n\n",
+		"deadline-error": "This therapeutic test is over, you can no longer access the form."
+	}
 }

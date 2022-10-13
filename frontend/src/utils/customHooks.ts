@@ -151,38 +151,111 @@ export const useEmailInfos = (
  */
 const useEmailMsg = (contact: string, contactEmail: string, phone: string) => {
 	const { t } = useTranslation('mail');
+	const warning = t('warning');
+	const hello = t('hello');
+	const intro = t('pharma.intro');
+	const intro1 = t('pharma.intro1');
+	const intro2 = t('pharma.intro2');
+	const contactInfo = t('pharma.contact');
+	const contactName = t('pharma.contact-name', { name: contact });
+	const contactEmail2 = t('pharma.contact-email', { email: contactEmail });
+	const contactPhone = t('pharma.contact-phone', { phone: phone });
+	const greetings = t('pharma.greetings');
 
-	const text = `${t('warning')}
+	const text = `${warning}
 
-${t('hello')}
+${hello}
 
-${t('intro')}
-${t('intro1')}
-${t('intro2')}
+${intro}
+${intro1}
+${intro2}
 
-${t('contact')}
-${t('contact-name', { name: contact })}
-${t('contact-email', { email: contactEmail })}
-${t('contact-phone', { phone: phone })}
+${contactInfo}
+${contactName}
+${contactEmail2}
+${contactPhone}
 
-${t('greetings')}
+${greetings}
 `;
 
-	const html = `<p><i>${t('warning')}</i></p>
+	const html = `<p><i>${warning}</i></p>
 	<br/>
-	<p>${t('hello')}</p>
+	<p>${hello}</p>
 	<p>
-		${t('intro')}<br/>
-		${t('intro1')}<br/>
-		${t('intro2')}
+		${intro}<br/>
+		${intro1}<br/>
+		${intro2}
 	</p>
-	<p>${t('contact')}</p>
+	<p>${contactInfo}</p>
 	<p>
-		${t('contact-name', { name: contact })}<br/>
-		${t('contact-email', { email: contactEmail })}<br/>
-		${t('contact-phone', { phone: phone })}
+		${contactName}<br/>
+		${contactEmail2}<br/>
+		${contactPhone}
 	</p>
-	<p>${t('greetings')}</p>
+	<p>${greetings}</p>
+	`;
+
+	return { text, html };
+};
+
+/**
+ * Prepare and return the email message to be sent.
+ * The message is formatted as text and html.
+ * Message use the locale of session for translation.
+ * @param link URL link to the health logbook.
+ * @param nof1Physician Physician's information.
+ * @returns An object containing the message as plain text and html.
+ */
+export const usePatientEmailMsg = (link: string, nof1Physician: Physician) => {
+	const { t } = useTranslation('mail');
+	const warning = t('warning');
+	const hello = t('hello');
+	const intro = t('patient.intro');
+	const linkInfo = t('patient.link');
+	const contactInfo = t('patient.contact');
+	const contactName = t('patient.contact-name', {
+		name: `${nof1Physician.lastname} ${nof1Physician.firstname}`,
+	});
+	const contactEmail2 = t('patient.contact-email', {
+		email: nof1Physician.email,
+	});
+	const contactPhone = t('patient.contact-phone', {
+		phone: nof1Physician.phone,
+	});
+	const greetings = t('patient.greetings');
+
+	const text = `${warning}
+
+${hello}
+
+${intro}
+
+${linkInfo}
+${link}
+
+${contactInfo}
+${contactName}
+${contactEmail2}
+${contactPhone}
+
+${greetings}
+`;
+
+	const html = `<p><i>${warning}</i></p>
+	<br/>
+	<p>${hello}</p>
+	<p>${intro}</p>
+	<p>
+		${linkInfo}<br/>
+		${link}
+	</p>
+	<p>${contactInfo}</p>
+	<p>
+		${contactName}<br/>
+		${contactEmail2}<br/>
+		${contactPhone}
+	</p>
+	<p>${greetings}</p>
 	`;
 
 	return { text, html };

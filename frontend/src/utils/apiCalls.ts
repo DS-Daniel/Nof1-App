@@ -1,5 +1,5 @@
 import { UserContextType } from '../context/UserContext';
-import { Nof1Data } from '../entities/nof1Data';
+import { Nof1Data, Nof1DataUpdate, TestData } from '../entities/nof1Data';
 import { AdministrationSchema, Nof1Test } from '../entities/nof1Test';
 import { Patient, Physician } from '../entities/people';
 
@@ -360,13 +360,83 @@ export const updateNof1Data = (
 };
 
 /**
- * Find a N-of-1 data by a N-of-1 test id.
+ * Retrieves a N-of-1 test data by its id.
  * @param token JWT API authorization token.
  * @param testId Id of the test.
  * @returns The response of the request.
  */
 export const findNof1Data = (token: string, testId: string) => {
 	return apiGet(token, '/nof1-data', `/${testId}`);
+};
+
+/**
+ * Retrieves a N-of-1 test and its health variables data.
+ * @param id Id of the test.
+ * @returns Promise<{
+ * success: boolean;
+ * response: {test: Nof1Test, data: TestData | undefined};
+ * }>
+ * A promise indicating the request status and the N-of-1 test and
+ * its associated health variables data if any.
+ */
+export const getPatientData = async (token: string, id: string) => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/nof1-data/patient/${id}`,
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		},
+	);
+	const res = await response.json();
+	return { success: response.ok, response: res };
+};
+
+/**
+ * Generic API request for N-of-1 patient's health variables data endpoints.
+ * Requests from the patient dedicated page.
+ * @param token JWT API authorization token.
+ * @param body Body of the request.
+ * @param method HTTP method of the request.
+ * @param param Parameter of the HTTP request.
+ * @returns An object with the status of the request and the response.
+ */
+const patientApiCall = async (
+	token: string,
+	body: Partial<Nof1Data>,
+	method: string,
+	param: string = '',
+) => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/nof1-data/patient${param}`,
+		{
+			method: method,
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(body),
+		},
+	);
+	const result = await response.json();
+	return { success: response.ok, response: result };
+};
+
+/**
+ * Update a N-of-1 data.
+ * @param token JWT API authorization token.
+ * @param testId Id of the N-of-1 test which is concerned.
+ * @param body Data to update.
+ * @returns An object with the status of the request and the response.
+ */
+export const patientDataUpdate = (
+	token: string,
+	testId: string,
+	body: Nof1DataUpdate,
+) => {
+	return patientApiCall(token, body, 'PATCH', `/${testId}`);
 };
 
 /**
@@ -377,7 +447,7 @@ export const findNof1Data = (token: string, testId: string) => {
  * @param dest Recipient email.
  * @returns The response object of the request.
  */
-export const sendEmail = async (
+export const sendPharmaEmail = async (
 	token: string,
 	data: {
 		patientInfos: string[][];
@@ -402,6 +472,37 @@ export const sendEmail = async (
 		dest,
 	};
 	const { response } = await apiCall(token, body, 'POST', '/mail');
+	return response;
+};
+
+/**
+ * Sends an email to a patient, with an access link for
+ * the health variables data form.
+ * @param token JWT API authorization token.
+ * @param msg Email message in text and HTML format.
+ * @param dest Recipient.
+ * @param tokenExp String indicating the expiration delay of the
+ * access token for the health variables data page.
+ * @returns An object of type { success: boolean, msg: string }.
+ */
+export const sendPatientEmail = async (
+	token: string,
+	msg: {
+		text: string;
+		html: string;
+	},
+	dest: string,
+	tokenExp: string,
+): Promise<{
+	success: boolean;
+	msg: string;
+}> => {
+	const body = {
+		msg,
+		dest,
+		tokenExp,
+	};
+	const { response } = await apiCall(token, body, 'POST', '/mail/patient');
 	return response;
 };
 

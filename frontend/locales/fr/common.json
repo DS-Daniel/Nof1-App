@@ -17,7 +17,7 @@
 		"lastname": "Nom",
 		"phone": "Téléphone",
 		"street": "Adresse",
-		"zip": "NPA",
+		"zip": "Code postal",
 		"city": "Ville",
 		"insurance": "Assurance",
 		"insuranceNb": "Numéro d'assuré",
@@ -33,6 +33,8 @@
 		"oneDigitOrSpecial": "Contient au moins un chiffre ou un caractère spécial",
 		"passwordConfirm": "Veuillez confirmer votre mot de passe",
 		"passwordConfirmNoMatch": "Le mot de passe ne correspond pas",
+		"number": "Veuillez entrer un nombre (entier ou décimal, sans espace)",
+		"textarea": "Autorisé: lettres, espaces et les caractères suivants: ',.:;\"/+-?!#()",
 		"digitsRequired": "Autorisé: chiffres (pas d'espace)",
 		"digitsMax": "Maximum 20 numéros",
 		"userAlreadyExists": "L'utilisateur existe déjà !",
@@ -45,7 +47,8 @@
 	"button": {
 		"add": "Ajouter",
 		"cancel": "Annuler",
-		"saveDataBtn": "Enregistrer"
+		"saveDataBtn": "Enregistrer",
+		"send": "Envoyer"
 	},
 	"measure-unit-label": "Unité de mesure",
 	"posology-table": {

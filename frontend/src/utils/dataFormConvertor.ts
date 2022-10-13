@@ -95,9 +95,6 @@ export const formatPatientData = (data: PatientFormData): Patient => {
 		insurance: data.insurance,
 		insuranceNb: data.insuranceNb,
 	};
-	if (data._id !== undefined) {
-		patient._id = data._id;
-	}
 	return patient;
 };
 

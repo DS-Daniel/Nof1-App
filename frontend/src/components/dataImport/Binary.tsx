@@ -7,13 +7,13 @@ import VarLayout from './VarLayout';
 import { VarProps } from './varCommon';
 
 /**
- * Component that render input for a binary type variable.
+ * Component that renders an input for a binary type variable.
  */
 export default function Binary({ variable, defaultValue, onChange }: VarProps) {
 	const [value, setValue] = useState(defaultValue);
 
 	/**
-	 * Handle input value changes.
+	 * Handles input value changes.
 	 * @param e HTML event.
 	 */
 	const handleChange = (

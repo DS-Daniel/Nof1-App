@@ -43,9 +43,9 @@ export default function CreateTest() {
 	const router = useRouter();
 
 	// Test data.
-	const pharmaEmail = useRef('');
-	const patient = useRef<Patient>(defaultPatient());
+	const patient = useRef<Patient>(defaultPatient()); // Ref to avoid useless re-render.
 	const physician = useRef<Physician>(defaultPhysician());
+	const pharmaEmail = useRef('');
 	const [substances, setSubstances] = useState<Substance[]>([
 		{ ...emptySubstance },
 		{ ...emptySubstance },
@@ -212,6 +212,11 @@ export default function CreateTest() {
 					justifyContent="center"
 					alignItems="center"
 					spacing={6}
+					paddingY={2}
+					position="sticky"
+					top={0}
+					bgcolor="background.default"
+					zIndex={2}
 				>
 					<Button variant="contained" onClick={handleDraft}>
 						{t('draftBtn')}

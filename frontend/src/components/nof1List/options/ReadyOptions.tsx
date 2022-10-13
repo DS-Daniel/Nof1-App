@@ -7,8 +7,12 @@ import { OptionsProps } from '../Nof1TableItem';
 import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction, useState } from 'react';
 import dayjs from 'dayjs';
-import { TestStatus } from '../../../utils/constants';
-import { sendEmail, updateNof1Test } from '../../../utils/apiCalls';
+import { TestStatus, tokenExpMargin } from '../../../utils/constants';
+import {
+	sendPharmaEmail,
+	sendPatientEmail,
+	updateNof1Test,
+} from '../../../utils/apiCalls';
 import { Nof1Test } from '../../../entities/nof1Test';
 import FailSnackbar from '../../common/FailSnackbar';
 import { useUserContext } from '../../../context/UserContext';
@@ -18,7 +22,7 @@ import {
 	selectRandomPosology,
 	substancesRecap,
 } from '../../../utils/nof1-lib/lib';
-import { useEmailInfos } from '../../../utils/customHooks';
+import { useEmailInfos, usePatientEmailMsg } from '../../../utils/customHooks';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -30,7 +34,7 @@ interface ReadyOptionsProps extends OptionsProps {
  * Component rendering the options for a test with the status ready.
  */
 export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
-	const { t } = useTranslation('nof1List');
+	const { t, lang } = useTranslation('nof1List');
 	const router = useRouter();
 	const { userContext } = useUserContext();
 	const [beginningDate, setBeginningDate] = useState<dayjs.Dayjs | null>(null);
@@ -45,6 +49,12 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 		nof1PhysicianInfos,
 		msg,
 	} = useEmailInfos(item.patient, item.physician, item.nof1Physician);
+	const patientEmailMsg = usePatientEmailMsg(
+		`${
+			process.env.NEXT_PUBLIC_APP_URL
+		}${lang}/import-data/patient?id=${item.uid!}&token=TOKEN`,
+		item.nof1Physician,
+	);
 
 	/**
 	 * Handle click on the start button, triggering the email confirmation dialog.
@@ -87,7 +97,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 		test.meta_info!.emailSendingDate = new Date();
 		test.pharmaEmail = email;
 
-		const response = await sendEmail(
+		const response = await sendPharmaEmail(
 			userContext.access_token,
 			{
 				patientInfos,
@@ -106,7 +116,18 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 			email,
 		);
 
-		if (response.success) {
+		const tokenExp =
+			dayjs(test.endingDate).diff(beginningDate, 'day') + 1 + tokenExpMargin;
+		const res = await sendPatientEmail(
+			userContext.access_token,
+			patientEmailMsg,
+			test.patient.email,
+			`${tokenExp} days`,
+		);
+		console.log('patient email success:', res.success);
+		// TODO manage patient email failure ?
+
+		if (response.success && res.success) {
 			updateNof1Test(userContext.access_token, test.uid!, test);
 			setItem(test); // update display
 		} else {
@@ -169,7 +190,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 				open={openEmailDialog}
 				handleClose={() => setOpenEmailDialog(false)}
 				handleDialogSubmit={(email) => updateTestAndSendEmail(email)}
-				pharmaEmail={item.pharmaEmail}
+				email={item.pharmaEmail}
 			/>
 		</>
 	);

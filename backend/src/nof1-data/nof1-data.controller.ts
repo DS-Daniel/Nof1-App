@@ -24,7 +24,7 @@ export class Nof1DataController {
   constructor(private readonly nof1DataService: Nof1DataService) {}
 
   /**
-   * Create a N-of-1 health variables data document.
+   * Creates a N-of-1 health variables data document.
    * @param createNof1DataDto Dto representing data.
    * @returns The id of the created document or a BadRequest message.
    */
@@ -35,7 +35,7 @@ export class Nof1DataController {
   }
 
   /**
-   * Retrieve a N-of-1 health variables data document.
+   * Retrieves a N-of-1 health variables data document.
    * @param testId The id of the document to retrieve.
    * @returns The document.
    */
@@ -45,7 +45,18 @@ export class Nof1DataController {
   }
 
   /**
-   * Update a N-of-1 health variables data document.
+   * Retrieves a N-of-1 test document and its health variables data document, if any.
+   * @param testId The id of the N-of-1 test.
+   * @returns An object containing the N-of-1 test document and its associated
+   * health variables data if any.
+   */
+  @Get('/patient/:testId')
+  patientData(@Param('testId') testId: string) {
+    return this.nof1DataService.patientData(testId);
+  }
+
+  /**
+   * Updates a N-of-1 health variables data document.
    * @param testId The id of the document.
    * @param updateNof1DataDto Dto representing data.
    * @returns A message indicating a successful update or
@@ -60,8 +71,23 @@ export class Nof1DataController {
   }
 
   /**
-   * Delete a N-of-1 health variables data document.
-   * @param testId The id of the document.
+   * Updates a N-of-1 health variables data document (through a patient request).
+   * @param testId The id of the N-of-1 test.
+   * @param updateNof1DataDto Dto representing data.
+   * @returns A message indicating a successful update or
+   * a BadRequest message.
+   */
+  @Patch('/patient/:testId')
+  updatePatient(
+    @Param('testId') testId: string,
+    @Body() updateNof1DataDto: UpdateNof1DataDto,
+  ) {
+    return this.nof1DataService.updatePatientData(testId, updateNof1DataDto);
+  }
+
+  /**
+   * Deletes a N-of-1 health variables data document.
+   * @param testId The id of the N-of-1 test.
    * @returns A message indicating the document deletion.
    */
   @Delete(':testId')

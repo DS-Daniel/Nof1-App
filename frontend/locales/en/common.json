@@ -17,7 +17,7 @@
 		"lastname": "Last Name",
 		"phone": "Phone",
 		"street": "Address",
-		"zip": "Zip",
+		"zip": "Postal code",
 		"city": "City",
 		"insurance": "Insurance",
 		"insuranceNb": "Insurance number",
@@ -33,6 +33,8 @@
 		"oneDigitOrSpecial": "Has at least one digit or one special character",
 		"passwordConfirm": "Please confirm your password",
 		"passwordConfirmNoMatch": "Passwords do not match",
+		"number": "Please enter a number (integer or decimal, without space)",
+		"textarea": "Allowed: letters, spaces and the following characters: ',.:;\"/+-?!#()",
 		"digitsRequired": "Only digits (no space)",
 		"digitsMax": "Must be less than 20 digits",
 		"userAlreadyExists": "User already exists !",
@@ -45,7 +47,8 @@
 	"button": {
 		"add": "Add",
 		"cancel": "Cancel",
-		"saveDataBtn": "Save"
+		"saveDataBtn": "Save",
+		"send": "Send"
 	},
 	"measure-unit-label": "Measurement unit",
 	"posology-table": {
