@@ -5,7 +5,13 @@ export const USER_CTX_KEY = 'userCtx';
 export const emailRegex = /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/;
 export const oneUpperRegex = new RegExp('(?=.*[A-Z])');
 export const oneLowerRegex = new RegExp('(?=.*[a-z])');
-export const oneDigitOrSpecialRegex = new RegExp('((?=.*[0-9])|([^A-Za-z0-9]))');
+export const oneDigitOrSpecialRegex = new RegExp(
+	'((?=.*[0-9])|([^A-Za-z0-9]))',
+);
+export const numericInputPattern = '^[0-9]$|^[1-9][0-9]*$|^[0-9]+\\.[0-9]+$';
+export const numericInputRegex = new RegExp(numericInputPattern);
+export const textInputPattern = `^[\\w\\s,.:;'"/+\\?!#\\-()À-ÖØ-öø-ÿ]*$`;
+export const textRegex = new RegExp(textInputPattern);
 
 // ENUMS
 export enum TestStatus {

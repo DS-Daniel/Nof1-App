@@ -1,6 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useUserContext } from '../../context/UserContext';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -18,6 +18,8 @@ import {
 } from '../../utils/apiCalls';
 import { defaultData } from '../../utils/nof1-lib/lib';
 
+const dataFormId = 'patient-data-form';
+
 /**
  * Patient's health variables data import page.
  */
@@ -30,6 +32,7 @@ export default function PatientData() {
 	const dataFound = useRef<boolean>(false);
 	const [successSB, setSuccessSB] = useState(false);
 	const [dbError, setDbError] = useState(false);
+	const [validityError, setValidityError] = useState(false);
 	const [deadlineExceeded, setDeadlineExceeded] = useState(false);
 	const [apiToken, setApiToken] = useState('');
 
@@ -87,9 +90,24 @@ export default function PatientData() {
 	 * Handle the click on the save button.
 	 * It triggers an API call to post the data.
 	 */
+	// const handleSave = async (e: FormEvent<HTMLFormElement>) => {
+	// const handleSave = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 	const handleSave = async () => {
-		const error = await createOrUpdateData();
-		error ? setDbError(true) : setSuccessSB(true);
+		// console.log(e);
+		// e.preventDefault();
+		// const btn = e.target as HTMLButtonElement;
+		// const formValid = btn.form?.reportValidity();
+		const dataForm = document.getElementById(dataFormId) as HTMLFormElement;
+		const formValid = dataForm?.reportValidity();
+
+		console.log('form validity', formValid);
+		if (formValid) {
+			console.log('data', testData.current);
+			const error = await createOrUpdateData();
+			error ? setDbError(true) : setSuccessSB(true);
+		} else {
+			setValidityError(true);
+		}
 	};
 
 	if (deadlineExceeded) {
@@ -107,23 +125,25 @@ export default function PatientData() {
 			<Typography variant="h5" align="center" sx={{ whiteSpace: 'pre-line' }}>
 				{t('patient.welcome')}
 			</Typography>
-			<Stack
-				alignItems="center"
-				paddingY={2}
-				position="sticky"
-				top={(theme) => theme.spacing(0)}
-				bgcolor="background.default"
-				zIndex={2}
-			>
-				<Button
-					variant="contained"
-					onClick={handleSave}
-					disabled={testData.current === undefined}
+			<form id={dataFormId}>
+				<Stack
+					alignItems="center"
+					paddingY={2}
+					position="sticky"
+					top={(theme) => theme.spacing(0)}
+					bgcolor="background.default"
+					zIndex={2}
 				>
-					{t('save-btn')}
-				</Button>
-			</Stack>
-			<Logbook test={test} testData={testData} patientView />
+					<Button
+						variant="contained"
+						onClick={handleSave}
+						disabled={testData.current === undefined}
+					>
+						{t('save-btn')}
+					</Button>
+				</Stack>
+				<Logbook test={test} testData={testData} patientView />
+			</form>
 			<SuccessSnackbar
 				open={successSB}
 				setOpen={setSuccessSB}
@@ -133,6 +153,11 @@ export default function PatientData() {
 				open={dbError}
 				setOpen={setDbError}
 				msg={t('common:formErrors.unexpectedErrorMsg')}
+			/>
+			<FailSnackbar
+				open={validityError}
+				setOpen={setValidityError}
+				msg={t('common:formErrors.errorMsg')}
 			/>
 		</Page>
 	);
