@@ -1,6 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useUserContext } from '../../context/UserContext';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -87,8 +87,8 @@ export default function PatientData() {
 	};
 
 	/**
-	 * Handle the click on the save button.
-	 * It triggers an API call to post the data.
+	 * Handles the click on the save button. Checks form validity
+	 * before triggering an API call to post the data.
 	 */
 	const handleSave = async () => {
 		const dataForm = document.getElementById(dataFormId) as HTMLFormElement;
@@ -121,7 +121,7 @@ export default function PatientData() {
 					alignItems="center"
 					paddingY={2}
 					position="sticky"
-					top={(theme) => theme.spacing(0)}
+					top={0}
 					bgcolor="background.default"
 					zIndex={2}
 				>

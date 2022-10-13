@@ -18,6 +18,8 @@ import SuccessSnackbar from '../../components/common/SuccessSnackbar';
 import { defaultData } from '../../utils/nof1-lib/lib';
 import Logbook from '../../components/dataImport/Logbook';
 
+const dataFormId = 'data-form';
+
 /**
  * Patient's health variables data import page.
  */
@@ -32,6 +34,7 @@ export default function ImportData() {
 	const [fileSuccess, setFileSuccess] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [dbError, setDbError] = useState(false);
+	const [validityError, setValidityError] = useState(false);
 
 	// fetch test information and initialize default health data.
 	useEffect(() => {
@@ -79,7 +82,7 @@ export default function ImportData() {
 	};
 
 	/**
-	 * Handle the click on the import button.
+	 * Handles the click on the import button.
 	 * It triggers a file upload which will be parsed and
 	 * data will be sent to the API if file is correct.
 	 * @param e Html event, containing the file.
@@ -100,12 +103,18 @@ export default function ImportData() {
 	};
 
 	/**
-	 * Handle the click on the save button.
-	 * It triggers an API call to post the data.
+	 * Handles the click on the save button. Checks form validity
+	 * before triggering an API call to post the data.
 	 */
 	const handleSave = async () => {
-		const error = await createOrUpdateData();
-		error ? setDbError(true) : setSuccess(true);
+		const dataForm = document.getElementById(dataFormId) as HTMLFormElement;
+		const formValid = dataForm?.reportValidity();
+		if (formValid) {
+			const error = await createOrUpdateData();
+			error ? setDbError(true) : setSuccess(true);
+		} else {
+			setValidityError(true);
+		}
 	};
 
 	return (
@@ -131,7 +140,7 @@ export default function ImportData() {
 				alignItems="center"
 				paddingY={2}
 				position="sticky"
-				top={(theme) => theme.spacing(0)}
+				top={0}
 				bgcolor="background.default"
 				zIndex={2}
 			>
@@ -154,7 +163,9 @@ export default function ImportData() {
 					{t('go-to-result-btn')}
 				</Button>
 			</Stack>
-			<Logbook test={test} testData={testData} />
+			<form id={dataFormId}>
+				<Logbook test={test} testData={testData} />
+			</form>
 			<SuccessSnackbar
 				open={fileSuccess}
 				setOpen={setFileSuccess}
@@ -174,6 +185,11 @@ export default function ImportData() {
 				open={dbError}
 				setOpen={setDbError}
 				msg={t('common:formErrors.unexpectedErrorMsg')}
+			/>
+			<FailSnackbar
+				open={validityError}
+				setOpen={setValidityError}
+				msg={t('common:formErrors.errorMsg')}
 			/>
 		</AuthenticatedPage>
 	);

@@ -33,7 +33,7 @@
 		"oneDigitOrSpecial": "Contient au moins un chiffre ou un caractère spécial",
 		"passwordConfirm": "Veuillez confirmer votre mot de passe",
 		"passwordConfirmNoMatch": "Le mot de passe ne correspond pas",
-		"number": "Veuillez entrer un nombre (entier ou décimal)",
+		"number": "Veuillez entrer un nombre (entier ou décimal, sans espace)",
 		"textarea": "Autorisé: lettres, espaces et les caractères suivants: ',.:;\"/+-?!#()",
 		"digitsRequired": "Autorisé: chiffres (pas d'espace)",
 		"digitsMax": "Maximum 20 numéros",
