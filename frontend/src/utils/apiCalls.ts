@@ -447,7 +447,7 @@ export const patientDataUpdate = (
  * @param dest Recipient email.
  * @returns The response object of the request.
  */
-export const sendEmail = async (
+export const sendPharmaEmail = async (
 	token: string,
 	data: {
 		patientInfos: string[][];

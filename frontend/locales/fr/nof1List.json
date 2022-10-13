@@ -19,7 +19,8 @@
 		"xmlExport": "Exporter en XML",
 		"varBooklet": "Carnet des variables patient",
 		"varBooklet-preview": "Aperçu du carnet de relevés des variables (date actuelle)",
-		"sendEmail": "Envoyer e-mail à la pharmacie"
+		"sendEmailPharma": "Envoyer l'e-mail à la pharmacie",
+		"sendEmailPatient" : "Envoyer l'e-mail au patient"
 	},
 	"btnStatus": {
 		"draft": "Reprendre le brouillon",

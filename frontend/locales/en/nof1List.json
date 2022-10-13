@@ -19,7 +19,8 @@
 		"xmlExport": "XML Export",
 		"varBooklet": "Patient variables logbook",
 		"varBooklet-preview": "Preview of patient variables logbook (current date)",
-		"sendEmail": "Send email to pharmacy"
+		"sendEmailPharma": "Send the email to the pharmacy",
+		"sendEmailPatient": "Send the email to the patient"
 	},
 	"btnStatus": {
 		"draft": "Edit draft",

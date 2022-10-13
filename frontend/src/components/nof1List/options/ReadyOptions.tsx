@@ -9,7 +9,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import dayjs from 'dayjs';
 import { TestStatus, tokenExpMargin } from '../../../utils/constants';
 import {
-	sendEmail,
+	sendPharmaEmail,
 	sendPatientEmail,
 	updateNof1Test,
 } from '../../../utils/apiCalls';
@@ -53,9 +53,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 		`${
 			process.env.NEXT_PUBLIC_APP_URL
 		}${lang}/import-data/patient?id=${item.uid!}&token=TOKEN`,
-		item.nof1Physician.lastname + ' ' + item.nof1Physician.firstname,
-		item.nof1Physician.email,
-		item.nof1Physician.phone,
+		item.nof1Physician,
 	);
 
 	/**
@@ -99,7 +97,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 		test.meta_info!.emailSendingDate = new Date();
 		test.pharmaEmail = email;
 
-		const response = await sendEmail(
+		const response = await sendPharmaEmail(
 			userContext.access_token,
 			{
 				patientInfos,
@@ -192,7 +190,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 				open={openEmailDialog}
 				handleClose={() => setOpenEmailDialog(false)}
 				handleDialogSubmit={(email) => updateTestAndSendEmail(email)}
-				pharmaEmail={item.pharmaEmail}
+				email={item.pharmaEmail}
 			/>
 		</>
 	);

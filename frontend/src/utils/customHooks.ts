@@ -208,21 +208,22 @@ ${greetings}
  * @param phone Phone of the contact.
  * @returns An object containing the message as plain text and html.
  */
-export const usePatientEmailMsg = (
-	link: string,
-	contact: string,
-	contactEmail: string,
-	phone: string,
-) => {
+export const usePatientEmailMsg = (link: string, nof1Physician: Physician) => {
 	const { t } = useTranslation('mail');
 	const warning = t('warning');
 	const hello = t('hello');
 	const intro = t('patient.intro');
 	const linkInfo = t('patient.link');
 	const contactInfo = t('patient.contact');
-	const contactName = t('patient.contact-name', { name: contact });
-	const contactEmail2 = t('patient.contact-email', { email: contactEmail });
-	const contactPhone = t('patient.contact-phone', { phone: phone });
+	const contactName = t('patient.contact-name', {
+		name: `${nof1Physician.lastname} ${nof1Physician.firstname}`,
+	});
+	const contactEmail2 = t('patient.contact-email', {
+		email: nof1Physician.email,
+	});
+	const contactPhone = t('patient.contact-phone', {
+		phone: nof1Physician.phone,
+	});
 	const greetings = t('patient.greetings');
 
 	const text = `${warning}
