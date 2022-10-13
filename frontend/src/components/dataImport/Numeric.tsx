@@ -28,6 +28,9 @@ export default function Numeric({
 		onChange(e.target.value);
 	};
 
+	/**
+	 * Checks if the input is invalid.
+	 */
 	const isInvalid = () => {
 		return !(value === '' || numericInputRegex.test(value));
 	};

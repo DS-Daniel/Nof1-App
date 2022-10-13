@@ -10,8 +10,7 @@ export const oneDigitOrSpecialRegex = new RegExp(
 );
 export const numericInputPattern = '^[0-9]$|^[1-9][0-9]*$|^[0-9]+\\.[0-9]+$';
 export const numericInputRegex = new RegExp(numericInputPattern);
-export const textInputPattern = `^[\\w\\s,.:;'"/+\\?!#\\-()À-ÖØ-öø-ÿ]*$`;
-export const textRegex = new RegExp(textInputPattern);
+export const textareaRegex = /^[\w\s,.:;'"\/+\?!#\-()À-ÖØ-öø-ÿ]*$/;
 
 // ENUMS
 export enum TestStatus {

@@ -83,7 +83,7 @@ export default function FormWithValidation<T>({
 						<Alert severity="error">{errorMsg}</Alert>
 					</Grid>
 				)}
-				<Grid item xs={5} sm={5}>
+				<Grid item xs={6} sm={8} md={6}>
 					<Button type="submit" variant="contained" fullWidth>
 						{btnLabel}
 					</Button>

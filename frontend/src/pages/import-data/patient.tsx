@@ -90,19 +90,10 @@ export default function PatientData() {
 	 * Handle the click on the save button.
 	 * It triggers an API call to post the data.
 	 */
-	// const handleSave = async (e: FormEvent<HTMLFormElement>) => {
-	// const handleSave = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 	const handleSave = async () => {
-		// console.log(e);
-		// e.preventDefault();
-		// const btn = e.target as HTMLButtonElement;
-		// const formValid = btn.form?.reportValidity();
 		const dataForm = document.getElementById(dataFormId) as HTMLFormElement;
 		const formValid = dataForm?.reportValidity();
-
-		console.log('form validity', formValid);
 		if (formValid) {
-			console.log('data', testData.current);
 			const error = await createOrUpdateData();
 			error ? setDbError(true) : setSuccessSB(true);
 		} else {

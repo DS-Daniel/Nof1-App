@@ -3,11 +3,7 @@ import TextField from '@mui/material/TextField';
 import useTranslation from 'next-translate/useTranslation';
 import { VarProps } from './varCommon';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { textInputPattern, textRegex } from '../../utils/constants';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import FormHelperText from '@mui/material/FormHelperText';
+import { textareaRegex } from '../../utils/constants';
 
 /**
  * Component that renders an input for a text type variable.
@@ -28,16 +24,23 @@ export default function Text({ variable, defaultValue, onChange }: VarProps) {
 		onChange(e.target.value);
 	};
 
+	/**
+	 * Checks if the input is valid.
+	 */
 	const isValid = () => {
-		return value === '' || textRegex.test(value);
+		return value === '' || textareaRegex.test(value);
 	};
 
+	/**
+	 * Set a custom validation on the textarea element,
+	 * which will be detected by the form.
+	 */
 	useEffect(() => {
 		textAreaRef.current?.setCustomValidity(
 			isValid() ? '' : t('common:formErrors.textarea'),
 		);
 		textAreaRef.current?.reportValidity();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [value]);
 
 	return (
@@ -56,24 +59,6 @@ export default function Text({ variable, defaultValue, onChange }: VarProps) {
 				error={!isValid()}
 				helperText={isValid() ? '' : t('common:formErrors.textarea')}
 			/>
-			{/* <FormControl fullWidth error={!isValid()}>
-				<InputLabel htmlFor="multiline-input">{t('response')}</InputLabel>
-				<OutlinedInput
-					inputRef={textAreaRef}
-					id="multiline-input"
-					label={t('response')}
-					multiline
-					minRows={3}
-					maxRows={5}
-					value={value}
-					onChange={handleChange}
-					aria-describedby="multiline-input-error-text"
-					inputProps={{ maxLength: 500 }}
-				/>
-				<FormHelperText id="multiline-input-error-text">
-					{isValid() ? '' : t('common:formErrors.textarea')}
-				</FormHelperText>
-			</FormControl> */}
 		</VarLayout>
 	);
 }

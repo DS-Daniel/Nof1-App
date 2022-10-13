@@ -122,7 +122,7 @@ export function CustomLineChart({
 						domain={
 							Number(variable.min) && Number(variable.max)
 								? [Number(variable.min), Number(variable.max)]
-								: ['auto', 'auto']
+								: [0, 'auto']
 						}
 					/>
 					<Tooltip content={<CustomTooltip />} />
