@@ -203,9 +203,7 @@ ${greetings}
  * The message is formatted as text and html.
  * Message use the locale of session for translation.
  * @param link URL link to the health logbook.
- * @param contact Full name of the contact.
- * @param contactEmail Email of the contact.
- * @param phone Phone of the contact.
+ * @param nof1Physician Physician's information.
  * @returns An object containing the message as plain text and html.
  */
 export const usePatientEmailMsg = (link: string, nof1Physician: Physician) => {
