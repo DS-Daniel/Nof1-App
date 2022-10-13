@@ -212,6 +212,11 @@ export default function CreateTest() {
 					justifyContent="center"
 					alignItems="center"
 					spacing={6}
+					paddingY={2}
+					position="sticky"
+					top={0}
+					bgcolor="background.default"
+					zIndex={2}
 				>
 					<Button variant="contained" onClick={handleDraft}>
 						{t('draftBtn')}
