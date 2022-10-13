@@ -30,4 +30,12 @@ export class PatientMailDto {
   @IsString()
   @IsNotEmpty()
   tokenExp: string;
+
+  /**
+   * Identifies the time before which the JWT must not be accepted for processing.
+   * Protect API routes and forbid access before the right date.
+   */
+  @IsString()
+  @IsNotEmpty()
+  notBefore: string;
 }

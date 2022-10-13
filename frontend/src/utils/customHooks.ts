@@ -206,12 +206,13 @@ ${greetings}
  * @param nof1Physician Physician's information.
  * @returns An object containing the message as plain text and html.
  */
-export const usePatientEmailMsg = (link: string, nof1Physician: Physician) => {
+export const usePatientEmailMsg = (link: string, nof1Physician: Physician, startDate: string, endDate: string) => {
 	const { t } = useTranslation('mail');
 	const warning = t('warning');
 	const hello = t('hello');
 	const intro = t('patient.intro');
-	const linkInfo = t('patient.link');
+	const linkInfo = t('patient.link', { startDate, endDate });
+	const linkInfo2 = t('patient.link2');
 	const contactInfo = t('patient.contact');
 	const contactName = t('patient.contact-name', {
 		name: `${nof1Physician.lastname} ${nof1Physician.firstname}`,
@@ -231,6 +232,8 @@ ${hello}
 ${intro}
 
 ${linkInfo}
+${linkInfo2}
+
 ${link}
 
 ${contactInfo}
@@ -245,10 +248,9 @@ ${greetings}
 	<br/>
 	<p>${hello}</p>
 	<p>${intro}</p>
-	<p>
-		${linkInfo}<br/>
-		${link}
-	</p>
+	<p>${linkInfo}</p>
+	<p>${linkInfo2}</p>
+	<a href=${link}>${link}</a><br/>
 	<p>${contactInfo}</p>
 	<p>
 		${contactName}<br/>

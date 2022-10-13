@@ -13,7 +13,8 @@
 	},
 	"patient": {
 		"intro": "Below you will find a link to the health parameters logbook for your therapeutic test. Please fill it out daily.",
-		"link": "Link to the form:",
+		"link": "The form will be available from {{startDate}} to {{endDate}}.",
+		"link2": "Link to the form:",
 		"contact": "If you have any questions, please use the contact information below:",
 		"contact-name": "Physician: {{name}}",
 		"contact-email": "Email address: {{email}}",

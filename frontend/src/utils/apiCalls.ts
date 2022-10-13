@@ -493,6 +493,7 @@ export const sendPatientEmail = async (
 	},
 	dest: string,
 	tokenExp: string,
+	notBefore: string,
 ): Promise<{
 	success: boolean;
 	msg: string;
@@ -501,6 +502,7 @@ export const sendPatientEmail = async (
 		msg,
 		dest,
 		tokenExp,
+		notBefore,
 	};
 	const { response } = await apiCall(token, body, 'POST', '/mail/patient');
 	return response;

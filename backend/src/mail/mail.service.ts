@@ -72,11 +72,11 @@ export class MailService {
    * @returns An object { success: boolean, msg: string } indicating email sending success or failure.
    */
   async sendPatientEmail(mailDto: PatientMailDto) {
-    console.log('expiration', mailDto.tokenExp);
     const token = this.jwtService.sign(
       { dest: mailDto.dest },
       {
         expiresIn: mailDto.tokenExp,
+        notBefore: mailDto.notBefore,
       },
     );
     const txtMsg = mailDto.msg.text.replace('TOKEN', token);

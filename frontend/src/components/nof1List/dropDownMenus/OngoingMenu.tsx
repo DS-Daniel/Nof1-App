@@ -46,6 +46,11 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 			process.env.NEXT_PUBLIC_APP_URL
 		}${lang}/import-data/patient?id=${item.uid!}&token=TOKEN`,
 		item.nof1Physician,
+		dayjs(item.beginningDate).toDate().toLocaleDateString(),
+		dayjs(item.endingDate)
+			.add(tokenExpMargin, 'day')
+			.toDate()
+			.toLocaleDateString(),
 	);
 
 	/**
@@ -104,12 +109,19 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 			: dayjs(item.beginningDate);
 		const tokenExp =
 			dayjs(item.endingDate).diff(startExp, 'day') + 1 + tokenExpMargin;
+		const notBefore = dayjs(item.beginningDate).diff(dayjs(), 'day') + 1;
 		const response = await sendPatientEmail(
 			userContext.access_token,
 			patientEmailMsg,
 			email,
 			`${tokenExp} days`,
+			`${notBefore} days`,
 		);
+		console.log('begin:', dayjs(item.beginningDate).toDate().toLocaleDateString());
+		console.log('now:', dayjs().toDate().toLocaleDateString());
+		console.log('notBefore:', notBefore);
+		console.log('exp:', tokenExp);
+
 		if (response.success) {
 			setOpenEmailSuccessSB(true);
 		} else {
