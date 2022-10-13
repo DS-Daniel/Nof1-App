@@ -34,7 +34,7 @@ interface ReadyOptionsProps extends OptionsProps {
  * Component rendering the options for a test with the status ready.
  */
 export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
-	const { t } = useTranslation('nof1List');
+	const { t, lang } = useTranslation('nof1List');
 	const router = useRouter();
 	const { userContext } = useUserContext();
 	const [beginningDate, setBeginningDate] = useState<dayjs.Dayjs | null>(null);
@@ -50,10 +50,9 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 		msg,
 	} = useEmailInfos(item.patient, item.physician, item.nof1Physician);
 	const patientEmailMsg = usePatientEmailMsg(
-		process.env.NEXT_PUBLIC_APP_URL +
-			'import-data/patient?id=' +
-			item.uid! +
-			'&token=TOKEN',
+		`${
+			process.env.NEXT_PUBLIC_APP_URL
+		}${lang}/import-data/patient?id=${item.uid!}&token=TOKEN`,
 		item.nof1Physician.lastname + ' ' + item.nof1Physician.firstname,
 		item.nof1Physician.email,
 		item.nof1Physician.phone,
