@@ -1,9 +1,9 @@
 import {
   IsEmail,
+  IsInt,
   IsNotEmpty,
   IsNotEmptyObject,
   IsObject,
-  IsString,
 } from 'class-validator';
 
 export class PatientMailDto {
@@ -27,15 +27,15 @@ export class PatientMailDto {
    * Token expiration limit for the patient url.
    * Protect API routes and forbid access after expiration.
    */
-  @IsString()
+  @IsInt()
   @IsNotEmpty()
-  tokenExp: string;
+  tokenExp: number;
 
   /**
    * Identifies the time before which the JWT must not be accepted for processing.
    * Protect API routes and forbid access before the right date.
    */
-  @IsString()
+  @IsInt()
   @IsNotEmpty()
-  notBefore: string;
+  notBefore: number;
 }

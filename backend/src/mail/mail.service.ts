@@ -73,11 +73,7 @@ export class MailService {
    */
   async sendPatientEmail(mailDto: PatientMailDto) {
     const token = this.jwtService.sign(
-      { dest: mailDto.dest },
-      {
-        expiresIn: mailDto.tokenExp,
-        notBefore: mailDto.notBefore,
-      },
+      { dest: mailDto.dest, exp: mailDto.tokenExp, nbf: mailDto.notBefore },
     );
     const txtMsg = mailDto.msg.text.replace('TOKEN', token);
     const htmlMsg = mailDto.msg.html.replace('TOKEN', token);

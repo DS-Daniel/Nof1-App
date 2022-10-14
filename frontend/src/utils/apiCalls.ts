@@ -492,8 +492,8 @@ export const sendPatientEmail = async (
 		html: string;
 	},
 	dest: string,
-	tokenExp: string,
-	notBefore: string,
+	tokenExp: number,
+	notBefore: number,
 ): Promise<{
 	success: boolean;
 	msg: string;
