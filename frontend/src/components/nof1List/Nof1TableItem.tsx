@@ -12,6 +12,7 @@ import { useState } from 'react';
 interface TableItemProps {
 	item: Nof1Test;
 	labelId: string;
+	removeItem: (testId: string) => void;
 }
 
 export interface OptionsProps {
@@ -21,7 +22,11 @@ export interface OptionsProps {
 /**
  * Nof1 table item component. Renders the options according to the test status.
  */
-export default function Nof1TableItem({ item, labelId }: TableItemProps) {
+export default function Nof1TableItem({
+	item,
+	labelId,
+	removeItem,
+}: TableItemProps) {
 	const [test, setTest] = useState<Nof1Test>(item);
 
 	/**
@@ -30,7 +35,7 @@ export default function Nof1TableItem({ item, labelId }: TableItemProps) {
 	const content = () => {
 		switch (test.status) {
 			case TestStatus.Draft:
-				return <DraftOptions item={test} />;
+				return <DraftOptions item={test} removeItem={removeItem} />;
 			case TestStatus.Ended:
 			case TestStatus.Interrupted:
 				return <EndedOptions item={test} />;
