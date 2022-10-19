@@ -17,6 +17,7 @@ import {
   IsObject,
   IsNotEmptyObject,
   ValidateIf,
+  ValidateNested,
 } from 'class-validator';
 import { TestStatus } from '../../utils/constants';
 import { Patient } from '../../persons/patients/schemas/patient.schema';
@@ -27,19 +28,19 @@ import { Physician } from '../../persons/physicians/schemas/physician.schema';
  */
 export class CreateNof1TestDto {
   @IsObject()
-  @IsNotEmptyObject()
+  @ValidateNested()
   patient: Patient;
 
   @IsObject()
-  @IsNotEmptyObject()
+  @ValidateNested()
   physician: Physician;
 
   @IsObject()
-  @IsNotEmptyObject()
+  @ValidateNested()
   nof1Physician: Physician;
 
   @ValidateIf((test) => test.pharmaEmail !== '')
-  // allow creation of a test in draft mode (with default empty values),
+  // allow creation of a test in draft mode (with default empty value),
   // where this field is not filled in and can be further edited.
   @IsEmail()
   pharmaEmail: string;

@@ -1,25 +1,25 @@
 import { Schema } from 'mongoose';
-import { cityRegex, streetRegex } from '../../utils/constants';
+import { encrypt, decrypt } from '../../utils/cipher';
 
-export interface Address {
+export class Address {
   street: string;
-  zip: number;
+  zip: string;
   city: string;
 }
 
 /**
  * Schema representing address information.
  */
-export const AddressSchema = new Schema<Address>({
-  street: {
-    type: String,
-    required: true,
-    match: streetRegex,
+export const AddressSchema = new Schema<Address>(
+  {
+    street: { type: String, required: true, get: decrypt, set: encrypt },
+    zip: { type: String, required: true, get: decrypt, set: encrypt },
+    city: { type: String, required: true, get: decrypt, set: encrypt },
   },
-  zip: { type: Number, required: true },
-  city: {
-    type: String,
-    required: true,
-    match: cityRegex,
+  {
+    versionKey: false,
+    _id: false,
+    toObject: { getters: true },
+    toJSON: { getters: true },
   },
-});
+);

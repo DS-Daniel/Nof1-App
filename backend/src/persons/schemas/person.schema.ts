@@ -1,5 +1,5 @@
 import { Prop } from '@nestjs/mongoose';
-import validator from 'validator';
+import { encrypt, decrypt, encryptMail } from '../../utils/cipher';
 import { Address, AddressSchema } from './address.schema';
 
 /**
@@ -8,24 +8,18 @@ import { Address, AddressSchema } from './address.schema';
  * Base class for PatientSchema and PhysicianSchema.
  */
 export class Person {
-  @Prop({ required: true })
+  @Prop({ required: true, set: encrypt, get: decrypt })
   lastname: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, set: encrypt, get: decrypt })
   firstname: string;
 
   @Prop({ type: AddressSchema, required: true })
   address: Address;
 
-  @Prop({
-    required: true,
-    validate: [validator.isNumeric, 'Phone number can only contains numbers'],
-  })
+  @Prop({ required: true, set: encrypt, get: decrypt })
   phone: string;
 
-  @Prop({
-    required: true,
-    validate: [validator.isEmail, 'Format of email is invalid'],
-  })
+  @Prop({ required: true, set: encryptMail, get: decrypt })
   email: string;
 }
