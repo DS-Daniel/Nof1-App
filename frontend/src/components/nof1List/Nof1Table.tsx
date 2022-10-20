@@ -13,19 +13,28 @@ import Nof1TableItem from './Nof1TableItem';
 import { Nof1Test } from '../../entities/nof1Test';
 import { Nof1TableInterface } from '../../pages/nof1';
 import useTranslation from 'next-translate/useTranslation';
+import Skeleton from '@mui/material/Skeleton';
 
-const rowsPerPageOptions = [5, 10, 25];
+const rowsPerPageOptions = [5, 10, 15];
 
 type Nof1TableProps = {
 	headCells: readonly HeadCell<Nof1TableInterface>[];
 	rows: Nof1TableInterface[];
 	data: Nof1Test[];
+	removeItem: (testId: string) => void;
+	loading: boolean;
 };
 
 /**
  * Table component to display all user's N-of-1 tests.
  */
-export default function Nof1Table({ headCells, rows, data }: Nof1TableProps) {
+export default function Nof1Table({
+	headCells,
+	rows,
+	data,
+	removeItem,
+	loading,
+}: Nof1TableProps) {
 	const { t } = useTranslation('common');
 	const [order, setOrder] = useState<Order>('desc');
 	const [orderBy, setOrderBy] =
@@ -34,7 +43,7 @@ export default function Nof1Table({ headCells, rows, data }: Nof1TableProps) {
 	const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
 
 	/**
-	 * Sort the table according to the property clicked.
+	 * Sorts the table according to the property clicked.
 	 * @param event Mouse event (not used)
 	 * @param property Property which define the order.
 	 */
@@ -48,7 +57,7 @@ export default function Nof1Table({ headCells, rows, data }: Nof1TableProps) {
 	};
 
 	/**
-	 * Handle table page change.
+	 * Handles table page change.
 	 * @param event Not used
 	 * @param newPage New page number.
 	 */
@@ -57,7 +66,7 @@ export default function Nof1Table({ headCells, rows, data }: Nof1TableProps) {
 	};
 
 	/**
-	 * Change the number of rows displayed by the table.
+	 * Changes the number of rows displayed by the table.
 	 * @param event HTML event containing the number of rows.
 	 */
 	const handleChangeRowsPerPage = (
@@ -71,11 +80,11 @@ export default function Nof1Table({ headCells, rows, data }: Nof1TableProps) {
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-		/**
-		 * Retrieve the test from its id.
-		 * @param id Id of the test.
-		 * @returns A Nof1 test.
-		 */
+	/**
+	 * Retrieves the test from its id.
+	 * @param id Id of the test.
+	 * @returns A Nof1 test.
+	 */
 	const getItemData = (id: string) => {
 		return data.find((test) => test.uid === id)!;
 		// ids are generated from data, thus 'find' will always return an element
@@ -107,6 +116,7 @@ export default function Nof1Table({ headCells, rows, data }: Nof1TableProps) {
 										<Nof1TableItem
 											item={getItemData(row.id)}
 											labelId={labelId}
+											removeItem={removeItem}
 											key={row.id}
 										/>
 									);
@@ -123,6 +133,18 @@ export default function Nof1Table({ headCells, rows, data }: Nof1TableProps) {
 									</TableRow>
 								)
 							}
+							{loading && (
+								<TableRow style={{ height: 125 }}>
+									<TableCell colSpan={6} height="100%">
+										<Skeleton
+											variant="rectangular"
+											animation="wave"
+											width={'100%'}
+											height={'100%'}
+										/>
+									</TableCell>
+								</TableRow>
+							)}
 						</TableBody>
 					</Table>
 				</TableContainer>

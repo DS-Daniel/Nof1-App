@@ -3,16 +3,20 @@ import Stack from '@mui/material/Stack';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { useUserContext } from '../../../context/UserContext';
-import { deleteNof1Test, updatePhysician } from '../../../utils/apiCalls';
+import { deleteNof1Test } from '../../../utils/apiCalls';
 import { OptionsProps } from '../Nof1TableItem';
+
+interface Props extends OptionsProps {
+	removeItem: (testId: string) => void;
+}
 
 /**
  * Component rendering the options for a test with the status draft.
  */
-export default function DraftOptions({ item }: OptionsProps) {
+export default function DraftOptions({ item, removeItem }: Props) {
 	const { t } = useTranslation('nof1List');
 	const router = useRouter();
-	const { userContext, setUserContext } = useUserContext();
+	const { userContext } = useUserContext();
 
 	/**
 	 * Handle click on the button to continue editing the test.
@@ -25,26 +29,11 @@ export default function DraftOptions({ item }: OptionsProps) {
 	};
 
 	/**
-	 * Remove the test from the user test array.
-	 * @param testId Id of the test.
-	 */
-	const removeUserTest = (testId: string) => {
-		const user = { ...userContext.user! };
-		const idx = user.tests!.findIndex((id) => id === testId);
-		user.tests!.splice(idx, 1);
-		updatePhysician(userContext.access_token, user._id!, { tests: user.tests });
-		setUserContext({
-			access_token: userContext.access_token,
-			user,
-		});
-	};
-
-	/**
 	 * Handle click on the delete button.
 	 */
 	const handleDelete = () => {
 		deleteNof1Test(userContext.access_token, item.uid!);
-		removeUserTest(item.uid!);
+		removeItem(item.uid!);
 	};
 
 	return (

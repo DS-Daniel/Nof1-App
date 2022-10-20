@@ -39,8 +39,7 @@ export class PhysiciansService {
   async findById(id: string) {
     const response = await this.physicianModel
       .findById(id)
-      .select('-__v')
-      .lean();
+      .lean({ getters: true });
     return { response };
   }
 
@@ -52,8 +51,7 @@ export class PhysiciansService {
   async findByEmail(email: string) {
     const response = await this.physicianModel
       .findOne({ email: email })
-      .select('-__v')
-      .lean();
+      .lean({ getters: true });
     return { response };
   }
 
@@ -65,11 +63,9 @@ export class PhysiciansService {
    */
   async update(id: string, updatePhysicianDto: UpdatePhysicianDto) {
     try {
-      const response = await this.physicianModel.findByIdAndUpdate(
-        id,
-        updatePhysicianDto,
-        { returnDocument: 'after', lean: true },
-      );
+      const response = await this.physicianModel
+        .findByIdAndUpdate(id, updatePhysicianDto, { returnDocument: 'after' })
+        .lean({ getters: true });
       if (response === null) {
         throw new BadRequestException('Physician not found');
       }

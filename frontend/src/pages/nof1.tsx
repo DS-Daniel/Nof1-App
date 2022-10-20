@@ -8,7 +8,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Stack from '@mui/material/Stack';
 import { useEffect, useState } from 'react';
 import { Nof1Test } from '../entities/nof1Test';
-import { listOfTests } from '../utils/apiCalls';
+import { listOfTests, updatePhysician } from '../utils/apiCalls';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -26,7 +26,7 @@ export interface Nof1TableInterface {
 export default function Nof1() {
 	const { t } = useTranslation('nof1List');
 	const router = useRouter();
-	const { userContext } = useUserContext();
+	const { userContext, setUserContext } = useUserContext();
 	const [data, setData] = useState<Nof1Test[]>([]);
 	const [openDialogBtn, setOpenDialogBtn] = useState(false);
 
@@ -37,12 +37,32 @@ export default function Nof1() {
 			setData(response);
 		}
 		const testsIds = userContext.user?.tests;
-		if (testsIds && testsIds.length > 0) {
+		// fetch only on page switch and page refresh (this fetch takes times)
+		if (testsIds && testsIds.length > 0 && data.length === 0) {
 			fetchTests(testsIds);
 		}
-	}, [userContext]);
+	}, [data, userContext]);
 
-	// header of the table.
+	/**
+	 * Removes a test from the user tests array.
+	 * @param testId Id of the test.
+	 */
+	const removeUserTest = (testId: string) => {
+		const user = { ...userContext.user! };
+		const idx = user.tests!.findIndex((id) => id === testId);
+		user.tests!.splice(idx, 1);
+		// update of corresponding data
+		updatePhysician(userContext.access_token, user._id!, { tests: user.tests });
+		setUserContext({
+			access_token: userContext.access_token,
+			user,
+		});
+		setData((prevData) => {
+			return prevData.filter((t) => t.uid !== testId);
+		});
+	};
+
+	// headers of the table.
 	const headCells: readonly HeadCell<Nof1TableInterface>[] = [
 		{
 			id: 'id',
@@ -65,7 +85,7 @@ export default function Nof1() {
 	];
 
 	/**
-	 * Generate and return the table rows.
+	 * Generates and returns the table rows.
 	 */
 	const generateRows = (): Nof1TableInterface[] => {
 		return data.map((test) => ({
@@ -76,7 +96,7 @@ export default function Nof1() {
 	};
 
 	/**
-	 * Handle the click on the create new test button.
+	 * Handles the click on the create new test button.
 	 */
 	const handleCreateBtn = () => {
 		router.push('/create-test');
@@ -113,7 +133,13 @@ export default function Nof1() {
 						</DialogContent>
 					</Dialog>
 				</Stack>
-				<Nof1Table rows={generateRows()} headCells={headCells} data={data} />
+				<Nof1Table
+					rows={generateRows()}
+					headCells={headCells}
+					data={data}
+					removeItem={removeUserTest}
+					loading={userContext.user?.tests?.length !== 0 && data.length === 0}
+				/>
 			</Stack>
 		</AuthenticatedPage>
 	);
