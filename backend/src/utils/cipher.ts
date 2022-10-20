@@ -18,7 +18,7 @@ const tagLength = 16;
 const tagPosition = saltLength + ivLength;
 const encryptedPosition = tagPosition + tagLength;
 const keylen = 32;
-const scryptCost = 8192; // higher values cause big slowdowns
+const scryptCost = 8192; // higher values cause too much slowdowns
 
 /**
  * Generates a password-based derived key for further encryption.

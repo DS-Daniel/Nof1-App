@@ -16,7 +16,7 @@ interface Props extends OptionsProps {
 export default function DraftOptions({ item, removeItem }: Props) {
 	const { t } = useTranslation('nof1List');
 	const router = useRouter();
-	const { userContext, setUserContext } = useUserContext();
+	const { userContext } = useUserContext();
 
 	/**
 	 * Handle click on the button to continue editing the test.
