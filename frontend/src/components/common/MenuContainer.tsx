@@ -3,9 +3,11 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useState } from 'react';
+import Typography from '@mui/material/Typography';
 
 interface IMenuItem {
 	name: string;
+	color?: string;
 	callback: () => void;
 }
 
@@ -84,7 +86,7 @@ export default function MenuContainer({
 								handleClose();
 							}}
 						>
-							{i.name}
+							<Typography color={i.color || 'black'}>{i.name}</Typography>
 						</MenuItem>
 					);
 				})}

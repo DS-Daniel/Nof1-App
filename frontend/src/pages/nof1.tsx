@@ -1,18 +1,30 @@
 import AuthenticatedPage from '../components/layout/AuthenticatedPage';
 import { useRouter } from 'next/router';
 import Nof1Table from '../components/nof1List/Nof1Table';
-import { useUserContext } from '../context/UserContext';
+import { UserContextType, useUserContext } from '../context/UserContext';
 import { HeadCell } from '../components/common/TableHead';
 import Button from '@mui/material/Button';
 import useTranslation from 'next-translate/useTranslation';
 import Stack from '@mui/material/Stack';
-import { useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 import { Nof1Test } from '../entities/nof1Test';
-import { listOfTests, updatePhysician } from '../utils/apiCalls';
+import {
+	deleteNof1Test,
+	listOfTests,
+	updatePhysician,
+} from '../utils/apiCalls';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import Link from 'next/link';
+
+export const RemoveTestCB = createContext<
+	(
+		testId: string,
+		userContext: UserContextType,
+		setUserContext: (userCtx: UserContextType) => void,
+	) => void
+>(() => {});
 
 export interface Nof1TableInterface {
 	id: string;
@@ -47,20 +59,30 @@ export default function Nof1() {
 	 * Removes a test from the user tests array.
 	 * @param testId Id of the test.
 	 */
-	const removeUserTest = (testId: string) => {
-		const user = { ...userContext.user! };
-		const idx = user.tests!.findIndex((id) => id === testId);
-		user.tests!.splice(idx, 1);
-		// update of corresponding data
-		updatePhysician(userContext.access_token, user._id!, { tests: user.tests });
-		setUserContext({
-			access_token: userContext.access_token,
-			user,
-		});
-		setData((prevData) => {
-			return prevData.filter((t) => t.uid !== testId);
-		});
-	};
+	const removeUserTest = useCallback(
+		(
+			testId: string,
+			userContext: UserContextType,
+			setUserContext: (userCtx: UserContextType) => void,
+		) => {
+			const user = { ...userContext.user! };
+			const idx = user.tests!.findIndex((id) => id === testId);
+			user.tests!.splice(idx, 1);
+			// update of corresponding data
+			updatePhysician(userContext.access_token, user._id!, {
+				tests: user.tests,
+			});
+			deleteNof1Test(userContext.access_token, testId);
+			setUserContext({
+				access_token: userContext.access_token,
+				user,
+			});
+			setData((prevData) => {
+				return prevData.filter((t) => t.uid !== testId);
+			});
+		},
+		[],
+	);
 
 	// headers of the table.
 	const headCells: readonly HeadCell<Nof1TableInterface>[] = [
@@ -133,13 +155,14 @@ export default function Nof1() {
 						</DialogContent>
 					</Dialog>
 				</Stack>
-				<Nof1Table
-					rows={generateRows()}
-					headCells={headCells}
-					data={data}
-					removeItem={removeUserTest}
-					loading={userContext.user?.tests?.length !== 0 && data.length === 0}
-				/>
+				<RemoveTestCB.Provider value={removeUserTest}>
+					<Nof1Table
+						rows={generateRows()}
+						headCells={headCells}
+						data={data}
+						loading={userContext.user?.tests?.length !== 0 && data.length === 0}
+					/>
+				</RemoveTestCB.Provider>
 			</Stack>
 		</AuthenticatedPage>
 	);

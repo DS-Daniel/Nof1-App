@@ -21,7 +21,6 @@ type Nof1TableProps = {
 	headCells: readonly HeadCell<Nof1TableInterface>[];
 	rows: Nof1TableInterface[];
 	data: Nof1Test[];
-	removeItem: (testId: string) => void;
 	loading: boolean;
 };
 
@@ -32,7 +31,6 @@ export default function Nof1Table({
 	headCells,
 	rows,
 	data,
-	removeItem,
 	loading,
 }: Nof1TableProps) {
 	const { t } = useTranslation('common');
@@ -116,7 +114,6 @@ export default function Nof1Table({
 										<Nof1TableItem
 											item={getItemData(row.id)}
 											labelId={labelId}
-											removeItem={removeItem}
 											key={row.id}
 										/>
 									);

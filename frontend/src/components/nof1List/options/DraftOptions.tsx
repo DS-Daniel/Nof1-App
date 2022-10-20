@@ -2,24 +2,22 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
 import { useUserContext } from '../../../context/UserContext';
-import { deleteNof1Test } from '../../../utils/apiCalls';
+import { RemoveTestCB } from '../../../pages/nof1';
 import { OptionsProps } from '../Nof1TableItem';
-
-interface Props extends OptionsProps {
-	removeItem: (testId: string) => void;
-}
 
 /**
  * Component rendering the options for a test with the status draft.
  */
-export default function DraftOptions({ item, removeItem }: Props) {
+export default function DraftOptions({ item }: OptionsProps) {
 	const { t } = useTranslation('nof1List');
 	const router = useRouter();
-	const { userContext } = useUserContext();
+	const { userContext, setUserContext } = useUserContext();
+	const removeItem = useContext(RemoveTestCB);
 
 	/**
-	 * Handle click on the button to continue editing the test.
+	 * Handles click on the button to continue editing the test.
 	 */
 	const handleDraft = () => {
 		router.push({
@@ -29,11 +27,10 @@ export default function DraftOptions({ item, removeItem }: Props) {
 	};
 
 	/**
-	 * Handle click on the delete button.
+	 * Handles click on the delete button.
 	 */
 	const handleDelete = () => {
-		deleteNof1Test(userContext.access_token, item.uid!);
-		removeItem(item.uid!);
+		removeItem(item.uid!, userContext, setUserContext);
 	};
 
 	return (
