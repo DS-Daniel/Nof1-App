@@ -2,9 +2,6 @@ import useTranslation from 'next-translate/useTranslation';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { Posology, PosologyDay } from '../../../entities/posology';
@@ -13,33 +10,12 @@ import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
 import {
 	numericInputPattern,
 	numericInputRegex,
 } from '../../../utils/constants';
-import PosologyHead from '../../common/posologyTable/PosologyHead';
-
-// custom TableRow component
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-	'&:nth-of-type(even)': {
-		backgroundColor: theme.palette.action.hover,
-	},
-	// hide last border
-	// '&:last-child td, &:last-child th': {
-	//   border: 0,
-	// },
-}));
-
-// custom TableCell component
-const StyledTableCell = styled(TableCell, {
-	shouldForwardProp: (prop) => prop !== 'borderR',
-})<{
-	borderR: boolean;
-}>(({ borderR, theme }) => ({
-	...(borderR && { borderRight: '1px solid' }),
-	borderColor: theme.palette.divider,
-}));
+import PosologyHead from '../../common/table/posologyTable/PosologyHead';
+import { StyledTableCell, StyledTableContainer, StyledTableRow } from '../../common/table/customTableComponents';
 
 type RegisterType =
 	| `${number}`
@@ -126,7 +102,7 @@ export default function PosologyTable({
 	return (
 		<>
 			<Box component="form" id="" onSubmit={handleSubmit(onSubmit)}>
-				<TableContainer sx={{ borderRadius: '8px 8px 0 0' }}>
+				<StyledTableContainer>
 					<Table size="small">
 						<PosologyHead substanceUnit={substanceUnit} />
 						<TableBody>
@@ -170,7 +146,7 @@ export default function PosologyTable({
 							))}
 						</TableBody>
 					</Table>
-				</TableContainer>
+				</StyledTableContainer>
 				<Stack direction="row" alignItems="center" spacing={2} mt={1}>
 					<Checkbox
 						checked={checked}

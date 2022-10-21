@@ -2,7 +2,7 @@ import AuthenticatedPage from '../components/layout/AuthenticatedPage';
 import { useRouter } from 'next/router';
 import Nof1Table from '../components/nof1List/Nof1Table';
 import { UserContextType, useUserContext } from '../context/UserContext';
-import { HeadCell } from '../components/common/TableHead';
+import { HeadCell } from '../components/common/table/EnhancedTableHead';
 import Button from '@mui/material/Button';
 import useTranslation from 'next-translate/useTranslation';
 import Stack from '@mui/material/Stack';

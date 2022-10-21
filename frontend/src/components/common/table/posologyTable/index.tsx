@@ -1,11 +1,11 @@
-import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
-import { PosologyDay } from '../../../entities/posology';
+import { PosologyDay } from '../../../../entities/posology';
 import PosologyHead from './PosologyHead';
+import { StyledTableContainer } from '../customTableComponents';
 
 /**
  * Helper method to render a TableCell component.
@@ -33,13 +33,7 @@ export default function PosologyTable({
 	substanceUnit,
 }: PosologyTableProps) {
 	return (
-		<TableContainer
-			sx={{
-				borderRadius: (theme) =>
-					`${theme.shape.borderRadius * 2}px ${theme.shape.borderRadius * 2}px 0 0`,
-			}}
-			// sx={{ borderRadius: '8px 8px 0 0' }}
-		>
+		<StyledTableContainer>
 			<Table
 				size="small"
 				// sx={{ minWidth: 600 }}
@@ -62,6 +56,6 @@ export default function PosologyTable({
 					))}
 				</TableBody>
 			</Table>
-		</TableContainer>
+		</StyledTableContainer>
 	);
 }

@@ -8,7 +8,7 @@ import { SubstancePosologies } from '../../../entities/posology';
 import Box from '@mui/material/Box';
 import Radio from '@mui/material/Radio';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PosologyTable from '../../common/posologyTable';
+import PosologyTable from '../../common/table/posologyTable';
 
 interface RecapPosologiesProps {
 	allPosologies: SubstancePosologies[];
@@ -35,6 +35,7 @@ export default function RecapPosologies({
 						<Typography variant="h6">
 							{t('parameters.substance-x', { substance })}
 						</Typography>
+
 						{posologies.map(({ posology, repeatLast }, idx) => (
 							<Box key={`substance-posology-data-${idx}`}>
 								<Typography mb={1}>

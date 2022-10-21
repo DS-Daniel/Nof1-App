@@ -7,7 +7,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { getComparator, Order } from '../../utils/tableSorting';
-import EnhancedTableHead, { HeadCell } from '../common/TableHead';
+import EnhancedTableHead, { HeadCell } from '../common/table/EnhancedTableHead';
 import { useState } from 'react';
 import Nof1TableItem from './Nof1TableItem';
 import { Nof1Test } from '../../entities/nof1Test';

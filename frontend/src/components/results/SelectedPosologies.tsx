@@ -5,7 +5,7 @@ import Radio from '@mui/material/Radio';
 import { SubstancePosology } from '../../entities/posology';
 import ExportToolbar from './ExportToolbar';
 import Paper from '@mui/material/Paper';
-import PosologyTable from '../common/posologyTable';
+import PosologyTable from '../common/table/posologyTable';
 
 interface SelectedPosologiesProps {
 	posologies: SubstancePosology[];
@@ -19,15 +19,15 @@ export default function SelectedPosologies({
 }: SelectedPosologiesProps) {
 	const { t } = useTranslation('common');
 
-	const headers = [
+	const headers = (unit: string) => [
 		t('posology-table.day'),
-		t('posology-table.dose') + t('posology-table.morning'),
+		t('posology-table.dose', { unit }) + ' ' + t('posology-table.morning'),
 		t('posology-table.fraction'),
-		t('posology-table.dose') + t('posology-table.noon'),
+		t('posology-table.dose', { unit }) + ' ' + t('posology-table.noon'),
 		t('posology-table.fraction'),
-		t('posology-table.dose') + t('posology-table.evening'),
+		t('posology-table.dose', { unit }) + ' ' + t('posology-table.evening'),
 		t('posology-table.fraction'),
-		t('posology-table.dose') + t('posology-table.night'),
+		t('posology-table.dose', { unit }) + ' ' + t('posology-table.night'),
 		t('posology-table.fraction'),
 	];
 
@@ -43,7 +43,7 @@ export default function SelectedPosologies({
 							data={{
 								filename: t('results:xlsx-posology-sub-x', { substance }), // filename max length = 31 chars
 								rows: posology.posology,
-								headers,
+								headers: headers(unit),
 							}}
 						/>
 						<PosologyTable posology={posology.posology} substanceUnit={unit} />

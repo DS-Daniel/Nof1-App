@@ -1,13 +1,15 @@
 import Stack from '@mui/material/Stack';
-import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import { Variable, VariableType } from '../../../entities/variable';
 import useTranslation from 'next-translate/useTranslation';
+import {
+	OrangeTableHead,
+	StyledTableContainer,
+} from '../../common/table/customTableComponents';
 
 /**
  * Helper method to render a TableCell component.
@@ -45,9 +47,9 @@ export default function RecapVariables({ variables }: RecapVariablesProps) {
 	return (
 		<Stack spacing={3}>
 			<Typography variant="h5">{t('variables.title')}</Typography>
-			<TableContainer>
+			<StyledTableContainer>
 				<Table sx={{ minWidth: 600 }} size="small">
-					<TableHead>
+					<OrangeTableHead>
 						<TableRow>
 							{varTableHeaders.map((header, index) => (
 								<TableCell key={`var-header-${index}`} align="center">
@@ -57,9 +59,9 @@ export default function RecapVariables({ variables }: RecapVariablesProps) {
 								</TableCell>
 							))}
 						</TableRow>
-					</TableHead>
+					</OrangeTableHead>
 					<TableBody>
-						{variables.map((variable, index) => (
+						{variables.map((variable) => (
 							// iterate over object properties does not guarantee right ordering
 							<TableRow key={variable.name}>
 								{renderTableCell(variable.name)}
@@ -73,7 +75,7 @@ export default function RecapVariables({ variables }: RecapVariablesProps) {
 						))}
 					</TableBody>
 				</Table>
-			</TableContainer>
+			</StyledTableContainer>
 		</Stack>
 	);
 }
