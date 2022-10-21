@@ -57,7 +57,8 @@
 		"noon": "Noon",
 		"evening": "Evening",
 		"night": "Night",
-		"fraction": "Fraction(s)"
+		"fraction": "Divided into X fractions",
+		"dose": "Dose ({{unit}})"
 	},
 	"loading": "Loading...",
 	"date": "Date",

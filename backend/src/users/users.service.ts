@@ -24,10 +24,7 @@ export class UsersService {
    */
   async create(email: string, password: string) {
     try {
-      const newUser = new this.userModel({
-        email: email.toLowerCase(),
-        password,
-      });
+      const newUser = new this.userModel({ email, password });
       return await newUser.save();
     } catch (err) {
       if (err instanceof MongoServerError) {
@@ -44,8 +41,10 @@ export class UsersService {
    * @param email User email.
    * @returns The user document or null.
    */
-  async findByEmail(email: string): Promise<User | undefined> {
-    return await this.userModel.findOne({ email: email.toLowerCase() }).lean();
+  async findByEmail(email: string) {
+    return await this.userModel
+      .findOne({ email: email })
+      .lean({ getters: true });
   }
 
   /**
@@ -54,9 +53,9 @@ export class UsersService {
    * @returns The user document id or null.
    */
   async exists(email: string) {
-    const response = await this.userModel.exists({
-      email: email.toLowerCase(),
-    });
+    const response = await this.userModel
+      .exists({ email: email })
+      .lean({ getters: true });
     return { response };
   }
 
@@ -67,14 +66,9 @@ export class UsersService {
    * @returns A message indicating a successful update or a BadRequest exception.
    */
   async update(email: string, newEmail: string) {
-    const response = await this.userModel.findOneAndUpdate(
-      {
-        email: email.toLowerCase(),
-      },
-      {
-        email: newEmail.toLowerCase(),
-      },
-    );
+    const response = await this.userModel
+      .findOneAndUpdate({ email: email }, { email: newEmail })
+      .lean({ getters: true });
     if (response === null) {
       throw new BadRequestException('User not found');
     }

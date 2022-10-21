@@ -17,11 +17,13 @@ export type Posology = {
 
 export type SubstancePosologies = {
 	substance: string;
+	unit: string;
 	posologies: Posology[];
 };
 
 export type SubstancePosology = {
 	substance: string;
+	unit: string;
 	posology: Posology;
 };
 
@@ -36,13 +38,13 @@ export const initialPosology = (nbRows: number): Posology => {
 	const rows: PosologyDay[] = [];
 	const defaultPos = {
 		morning: 0,
-		morningFraction: 1,
+		morningFraction: 0,
 		noon: 0,
-		noonFraction: 1,
+		noonFraction: 0,
 		evening: 0,
-		eveningFraction: 1,
+		eveningFraction: 0,
 		night: 0,
-		nightFraction: 1,
+		nightFraction: 0,
 	};
 	for (let i = 1; i <= nbRows; i++) {
 		rows.push({ day: i, ...defaultPos });

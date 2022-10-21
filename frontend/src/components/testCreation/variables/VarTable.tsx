@@ -3,13 +3,15 @@ import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import { Variable, VariableType } from '../../../entities/variable';
-import TableHead from '@mui/material/TableHead';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import {
+	OrangeTableHead,
+	StyledTableContainer,
+} from '../../common/table/customTableComponents';
 
 /**
  * Helper method to render a TableCell component.
@@ -47,21 +49,19 @@ export default function VarTable({ rows, removeRow }: VarTableProps) {
 
 	return (
 		<Box sx={{ width: '100%', my: '2rem' }}>
-			<TableContainer>
-				<Table
-					sx={{ minWidth: 600 }}
-					aria-labelledby="tableTitle"
-					size="medium"
-				>
-					<TableHead>
+			<StyledTableContainer>
+				<Table>
+					<OrangeTableHead>
 						<TableRow>
 							{headers.map((header, index) => (
 								<TableCell key={`var-header-${index}`} align="center">
-									<Typography variant="body1">{header}</Typography>
+									<Typography variant="body1" fontWeight="bold">
+										{header}
+									</Typography>
 								</TableCell>
 							))}
 						</TableRow>
-					</TableHead>
+					</OrangeTableHead>
 					<TableBody>
 						{rows.map((variable, index) => (
 							// iterate over object properties does not guarantee right ordering
@@ -86,7 +86,7 @@ export default function VarTable({ rows, removeRow }: VarTableProps) {
 						))}
 					</TableBody>
 				</Table>
-			</TableContainer>
+			</StyledTableContainer>
 		</Box>
 	);
 }

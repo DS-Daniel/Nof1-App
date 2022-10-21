@@ -39,7 +39,7 @@ export class Nof1TestsService {
    * @returns All N-of-1 tests documents.
    */
   async findAll() {
-    return await this.nof1Model.find().lean();
+    return await this.nof1Model.find().lean({ getters: true });
   }
 
   /**
@@ -48,7 +48,7 @@ export class Nof1TestsService {
    * @returns The document.
    */
   async findOne(id: string) {
-    return await this.nof1Model.findOne({ uid: id }).lean();
+    return await this.nof1Model.findOne({ uid: id }).lean({ getters: true });
   }
 
   /**
@@ -57,7 +57,9 @@ export class Nof1TestsService {
    * @returns The list of documents.
    */
   async findMany(ids: string[]) {
-    return await this.nof1Model.find({ uid: { $in: ids } }).lean();
+    return await this.nof1Model
+      .find({ uid: { $in: ids } })
+      .lean({ getters: true });
   }
 
   /**
@@ -68,10 +70,9 @@ export class Nof1TestsService {
    */
   async update(id: string, updateNof1TestDto: UpdateNof1TestDto) {
     try {
-      const doc = await this.nof1Model.findOneAndUpdate(
-        { uid: id },
-        updateNof1TestDto,
-      );
+      const doc = await this.nof1Model
+        .findOneAndUpdate({ uid: id }, updateNof1TestDto)
+        .lean({ getters: true });
       return { msg: `updated : ${doc.uid}` };
     } catch (error) {
       throw new BadRequestException(error.message);

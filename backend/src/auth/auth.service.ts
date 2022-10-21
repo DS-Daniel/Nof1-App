@@ -23,7 +23,7 @@ export class AuthService {
    * @returns An object containing the JWT token and user information.
    */
   async login(user: any) {
-    const payload = { email: user.email, sub: user._id };
+    const payload = { email: user.email, sub: user.id };
     const userInfos = await this.physiciansService.findByEmail(user.email);
     return {
       access_token: this.jwtService.sign(payload),
@@ -73,9 +73,7 @@ export class AuthService {
     if (user) {
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (isPasswordValid) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password, ...userWithoutPass } = user;
-        return userWithoutPass;
+        return { email: user.email, id: user._id };
       }
     }
     return null;

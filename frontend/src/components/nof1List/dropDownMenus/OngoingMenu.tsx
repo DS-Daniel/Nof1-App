@@ -17,6 +17,7 @@ import FailSnackbar from '../../common/FailSnackbar';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import { tokenExpMargin } from '../../../utils/constants';
 import dayjs from 'dayjs';
+import DeleteDialog from './DeleteDialog';
 
 interface OngoingMenuProps {
 	item: Nof1Test;
@@ -29,6 +30,7 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 	const { t, lang } = useTranslation('nof1List');
 	const { userContext } = useUserContext();
 	const [openRecapModal, setOpenRecapModal] = useState(false);
+	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 	const [openLogbookModal, setOpenLogbookModal] = useState(false);
 	const [openPharmaEmailDialog, setOpenPharmaEmailDialog] = useState(false);
 	const [openPatientEmailDialog, setOpenPatientEmailDialog] = useState(false);
@@ -137,15 +139,22 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 			},
 		},
 		{
-			name: t('menu.sendEmailPharma'),
+			name: t('menu.send-email-pharma'),
 			callback: async () => {
 				setOpenPharmaEmailDialog(true);
 			},
 		},
 		{
-			name: t('menu.sendEmailPatient'),
+			name: t('menu.send-email-patient'),
 			callback: async () => {
 				setOpenPatientEmailDialog(true);
+			},
+		},
+		{
+			name: t('menu.delete-test'),
+			color: 'red',
+			callback: () => {
+				setOpenDeleteDialog(true);
 			},
 		},
 	];
@@ -174,6 +183,11 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				handleClose={() => setOpenPatientEmailDialog(false)}
 				handleDialogSubmit={(email) => sendPatientEmailCB(email)}
 				email={item.patient.email}
+			/>
+			<DeleteDialog
+				open={openDeleteDialog}
+				handleClose={() => setOpenDeleteDialog(false)}
+				testId={item.uid!}
 			/>
 			<SuccessSnackbar
 				open={openEmailSuccessSB}

@@ -25,9 +25,10 @@ import { TestStatus } from '../constants';
  */
 export const selectRandomPosology = (allPosologies: SubstancePosologies[]) => {
 	const selectedPosology: SubstancePosology[] = [];
-	allPosologies.forEach(({ substance, posologies }) => {
+	allPosologies.forEach(({ substance, unit, posologies }) => {
 		selectedPosology.push({
 			substance,
+			unit,
 			posology: getRandomElemFromArray(posologies),
 		});
 	});

@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import TablePagination from '@mui/material/TablePagination';
 import { useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
+import { OrangeTableHead } from './customTableComponents';
 
 const rowsPerPageOptions = [10, 20, 30];
 
@@ -57,7 +58,7 @@ export default function ReadOnlyTableWPages({
 		<>
 			<TableContainer>
 				<Table size="small">
-					<TableHead>
+					<OrangeTableHead>
 						<TableRow>
 							{headers.map((header, index) => (
 								<TableCell key={`var-header-${index}`} align="center">
@@ -67,7 +68,7 @@ export default function ReadOnlyTableWPages({
 								</TableCell>
 							))}
 						</TableRow>
-					</TableHead>
+					</OrangeTableHead>
 					<TableBody>
 						{rows
 							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

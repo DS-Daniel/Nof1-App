@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Nof1Test } from '../../../entities/nof1Test';
 import MenuContainer from '../../common/MenuContainer';
 import RecapModal from '../recapModal';
+import DeleteDialog from './DeleteDialog';
 
 interface EndedTestMenuProps {
 	item: Nof1Test;
@@ -16,6 +17,7 @@ export default function EndedTestMenu({ item }: EndedTestMenuProps) {
 	const { t } = useTranslation('nof1List');
 	const router = useRouter();
 	const [openRecapModal, setOpenRecapModal] = useState(false);
+	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
 	const menuItems = [
 		{
@@ -33,6 +35,13 @@ export default function EndedTestMenu({ item }: EndedTestMenuProps) {
 				});
 			},
 		},
+		{
+			name: t('menu.delete-test'),
+			color: 'red',
+			callback: () => {
+				setOpenDeleteDialog(true);
+			},
+		},
 	];
 
 	return (
@@ -42,6 +51,11 @@ export default function EndedTestMenu({ item }: EndedTestMenuProps) {
 				open={openRecapModal}
 				setOpen={setOpenRecapModal}
 				item={item}
+			/>
+			<DeleteDialog
+				open={openDeleteDialog}
+				handleClose={() => setOpenDeleteDialog(false)}
+				testId={item.uid!}
 			/>
 		</>
 	);

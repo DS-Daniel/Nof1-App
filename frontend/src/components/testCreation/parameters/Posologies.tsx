@@ -47,8 +47,9 @@ export default function Posologies({
 				}
 				return newData;
 			} else {
-				// new substance entry
-				return [...prevData, { substance, posologies: [posology] }];
+				// new substance entry ?
+				// return [...prevData, { substance, posologies: [posology] }];
+				return prevData;
 			}
 		});
 	};
@@ -77,6 +78,7 @@ export default function Posologies({
 	const setDefaultPosologies = () => {
 		const defaultPosologies = substances.map((substance) => ({
 			substance: substance.name,
+			unit: substance.unit,
 			posologies: [initialPosology(periodLen)],
 		}));
 		setAllPosologies(defaultPosologies);
@@ -99,7 +101,7 @@ export default function Posologies({
 					</Typography>
 				</Stack>
 			) : (
-				allPosologies.map(({ substance, posologies }, index) => (
+				allPosologies.map(({ substance, unit, posologies }, index) => (
 					<Box key={`substance-posology-${index}`}>
 						<Typography>
 							{t('parameters.substance-x', { substance })}
@@ -107,7 +109,7 @@ export default function Posologies({
 
 						<Stack alignItems="center" spacing={1}>
 							{posologies.map(({ posology, repeatLast }, idx) => (
-								<Stack key={`substance-posology-data-${idx}`}>
+								<Stack key={`substance-posology-data-${idx}`} spacing={1}>
 									<Typography>
 										{t('parameters.posology-x', { x: idx + 1 })}
 									</Typography>
@@ -118,6 +120,7 @@ export default function Posologies({
 											savePosology(substance, newPosology, idx);
 											setOpenSnackbar(true);
 										}}
+										substanceUnit={unit}
 									/>
 								</Stack>
 							))}

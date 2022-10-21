@@ -127,12 +127,6 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 					</Button>
 				</Stack>
 
-				<VarDialog
-					open={openDialog}
-					handleDialogSubmit={(data) => handleDialogSubmit(data)}
-					handleClose={() => setOpenDialog(false)}
-				/>
-
 				<Typography variant="h6" mb={2}>
 					{t('variables.additional-var-subtitle')}
 				</Typography>
@@ -163,6 +157,11 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 					</Grid>
 				</FormGroup>
 			</Stack>
+			<VarDialog
+				open={openDialog}
+				handleDialogSubmit={(data) => handleDialogSubmit(data)}
+				handleClose={() => setOpenDialog(false)}
+			/>
 		</Paper>
 	);
 }

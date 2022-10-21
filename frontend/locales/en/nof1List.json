@@ -7,6 +7,7 @@
 		"delete": "Delete test",
 		"print": "Print logbook (print to pdf)"
 	},
+	"delete-warning": "Are you sure you want to delete the test ?",
 	"print-warning": "(*check the orientation (portrait) and margins (default) in the print window if the rendering is not correct)",
 	"create-fromID-dialog-title": "Choose the test ID that will be used as a template",
 	"headerId": "Test ID",
@@ -19,8 +20,9 @@
 		"xmlExport": "XML Export",
 		"varBooklet": "Patient variables logbook",
 		"varBooklet-preview": "Preview of patient variables logbook (current date)",
-		"sendEmailPharma": "Send the email to the pharmacy",
-		"sendEmailPatient": "Send the email to the patient"
+		"send-email-pharma": "Resend the email to the pharmacy",
+		"send-email-patient": "Resend the email to the patient",
+		"delete-test": "Delete the test"
 	},
 	"btnStatus": {
 		"draft": "Edit draft",
@@ -33,5 +35,6 @@
 	"alert-date": "Please indicate a starting date for the test",
 	"alert-email": "Email could not be sent, please check the address and try again!",
 	"email-sent": "Email successfully sent",
-	"email-confirm": "Please check the following e-mail address before sending the e-mail (a non-existent address will not be detected) :"
+	"email-confirm": "Please check the following e-mail address before sending the e-mail (a non-existent address will not be detected) :",
+	"close-modal": "Close recap"
 }

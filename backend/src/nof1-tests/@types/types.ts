@@ -40,12 +40,14 @@ export type Posology = {
 // a substance with its different posologies.
 export class SubstancePosologies {
   substance: string;
+  unit: string;
   posologies: Posology[];
 }
 
 // a substance with its posology.
 export class SubstancePosology {
   substance: string;
+  unit: string;
   posology: Posology;
 }
 
