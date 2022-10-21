@@ -35,5 +35,6 @@
 	"alert-date": "Please indicate a starting date for the test",
 	"alert-email": "Email could not be sent, please check the address and try again!",
 	"email-sent": "Email successfully sent",
-	"email-confirm": "Please check the following e-mail address before sending the e-mail (a non-existent address will not be detected) :"
+	"email-confirm": "Please check the following e-mail address before sending the e-mail (a non-existent address will not be detected) :",
+	"close-modal": "Close recap"
 }
