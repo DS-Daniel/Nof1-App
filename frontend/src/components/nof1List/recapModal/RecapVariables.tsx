@@ -48,7 +48,7 @@ export default function RecapVariables({ variables }: RecapVariablesProps) {
 		<Stack spacing={3}>
 			<Typography variant="h5">{t('variables.title')}</Typography>
 			<StyledTableContainer>
-				<Table sx={{ minWidth: 600 }} size="small">
+				<Table size="small">
 					<OrangeTableHead>
 						<TableRow>
 							{varTableHeaders.map((header, index) => (

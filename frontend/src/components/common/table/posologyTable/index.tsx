@@ -34,10 +34,7 @@ export default function PosologyTable({
 }: PosologyTableProps) {
 	return (
 		<StyledTableContainer>
-			<Table
-				size="small"
-				// sx={{ minWidth: 600 }}
-			>
+			<Table size="small">
 				<PosologyHead substanceUnit={substanceUnit} />
 				<TableBody>
 					{posology.map((row, index) => (
