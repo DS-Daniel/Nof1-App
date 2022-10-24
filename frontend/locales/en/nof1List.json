@@ -28,7 +28,8 @@
 		"draft": "Edit draft",
 		"ended": "Results",
 		"ongoing": "Ongoing",
-		"ready": "Start the test"
+		"ready": "Start the test",
+		"preparation": "Start the preparation"
 	},
 	"startingDate": "Test starting date",
 	"endingDate": "Test ending date",

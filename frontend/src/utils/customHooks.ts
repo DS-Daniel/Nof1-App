@@ -61,7 +61,7 @@ export const useEmailInfos = (
 	const msg = useEmailMsg(contact, user.email, user.phone);
 
 	const schemaHeaders = [
-		t('date'),
+		t('day'),
 		t('substance'),
 		t('posology-table.morning'),
 		t('posology-table.fraction'),
@@ -204,6 +204,8 @@ ${greetings}
  * Message use the locale of session for translation.
  * @param link URL link to the health logbook.
  * @param nof1Physician Physician's information.
+ * @param startDate Test start date.
+ * @param endDate Test end date.
  * @returns An object containing the message as plain text and html.
  */
 export const usePatientEmailMsg = (link: string, nof1Physician: Physician, startDate: string, endDate: string) => {

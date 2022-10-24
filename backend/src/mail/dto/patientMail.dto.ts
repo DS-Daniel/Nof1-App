@@ -24,7 +24,7 @@ export class PatientMailDto {
   dest: string;
 
   /**
-   * Token expiration limit for the patient url.
+   * Expiration date of the token for the patient's url.
    * Protect API routes and forbid access after expiration.
    */
   @IsInt()
@@ -32,7 +32,7 @@ export class PatientMailDto {
   tokenExp: number;
 
   /**
-   * Identifies the time before which the JWT must not be accepted for processing.
+   * Identifies the date before which the JWT must not be accepted for processing.
    * Protect API routes and forbid access before the right date.
    */
   @IsInt()

@@ -4,6 +4,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { AdministrationSchema } from '../../entities/nof1Test';
 import ReadOnlyTableWPages from '../common/table/ReadOnlyTableWPages';
 import ExportToolbar from '../../components/results/ExportToolbar';
+import dayjs from 'dayjs';
 
 /**
  * Helper method to render a TableCell component.
@@ -22,12 +23,17 @@ const renderTableCell = (idx: number, value: string) => {
 /**
  * Generate the row of the table.
  * @param schema Administration schema.
+ * @param startDate Test start date.
  * @returns An array of table row (TableCell array).
  */
-const generateRows = (schema: AdministrationSchema) => {
+const generateRows = (schema: AdministrationSchema, startDate: Date) => {
 	return schema.map((row, idx) => [
 		// using idx for key properties (of list of elements)
-		renderTableCell(idx, row.date),
+		renderTableCell(
+			idx,
+			dayjs(startDate).add(row.day, 'day').toDate().toLocaleDateString(),
+		),
+		// renderTableCell(idx, row.date),
 		renderTableCell(++idx, row.substance),
 		renderTableCell(++idx, row.morning.toString()),
 		renderTableCell(++idx, row.morningFraction.toString()),
@@ -43,12 +49,16 @@ const generateRows = (schema: AdministrationSchema) => {
 
 interface Props {
 	administrationSchema: AdministrationSchema;
+	startDate: Date;
 }
 
 /**
  * Table component to display the administration schema.
  */
-export default function AdministrationTable({ administrationSchema }: Props) {
+export default function AdministrationTable({
+	administrationSchema,
+	startDate,
+}: Props) {
 	const { t } = useTranslation('common');
 	const headers = [
 		t('date'),
@@ -77,7 +87,7 @@ export default function AdministrationTable({ administrationSchema }: Props) {
 			/>
 			<ReadOnlyTableWPages
 				headers={headers}
-				rows={generateRows(administrationSchema)}
+				rows={generateRows(administrationSchema, startDate)}
 				emptyCellHeight={33}
 			/>
 		</>

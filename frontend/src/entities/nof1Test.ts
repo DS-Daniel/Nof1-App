@@ -30,7 +30,9 @@ export interface Nof1Test {
 }
 
 export type AdministrationSchema = ({
-	date: string;
+	// date: string;
+	// day: number;
 	substance: string;
 	unit: string;
-} & Omit<PosologyDay, 'day'>)[];
+} & PosologyDay)[];
+// } & Omit<PosologyDay, 'day'>)[];
