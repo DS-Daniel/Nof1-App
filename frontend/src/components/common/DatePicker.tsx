@@ -1,10 +1,11 @@
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import TextField from '@mui/material/TextField';
 import useTranslation from 'next-translate/useTranslation';
 import dayjs from 'dayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import 'dayjs/locale/fr';
 
 interface CustomDatePickerProps {
 	value: dayjs.Dayjs | null;
@@ -21,16 +22,17 @@ export default function CustomDatePicker({
 	const { t, lang } = useTranslation('nof1List');
 
 	return (
-		<LocalizationProvider dateAdapter={AdapterDayjs}>
-			<DesktopDatePicker
+		<LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={lang}>
+			<DatePicker
 				label={t('startingDate')}
-				inputFormat={lang === 'fr' ? 'DD.MM.YYYY' : 'MM.DD.YYYY'}
 				value={value}
 				minDate={dayjs()}
 				onChange={(newValue) => {
 					setValue(newValue);
 				}}
-				renderInput={(params) => <TextField size="small" {...params} />}
+				renderInput={(params) => (
+					<TextField size="small" sx={{ width: 210 }} {...params} />
+				)}
 			/>
 		</LocalizationProvider>
 	);
