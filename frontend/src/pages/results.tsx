@@ -168,6 +168,7 @@ export default function Results() {
 							<Paper>
 								<AdministrationTable
 									administrationSchema={getAdministrationSchema(test)}
+									startDate={test.beginningDate!}
 								/>
 							</Paper>
 

@@ -28,7 +28,8 @@
 		"draft": "Reprendre le brouillon",
 		"ended": "Résultat",
 		"ongoing": "En cours",
-		"ready": "Démarrer le test"
+		"ready": "Démarrer le test",
+		"preparation": "Démarrer la préparation"
 	},
 	"startingDate": "Date de début du test",
 	"endingDate": "Date de fin du test",

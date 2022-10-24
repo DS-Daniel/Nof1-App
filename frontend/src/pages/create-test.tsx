@@ -93,7 +93,7 @@ export default function CreateTest() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [router.isReady, userContext]);
 
-	// to fix scroll going to the middle of page when editing or crating from template
+	// to fix scroll going to the middle of page when editing or creating from template
 	useEffect(() => {
 		const timer = setTimeout(
 			() =>
@@ -172,9 +172,9 @@ export default function CreateTest() {
 	/**
 	 * Handle the click on the create new test button.
 	 */
-	const handleReady = () => {
+	const handleCreation = () => {
 		const testData: Nof1Test = {
-			status: TestStatus.Ready,
+			status: TestStatus.Preparation,
 			...generateNof1TestData(),
 		};
 		createOrUpdateNof1(testData);
@@ -221,7 +221,7 @@ export default function CreateTest() {
 					<Button variant="contained" onClick={handleDraft}>
 						{t('draftBtn')}
 					</Button>
-					<Button variant="contained" onClick={handleReady}>
+					<Button variant="contained" onClick={handleCreation}>
 						{t('createBtn')}
 					</Button>
 				</Stack>

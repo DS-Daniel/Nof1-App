@@ -481,8 +481,10 @@ export const sendPharmaEmail = async (
  * @param token JWT API authorization token.
  * @param msg Email message in text and HTML format.
  * @param dest Recipient.
- * @param tokenExp String indicating the expiration delay of the
+ * @param tokenExp Unix date indicating the expiration date of the
  * access token for the health variables data page.
+ * @param notBefore Unix date indicating the date of the access token
+ * validity for the health variables data page.
  * @returns An object of type { success: boolean, msg: string }.
  */
 export const sendPatientEmail = async (
@@ -492,7 +494,8 @@ export const sendPatientEmail = async (
 		html: string;
 	},
 	dest: string,
-	tokenExp: string,
+	tokenExp: number,
+	notBefore: number,
 ): Promise<{
 	success: boolean;
 	msg: string;
@@ -501,6 +504,7 @@ export const sendPatientEmail = async (
 		msg,
 		dest,
 		tokenExp,
+		notBefore,
 	};
 	const { response } = await apiCall(token, body, 'POST', '/mail/patient');
 	return response;

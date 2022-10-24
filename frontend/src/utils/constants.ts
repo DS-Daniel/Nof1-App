@@ -15,6 +15,7 @@ export const textareaRegex = /^[\w\s,.:;'"\/+\?!#\-()À-ÖØ-öø-ÿ]*$/;
 // ENUMS
 export enum TestStatus {
 	Draft = 'draft',
+	Preparation = 'preparation',
 	Ready = 'ready',
 	Ongoing = 'ongoing',
 	Ended = 'ended',

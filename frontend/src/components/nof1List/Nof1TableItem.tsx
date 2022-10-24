@@ -8,6 +8,7 @@ import DraftOptions from './options/DraftOptions';
 import Stack from '@mui/material/Stack';
 import { Nof1Test } from '../../entities/nof1Test';
 import { useState } from 'react';
+import PreparationOptions from './options/PreparationOptions';
 
 interface TableItemProps {
 	item: Nof1Test;
@@ -38,6 +39,8 @@ export default function Nof1TableItem({ item, labelId }: TableItemProps) {
 				return <OngoingOptions item={test} setItem={setTest} />;
 			case TestStatus.Ready:
 				return <ReadyOptions item={test} setItem={setTest} />;
+			case TestStatus.Preparation:
+				return <PreparationOptions item={test} setItem={setTest} />;
 		}
 	};
 

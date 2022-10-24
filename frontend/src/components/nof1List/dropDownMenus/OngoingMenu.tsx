@@ -48,6 +48,11 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 			process.env.NEXT_PUBLIC_APP_URL
 		}${lang}/import-data/patient?id=${item.uid!}&token=TOKEN`,
 		item.nof1Physician,
+		dayjs(item.beginningDate).toDate().toLocaleDateString(),
+		dayjs(item.endingDate)
+			.add(tokenExpMargin, 'day')
+			.toDate()
+			.toLocaleDateString(),
 	);
 
 	/**
@@ -100,18 +105,19 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 			});
 		}
 
-		// re-calculate the right expiration starting date, if an email is sent afterward.
-		const startExp = dayjs().isAfter(dayjs(item.beginningDate))
-			? dayjs()
-			: dayjs(item.beginningDate);
-		const tokenExp =
-			dayjs(item.endingDate).diff(startExp, 'day') + 1 + tokenExpMargin;
+		const tokenExp = dayjs(item.endingDate)
+			.startOf('day')
+			.add(tokenExpMargin, 'day')
+			.unix();
+		const notBefore = dayjs(item.beginningDate).startOf('day').unix();
 		const response = await sendPatientEmail(
 			userContext.access_token,
 			patientEmailMsg,
 			email,
-			`${tokenExp} days`,
+			tokenExp,
+			notBefore,
 		);
+
 		if (response.success) {
 			setOpenEmailSuccessSB(true);
 		} else {

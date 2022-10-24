@@ -5,6 +5,7 @@ export const streetRegex = /^\d*[A-Za-z' ,.\-à-öù-ÿ]+\d*$/gm;
 // ENUMS
 export enum TestStatus {
   Draft = 'draft',
+  Preparation = 'preparation',
   Ready = 'ready',
   Ongoing = 'ongoing',
   Ended = 'ended',

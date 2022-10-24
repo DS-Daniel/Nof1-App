@@ -13,7 +13,8 @@
 	},
   "patient": {
 		"intro": "Vous trouverez ci-dessous un lien vous permettant d'accéder au carnet de relevés des paramètres de santé concernant votre test thérapeutique. Merci de bien vouloir le remplir quotidiennement.",
-		"link": "Lien du formulaire:",
+		"link": "Le formulaire sera accessible du {{startDate}} au {{endDate}}.",
+		"link2": "Lien du formulaire:",
 		"contact": "En cas de question, utilisez les informations de contact ci-dessous:",
 		"contact-name": "Médecin: {{name}}",
 		"contact-email": "Adresse e-mail: {{email}}",
