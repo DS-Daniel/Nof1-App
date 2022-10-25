@@ -4,7 +4,7 @@ import { Nof1Test } from '../../../entities/nof1Test';
 import MenuContainer from '../../common/MenuContainer';
 import RecapModal from '../recapModal';
 import HealthLogbookModal from '../healthLogbookModal';
-import { useEmailInfos, usePatientEmailMsg } from '../../../utils/customHooks';
+import { usePharmaEmailInfos, usePatientEmailMsg } from '../../../utils/customHooks';
 import {
 	sendPatientEmail,
 	sendPharmaEmail,
@@ -42,7 +42,7 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 		physicianInfos,
 		nof1PhysicianInfos,
 		msg,
-	} = useEmailInfos(item.patient, item.physician, item.nof1Physician);
+	} = usePharmaEmailInfos(item.patient, item.physician, item.nof1Physician);
 	const patientEmailMsg = usePatientEmailMsg(
 		`${
 			process.env.NEXT_PUBLIC_APP_URL
@@ -84,6 +84,7 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 			},
 			msg,
 			email,
+			t('mail:pharma.subject'),
 		);
 		if (response.success) {
 			setOpenEmailSuccessSB(true);
@@ -114,6 +115,7 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 			userContext.access_token,
 			patientEmailMsg,
 			email,
+			t('mail:patient.subject'),
 			tokenExp,
 			notBefore,
 		);

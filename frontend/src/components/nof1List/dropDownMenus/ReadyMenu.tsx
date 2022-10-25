@@ -4,7 +4,7 @@ import { Nof1Test } from '../../../entities/nof1Test';
 import MenuContainer from '../../common/MenuContainer';
 import RecapModal from '../recapModal';
 import DeleteDialog from './DeleteDialog';
-import { useEmailInfos } from '../../../utils/customHooks';
+import { usePharmaEmailInfos } from '../../../utils/customHooks';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import { sendPharmaEmail, updateNof1Test } from '../../../utils/apiCalls';
 import { substancesRecap } from '../../../utils/nof1-lib/lib';
@@ -34,7 +34,7 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 		physicianInfos,
 		nof1PhysicianInfos,
 		msg,
-	} = useEmailInfos(item.patient, item.physician, item.nof1Physician);
+	} = usePharmaEmailInfos(item.patient, item.physician, item.nof1Physician);
 
 	const menuItems = [
 		{
@@ -87,6 +87,7 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 			},
 			msg,
 			email,
+			t('mail:pharma.subject'),
 		);
 		if (response.success) {
 			setOpenEmailSuccessSB(true);

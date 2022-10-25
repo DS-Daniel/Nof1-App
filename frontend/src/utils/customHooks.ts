@@ -51,14 +51,14 @@ export const usePredefinedHealthVariables: () => Variable[] = () => {
  * @param user User information.
  * @returns An object containing all information needed to be sent.
  */
-export const useEmailInfos = (
+export const usePharmaEmailInfos = (
 	patient: Patient,
 	physician: Physician,
 	user: Physician,
 ) => {
 	const { t } = useTranslation('common');
 	const contact = `${user.lastname} ${user.firstname}`;
-	const msg = useEmailMsg(contact, user.email, user.phone);
+	const msg = usePharmaEmailMsg(contact, user.email, user.phone);
 
 	const schemaHeaders = [
 		t('day'),
@@ -149,7 +149,7 @@ export const useEmailInfos = (
  * @param phone Phone of the contact.
  * @returns An object containing the message as plain text and html.
  */
-const useEmailMsg = (contact: string, contactEmail: string, phone: string) => {
+const usePharmaEmailMsg = (contact: string, contactEmail: string, phone: string) => {
 	const { t } = useTranslation('mail');
 	const warning = t('warning');
 	const hello = t('hello');

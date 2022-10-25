@@ -1,28 +1,7 @@
-import {
-  IsEmail,
-  IsInt,
-  IsNotEmpty,
-  IsNotEmptyObject,
-  IsObject,
-} from 'class-validator';
+import { IsInt, IsNotEmpty } from 'class-validator';
+import { MailDto } from './mail.dto';
 
-export class PatientMailDto {
-  /**
-   * Message to include into the email.
-   */
-  @IsObject()
-  @IsNotEmptyObject()
-  msg: {
-    text: string;
-    html: string;
-  };
-
-  /**
-   * Destination email.
-   */
-  @IsEmail()
-  dest: string;
-
+export class PatientMailDto extends MailDto {
   /**
    * Expiration date of the token for the patient's url.
    * Protect API routes and forbid access after expiration.

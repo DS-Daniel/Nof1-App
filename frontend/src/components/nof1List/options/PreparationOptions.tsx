@@ -15,7 +15,7 @@ import {
 	selectRandomPosology,
 	substancesRecap,
 } from '../../../utils/nof1-lib/lib';
-import { useEmailInfos } from '../../../utils/customHooks';
+import { usePharmaEmailInfos } from '../../../utils/customHooks';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import CircularProgress from '@mui/material/CircularProgress';
 import PreparationMenu from '../dropDownMenus/PreparationMenu';
@@ -44,7 +44,7 @@ export default function PreparationOptions({
 		physicianInfos,
 		nof1PhysicianInfos,
 		msg,
-	} = useEmailInfos(item.patient, item.physician, item.nof1Physician);
+	} = usePharmaEmailInfos(item.patient, item.physician, item.nof1Physician);
 
 	/**
 	 * Triggers the generation of the randomized parameters of the test.
@@ -93,6 +93,7 @@ export default function PreparationOptions({
 			},
 			msg,
 			test.pharmaEmail,
+			t('mail:pharma.subject'),
 		);
 
 		if (response.success) {

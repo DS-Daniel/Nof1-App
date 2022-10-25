@@ -68,6 +68,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 			userContext.access_token,
 			patientEmailMsg,
 			test.patient.email,
+			t('mail:patient.subject'),
 			tokenExp,
 			notBefore,
 		);
