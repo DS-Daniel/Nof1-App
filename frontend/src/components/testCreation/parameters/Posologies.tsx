@@ -58,6 +58,7 @@ export default function Posologies({
 	// 			posologyDayIndex
 	// 		][property as keyof PosologyDay] = value;
 	// 		return newData;
+	// 		// TODO update repeatLast too
 	// 	});
 	// };
 	console.log('poso', allPosologies);

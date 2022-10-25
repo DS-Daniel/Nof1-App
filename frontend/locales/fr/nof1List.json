@@ -15,14 +15,16 @@
 	"headerState": "Statut",
 	"optionsMenu": "Options",
 	"menu": {
-		"parameters": "Consulter les paramètres",
-		"dataImport": "Importer les données patient",
-		"xmlExport": "Exporter en XML",
-		"varBooklet": "Carnet des variables patient",
+		"parameters": "Consulter les paramètres du test",
+		"dataImport": "Importer les données du patient",
+		"xmlExport": "Exporter les données du test en XML",
+		"varBooklet": "Générer le carnet de santé du patient",
 		"varBooklet-preview": "Aperçu du carnet de relevés des variables (date actuelle)",
 		"send-email-pharma": "Renvoyer l'e-mail à la pharmacie",
-		"send-email-patient" : "Renvoyer l'e-mail au patient",
-		"delete-test": "Supprimer le test"
+		"send-email-patient": "Renvoyer l'e-mail au patient",
+		"delete-test": "Supprimer le test",
+		"xlsx-exemple": "Télécharger un exemple du fichier envoyé à la pharmacie",
+		"xlsx-exemple-info": "Le fichier envoyé à la pharmacy ne sera pas le même (il sera généré à nouveau)."
 	},
 	"btnStatus": {
 		"draft": "Reprendre le brouillon",

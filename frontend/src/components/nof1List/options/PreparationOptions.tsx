@@ -156,7 +156,15 @@ export default function PreparationOptions({
 				<OptionBtn variant="outlined" onClick={handleEdit}>
 					{t('btn.edit')}
 				</OptionBtn>
-				<PreparationMenu item={item} />
+				<PreparationMenu
+					item={item}
+					xlsxData={{
+            patientInfos,
+						physicianInfos,
+						nof1PhysicianInfos,
+						schemaHeaders,
+					}}
+				/>
 			</Stack>
 			<EmailConfirmDialog
 				open={openEmailDialog}

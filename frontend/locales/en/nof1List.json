@@ -15,14 +15,16 @@
 	"headerState": "State",
 	"optionsMenu": "Options",
 	"menu": {
-		"parameters": "Consult parameters",
-		"dataImport": "Import patient data",
-		"xmlExport": "XML Export",
-		"varBooklet": "Patient variables logbook",
+		"parameters": "Consult the test parameters",
+		"dataImport": "Import patient's data",
+		"xmlExport": "Export test data to XML",
+		"varBooklet": "Generate the patient's health booklet.",
 		"varBooklet-preview": "Preview of patient variables logbook (current date)",
 		"send-email-pharma": "Resend the email to the pharmacy",
 		"send-email-patient": "Resend the email to the patient",
-		"delete-test": "Delete the test"
+		"delete-test": "Delete the test",
+		"xlsx-exemple": "Download an example of the file sent to the pharmacy",
+		"xlsx-exemple-info": "The file sent to the pharmacy will not be the same (it will be generated again)."
 	},
 	"btnStatus": {
 		"draft": "Edit draft",
