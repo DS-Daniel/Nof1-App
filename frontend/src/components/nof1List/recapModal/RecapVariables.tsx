@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Variable, VariableType } from '../../../entities/variable';
 import useTranslation from 'next-translate/useTranslation';
 import {
-	OrangeTableHead,
+	ThemedTableHead,
 	StyledTableContainer,
 } from '../../common/table/customTableComponents';
 
@@ -49,7 +49,7 @@ export default function RecapVariables({ variables }: RecapVariablesProps) {
 			<Typography variant="h5">{t('variables.title')}</Typography>
 			<StyledTableContainer>
 				<Table size="small">
-					<OrangeTableHead>
+					<ThemedTableHead>
 						<TableRow>
 							{varTableHeaders.map((header, index) => (
 								<TableCell key={`var-header-${index}`} align="center">
@@ -59,7 +59,7 @@ export default function RecapVariables({ variables }: RecapVariablesProps) {
 								</TableCell>
 							))}
 						</TableRow>
-					</OrangeTableHead>
+					</ThemedTableHead>
 					<TableBody>
 						{variables.map((variable) => (
 							// iterate over object properties does not guarantee right ordering

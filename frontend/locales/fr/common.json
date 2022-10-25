@@ -48,7 +48,8 @@
 		"add": "Ajouter",
 		"cancel": "Annuler",
 		"saveDataBtn": "Enregistrer",
-		"send": "Envoyer"
+		"send": "Envoyer",
+    "delete": "Supprimer"
 	},
 	"measure-unit-label": "Unité de mesure",
 	"posology-table": {

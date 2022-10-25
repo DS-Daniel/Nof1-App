@@ -32,7 +32,7 @@
 		"posology-repeat-switch": "Repeat the last day's dosage for the next period, if two consecutive periods involve the same substance.",
 		"add-posology-btn": "Add a posology",
 		"save-posology-btn": "Save posology",
-		"warning-save-posology": "(Don't forget to save after the modifications, otherwise the changes will not be taken into account)",
+		"warning-save-posology": "(Don't forget to save the modifications, otherwise they won't be taken into account)",
 		"config-posology-btn": "Configure posologies*",
 		"warning-config-posology": "(*Set up the substances and the duration of the test before setting up the dosages. You will not be able to change these after clicking on the button.)"
 	},

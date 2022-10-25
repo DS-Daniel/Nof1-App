@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {
-	OrangeTableHead,
+	ThemedTableHead,
 	StyledTableContainer,
 } from '../../common/table/customTableComponents';
 
@@ -51,7 +51,7 @@ export default function VarTable({ rows, removeRow }: VarTableProps) {
 		<Box sx={{ width: '100%', my: '2rem' }}>
 			<StyledTableContainer>
 				<Table>
-					<OrangeTableHead>
+					<ThemedTableHead>
 						<TableRow>
 							{headers.map((header, index) => (
 								<TableCell key={`var-header-${index}`} align="center">
@@ -61,7 +61,7 @@ export default function VarTable({ rows, removeRow }: VarTableProps) {
 								</TableCell>
 							))}
 						</TableRow>
-					</OrangeTableHead>
+					</ThemedTableHead>
 					<TableBody>
 						{rows.map((variable, index) => (
 							// iterate over object properties does not guarantee right ordering

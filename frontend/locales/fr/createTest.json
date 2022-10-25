@@ -32,7 +32,7 @@
 		"posology-repeat-switch": "Répéter la posologie du dernier jour pour la période suivante, si deux périodes consécutives concernent la même substance.",
 		"add-posology-btn": "Ajouter une posologie",
 		"save-posology-btn": "Sauvegarder la posologie",
-		"warning-save-posology": "(N'oubliez pas de sauvegarder après les modifications, sinon les changements ne seront pas pris en compte)",
+		"warning-save-posology": "(N'oubliez pas de sauvegarder les modifications, sinon elles ne seront pas prises en compte)",
 		"config-posology-btn": "Configurer les posologies*",
 		"warning-config-posology": "(*Paramétrez les substances et la durée des périodes avant de configurer les posologies. Vous ne pourrez plus modifier ceux-ci après avoir cliqué sur le bouton.)"
 	},

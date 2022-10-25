@@ -39,9 +39,11 @@ export default function Substances({
 	 * @param idx Index of the substance.
 	 */
 	const removeSubstance = (idx: number) => {
-		const array = [...substances];
-		array.splice(idx, 1);
-		setSubstances(array);
+		setSubstances((prevSubstances) => {
+			const array = [...prevSubstances];
+			array.splice(idx, 1);
+			return array;
+		});
 	};
 
 	/**

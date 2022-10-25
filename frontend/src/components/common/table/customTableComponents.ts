@@ -43,7 +43,7 @@ export const StyledTableContainer = styled(TableContainer)<TableContainerProps>(
 );
 
 // custom TableHead component
-export const OrangeTableHead = styled(TableHead)<TableHeadProps>(
+export const ThemedTableHead = styled(TableHead)<TableHeadProps>(
 	({ theme }) => ({
 		backgroundColor: theme.palette.primary.light,
 	}),

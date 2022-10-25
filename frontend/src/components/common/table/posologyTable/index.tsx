@@ -1,22 +1,24 @@
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import { PosologyDay } from '../../../../entities/posology';
 import PosologyHead from './PosologyHead';
-import { StyledTableContainer } from '../customTableComponents';
+import {
+	StyledTableCell,
+	StyledTableContainer,
+} from '../customTableComponents';
 
 /**
  * Helper method to render a TableCell component.
  * @param value Cell content.
  * @returns The TableCell component.
  */
-const renderTableCell = (value: number) => {
+const renderTableCell = (value: number, borderRight: boolean = false) => {
 	return (
-		<TableCell align="center">
+		<StyledTableCell align="center" borderR={borderRight}>
 			<Typography variant="body2">{value}</Typography>
-		</TableCell>
+		</StyledTableCell>
 	);
 };
 
@@ -40,13 +42,13 @@ export default function PosologyTable({
 					{posology.map((row, index) => (
 						// iterate over object properties does not guarantee right ordering
 						<TableRow key={index}>
-							{renderTableCell(row.day)}
+							{renderTableCell(row.day, true)}
 							{renderTableCell(row.morning)}
-							{renderTableCell(row.morningFraction)}
+							{renderTableCell(row.morningFraction, true)}
 							{renderTableCell(row.noon)}
-							{renderTableCell(row.noonFraction)}
+							{renderTableCell(row.noonFraction, true)}
 							{renderTableCell(row.evening)}
-							{renderTableCell(row.eveningFraction)}
+							{renderTableCell(row.eveningFraction, true)}
 							{renderTableCell(row.night)}
 							{renderTableCell(row.nightFraction)}
 						</TableRow>

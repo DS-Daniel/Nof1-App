@@ -15,7 +15,11 @@ import {
 	numericInputRegex,
 } from '../../../utils/constants';
 import PosologyHead from '../../common/table/posologyTable/PosologyHead';
-import { StyledTableCell, StyledTableContainer, StyledTableRow } from '../../common/table/customTableComponents';
+import {
+	StyledTableCell,
+	StyledTableContainer,
+	StyledTableRow,
+} from '../../common/table/customTableComponents';
 
 type RegisterType =
 	| `${number}`
@@ -33,6 +37,7 @@ interface PosologyTableProps {
 	rows: PosologyDay[];
 	repeatLast: boolean;
 	onSave: (posology: Posology) => void;
+	// onChange: (posologyRow: number, property: string, value: number) => void;
 	substanceUnit: string;
 }
 
@@ -43,6 +48,7 @@ export default function PosologyTable({
 	rows,
 	repeatLast,
 	onSave,
+	// onChange,
 	substanceUnit,
 }: PosologyTableProps) {
 	const [checked, setChecked] = useState(repeatLast);
@@ -71,13 +77,13 @@ export default function PosologyTable({
 		defaultValue: number,
 		borderRight: boolean = false,
 	) => {
+		const [row, property] = name.split('.');
 		return (
 			<StyledTableCell align="center" borderR={borderRight}>
 				<Input
 					size="small"
 					autoFocus
 					id={name}
-					// type="number"
 					disableUnderline
 					inputProps={{
 						min: 0,
@@ -87,6 +93,10 @@ export default function PosologyTable({
 						title: t('common:formErrors.number'),
 					}}
 					defaultValue={defaultValue}
+					// value={defaultValue}
+					// onChange={(e) =>
+					// 	onChange(Number(row), property, Number(e.target.value))
+					// }
 					{...register(name, {
 						valueAsNumber: true,
 						pattern: {
@@ -98,6 +108,8 @@ export default function PosologyTable({
 			</StyledTableCell>
 		);
 	};
+
+	console.log('re-render posoTable');
 
 	return (
 		<>
@@ -147,18 +159,18 @@ export default function PosologyTable({
 						</TableBody>
 					</Table>
 				</StyledTableContainer>
-				<Stack direction="row" alignItems="center" spacing={2} mt={1}>
+				<Stack direction="row" alignItems="center" spacing={2}>
 					<Checkbox
 						checked={checked}
 						onChange={(e) => setChecked(e.target.checked)}
 					/>
 					<Typography>{t('parameters.posology-repeat-switch')}</Typography>
 				</Stack>
-				<Stack direction="row" spacing={2} alignItems="center" mt={1} px={2}>
-					<Button type="submit" variant="outlined">
+				<Stack direction="row" spacing={2} alignItems="center" px={2}>
+					<Button type="submit" variant="contained" size="small">
 						{t('parameters.save-posology-btn')}
 					</Button>
-					<Typography variant="body2">
+					<Typography variant="body2" fontWeight="bold">
 						{t('parameters.warning-save-posology')}
 					</Typography>
 				</Stack>

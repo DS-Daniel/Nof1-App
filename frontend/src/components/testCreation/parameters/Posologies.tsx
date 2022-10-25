@@ -7,8 +7,13 @@ import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
 import { PosologiesProps } from '.';
-import { initialPosology, Posology } from '../../../entities/posology';
+import {
+	initialPosology,
+	Posology,
+	PosologyDay,
+} from '../../../entities/posology';
 import PosologyTable from './PosologyTable';
+import ClearIcon from '@mui/icons-material/Clear';
 
 /**
  * Posologies component. Renders the posologies form tables for each substance.
@@ -23,57 +28,75 @@ export default function Posologies({
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 
 	/**
-	 * Save the new posology.
-	 * @param substance Substance concerned.
+	 * Saves the edited posology.
+	 * @param substanceIndex Substance index.
 	 * @param posology New posology.
-	 * @param position Position of the posology to save.
+	 * @param position Position of the posology to update.
 	 */
 	const savePosology = (
-		substance: string,
+		substanceIndex: number,
 		posology: Posology,
 		position: number,
 	) => {
 		setAllPosologies((prevData) => {
-			const idx = prevData.findIndex((s) => s.substance === substance);
-			if (idx !== -1) {
-				const newData = [...prevData];
-				if (prevData[idx].posologies[position] !== undefined) {
-					// update a posology
-					newData[idx].posologies[position] = posology;
-				} else {
-					// additional posology for a substance
-					const existing = newData[idx].posologies;
-					newData[idx].posologies = [...existing, posology];
-				}
-				return newData;
-			} else {
-				// new substance entry ?
-				// return [...prevData, { substance, posologies: [posology] }];
-				return prevData;
-			}
+			const newData = [...prevData];
+			newData[substanceIndex].posologies[position] = posology;
+			return newData;
 		});
 	};
 
+	// const updatePosologies = (
+	// 	substanceIndex: number,
+	// 	posologyIndex: number,
+	// 	posologyDayIndex: number,
+	// 	property: string,
+	// 	value: number,
+	// ) => {
+	// 	setAllPosologies((prevData) => {
+	// 		const newData = [...prevData];
+	// 		newData[substanceIndex].posologies[posologyIndex].posology[
+	// 			posologyDayIndex
+	// 		][property as keyof PosologyDay] = value;
+	// 		return newData;
+	// 	});
+	// };
+	console.log('poso', allPosologies);
+
 	/**
-	 * Add a new posology table form for a substance.
-	 * @param substanceName Substance name.
+	 * Adds a new posology table form for a substance.
+	 * @param substanceIndex Substance index.
 	 */
-	const addNewPosologyTable = (substanceName: string) => {
+	const addNewPosologyTable = (substanceIndex: number) => {
 		setAllPosologies((prevData) => {
-			const idx = prevData.findIndex((s) => s.substance === substanceName);
-			if (idx !== -1) {
-				const newData = [...prevData];
-				const existing = newData[idx].posologies;
-				newData[idx].posologies = [...existing, initialPosology(periodLen)];
-				return newData;
-			} else {
-				return prevData;
-			}
+			const newData = [...prevData];
+			const existing = prevData[substanceIndex].posologies;
+			newData[substanceIndex].posologies = [
+				...existing,
+				initialPosology(periodLen),
+			];
+			return newData;
 		});
 	};
 
 	/**
-	 * Set the default posologies for all substances.
+	 * Removes a new posology table form for a substance.
+	 * @param substanceIndex Substance index.
+	 */
+	const removePosologyTable = (
+		substanceIndex: number,
+		posologyIndex: number,
+	) => {
+		console.log('idx', posologyIndex);
+		setAllPosologies((prevData) => {
+			const newData = [...prevData];
+			newData[substanceIndex].posologies.splice(posologyIndex, 1);
+			console.log('removed poso', newData);
+			return newData;
+		});
+	};
+
+	/**
+	 * Sets the default posologies for all substances.
 	 */
 	const setDefaultPosologies = () => {
 		const defaultPosologies = substances.map((substance) => ({
@@ -101,32 +124,53 @@ export default function Posologies({
 					</Typography>
 				</Stack>
 			) : (
-				allPosologies.map(({ substance, unit, posologies }, index) => (
-					<Box key={`substance-posology-${index}`}>
+				allPosologies.map(({ substance, unit, posologies }, subIdx) => (
+					<Box key={`substance-posology-${subIdx}`}>
 						<Typography>
 							{t('parameters.substance-x', { substance })}
 						</Typography>
 
-						<Stack alignItems="center" spacing={1}>
-							{posologies.map(({ posology, repeatLast }, idx) => (
-								<Stack key={`substance-posology-data-${idx}`} spacing={1}>
-									<Typography>
-										{t('parameters.posology-x', { x: idx + 1 })}
-									</Typography>
+						<Stack alignItems="center" spacing={2}>
+							{posologies.map(({ posology, repeatLast }, posoIdx) => (
+								<Stack key={`substance-posology-data-${posoIdx}`} spacing={1}>
+									<Stack direction="row" alignItems="center" spacing={2}>
+										<Typography>
+											{t('parameters.posology-x', { x: posoIdx + 1 })}
+										</Typography>
+										{posoIdx > 0 && (
+											<Button
+												size="small"
+												color="error"
+												onClick={() => removePosologyTable(subIdx, posoIdx)}
+												startIcon={<ClearIcon />}
+											>
+												{t('common:button.delete')}
+											</Button>
+										)}
+									</Stack>
 									<PosologyTable
 										rows={posology}
 										repeatLast={repeatLast}
 										onSave={(newPosology) => {
-											savePosology(substance, newPosology, idx);
+											savePosology(subIdx, newPosology, posoIdx);
 											setOpenSnackbar(true);
 										}}
+										// onChange={(posologyRow, property, value) =>
+										// 	updatePosologies(
+										// 		subIdx,
+										// 		posoIdx,
+										// 		posologyRow,
+										// 		property,
+										// 		value,
+										// 	)
+										// }
 										substanceUnit={unit}
 									/>
 								</Stack>
 							))}
 							<Button
-								variant="contained"
-								onClick={() => addNewPosologyTable(substance)}
+								variant="outlined"
+								onClick={() => addNewPosologyTable(subIdx)}
 								sx={{ mx: 'auto' }}
 							>
 								{t('parameters.add-posology-btn')}

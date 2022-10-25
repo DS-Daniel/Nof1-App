@@ -1,7 +1,7 @@
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
-import { OrangeTableHead, StyledTableCell } from '../customTableComponents';
+import { ThemedTableHead, StyledTableCell } from '../customTableComponents';
 
 interface PosologyHeadProps {
 	substanceUnit: string;
@@ -22,7 +22,7 @@ export default function PosologyHead({ substanceUnit }: PosologyHeadProps) {
 	const headers = [t('posology-table.day'), ...col, ...col, ...col, ...col];
 
 	return (
-		<OrangeTableHead>
+		<ThemedTableHead>
 			<TableRow>
 				<StyledTableCell padding="none" borderR></StyledTableCell>
 				{headers0.map((h, idx) => (
@@ -50,6 +50,6 @@ export default function PosologyHead({ substanceUnit }: PosologyHeadProps) {
 					</StyledTableCell>
 				))}
 			</TableRow>
-		</OrangeTableHead>
+		</ThemedTableHead>
 	);
 }
