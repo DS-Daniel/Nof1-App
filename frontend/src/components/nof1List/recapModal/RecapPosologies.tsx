@@ -43,7 +43,7 @@ export default function RecapPosologies({
 								</Typography>
 								<PosologyTable posology={posology} substanceUnit={unit} />
 								<Stack direction="row" alignItems="center" spacing={2}>
-									<Radio checked={repeatLast} />
+									<Radio checked={repeatLast} disableRipple />
 									<Typography>
 										{t('parameters.posology-repeat-switch')}
 									</Typography>

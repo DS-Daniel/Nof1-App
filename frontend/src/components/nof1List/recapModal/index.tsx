@@ -18,6 +18,7 @@ import RecapParticipants from './RecapParticipants';
 import RecapRandomStrategy from './RecapRandomStrategy';
 import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
+import RecapClinicalInfo from './RecapClinicalInfo';
 
 /**
  * Modal transition animation.
@@ -74,6 +75,10 @@ export default function RecapModal({ open, setOpen, item }: RecapModalProps) {
 								physician={item.physician}
 								pharmaEmail={item.pharmaEmail}
 							/>
+						</Grid>
+
+						<Grid item xs={12}>
+							<RecapClinicalInfo clinicalInfo={item.clinicalInfo} />
 						</Grid>
 
 						<Grid item xs={12} sm={6}>
