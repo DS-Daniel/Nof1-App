@@ -64,5 +64,28 @@
 		"var-remarks": "General remarks",
 		"var-remarks-desc": "General remarks.",
 		"modal-title": "Parameters of the variable to monitor"
+	},
+	"clinicalInfo": {
+		"title": "Clinical information",
+		"sex": "Sex",
+		"sex-man": "Man",
+		"sex-woman": "Woman",
+		"age": "Age",
+		"weight": "Weight",
+		"height": "Height",
+		"indication": "Indication for the drug to be tested",
+		"other-diag": "Other important diagnoses",
+		"drugs": "Drug(s) to be tested (INN and dosage)",
+		"other-drugs": "Other current medications (INN and dosage)",
+		"purpose": {
+			"title": "Purpose of the N-of-1 test:",
+			"efficacy": "Assessment of efficacy",
+			"side-effects": "Assessment of side effect(s)",
+			"deprescription": "Deprescription",
+			"dosage": "Searching for a dose",
+			"drugs-choice": "Choice between drugs",
+			"generic-substitution": "Generic/biosimilar substitution",
+			"other": "Other"
+		}
 	}
 }

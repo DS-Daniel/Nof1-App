@@ -64,5 +64,28 @@
 		"var-remarks": "Remarques générales",
 		"var-remarks-desc": "Remarques générales.",
 		"modal-title": "Paramètres de la variable à monitorer"
-	}
+	},
+  "clinicalInfo": {
+    "title": "Informations cliniques",
+    "sex": "Sexe",
+    "sex-man": "Homme",
+    "sex-woman": "Femme",
+    "age": "Âge",
+    "weight": "Poids",
+    "height": "Taille",
+    "indication": "Indication au médicament à tester",
+    "other-diag": "Autres diagnostics importants",
+    "drugs": "Médicament(s) à tester (DCI et posologie)",
+    "other-drugs": "Autres médicaments en cours (DCI et posologie)",
+    "purpose": {
+			"title": "But du test N-of-1 :",
+      "efficacy": "Évaluation de l’efficacité",
+      "side-effects": "Évaluation d’effet(s) secondaire(s)",
+      "deprescription": "Déprescription",
+      "dosage": "Recherche de dose",
+      "drugs-choice": "Choix entre médicaments",
+      "generic-substitution": "Substitution générique/bio-similaire",
+      "other": "Autre"
+		}
+  }
 }

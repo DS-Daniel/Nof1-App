@@ -63,7 +63,7 @@ export default function Substances({
 
 	return (
 		<Stack spacing={2} alignItems="flex-start">
-			<Typography variant="h6">
+			<Typography variant="h6" fontWeight="bold">
 				{t('parameters.subtitle-substances')}
 			</Typography>
 			<Typography fontStyle="italic">

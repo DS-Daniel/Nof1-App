@@ -34,7 +34,7 @@
 		"passwordConfirm": "Please confirm your password",
 		"passwordConfirmNoMatch": "Passwords do not match",
 		"number": "Please enter a number (integer or decimal, without space)",
-		"textarea": "Allowed: letters, spaces and the following characters: ',.:;\"/+-?!#()",
+		"textarea": "Allowed: letters, spaces and the following characters: ',.:;\"/+-?!#%()",
 		"digitsRequired": "Only digits (no space)",
 		"digitsMax": "Must be less than 20 digits",
 		"userAlreadyExists": "User already exists !",
@@ -42,7 +42,8 @@
 		"invalidCredentials": "Invalid credentials",
 		"errorMsg": "Please check incorrect fields",
 		"unexpectedErrorMsg": "An error occurred, please try again",
-		"successMsg": "Data have been saved"
+		"successMsg": "Data have been saved",
+		"integerRange": "Must be an integer between 0 and 299 (or empty)"
 	},
 	"button": {
 		"add": "Add",

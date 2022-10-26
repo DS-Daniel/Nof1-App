@@ -34,7 +34,7 @@
 		"passwordConfirm": "Veuillez confirmer votre mot de passe",
 		"passwordConfirmNoMatch": "Le mot de passe ne correspond pas",
 		"number": "Veuillez entrer un nombre (entier ou décimal, sans espace)",
-		"textarea": "Autorisé: lettres, espaces et les caractères suivants: ',.:;\"/+-?!#()",
+		"textarea": "Autorisé: lettres, espaces et les caractères suivants: ',.:;\"/+-?!#%()",
 		"digitsRequired": "Autorisé: chiffres (pas d'espace)",
 		"digitsMax": "Maximum 20 numéros",
 		"userAlreadyExists": "L'utilisateur existe déjà !",
@@ -42,7 +42,8 @@
 		"invalidCredentials": "Identifiants de connexion non valides",
 		"errorMsg": "Veuillez vérifier les champs incorrects",
 		"unexpectedErrorMsg": "Une erreur s'est produite, veuillez réessayer",
-		"successMsg": "Les données ont été enregistrées"
+		"successMsg": "Les données ont été enregistrées",
+    "integerRange": "Doit être un entier entre 0 et 299 (ou vide)"
 	},
 	"button": {
 		"add": "Ajouter",

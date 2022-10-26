@@ -1,5 +1,6 @@
 import { TestStatus } from '../utils/constants';
 import { RandomizationStrategy } from '../utils/nof1-lib/randomizationStrategy';
+import { IClinicalInfo } from './clinicalInfo';
 import { Patient, Physician } from './people';
 import { PosologyDay, SubstancePosologies, SubstancePosology } from './posology';
 import { Substance } from './substance';
@@ -11,6 +12,7 @@ export interface Nof1Test {
 	physician: Physician;
 	nof1Physician: Physician;
 	pharmaEmail: string;
+  clinicalInfo: IClinicalInfo;
 	status: TestStatus;
 	nbPeriods: number;
 	periodLen: number;

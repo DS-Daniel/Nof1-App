@@ -10,6 +10,7 @@ import {
 } from '../../persons/physicians/schemas/physician.schema';
 import {
   AdministrationSchema,
+  ClinicalInfo,
   RandomizationStrategy,
   Substance,
   SubstancePosologies,
@@ -47,6 +48,9 @@ class Nof1Test {
   // where this field is not filled in.
   @Prop()
   pharmaEmail: string;
+
+  @Prop({ type: Object, required: true })
+  clinicalInfo: ClinicalInfo;
 
   @Prop({ type: String, required: true, enum: Object.values(TestStatus) })
   status: TestStatus;

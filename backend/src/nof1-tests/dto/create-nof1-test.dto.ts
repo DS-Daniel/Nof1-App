@@ -1,5 +1,6 @@
 import {
   AdministrationSchema,
+  ClinicalInfo,
   RandomizationStrategy,
   Substance,
   SubstancePosologies,
@@ -44,6 +45,10 @@ export class CreateNof1TestDto {
   // where this field is not filled in and can be further edited.
   @IsEmail()
   pharmaEmail: string;
+
+  @IsObject()
+  @ValidateNested()
+  clinicalInfo: ClinicalInfo;
 
   @IsEnum(TestStatus)
   status: TestStatus;

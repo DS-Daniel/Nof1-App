@@ -1,6 +1,12 @@
-import { object, string } from 'zod';
+import { boolean, object, string } from 'zod';
 import useTranslation from 'next-translate/useTranslation';
-import { oneDigitOrSpecialRegex, oneLowerRegex, oneUpperRegex } from './constants';
+import {
+	oneDigitOrSpecialRegex,
+	oneLowerRegex,
+	oneUpperRegex,
+	smallNumberRange,
+	textareaRegex,
+} from './constants';
 
 /**
  * Returns a Zod validation schema for user registration form.
@@ -151,5 +157,31 @@ export function useEmailSchema() {
 		email: string()
 			.min(1, t('formErrors.requiredField'))
 			.email(t('formErrors.emailInvalid')),
+	});
+}
+
+/**
+ * Returns a Zod validation schema for the clinical information form.
+ */
+export function useClinicalInfoSchema() {
+	const { t } = useTranslation('common');
+	return object({
+		sex: string(),
+		age: string().regex(smallNumberRange, t('formErrors.integerRange')),
+		weight: string().regex(smallNumberRange, t('formErrors.integerRange')),
+		height: string().regex(smallNumberRange, t('formErrors.integerRange')),
+		indication: string().regex(textareaRegex, t('formErrors.textarea')),
+		otherDiag: string().regex(textareaRegex, t('formErrors.textarea')),
+		drugs: string().regex(textareaRegex, t('formErrors.textarea')),
+		otherDrugs: string().regex(textareaRegex, t('formErrors.textarea')),
+		purpose: object({
+			efficacy: boolean(),
+			sideEffects: boolean(),
+			deprescription: boolean(),
+			dosage: boolean(),
+			drugsChoice: boolean(),
+			genericSubstitutions: boolean(),
+			other: boolean(),
+		}),
 	});
 }

@@ -113,7 +113,9 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 	return (
 		<Paper sx={{ p: 3, width: '100%' }}>
 			<Stack spacing={3}>
-				<Typography variant="h5">{t('variables.title')}</Typography>
+				<Typography variant="h5" fontWeight="bold">
+					{t('variables.title')}
+				</Typography>
 
 				<VarTable rows={variables} removeRow={removeVariable} />
 

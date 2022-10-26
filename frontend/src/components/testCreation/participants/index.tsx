@@ -32,7 +32,9 @@ export default function Participants({
 		<Paper sx={{ p: 3, width: '100%' }}>
 			<Grid container spacing={3}>
 				<Grid item xs={12}>
-					<Typography variant="h5">{t('participants.title')}</Typography>
+					<Typography variant="h5" fontWeight="bold">
+						{t('participants.title')}
+					</Typography>
 				</Grid>
 				<Grid item xs={12} sm={4}>
 					<PatientForm

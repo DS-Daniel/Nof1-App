@@ -64,13 +64,13 @@ export default function TestParameters({
 		<Paper sx={{ p: 3, width: '100%' }}>
 			<Grid container rowSpacing={2}>
 				<Grid item xs={12}>
-					<Typography variant="h5" mb={2}>
+					<Typography variant="h5" fontWeight="bold">
 						{t('parameters.title')}
 					</Typography>
 				</Grid>
 
 				<Grid item xs={12} sm={6}>
-					<Typography variant="h6">
+					<Typography variant="h6" fontWeight="bold">
 						{t('parameters.subtitle-duration')}
 					</Typography>
 					<Stack direction="row" alignItems="center" spacing={3} my={2}>
@@ -122,7 +122,7 @@ export default function TestParameters({
 				</Grid>
 
 				<Grid item xs={12}>
-					<Typography variant="h6">
+					<Typography variant="h6" fontWeight="bold">
 						{t('parameters.subtitle-posology')}
 					</Typography>
 					<Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>

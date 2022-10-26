@@ -27,6 +27,8 @@ import {
 } from '../utils/apiCalls';
 import { useRouter } from 'next/router';
 import Skeleton from '@mui/material/Skeleton';
+import ClinicalInfo from '../components/testCreation/clinicalInfo';
+import { defaultClinicalInfo, IClinicalInfo } from '../entities/clinicalInfo';
 
 const emptySubstance = {
 	name: '',
@@ -57,6 +59,8 @@ export default function CreateTest() {
 	const [variables, setVariables] = useState<Variable[]>([]);
 	const [allPosologies, setAllPosologies] = useState<SubstancePosologies[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [clinicalInfo, setClinicalInfo] =
+		useState<IClinicalInfo>(defaultClinicalInfo);
 
 	// fill parameters in case of test edit or "new from template"
 	useEffect(() => {
@@ -68,6 +72,7 @@ export default function CreateTest() {
 			pharmaEmail.current = test.pharmaEmail;
 			physician.current = test.physician;
 			patient.current = test.patient;
+			setClinicalInfo(test.clinicalInfo);
 			setSubstances(test.substances);
 			setNbPeriods(test.nbPeriods);
 			setPeriodLen(test.periodLen);
@@ -135,6 +140,7 @@ export default function CreateTest() {
 			physician: physician.current,
 			nof1Physician: userContext.user!,
 			pharmaEmail: pharmaEmail.current,
+			clinicalInfo,
 			nbPeriods,
 			periodLen,
 			randomization: { strategy },
@@ -230,6 +236,11 @@ export default function CreateTest() {
 					pharmaEmail={pharmaEmail}
 					patient={patient}
 					physician={physician}
+				/>
+
+				<ClinicalInfo
+					clinicalInfo={clinicalInfo}
+					setClinicalInfo={setClinicalInfo}
 				/>
 
 				<TestParameters

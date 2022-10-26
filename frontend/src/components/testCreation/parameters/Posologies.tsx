@@ -1,19 +1,14 @@
-import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
 import { PosologiesProps } from '.';
-import {
-	initialPosology,
-	Posology,
-	PosologyDay,
-} from '../../../entities/posology';
+import { initialPosology, Posology } from '../../../entities/posology';
 import PosologyTable from './PosologyTable';
 import ClearIcon from '@mui/icons-material/Clear';
+import SuccessSnackbar from '../../common/SuccessSnackbar';
 
 /**
  * Posologies component. Renders the posologies form tables for each substance.
@@ -127,7 +122,7 @@ export default function Posologies({
 			) : (
 				allPosologies.map(({ substance, unit, posologies }, subIdx) => (
 					<Box key={`substance-posology-${subIdx}`}>
-						<Typography>
+						<Typography fontWeight="bold">
 							{t('parameters.substance-x', { substance })}
 						</Typography>
 
@@ -180,19 +175,11 @@ export default function Posologies({
 					</Box>
 				))
 			)}
-			<Snackbar
+			<SuccessSnackbar
 				open={openSnackbar}
-				autoHideDuration={3000}
-				onClose={() => setOpenSnackbar(false)}
-			>
-				<Alert
-					variant="filled"
-					severity="success"
-					onClose={() => setOpenSnackbar(false)}
-				>
-					{t('common:formErrors.successMsg')}
-				</Alert>
-			</Snackbar>
+				setOpen={setOpenSnackbar}
+				msg={t('common:formErrors.successMsg')}
+			/>
 		</Stack>
 	);
 }

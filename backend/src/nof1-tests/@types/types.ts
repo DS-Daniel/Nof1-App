@@ -77,3 +77,23 @@ export class Substance {
   abbreviation: string;
   unit: string;
 }
+
+export class ClinicalInfo {
+  sex: string;
+  age: string;
+  weight: string;
+  height: string;
+  indication: string;
+  otherDiag: string;
+  drugs: string;
+  otherDrugs: string;
+  purpose: {
+    efficacy: boolean;
+    sideEffects: boolean;
+    deprescription: boolean;
+    dosage: boolean;
+    drugsChoice: boolean;
+    genericSubstitutions: boolean;
+    other: boolean;
+  };
+}

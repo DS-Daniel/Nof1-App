@@ -159,14 +159,14 @@ export default function PosologyTable({
 						</TableBody>
 					</Table>
 				</StyledTableContainer>
-				<Stack direction="row" alignItems="center" spacing={2}>
+				<Stack direction="row" alignItems="center" spacing={2} mt={1}>
 					<Checkbox
 						checked={checked}
 						onChange={(e) => setChecked(e.target.checked)}
 					/>
 					<Typography>{t('parameters.posology-repeat-switch')}</Typography>
 				</Stack>
-				<Stack direction="row" spacing={2} alignItems="center" px={2}>
+				<Stack direction="row" alignItems="center" spacing={2} mt={1} px={2}>
 					<Button type="submit" variant="contained" size="small">
 						{t('parameters.save-posology-btn')}
 					</Button>
