@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { formatRegisterData } from '../utils/dataFormConvertor';
@@ -141,7 +140,7 @@ export default function SignUp({ login }: SignUpProps) {
 								{...register('street')}
 							/>
 						</Grid>
-						<Grid item xs={12} sm={4}>
+						<Grid item xs={12} sm={5}>
 							<TextField
 								required
 								fullWidth
@@ -152,7 +151,7 @@ export default function SignUp({ login }: SignUpProps) {
 								{...register('zip')}
 							/>
 						</Grid>
-						<Grid item xs={12} sm={8}>
+						<Grid item xs={12} sm={7}>
 							<TextField
 								required
 								fullWidth
@@ -161,6 +160,17 @@ export default function SignUp({ login }: SignUpProps) {
 								error={!!errors['city']}
 								helperText={helperText('city')}
 								{...register('city')}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								required
+								fullWidth
+								id="country"
+								label={t('form.country')}
+								error={!!errors['country']}
+								helperText={helperText('country')}
+								{...register('country')}
 							/>
 						</Grid>
 						<Grid item xs={12}>

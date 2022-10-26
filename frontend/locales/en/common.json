@@ -19,6 +19,8 @@
 		"street": "Address",
 		"zip": "Postal code",
 		"city": "City",
+		"country": "Country",
+		"birth-year": "Birth Year",
 		"insurance": "Insurance",
 		"insuranceNb": "Insurance number",
 		"pwd-instructions": "Password requirements:\n- minimum 8 characters\n- minimum 1 upper and 1 lower case letter\n- minimum 1 digit or special character"
@@ -28,6 +30,7 @@
 		"emailInvalid": "Email is malformed",
 		"minLen": "Must be more than 8 characters",
 		"maxLen": "Must be less than 32 characters",
+		"alpha": "Must be alphabetic letters",
 		"oneUpperLetter": "Has at least one uppercase letter",
 		"oneLowerLetter": "Has at least one lowercase letter",
 		"oneDigitOrSpecial": "Has at least one digit or one special character",
@@ -43,7 +46,8 @@
 		"errorMsg": "Please check incorrect fields",
 		"unexpectedErrorMsg": "An error occurred, please try again",
 		"successMsg": "Data have been saved",
-		"integerRange": "Must be an integer between 0 and 299 (or empty)"
+		"integerRange": "Must be an integer between 0 and 299 (or empty)",
+		"year": "Year in \"YYYY\" format"
 	},
 	"button": {
 		"add": "Add",

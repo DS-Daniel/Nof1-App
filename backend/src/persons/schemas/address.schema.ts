@@ -5,6 +5,7 @@ export class Address {
   street: string;
   zip: string;
   city: string;
+  country: string;
 }
 
 /**
@@ -15,6 +16,7 @@ export const AddressSchema = new Schema<Address>(
     street: { type: String, required: true, get: decrypt, set: encrypt },
     zip: { type: String, required: true, get: decrypt, set: encrypt },
     city: { type: String, required: true, get: decrypt, set: encrypt },
+    country: { type: String, required: true },
   },
   {
     versionKey: false,

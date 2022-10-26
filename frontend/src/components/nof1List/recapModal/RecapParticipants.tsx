@@ -35,6 +35,19 @@ export default function RecapParticipants({
 			size: 6,
 		},
 		{ name: 'phone', value: patient.phone, label: t('form.phone') },
+		{ name: 'email', value: patient.email, label: t('form.email') },
+		{
+			name: 'birthYear',
+			value: patient.birthYear,
+			label: t('form.birth-year'),
+			size: 5,
+		},
+		{
+			name: 'country',
+			value: patient.address.country,
+			label: t('form.country'),
+			size: 7,
+		},
 		{
 			name: 'street',
 			value: patient.address.street,
@@ -44,26 +57,23 @@ export default function RecapParticipants({
 			name: 'zip',
 			value: patient.address.zip,
 			label: t('form.zip'),
-			size: 4,
+			size: 5,
 		},
 		{
 			name: 'city',
 			value: patient.address.city,
 			label: t('form.city'),
-			size: 8,
+			size: 7,
 		},
-		{ name: 'email', value: patient.email, label: t('form.email') },
 		{
 			name: 'insurance',
 			value: patient.insurance,
 			label: t('form.insurance'),
-			size: 5.5,
 		},
 		{
 			name: 'insuranceNb',
 			value: patient.insuranceNb,
 			label: t('form.insuranceNb'),
-			size: 6.5,
 		},
 	];
 
@@ -81,6 +91,12 @@ export default function RecapParticipants({
 			size: 6,
 		},
 		{ name: 'phone', value: physician.phone, label: t('form.phone') },
+		{ name: 'email', value: physician.email, label: t('form.email') },
+		{
+			name: 'country',
+			value: physician.address.country,
+			label: t('form.country'),
+		},
 		{
 			name: 'street',
 			value: physician.address.street,
@@ -90,15 +106,14 @@ export default function RecapParticipants({
 			name: 'zip',
 			value: physician.address.zip,
 			label: t('form.zip'),
-			size: 4,
+			size: 5,
 		},
 		{
 			name: 'city',
 			value: physician.address.city,
 			label: t('form.city'),
-			size: 8,
+			size: 7,
 		},
-		{ name: 'email', value: physician.email, label: t('form.email') },
 		{
 			name: 'institution',
 			value: physician.institution,

@@ -56,7 +56,7 @@ export default function Posologies({
 	// 		// TODO update repeatLast too
 	// 	});
 	// };
-	console.log('poso', allPosologies);
+	// console.log('poso', allPosologies);
 
 	/**
 	 * Adds a new posology table form for a substance.

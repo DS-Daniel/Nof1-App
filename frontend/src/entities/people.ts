@@ -6,12 +6,14 @@ interface PersonCommon {
 		street: string;
 		zip: string;
 		city: string;
+		country: string;
 	};
 	phone: string;
 	email: string;
 }
 
 export interface Patient extends PersonCommon {
+	birthYear: string;
 	insurance: string;
 	insuranceNb: string;
 }
@@ -32,6 +34,7 @@ export const defaultPhysician = () => {
 			street: '',
 			zip: '',
 			city: '',
+			country: '',
 		},
 		phone: '',
 		email: '',
@@ -50,10 +53,11 @@ export const defaultPatient = () => {
 			street: '',
 			zip: '',
 			city: '',
+			country: '',
 		},
 		phone: '',
 		email: '',
-		institution: '',
+		birthYear: '',
 		insurance: '',
 		insuranceNb: '',
 	};

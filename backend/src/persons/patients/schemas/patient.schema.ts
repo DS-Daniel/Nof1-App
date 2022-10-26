@@ -17,6 +17,9 @@ type PatientDoc = Patient & Document;
 })
 class Patient extends Person {
   @Prop({ required: true, set: encrypt, get: decrypt })
+  birthYear: string;
+
+  @Prop({ required: true, set: encrypt, get: decrypt })
   insurance: string;
 
   @Prop({ required: true, set: encrypt, get: decrypt })

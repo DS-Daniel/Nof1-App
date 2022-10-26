@@ -1,11 +1,13 @@
 import { boolean, object, string } from 'zod';
 import useTranslation from 'next-translate/useTranslation';
 import {
+	alphaRegex,
 	oneDigitOrSpecialRegex,
 	oneLowerRegex,
 	oneUpperRegex,
 	smallNumberRange,
 	textareaRegex,
+	yearRegex,
 } from './constants';
 
 /**
@@ -46,6 +48,7 @@ export type RegisterForm = {
 	street: string;
 	zip: string;
 	city: string;
+	country: string;
 	email: string;
 	password: string;
 	passwordConfirm: string;
@@ -79,6 +82,7 @@ function useCommonSchema() {
 		city: string()
 			.min(1, t('formErrors.requiredField'))
 			.max(32, t('formErrors.maxLen')),
+		country: string().regex(alphaRegex, t('formErrors.alpha')),
 		email: string()
 			.min(1, t('formErrors.requiredField'))
 			.email(t('formErrors.emailInvalid')),
@@ -112,6 +116,7 @@ export type PhysicianFormData = {
 	street: string;
 	zip: string;
 	city: string;
+	country: string;
 	tests?: string[];
 };
 
@@ -124,6 +129,7 @@ export function usePatientSchema() {
 	const common = useCommonSchema();
 
 	return common.extend({
+		birthYear: string().regex(yearRegex, t('formErrors.year')),
 		insurance: string()
 			.min(1, t('formErrors.requiredField'))
 			.max(32, t('formErrors.maxLen')),
@@ -142,7 +148,9 @@ export type PatientFormData = {
 	street: string;
 	zip: string;
 	city: string;
+	country: string;
 	email: string;
+	birthYear: string;
 	insurance: string;
 	insuranceNb: string;
 };

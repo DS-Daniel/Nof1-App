@@ -526,8 +526,9 @@ const toPhysician = (data: any): Physician => {
 		firstname: data.firstname,
 		address: {
 			street: data.address.street,
-			zip: data.address.zip.toString(),
+			zip: data.address.zip,
 			city: data.address.city,
+			country: data.address.country,
 		},
 		phone: data.phone,
 		email: data.email,
@@ -548,11 +549,13 @@ const toPatient = (data: any): Patient => {
 		firstname: data.firstname,
 		address: {
 			street: data.address.street,
-			zip: data.address.zip.toString(),
+			zip: data.address.zip,
 			city: data.address.city,
+			country: data.address.country,
 		},
 		phone: data.phone,
 		email: data.email,
+		birthYear: data.birthYear,
 		insurance: data.insurance,
 		insuranceNb: data.insuranceNb,
 	};
