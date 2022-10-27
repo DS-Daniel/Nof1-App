@@ -4,7 +4,10 @@ import { Nof1Test } from '../../../entities/nof1Test';
 import MenuContainer from '../../common/MenuContainer';
 import RecapModal from '../recapModal';
 import HealthLogbookModal from '../healthLogbookModal';
-import { usePharmaEmailInfos, usePatientEmailMsg } from '../../../utils/customHooks';
+import {
+	usePharmaEmailInfos,
+	usePatientEmailMsg,
+} from '../../../utils/customHooks';
 import {
 	sendPatientEmail,
 	sendPharmaEmail,
@@ -62,9 +65,9 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 	 */
 	const sendPharmaEmailCB = async (email: string) => {
 		// update email if different
-		if (email !== item.pharmaEmail) {
+		if (email !== item.pharmacy.email) {
 			updateNof1Test(userContext.access_token, item.uid!, {
-				pharmaEmail: email,
+				pharmacy: { ...item.pharmacy, email: email },
 			});
 		}
 		const response = await sendPharmaEmail(
@@ -178,7 +181,7 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				open={openPharmaEmailDialog}
 				handleClose={() => setOpenPharmaEmailDialog(false)}
 				handleDialogSubmit={(email) => sendPharmaEmailCB(email)}
-				email={item.pharmaEmail}
+				email={item.pharmacy.email}
 			/>
 			<EmailConfirmDialog
 				open={openPatientEmailDialog}

@@ -67,7 +67,7 @@ export default function PreparationOptions({
 			test.periodLen,
 			test.nbPeriods,
 		);
-		test.pharmaEmail = email;
+		test.pharmacy.email = email;
 		return test;
 	};
 
@@ -92,7 +92,7 @@ export default function PreparationOptions({
 				),
 			},
 			msg,
-			test.pharmaEmail,
+			test.pharmacy.email,
 			t('mail:pharma.subject'),
 		);
 
@@ -171,7 +171,7 @@ export default function PreparationOptions({
 				open={openEmailDialog}
 				handleClose={() => setOpenEmailDialog(false)}
 				handleDialogSubmit={(email) => handleDialogSubmit(email)}
-				email={item.pharmaEmail}
+				email={item.pharmacy.email}
 			/>
 			<FailSnackbar
 				open={openEmailFailSB}

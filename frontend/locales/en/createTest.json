@@ -1,11 +1,13 @@
 {
 	"createBtn": "Validate & create the test",
+	"create-error": "Please complete all parts of the form before validating the test creation",
 	"draftBtn": "Save draft",
+	"draft-error": "Please at least inform the participants",
 	"participants": {
 		"title": "Participants information",
-		"pharmaEmail": "E-mail of partner pharmacy",
+		"pharmacy": "Partner pharmacy",
 		"patientInfo": "Patient",
-		"physicianInfo": "Physician",
+		"physicianInfo": "Attending physician",
 		"findPatient": "Find a patient by ID",
 		"findPhysician": "Find a physician by ID"
 	},

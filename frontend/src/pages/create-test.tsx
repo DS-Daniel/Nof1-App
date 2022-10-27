@@ -4,11 +4,13 @@ import useTranslation from 'next-translate/useTranslation';
 import { Nof1Test } from '../entities/nof1Test';
 import Participants from '../components/testCreation/participants';
 import Stack from '@mui/material/Stack';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
 	defaultPatient,
+	defaultPharmacy,
 	defaultPhysician,
 	Patient,
+	Pharmacy,
 	Physician,
 } from '../entities/people';
 import { useUserContext } from '../context/UserContext';
@@ -29,6 +31,8 @@ import { useRouter } from 'next/router';
 import Skeleton from '@mui/material/Skeleton';
 import ClinicalInfo from '../components/testCreation/clinicalInfo';
 import { defaultClinicalInfo, IClinicalInfo } from '../entities/clinicalInfo';
+import Alert from '@mui/material/Alert';
+import isEqual from 'lodash.isequal';
 
 const emptySubstance = {
 	name: '',
@@ -44,10 +48,10 @@ export default function CreateTest() {
 	const { userContext, setUserContext } = useUserContext();
 	const router = useRouter();
 
-	// Test data.
-	const patient = useRef<Patient>(defaultPatient()); // Ref to avoid countless re-renders.
+	// Test data. Using Ref to avoid countless re-renders.
+	const patient = useRef<Patient>(defaultPatient());
 	const physician = useRef<Physician>(defaultPhysician());
-	const pharmaEmail = useRef('');
+	const pharmacy = useRef<Pharmacy>(defaultPharmacy());
 	const [substances, setSubstances] = useState<Substance[]>([
 		{ ...emptySubstance },
 		{ ...emptySubstance },
@@ -61,15 +65,17 @@ export default function CreateTest() {
 	const [loading, setLoading] = useState(true);
 	const [clinicalInfo, setClinicalInfo] =
 		useState<IClinicalInfo>(defaultClinicalInfo);
+	const [incompleteForm, setIncompleteForm] = useState(false);
+	const [draftError, setDraftError] = useState(false);
 
-	// fill parameters in case of test edit or "new from template"
+	// fills parameters in case of test edit or "new from template"
 	useEffect(() => {
 		async function fetchData(id: string, edit: string) {
 			const test: Nof1Test = await findNof1TestById(
 				userContext.access_token,
 				id,
 			);
-			pharmaEmail.current = test.pharmaEmail;
+			pharmacy.current = test.pharmacy;
 			physician.current = test.physician;
 			patient.current = test.patient;
 			setClinicalInfo(test.clinicalInfo);
@@ -113,7 +119,7 @@ export default function CreateTest() {
 	}, [loading]);
 
 	/**
-	 * Update a user tests array with the newly created.
+	 * Updates a user tests array with the newly created one.
 	 * @param testId Id of the newly created test.
 	 */
 	const updateUserTests = (testId: string) => {
@@ -131,7 +137,7 @@ export default function CreateTest() {
 	};
 
 	/**
-	 * Generate a N-of-1 test from the component data.
+	 * Generates a N-of-1 test from the component data.
 	 * @returns A N-of-1 test object, without the status field.
 	 */
 	const generateNof1TestData = () => {
@@ -139,7 +145,7 @@ export default function CreateTest() {
 			patient: patient.current,
 			physician: physician.current,
 			nof1Physician: userContext.user!,
-			pharmaEmail: pharmaEmail.current,
+			pharmacy: pharmacy.current,
 			clinicalInfo,
 			nbPeriods,
 			periodLen,
@@ -155,7 +161,7 @@ export default function CreateTest() {
 	};
 
 	/**
-	 * Create or update a N-of-1 test according to the query parameters.
+	 * Creates or updates a N-of-1 test according to the query parameters.
 	 * @param testData N-of-1 test.
 	 */
 	const createOrUpdateNof1 = async (testData: Nof1Test) => {
@@ -175,26 +181,57 @@ export default function CreateTest() {
 		router.push('/nof1');
 	};
 
+	const substancesNotFilledIn = useMemo(
+		() =>
+			substances.length < 2 ||
+			substances.some(
+				(e) =>
+					e.name === emptySubstance.name ||
+					e.abbreviation === emptySubstance.abbreviation ||
+					e.unit === emptySubstance.unit,
+			),
+		[substances],
+	);
+	const participantsNotFilledIn = () =>
+		isEqual(patient.current, defaultPatient()) ||
+		isEqual(pharmacy.current, defaultPharmacy()) ||
+		isEqual(physician.current, defaultPhysician());
+	// mutable values doesn't trigger a re-render, thus as
+	// a function call and without useMemo.
+
 	/**
-	 * Handle the click on the create new test button.
+	 * Handles the button's click to create a new test.
 	 */
 	const handleCreation = () => {
-		const testData: Nof1Test = {
-			status: TestStatus.Preparation,
-			...generateNof1TestData(),
-		};
-		createOrUpdateNof1(testData);
+		if (
+			allPosologies.length === 0 ||
+			variables.length === 0 ||
+			substancesNotFilledIn ||
+			participantsNotFilledIn()
+		) {
+			setIncompleteForm(true);
+		} else {
+			const testData: Nof1Test = {
+				status: TestStatus.Preparation,
+				...generateNof1TestData(),
+			};
+			createOrUpdateNof1(testData);
+		}
 	};
 
 	/**
-	 * Handle the click on the create draft button.
+	 * Handles the button's click to create a new draft test.
 	 */
 	const handleDraft = () => {
-		const testData: Nof1Test = {
-			status: TestStatus.Draft,
-			...generateNof1TestData(),
-		};
-		createOrUpdateNof1(testData);
+		if (participantsNotFilledIn()) {
+			setDraftError(true);
+		} else {
+			const testData: Nof1Test = {
+				status: TestStatus.Draft,
+				...generateNof1TestData(),
+			};
+			createOrUpdateNof1(testData);
+		}
 	};
 
 	if (loading) {
@@ -214,26 +251,46 @@ export default function CreateTest() {
 		<AuthenticatedPage>
 			<Stack spacing={3}>
 				<Stack
-					direction="row"
-					justifyContent="center"
 					alignItems="center"
-					spacing={6}
-					paddingY={2}
 					position="sticky"
 					top={0}
 					bgcolor="background.default"
 					zIndex={2}
 				>
-					<Button variant="contained" onClick={handleDraft}>
-						{t('draftBtn')}
-					</Button>
-					<Button variant="contained" onClick={handleCreation}>
-						{t('createBtn')}
-					</Button>
+					<Stack
+						direction={{ xs: 'column', sm: 'row' }}
+						justifyContent="center"
+						spacing={{ xs: 1, sm: 6 }}
+						paddingTop={2}
+						paddingBottom={1}
+					>
+						<Button variant="contained" onClick={handleDraft}>
+							{t('draftBtn')}
+						</Button>
+						<Button variant="contained" onClick={handleCreation}>
+							{t('createBtn')}
+						</Button>
+					</Stack>
+					{incompleteForm && (
+						<Alert
+							severity="error"
+							onClose={() => setIncompleteForm((prevState) => !prevState)}
+						>
+							{t('create-error')}
+						</Alert>
+					)}
+					{draftError && (
+						<Alert
+							severity="error"
+							onClose={() => setDraftError((prevState) => !prevState)}
+						>
+							{t('draft-error')}
+						</Alert>
+					)}
 				</Stack>
 
 				<Participants
-					pharmaEmail={pharmaEmail}
+					pharmacy={pharmacy}
 					patient={patient}
 					physician={physician}
 				/>

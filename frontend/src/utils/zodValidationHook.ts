@@ -156,17 +156,38 @@ export type PatientFormData = {
 };
 
 /**
- * Returns a Zod validation schema for email form.
+ * Returns a Zod validation schema for the pharmacy form.
  * @returns The email form validation schema.
  */
-export function useEmailSchema() {
+export function usePharmacySchema() {
 	const { t } = useTranslation('common');
 	return object({
+		name: string().max(48, t('formErrors.maxLen')),
 		email: string()
 			.min(1, t('formErrors.requiredField'))
 			.email(t('formErrors.emailInvalid')),
+		phone: string()
+			.max(20, t('formErrors.digitsMax'))
+			.regex(/^[0-9]+$/, t('formErrors.digitsRequired')),
+		street: string().max(32, t('formErrors.maxLen')),
+		zip: string()
+			.max(20, t('formErrors.digitsMax'))
+			.regex(/^[0-9]+$/, t('formErrors.digitsRequired')),
+		city: string().max(32, t('formErrors.maxLen')),
+		country: string().regex(alphaRegex, t('formErrors.alpha')),
 	});
 }
+
+export type PharmacyFormData = {
+	_id?: string;
+	name: string;
+	email: string;
+	phone: string;
+	street: string;
+	zip: string;
+	city: string;
+	country: string;
+};
 
 /**
  * Returns a Zod validation schema for the clinical information form.

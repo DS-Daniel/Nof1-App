@@ -1,9 +1,11 @@
 {
 	"createBtn": "Valider et créer le test",
+  "create-error": "Veuillez compléter toutes les parties du formulaire avant de valider la création du test",
 	"draftBtn": "Sauvegarder le brouillon",
+  "draft-error": "Veuillez au moins renseigner les participants",
 	"participants": {
 		"title": "Informations des participants",
-		"pharmaEmail": "E-mail de la pharmacie partenaire",
+		"pharmacy": "Pharmacie partenaire",
 		"patientInfo": "Patient",
 		"physicianInfo": "Médecin traitant",
 		"findPatient": "Trouver un patient par ID",

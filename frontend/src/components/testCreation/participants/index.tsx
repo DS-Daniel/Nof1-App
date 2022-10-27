@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
 import { MutableRefObject } from 'react';
-import { Patient, Physician } from '../../../entities/people';
+import { Patient, Pharmacy, Physician } from '../../../entities/people';
 import {
 	formatPatientDataToForm,
 	formatPhysicianDataToForm,
@@ -13,7 +13,7 @@ import PharmaForm from './PharmaForm';
 import PhysicianForm from './PhysicianForm';
 
 interface ParticipantsProps {
-	pharmaEmail: MutableRefObject<string>;
+	pharmacy: MutableRefObject<Pharmacy>;
 	patient: MutableRefObject<Patient>;
 	physician: MutableRefObject<Physician>;
 }
@@ -22,7 +22,7 @@ interface ParticipantsProps {
  * Participants section component. Renders forms for each participant.
  */
 export default function Participants({
-	pharmaEmail,
+	pharmacy,
 	patient,
 	physician,
 }: ParticipantsProps) {
@@ -49,7 +49,7 @@ export default function Participants({
 					/>
 				</Grid>
 				<Grid item xs={12} sm={4}>
-					<PharmaForm pharmaEmail={pharmaEmail} />
+					<PharmaForm pharmacy={pharmacy} />
 				</Grid>
 			</Grid>
 		</Paper>

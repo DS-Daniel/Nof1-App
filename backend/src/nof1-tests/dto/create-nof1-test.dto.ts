@@ -8,7 +8,6 @@ import {
   Variable,
 } from '../@types/types';
 import {
-  IsEmail,
   IsNotEmpty,
   IsOptional,
   IsNumber,
@@ -17,12 +16,12 @@ import {
   IsDate,
   IsObject,
   IsNotEmptyObject,
-  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 import { TestStatus } from '../../utils/constants';
 import { Patient } from '../../persons/patients/schemas/patient.schema';
 import { Physician } from '../../persons/physicians/schemas/physician.schema';
+import { Pharmacy } from '../../persons/schemas/pharmacy.schema';
 
 /**
  * Representation of the N-of-1 test information.
@@ -40,11 +39,9 @@ export class CreateNof1TestDto {
   @ValidateNested()
   nof1Physician: Physician;
 
-  @ValidateIf((test) => test.pharmaEmail !== '')
-  // allow creation of a test in draft mode (with default empty value),
-  // where this field is not filled in and can be further edited.
-  @IsEmail()
-  pharmaEmail: string;
+  @IsObject()
+  @ValidateNested()
+  pharmacy: Pharmacy;
 
   @IsObject()
   @ValidateNested()

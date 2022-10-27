@@ -73,7 +73,7 @@ export default function RecapModal({ open, setOpen, item }: RecapModalProps) {
 							<RecapParticipants
 								patient={item.patient}
 								physician={item.physician}
-								pharmaEmail={item.pharmaEmail}
+								pharmacy={item.pharmacy}
 							/>
 						</Grid>
 

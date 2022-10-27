@@ -19,6 +19,10 @@ import {
 } from '../@types/types';
 import { TestStatus } from '../../utils/constants';
 import mongooseLeanGetters from 'mongoose-lean-getters';
+import {
+  Pharmacy,
+  PharmacySchema,
+} from '../../persons/schemas/pharmacy.schema';
 
 type Nof1TestDoc = Nof1Test & Document;
 
@@ -44,10 +48,8 @@ class Nof1Test {
   @Prop({ type: PhysicianSchema, required: true })
   nof1Physician: Physician;
 
-  // no validation to allow empty default value in case of a draft test creation,
-  // where this field is not filled in.
-  @Prop()
-  pharmaEmail: string;
+  @Prop({ type: PharmacySchema, required: true })
+  pharmacy: Pharmacy;
 
   @Prop({ type: Object, required: true })
   clinicalInfo: ClinicalInfo;

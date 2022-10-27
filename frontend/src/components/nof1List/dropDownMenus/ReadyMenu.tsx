@@ -65,9 +65,9 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 	 */
 	const sendPharmaEmailCB = async (email: string) => {
 		// update email if different
-		if (email !== item.pharmaEmail) {
+		if (email !== item.pharmacy.email) {
 			updateNof1Test(userContext.access_token, item.uid!, {
-				pharmaEmail: email,
+				pharmacy: { ...item.pharmacy, email: email },
 			});
 		}
 		const response = await sendPharmaEmail(
@@ -108,7 +108,7 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 				open={openPharmaEmailDialog}
 				handleClose={() => setOpenPharmaEmailDialog(false)}
 				handleDialogSubmit={(email) => sendPharmaEmailCB(email)}
-				email={item.pharmaEmail}
+				email={item.pharmacy.email}
 			/>
 			<DeleteDialog
 				open={openDeleteDialog}
