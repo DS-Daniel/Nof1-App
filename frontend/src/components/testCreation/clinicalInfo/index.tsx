@@ -6,13 +6,14 @@ import Grid from '@mui/material/Grid';
 import { useClinicalInfoSchema } from '../../../utils/zodValidationHook';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Alert from '@mui/material/Alert';
 import {
 	Dispatch,
 	FC,
 	forwardRef,
+	MutableRefObject,
 	SetStateAction,
 	useMemo,
 	useState,
@@ -25,6 +26,8 @@ import Checkbox from '@mui/material/Checkbox';
 import { IClinicalInfo } from '../../../entities/clinicalInfo';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import MenuItem from '@mui/material/MenuItem';
+import dayjs from 'dayjs';
+import { Patient } from '../../../entities/people';
 
 // Custom multiline TextField component
 const MultilineTextField: FC<TextFieldProps> = forwardRef((props, ref) => {
@@ -46,6 +49,7 @@ MultilineTextField.displayName = 'MultilineTextField';
 interface ClinicalInfoProps {
 	clinicalInfo: IClinicalInfo;
 	setClinicalInfo: Dispatch<SetStateAction<IClinicalInfo>>;
+	patient: MutableRefObject<Patient>;
 }
 
 /**
@@ -55,6 +59,7 @@ interface ClinicalInfoProps {
 export default function ClinicalInfo({
 	clinicalInfo,
 	setClinicalInfo,
+	patient,
 }: ClinicalInfoProps) {
 	const { t } = useTranslation('createTest');
 	const schema = useClinicalInfoSchema();
@@ -63,16 +68,26 @@ export default function ClinicalInfo({
 		register,
 		formState: { errors },
 		handleSubmit,
+		control,
 	} = useForm<IClinicalInfo>({
 		resolver: zodResolver(schema),
 		defaultValues: useMemo(() => clinicalInfo, [clinicalInfo]),
 	});
+	const [age, setAge] = useState(clinicalInfo.age);
 
 	/**
 	 * Handles form submit.
 	 * @param data Form data.
 	 */
 	const submitHandler: SubmitHandler<IClinicalInfo> = (data) => {
+		let currentAge = age;
+		if (age === '' && patient.current.birthYear !== '') {
+			currentAge = dayjs()
+				.diff(dayjs(patient.current.birthYear, 'YYYY'), 'year')
+				.toString();
+			setAge(currentAge);
+		}
+		data.age = currentAge;
 		setClinicalInfo(data);
 		setOpenSuccessSB(true);
 	};
@@ -135,17 +150,18 @@ export default function ClinicalInfo({
 								</MenuItem>
 							</TextField>
 						</Grid>
-						<Grid item xs={12} sm={3}>
-							<TextField
-								size="small"
-								fullWidth
-								id="age"
-								label={t('clinicalInfo.age')}
-								error={!!errors['age']}
-								helperText={errors.age?.message}
-								{...register('age')}
-							/>
-						</Grid>
+						{age && (
+							<Grid item xs={12} sm={3}>
+								<TextField
+									size="small"
+									fullWidth
+									id="age"
+									label={t('clinicalInfo.age')}
+									disabled
+									{...(register('age'), { value: age })}
+								/>
+							</Grid>
+						)}
 						<Grid item xs={12} sm={3}>
 							<TextField
 								size="small"
@@ -216,8 +232,23 @@ export default function ClinicalInfo({
 										key={option.name}
 										id={option.name}
 										label={option.label}
-										control={<Checkbox />}
-										{...register(option.name as keyof IClinicalInfo)}
+										control={
+											<Controller
+												name={option.name as keyof IClinicalInfo}
+												control={control}
+												render={({ field: { value, onChange, name } }) => {
+													// wrong type interpolation. Value is of type boolean.
+													const checked = Boolean(value as unknown);
+													return (
+														<Checkbox
+															name={name}
+															checked={checked}
+															onChange={onChange}
+														/>
+													);
+												}}
+											/>
+										}
 									/>
 								))}
 							</FormGroup>

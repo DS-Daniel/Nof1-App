@@ -241,6 +241,7 @@ export default function CreateTest() {
 				<ClinicalInfo
 					clinicalInfo={clinicalInfo}
 					setClinicalInfo={setClinicalInfo}
+					patient={patient}
 				/>
 
 				<TestParameters

@@ -11,7 +11,7 @@ interface RecapClinicalInfoProps {
 }
 
 /**
- * Component rendering a form to fill in clinical information
+ * Component rendering the clinical information
  * about the patient and the N-of-1 test.
  */
 export default function RecapClinicalInfo({
