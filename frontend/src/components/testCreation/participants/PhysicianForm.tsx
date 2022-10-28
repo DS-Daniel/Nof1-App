@@ -97,7 +97,7 @@ export default function PhysicianForm({
 	return (
 		<Paper sx={{ p: 2, width: '100%' }}>
 			<Typography variant="h6">
-				{t('createTest:participants.physicianInfo')}
+				{t('createTest:participants.physician')}
 			</Typography>
 			<FormWithValidation<PhysicianFormData>
 				schema={schema}

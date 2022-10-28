@@ -42,7 +42,7 @@ interface RecapModalProps {
  * Modal recapitulating all information and parameters about the N-of-1 test.
  */
 export default function RecapModal({ open, setOpen, item }: RecapModalProps) {
-	const { t } = useTranslation('nof1List');
+	const { t } = useTranslation('common');
 
 	return (
 		<Dialog

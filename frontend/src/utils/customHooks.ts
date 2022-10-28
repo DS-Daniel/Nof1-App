@@ -90,7 +90,7 @@ export const usePharmaEmailInfos = (
 		t('form.insuranceNb'),
 	];
 	const patientInfos = [
-		[t('patient')],
+		[t('createTest:participants.patient')],
 		patientHeaders,
 		[
 			patient.firstname,
@@ -101,14 +101,14 @@ export const usePharmaEmailInfos = (
 			patient.address.country,
 			patient.email,
 			patient.phone,
-      patient.birthYear,
+			patient.birthYear,
 			patient.insurance,
 			patient.insuranceNb,
 		],
 	];
 	const physicianHeaders = [...personHeaders, t('form.institution')];
 	const physicianInfos = [
-		[t('physician')],
+		[t('createTest:participants.physician')],
 		physicianHeaders,
 		[
 			physician.firstname,
@@ -123,7 +123,7 @@ export const usePharmaEmailInfos = (
 		],
 	];
 	const nof1PhysicianInfos = [
-		[t('nof1-physician')],
+		[t('createTest:participants.nof1-physician')],
 		physicianHeaders,
 		[
 			user.firstname,

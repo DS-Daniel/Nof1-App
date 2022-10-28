@@ -19,8 +19,8 @@
 		"street": "Adresse",
 		"zip": "Code postal",
 		"city": "Ville",
-    "country": "Pays",
-    "birth-year": "Année de naissance",
+		"country": "Pays",
+		"birth-year": "Année de naissance",
 		"insurance": "Assurance",
 		"insuranceNb": "Numéro d'assuré",
 		"pwd-instructions": "Prérequis du mot de passe:\n- minimum 8 caractères\n- minimum 1 lettre majuscule et 1 lettre minuscule\n- minimum 1 chiffre ou caractère spécial"
@@ -30,7 +30,7 @@
 		"emailInvalid": "L'email est malformée",
 		"minLen": "Minimum 8 caractères",
 		"maxLen": "Maximum 32 caractères",
-    "alpha": "Autorisé: lettres alphabétiques",
+		"alpha": "Autorisé: lettres alphabétiques",
 		"oneUpperLetter": "Contient au moins une lettre majuscule",
 		"oneLowerLetter": "Contient au moins une lettre minuscule",
 		"oneDigitOrSpecial": "Contient au moins un chiffre ou un caractère spécial",
@@ -46,15 +46,15 @@
 		"errorMsg": "Veuillez vérifier les champs incorrects",
 		"unexpectedErrorMsg": "Une erreur s'est produite, veuillez réessayer",
 		"successMsg": "Les données ont été enregistrées",
-    "integerRange": "Doit être un entier entre 0 et 299 (ou vide)",
-    "year": "Année au format \"YYYY\""
+		"integerRange": "Doit être un entier entre 0 et 299 (ou vide)",
+		"year": "Année au format \"YYYY\""
 	},
 	"button": {
 		"add": "Ajouter",
 		"cancel": "Annuler",
 		"saveDataBtn": "Enregistrer",
 		"send": "Envoyer",
-    "delete": "Supprimer"
+		"delete": "Supprimer"
 	},
 	"measure-unit-label": "Unité de mesure",
 	"posology-table": {
@@ -77,11 +77,9 @@
 		"ofLabel": "sur",
 		"moreLabel": "plus de"
 	},
-	"patient": "Patient",
-	"physician": "Médecin",
-	"nof1-physician": "Médecin responsable du test N-of-1",
 	"sub-recap": {
 		"qty": "Quantité totale pour substance",
 		"dose": "doses (fractions)"
-	}
+	},
+	"close-modal": "Fermer le récapitulatif"
 }

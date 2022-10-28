@@ -77,11 +77,9 @@
 		"ofLabel": "of",
 		"moreLabel": "more than"
 	},
-	"patient": "Patient",
-	"physician": "Physician",
-	"nof1-physician": "Physician responsible of the N-of-1 test",
 	"sub-recap": {
 		"qty": "Total quantity for substance",
 		"dose": "doses (fractions)"
-	}
+	},
+	"close-modal": "Close recap"
 }

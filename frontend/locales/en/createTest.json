@@ -6,8 +6,9 @@
 	"participants": {
 		"title": "Participants information",
 		"pharmacy": "Partner pharmacy",
-		"patientInfo": "Patient",
-		"physicianInfo": "Attending physician",
+		"patient": "Patient",
+		"physician": "Attending physician",
+		"nof1-physician": "Physician responsible of the N-of-1 test",
 		"findPatient": "Find a patient by ID",
 		"findPhysician": "Find a physician by ID"
 	},

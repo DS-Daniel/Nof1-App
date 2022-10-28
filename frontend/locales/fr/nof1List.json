@@ -38,6 +38,5 @@
 	"alert-date": "Veuillez indiquer une date de début du test",
 	"alert-email": "L'e-mail n'a pas pu être envoyé, veuillez vérifier l'adresse et réessayer!",
 	"email-sent": "E-mail envoyé avec succès",
-	"email-confirm": "Veuillez vérifier l'adresse e-mail avant d'envoyer l'e-mail (une adresse inexistante ne sera pas détectée) :",
-	"close-modal": "Fermer le récapitulatif"
+	"email-confirm": "Veuillez vérifier l'adresse e-mail avant d'envoyer l'e-mail (une adresse inexistante ne sera pas détectée) :"
 }

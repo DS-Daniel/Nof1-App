@@ -99,7 +99,7 @@ export default function PatientForm({
 	return (
 		<Paper sx={{ p: 2, width: '100%' }}>
 			<Typography variant="h6">
-				{t('createTest:participants.patientInfo')}
+				{t('createTest:participants.patient')}
 			</Typography>
 			<FormWithValidation<PatientFormData>
 				schema={schema}

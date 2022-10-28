@@ -2,7 +2,8 @@
 	"btn": {
 		"dataImport": "Importer les données du patient",
 		"report": "Générer le rapport médical",
-		"xml": "Exporter données du test N-of-1 en XML"
+		"xml": "Exporter données du test N-of-1 en XML",
+		"recap-modal": "Consulter les paramètres du test"
 	},
 	"title": "Résultats détaillés",
 	"test-id": "ID test :",
