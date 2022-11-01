@@ -4,8 +4,8 @@ import { JwtService } from '@nestjs/jwt';
 import { createTransport, Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { xlsx } from 'src/utils/xlsxGenerator';
-import { MailDto } from './dto/mail.dto';
 import { PatientMailDto } from './dto/patientMail.dto';
+import { PharmaMailDto } from './dto/pharmaMail.dto';
 
 /**
  * Service managing email sending.
@@ -39,14 +39,14 @@ export class MailService {
    * @param mailDto MailDto.
    * @returns An object { success: boolean, msg: string } indicating email sending success or failure.
    */
-  async sendEmail(mailDto: MailDto) {
+  async sendPharmaEmail(mailDto: PharmaMailDto) {
     const { filename, xlsbuf } = await xlsx(mailDto.data);
 
     return this.transporter
       .sendMail({
         from: this.from,
         to: mailDto.dest,
-        subject: 'N-of-1 service - Préparation des substances',
+        subject: mailDto.subject,
         text: mailDto.msg.text, // plain text body
         html: mailDto.msg.html, // html body
         attachments: [
@@ -72,13 +72,11 @@ export class MailService {
    * @returns An object { success: boolean, msg: string } indicating email sending success or failure.
    */
   async sendPatientEmail(mailDto: PatientMailDto) {
-    console.log('expiration', mailDto.tokenExp);
-    const token = this.jwtService.sign(
-      { dest: mailDto.dest },
-      {
-        expiresIn: mailDto.tokenExp,
-      },
-    );
+    const token = this.jwtService.sign({
+      dest: mailDto.dest,
+      exp: mailDto.tokenExp,
+      nbf: mailDto.notBefore,
+    });
     const txtMsg = mailDto.msg.text.replace('TOKEN', token);
     const htmlMsg = mailDto.msg.html.replace('TOKEN', token);
 
@@ -86,8 +84,7 @@ export class MailService {
       .sendMail({
         from: this.from,
         to: mailDto.dest,
-        subject:
-          'Carnet de relevés des paramètres de santé concernant votre test thérapeutique.',
+        subject: mailDto.subject,
         text: txtMsg, // plain text body
         html: htmlMsg, // html body
       })

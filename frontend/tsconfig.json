@@ -27,7 +27,7 @@
     "**/*.tsx",
     ".eslintrc",
     ".prettierrc",
-    "src/theme/theme.js",
+    "src/theme/theme.js"
   ],
   "exclude": [
     "node_modules"

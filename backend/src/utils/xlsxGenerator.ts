@@ -1,4 +1,4 @@
-import { MailData } from 'src/mail/dto/mail.dto';
+import { MailData } from 'src/mail/dto/pharmaMail.dto';
 import { utils, write } from 'xlsx';
 import { defaultCellWidth, xlsxFilename } from './constants';
 

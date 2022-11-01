@@ -19,6 +19,8 @@
 		"street": "Address",
 		"zip": "Postal code",
 		"city": "City",
+		"country": "Country",
+		"birth-year": "Birth Year",
 		"insurance": "Insurance",
 		"insuranceNb": "Insurance number",
 		"pwd-instructions": "Password requirements:\n- minimum 8 characters\n- minimum 1 upper and 1 lower case letter\n- minimum 1 digit or special character"
@@ -28,13 +30,14 @@
 		"emailInvalid": "Email is malformed",
 		"minLen": "Must be more than 8 characters",
 		"maxLen": "Must be less than 32 characters",
+		"alpha": "Must be alphabetic letters",
 		"oneUpperLetter": "Has at least one uppercase letter",
 		"oneLowerLetter": "Has at least one lowercase letter",
 		"oneDigitOrSpecial": "Has at least one digit or one special character",
 		"passwordConfirm": "Please confirm your password",
 		"passwordConfirmNoMatch": "Passwords do not match",
 		"number": "Please enter a number (integer or decimal, without space)",
-		"textarea": "Allowed: letters, spaces and the following characters: ',.:;\"/+-?!#()",
+		"textarea": "Allowed: letters, spaces and the following characters: ',.:;\"/+-?!#%()",
 		"digitsRequired": "Only digits (no space)",
 		"digitsMax": "Must be less than 20 digits",
 		"userAlreadyExists": "User already exists !",
@@ -42,13 +45,16 @@
 		"invalidCredentials": "Invalid credentials",
 		"errorMsg": "Please check incorrect fields",
 		"unexpectedErrorMsg": "An error occurred, please try again",
-		"successMsg": "Data have been saved"
+		"successMsg": "Data have been saved",
+		"integerRange": "Must be an integer between 0 and 299 (or empty)",
+		"year": "Year in \"YYYY\" format"
 	},
 	"button": {
 		"add": "Add",
 		"cancel": "Cancel",
 		"saveDataBtn": "Save",
-		"send": "Send"
+		"send": "Send",
+		"delete": "Delete"
 	},
 	"measure-unit-label": "Measurement unit",
 	"posology-table": {
@@ -57,7 +63,8 @@
 		"noon": "Noon",
 		"evening": "Evening",
 		"night": "Night",
-		"fraction": "Fraction(s)"
+		"fraction": "Divided into X fractions",
+		"dose": "Dose ({{unit}})"
 	},
 	"loading": "Loading...",
 	"date": "Date",
@@ -70,11 +77,9 @@
 		"ofLabel": "of",
 		"moreLabel": "more than"
 	},
-	"patient": "Patient",
-	"physician": "Physician",
-	"nof1-physician": "Physician responsible of the N-of-1 test",
 	"sub-recap": {
 		"qty": "Total quantity for substance",
 		"dose": "doses (fractions)"
-	}
+	},
+	"close-modal": "Close recap"
 }

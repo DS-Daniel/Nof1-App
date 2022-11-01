@@ -42,16 +42,18 @@ export default function PatientForm({
 		{ name: 'firstname', trad: t('form.firstname'), size: 6 },
 		{ name: 'lastname', trad: t('form.lastname'), size: 6 },
 		{ name: 'phone', trad: t('form.phone') },
-		{ name: 'street', trad: t('form.street') },
-		{ name: 'zip', trad: t('form.zip'), size: 4 },
-		{ name: 'city', trad: t('form.city'), size: 8 },
 		{ name: 'email', trad: t('form.email') },
-		{ name: 'insurance', trad: t('form.insurance'), size: 5.5 },
-		{ name: 'insuranceNb', trad: t('form.insuranceNb'), size: 6.5 },
+		{ name: 'birthYear', trad: t('form.birth-year'), size: 6 },
+		{ name: 'country', trad: t('form.country'), size: 6 },
+		{ name: 'street', trad: t('form.street') },
+		{ name: 'zip', trad: t('form.zip'), size: 5 },
+		{ name: 'city', trad: t('form.city'), size: 7 },
+		{ name: 'insurance', trad: t('form.insurance') },
+		{ name: 'insuranceNb', trad: t('form.insuranceNb') },
 	];
 
 	/**
-	 * Handle the form submit. It checks if the data has changed and triggers 
+	 * Handle the form submit. It checks if the data has changed and triggers
 	 * a patient creation or update if he already exists. It also triggers
 	 * success or failure snackbar.
 	 * @param data Data from the form.
@@ -97,7 +99,7 @@ export default function PatientForm({
 	return (
 		<Paper sx={{ p: 2, width: '100%' }}>
 			<Typography variant="h6">
-				{t('createTest:participants.patientInfo')}
+				{t('createTest:participants.patient')}
 			</Typography>
 			<FormWithValidation<PatientFormData>
 				schema={schema}

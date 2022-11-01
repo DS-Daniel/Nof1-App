@@ -26,10 +26,11 @@ export type PosologyDay = {
 
 // posology for a day with date for a substance.
 export type AdministrationSchema = {
-  date: string;
+  // date: string;
   substance: string;
   unit: string;
-} & Omit<PosologyDay, 'day'>;
+} & PosologyDay;
+// } & Omit<PosologyDay, 'day'>;
 
 // posology for a day, with repeated option.
 export type Posology = {
@@ -40,12 +41,14 @@ export type Posology = {
 // a substance with its different posologies.
 export class SubstancePosologies {
   substance: string;
+  unit: string;
   posologies: Posology[];
 }
 
 // a substance with its posology.
 export class SubstancePosology {
   substance: string;
+  unit: string;
   posology: Posology;
 }
 
@@ -73,4 +76,24 @@ export class Substance {
   name: string;
   abbreviation: string;
   unit: string;
+}
+
+export class ClinicalInfo {
+  sex: string;
+  age: string;
+  weight: string;
+  height: string;
+  indication: string;
+  otherDiag: string;
+  drugs: string;
+  otherDrugs: string;
+  purpose: {
+    efficacy: boolean;
+    sideEffects: boolean;
+    deprescription: boolean;
+    dosage: boolean;
+    drugsChoice: boolean;
+    genericSubstitutions: boolean;
+    other: boolean;
+  };
 }

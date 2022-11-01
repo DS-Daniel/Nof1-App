@@ -94,7 +94,7 @@ export default function RandomizationStrategy({
 
 	return (
 		<>
-			<Typography variant="h6">
+			<Typography variant="h6" fontWeight="bold">
 				{t('parameters.subtitle-randomStrategy')}
 			</Typography>
 			<Typography>{t('parameters.randomStrategy-desc')}</Typography>

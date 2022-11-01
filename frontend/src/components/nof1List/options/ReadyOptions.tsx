@@ -4,25 +4,14 @@ import OptionBtn from './OptionBtn';
 import Stack from '@mui/material/Stack';
 import DatePicker from '../../common/DatePicker';
 import { OptionsProps } from '../Nof1TableItem';
-import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction, useState } from 'react';
 import dayjs from 'dayjs';
 import { TestStatus, tokenExpMargin } from '../../../utils/constants';
-import {
-	sendPharmaEmail,
-	sendPatientEmail,
-	updateNof1Test,
-} from '../../../utils/apiCalls';
+import { sendPatientEmail, updateNof1Test } from '../../../utils/apiCalls';
 import { Nof1Test } from '../../../entities/nof1Test';
 import FailSnackbar from '../../common/FailSnackbar';
 import { useUserContext } from '../../../context/UserContext';
-import {
-	generateAdministrationSchema,
-	generateSequence,
-	selectRandomPosology,
-	substancesRecap,
-} from '../../../utils/nof1-lib/lib';
-import { useEmailInfos, usePatientEmailMsg } from '../../../utils/customHooks';
+import { usePatientEmailMsg } from '../../../utils/customHooks';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -35,99 +24,56 @@ interface ReadyOptionsProps extends OptionsProps {
  */
 export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 	const { t, lang } = useTranslation('nof1List');
-	const router = useRouter();
 	const { userContext } = useUserContext();
 	const [beginningDate, setBeginningDate] = useState<dayjs.Dayjs | null>(null);
 	const [sendingEmail, setSendingEmail] = useState(false);
-	const [openFailSnackbar, setOpenFailSnackbar] = useState(false);
+	const [openDateSnackbar, setOpenDateSnackbar] = useState(false);
 	const [openEmailDialog, setOpenEmailDialog] = useState(false);
 	const [openEmailFailSnackbar, setOpenEmailFailSnackbar] = useState(false);
-	const {
-		schemaHeaders,
-		patientInfos,
-		physicianInfos,
-		nof1PhysicianInfos,
-		msg,
-	} = useEmailInfos(item.patient, item.physician, item.nof1Physician);
+
+	const endingDate = beginningDate
+		?.add(item.periodLen * item.nbPeriods - 1, 'day')
+		.toDate();
+
 	const patientEmailMsg = usePatientEmailMsg(
 		`${
 			process.env.NEXT_PUBLIC_APP_URL
 		}${lang}/import-data/patient?id=${item.uid!}&token=TOKEN`,
 		item.nof1Physician,
+		dayjs(beginningDate).toDate().toLocaleDateString(),
+		dayjs(endingDate).add(tokenExpMargin, 'day').toDate().toLocaleDateString(),
 	);
 
 	/**
-	 * Handle click on the start button, triggering the email confirmation dialog.
+	 * Updates the test information.
+	 * @param email Patient email address.
+	 * @returns The updated test.
 	 */
-	const handleReady = () => {
-		if (beginningDate) {
-			setOpenEmailDialog(true);
-			setSendingEmail((prevState) => !prevState);
-		} else {
-			setOpenFailSnackbar(true);
-		}
-	};
-
-	/**
-	 * Trigger the generation of the randomized parameters of the test,
-	 * sending the email to the pharmacy and updating the test information.
-	 * @param email Pharmacy email address.
-	 */
-	const updateTestAndSendEmail = async (email: string) => {
+	const updateTest = (email: string) => {
 		const test = { ...item };
 		test.beginningDate = beginningDate!.toDate();
-		test.endingDate = beginningDate!
-			.add(test.periodLen * test.nbPeriods - 1, 'day')
-			.toDate();
-		test.selectedPosologies = selectRandomPosology(test.posologies);
-		test.substancesSequence = generateSequence(
-			test.substances,
-			test.randomization,
-			test.nbPeriods,
-		);
-		test.administrationSchema = generateAdministrationSchema(
-			test.substances,
-			test.substancesSequence,
-			test.selectedPosologies,
-			test.beginningDate!,
-			test.periodLen,
-			test.nbPeriods,
-		);
+		test.endingDate = endingDate;
 		test.status = TestStatus.Ongoing;
-		test.meta_info!.emailSendingDate = new Date();
-		test.pharmaEmail = email;
+		test.patient.email = email;
+		return test;
+	};
 
-		const response = await sendPharmaEmail(
-			userContext.access_token,
-			{
-				patientInfos,
-				physicianInfos,
-				nof1PhysicianInfos,
-				schemaHeaders,
-				schema: test.administrationSchema,
-				substancesRecap: substancesRecap(
-					test.substances,
-					test.administrationSchema,
-					t('common:sub-recap.qty'),
-					t('common:sub-recap.dose'),
-				),
-			},
-			msg,
-			email,
-		);
-
-		const tokenExp =
-			dayjs(test.endingDate).diff(beginningDate, 'day') + 1 + tokenExpMargin;
-		const res = await sendPatientEmail(
+	const sendEmail = async (test: Nof1Test) => {
+		const tokenExp = dayjs(test.endingDate)
+			.startOf('day')
+			.add(tokenExpMargin, 'day')
+			.unix();
+		const notBefore = dayjs(test.beginningDate).startOf('day').unix();
+		const response = await sendPatientEmail(
 			userContext.access_token,
 			patientEmailMsg,
 			test.patient.email,
-			`${tokenExp} days`,
+			t('mail:patient.subject'),
+			tokenExp,
+			notBefore,
 		);
-		console.log('patient email success:', res.success);
-		// TODO manage patient email failure ?
 
-		if (response.success && res.success) {
+		if (response.success) {
 			updateNof1Test(userContext.access_token, test.uid!, test);
 			setItem(test); // update display
 		} else {
@@ -137,13 +83,29 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 	};
 
 	/**
-	 * Handle click on the edit button.
+	 * Handles click on start button, triggering the email confirmation dialog
+	 * if a date is set, otherwise opens a warning snackbar informing that a
+	 * date must be set.
 	 */
-	const handleEdit = () => {
-		router.push({
-			pathname: '/create-test',
-			query: { id: item.uid, edit: true },
-		});
+	const handleReady = () => {
+		if (
+			beginningDate &&
+			beginningDate.startOf('day') >= dayjs().startOf('day')
+		) {
+			setOpenEmailDialog(true);
+			setSendingEmail((prevState) => !prevState);
+		} else {
+			setOpenDateSnackbar(true);
+		}
+	};
+
+	/**
+	 * Handles the email confirmation dialog submission, triggering the test's
+	 * information update and sending the e-mail to the patient.
+	 */
+	const handleDialogSubmit = (email: string) => {
+		const test = updateTest(email);
+		sendEmail(test);
 	};
 
 	return (
@@ -165,32 +127,22 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 					</OptionBtn>
 				)}
 			</Stack>
-			<Stack
-				direction="row"
-				justifyContent="flex-end"
-				alignItems="center"
-				spacing={2}
-			>
-				<OptionBtn variant="outlined" onClick={handleEdit}>
-					{t('btn.edit')}
-				</OptionBtn>
-				<ReadyMenu item={item} />
-			</Stack>
+			<ReadyMenu item={item} />
+			<EmailConfirmDialog
+				open={openEmailDialog}
+				handleClose={() => setOpenEmailDialog(false)}
+				handleDialogSubmit={(email) => handleDialogSubmit(email)}
+				email={item.patient.email}
+			/>
 			<FailSnackbar
-				open={openFailSnackbar}
-				setOpen={setOpenFailSnackbar}
+				open={openDateSnackbar}
+				setOpen={setOpenDateSnackbar}
 				msg={t('alert-date')}
 			/>
 			<FailSnackbar
 				open={openEmailFailSnackbar}
 				setOpen={setOpenEmailFailSnackbar}
 				msg={t('alert-email')}
-			/>
-			<EmailConfirmDialog
-				open={openEmailDialog}
-				handleClose={() => setOpenEmailDialog(false)}
-				handleDialogSubmit={(email) => updateTestAndSendEmail(email)}
-				email={item.pharmaEmail}
 			/>
 		</>
 	);

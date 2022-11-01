@@ -1,5 +1,5 @@
-import { Patient, Physician } from '../entities/people';
-import { PatientFormData, PhysicianFormData, RegisterForm } from './zodValidationHook';
+import { Patient, Pharmacy, Physician } from '../entities/people';
+import { PatientFormData, PharmacyFormData, PhysicianFormData, RegisterForm } from './zodValidationHook';
 
 /**
  * Format the registration form data to API format.
@@ -16,6 +16,7 @@ export const formatRegisterData = (data: RegisterForm) => {
 			street: data.street,
 			zip: data.zip,
 			city: data.city,
+      country: data.country,
 		},
 		phone: data.phone,
 		institution: data.institution,
@@ -35,6 +36,7 @@ export const formatPhysicianData = (data: PhysicianFormData): Physician => {
 			street: data.street,
 			zip: data.zip,
 			city: data.city,
+			country: data.country,
 		},
 		phone: data.phone,
 		email: data.email,
@@ -63,6 +65,7 @@ export const formatPhysicianDataToForm = (
 		street: data.address.street,
 		zip: data.address.zip,
 		city: data.address.city,
+		country: data.address.country,
 		phone: data.phone,
 		email: data.email,
 		institution: data.institution,
@@ -89,9 +92,11 @@ export const formatPatientData = (data: PatientFormData): Patient => {
 			street: data.street,
 			zip: data.zip,
 			city: data.city,
+			country: data.country,
 		},
 		phone: data.phone,
 		email: data.email,
+    birthYear: data.birthYear,
 		insurance: data.insurance,
 		insuranceNb: data.insuranceNb,
 	};
@@ -110,13 +115,55 @@ export const formatPatientDataToForm = (data: Patient): PatientFormData => {
 		street: data.address.street,
 		zip: data.address.zip,
 		city: data.address.city,
+		country: data.address.country,
 		phone: data.phone,
 		email: data.email,
+    birthYear: data.birthYear,
 		insurance: data.insurance,
 		insuranceNb: data.insuranceNb,
 	};
 	if (data._id !== undefined) {
 		formData._id = data._id;
 	}
+	return formData;
+};
+
+/**
+ * Format the pharmacy form data to API format.
+ * @param data Data of the form.
+ * @returns Data formatted.
+ */
+export const formatPharmacyData = (data: PharmacyFormData): Pharmacy => {
+	const pharmacy: Pharmacy = {
+		name: data.name,
+    email: data.email,
+    phone: data.phone,
+		address: {
+			street: data.street,
+			zip: data.zip,
+			city: data.city,
+			country: data.country,
+		},
+	};
+	return pharmacy;
+};
+
+/**
+ * Format pharmacy data to pharmacy form data.
+ * @param data Pharmacy data.
+ * @returns Data formatted.
+ */
+export const formatPharmacyDataToForm = (
+	data: Pharmacy,
+): PharmacyFormData => {
+	const formData: PharmacyFormData = {
+		name: data.name,
+		email: data.email,
+		phone: data.phone,
+		street: data.address.street,
+		zip: data.address.zip,
+		city: data.address.city,
+		country: data.address.country,
+	};
 	return formData;
 };

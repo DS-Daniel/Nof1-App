@@ -25,6 +25,7 @@ import {
 import { CustomLineChart } from '../components/results/LineChart';
 import { VariableType } from '../entities/variable';
 import { randomHexColor } from '../utils/charts';
+import RecapModal from '../components/nof1List/recapModal';
 
 const BoxedTxt = styled(Typography)<TypographyProps>(({ theme }) => ({
 	border: '1px solid black',
@@ -42,6 +43,7 @@ export default function Results() {
 	const [test, setTest] = useState<Nof1Test | null>(null);
 	const [testData, setTestData] = useState<TestData | null>(null);
 	const [substancesColors, setSubstancesColors] = useState<string[]>([]);
+	const [openRecapModal, setOpenRecapModal] = useState(false);
 
 	// fetch N-of-1 test and patient's health variables data.
 	useEffect(() => {
@@ -112,6 +114,9 @@ export default function Results() {
 				>
 					{t('btn.dataImport')}
 				</Button>
+				<Button variant="contained" onClick={() => setOpenRecapModal(true)}>
+					{t('btn.recap-modal')}
+				</Button>
 				{/* <Button variant="contained" onClick={handleXML}>
 					{t('btn.xml')}
 				</Button> */}
@@ -168,6 +173,7 @@ export default function Results() {
 							<Paper>
 								<AdministrationTable
 									administrationSchema={getAdministrationSchema(test)}
+									startDate={test.beginningDate!}
 								/>
 							</Paper>
 
@@ -216,6 +222,13 @@ export default function Results() {
 					)}
 				</Stack>
 			</Paper>
+			{test && (
+				<RecapModal
+					open={openRecapModal}
+					setOpen={setOpenRecapModal}
+					item={test}
+				/>
+			)}
 		</AuthenticatedPage>
 	);
 }

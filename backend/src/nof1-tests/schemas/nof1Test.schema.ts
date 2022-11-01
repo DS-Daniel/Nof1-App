@@ -1,9 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Patient } from '../../persons/patients/schemas/patient.schema';
-import { Physician } from '../../persons/physicians/schemas/physician.schema';
+import {
+  Patient,
+  PatientSchema,
+} from '../../persons/patients/schemas/patient.schema';
+import {
+  Physician,
+  PhysicianSchema,
+} from '../../persons/physicians/schemas/physician.schema';
 import {
   AdministrationSchema,
+  ClinicalInfo,
   RandomizationStrategy,
   Substance,
   SubstancePosologies,
@@ -11,30 +18,41 @@ import {
   Variable,
 } from '../@types/types';
 import { TestStatus } from '../../utils/constants';
+import mongooseLeanGetters from 'mongoose-lean-getters';
+import {
+  Pharmacy,
+  PharmacySchema,
+} from '../../persons/schemas/pharmacy.schema';
 
-export type Nof1TestDoc = Nof1Test & Document;
+type Nof1TestDoc = Nof1Test & Document;
 
 /**
  * Schema representing the N-of-1 test information.
  */
-@Schema()
-export class Nof1Test {
+@Schema({
+  versionKey: false,
+  // Enable to use getters on almost all queries:
+  toObject: { getters: true },
+  toJSON: { getters: true },
+})
+class Nof1Test {
   @Prop()
   uid: string;
 
-  @Prop({ type: Object, required: true })
+  @Prop({ type: PatientSchema, required: true })
   patient: Patient;
 
-  @Prop({ type: Object, required: true })
+  @Prop({ type: PhysicianSchema, required: true })
   physician: Physician;
 
-  @Prop({ type: Object, required: true })
+  @Prop({ type: PhysicianSchema, required: true })
   nof1Physician: Physician;
 
-  // no validation to allow empty default value in case of a draft test creation,
-  // where this field is not filled in.
-  @Prop()
-  pharmaEmail: string;
+  @Prop({ type: PharmacySchema, required: true })
+  pharmacy: Pharmacy;
+
+  @Prop({ type: Object, required: true })
+  clinicalInfo: ClinicalInfo;
 
   @Prop({ type: String, required: true, enum: Object.values(TestStatus) })
   status: TestStatus;
@@ -79,4 +97,8 @@ export class Nof1Test {
   };
 }
 
-export const Nof1TestSchema = SchemaFactory.createForClass(Nof1Test);
+const Nof1TestSchema = SchemaFactory.createForClass(Nof1Test);
+
+Nof1TestSchema.plugin(mongooseLeanGetters);
+
+export { Nof1TestSchema, Nof1Test, Nof1TestDoc };

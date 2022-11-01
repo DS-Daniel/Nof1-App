@@ -7,6 +7,7 @@
 		"delete": "Delete test",
 		"print": "Print logbook (print to pdf)"
 	},
+	"delete-warning": "Are you sure you want to delete the test ?",
 	"print-warning": "(*check the orientation (portrait) and margins (default) in the print window if the rendering is not correct)",
 	"create-fromID-dialog-title": "Choose the test ID that will be used as a template",
 	"headerId": "Test ID",
@@ -14,19 +15,23 @@
 	"headerState": "State",
 	"optionsMenu": "Options",
 	"menu": {
-		"parameters": "Consult parameters",
-		"dataImport": "Import patient data",
-		"xmlExport": "XML Export",
-		"varBooklet": "Patient variables logbook",
+		"parameters": "Consult the test parameters",
+		"dataImport": "Import patient's data",
+		"xmlExport": "Export test data to XML",
+		"varBooklet": "Generate the patient's health booklet.",
 		"varBooklet-preview": "Preview of patient variables logbook (current date)",
-		"sendEmailPharma": "Send the email to the pharmacy",
-		"sendEmailPatient": "Send the email to the patient"
+		"send-email-pharma": "Resend the email to the pharmacy",
+		"send-email-patient": "Resend the email to the patient",
+		"delete-test": "Delete the test",
+		"xlsx-exemple": "Download an example of the file sent to the pharmacy",
+		"xlsx-exemple-info": "The file sent to the pharmacy will not be the same (it will be generated again)."
 	},
 	"btnStatus": {
 		"draft": "Edit draft",
 		"ended": "Results",
 		"ongoing": "Ongoing",
-		"ready": "Start the test"
+		"ready": "Start the test",
+		"preparation": "Start the preparation"
 	},
 	"startingDate": "Test starting date",
 	"endingDate": "Test ending date",

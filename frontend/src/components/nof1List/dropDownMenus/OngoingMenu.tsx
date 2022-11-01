@@ -4,7 +4,10 @@ import { Nof1Test } from '../../../entities/nof1Test';
 import MenuContainer from '../../common/MenuContainer';
 import RecapModal from '../recapModal';
 import HealthLogbookModal from '../healthLogbookModal';
-import { useEmailInfos, usePatientEmailMsg } from '../../../utils/customHooks';
+import {
+	usePharmaEmailInfos,
+	usePatientEmailMsg,
+} from '../../../utils/customHooks';
 import {
 	sendPatientEmail,
 	sendPharmaEmail,
@@ -17,6 +20,7 @@ import FailSnackbar from '../../common/FailSnackbar';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import { tokenExpMargin } from '../../../utils/constants';
 import dayjs from 'dayjs';
+import DeleteDialog from './DeleteDialog';
 
 interface OngoingMenuProps {
 	item: Nof1Test;
@@ -29,6 +33,7 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 	const { t, lang } = useTranslation('nof1List');
 	const { userContext } = useUserContext();
 	const [openRecapModal, setOpenRecapModal] = useState(false);
+	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 	const [openLogbookModal, setOpenLogbookModal] = useState(false);
 	const [openPharmaEmailDialog, setOpenPharmaEmailDialog] = useState(false);
 	const [openPatientEmailDialog, setOpenPatientEmailDialog] = useState(false);
@@ -40,12 +45,17 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 		physicianInfos,
 		nof1PhysicianInfos,
 		msg,
-	} = useEmailInfos(item.patient, item.physician, item.nof1Physician);
+	} = usePharmaEmailInfos(item.patient, item.physician, item.nof1Physician);
 	const patientEmailMsg = usePatientEmailMsg(
 		`${
 			process.env.NEXT_PUBLIC_APP_URL
 		}${lang}/import-data/patient?id=${item.uid!}&token=TOKEN`,
 		item.nof1Physician,
+		dayjs(item.beginningDate).toDate().toLocaleDateString(),
+		dayjs(item.endingDate)
+			.add(tokenExpMargin, 'day')
+			.toDate()
+			.toLocaleDateString(),
 	);
 
 	/**
@@ -55,9 +65,9 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 	 */
 	const sendPharmaEmailCB = async (email: string) => {
 		// update email if different
-		if (email !== item.pharmaEmail) {
+		if (email !== item.pharmacy.email) {
 			updateNof1Test(userContext.access_token, item.uid!, {
-				pharmaEmail: email,
+				pharmacy: { ...item.pharmacy, email: email },
 			});
 		}
 		const response = await sendPharmaEmail(
@@ -77,6 +87,7 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 			},
 			msg,
 			email,
+			t('mail:pharma.subject'),
 		);
 		if (response.success) {
 			setOpenEmailSuccessSB(true);
@@ -98,18 +109,20 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 			});
 		}
 
-		// re-calculate the right expiration starting date, if an email is sent afterward.
-		const startExp = dayjs().isAfter(dayjs(item.beginningDate))
-			? dayjs()
-			: dayjs(item.beginningDate);
-		const tokenExp =
-			dayjs(item.endingDate).diff(startExp, 'day') + 1 + tokenExpMargin;
+		const tokenExp = dayjs(item.endingDate)
+			.startOf('day')
+			.add(tokenExpMargin, 'day')
+			.unix();
+		const notBefore = dayjs(item.beginningDate).startOf('day').unix();
 		const response = await sendPatientEmail(
 			userContext.access_token,
 			patientEmailMsg,
 			email,
-			`${tokenExp} days`,
+			t('mail:patient.subject'),
+			tokenExp,
+			notBefore,
 		);
+
 		if (response.success) {
 			setOpenEmailSuccessSB(true);
 		} else {
@@ -131,15 +144,22 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 			},
 		},
 		{
-			name: t('menu.sendEmailPharma'),
+			name: t('menu.send-email-pharma'),
 			callback: async () => {
 				setOpenPharmaEmailDialog(true);
 			},
 		},
 		{
-			name: t('menu.sendEmailPatient'),
+			name: t('menu.send-email-patient'),
 			callback: async () => {
 				setOpenPatientEmailDialog(true);
+			},
+		},
+		{
+			name: t('menu.delete-test'),
+			color: 'red',
+			callback: () => {
+				setOpenDeleteDialog(true);
 			},
 		},
 	];
@@ -161,13 +181,18 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				open={openPharmaEmailDialog}
 				handleClose={() => setOpenPharmaEmailDialog(false)}
 				handleDialogSubmit={(email) => sendPharmaEmailCB(email)}
-				email={item.pharmaEmail}
+				email={item.pharmacy.email}
 			/>
 			<EmailConfirmDialog
 				open={openPatientEmailDialog}
 				handleClose={() => setOpenPatientEmailDialog(false)}
 				handleDialogSubmit={(email) => sendPatientEmailCB(email)}
 				email={item.patient.email}
+			/>
+			<DeleteDialog
+				open={openDeleteDialog}
+				handleClose={() => setOpenDeleteDialog(false)}
+				testId={item.uid!}
 			/>
 			<SuccessSnackbar
 				open={openEmailSuccessSB}

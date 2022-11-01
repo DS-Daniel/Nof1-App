@@ -7,6 +7,7 @@
 		"delete": "Supprimer le test",
 		"print": "Imprimer le carnet (imprimer en pdf)*"
 	},
+	"delete-warning": "Êtes-vous sûr de vouloir supprimer le test ?",
 	"print-warning": "(*vérifier l'orientation (portrait) et les marges (par défaut) dans la fenêtre d'impression si le rendu n'est pas correct)",
 	"create-fromID-dialog-title": "Choisissez l'ID du test qui servira comme modèle",
 	"headerId": "ID du test",
@@ -14,19 +15,23 @@
 	"headerState": "Statut",
 	"optionsMenu": "Options",
 	"menu": {
-		"parameters": "Consulter les paramètres",
-		"dataImport": "Importer les données patient",
-		"xmlExport": "Exporter en XML",
-		"varBooklet": "Carnet des variables patient",
+		"parameters": "Consulter les paramètres du test",
+		"dataImport": "Importer les données du patient",
+		"xmlExport": "Exporter les données du test en XML",
+		"varBooklet": "Générer le carnet de santé du patient",
 		"varBooklet-preview": "Aperçu du carnet de relevés des variables (date actuelle)",
-		"sendEmailPharma": "Envoyer l'e-mail à la pharmacie",
-		"sendEmailPatient" : "Envoyer l'e-mail au patient"
+		"send-email-pharma": "Renvoyer l'e-mail à la pharmacie",
+		"send-email-patient": "Renvoyer l'e-mail au patient",
+		"delete-test": "Supprimer le test",
+		"xlsx-exemple": "Télécharger un exemple du fichier envoyé à la pharmacie",
+		"xlsx-exemple-info": "Le fichier envoyé à la pharmacy ne sera pas le même (il sera généré à nouveau)."
 	},
 	"btnStatus": {
 		"draft": "Reprendre le brouillon",
 		"ended": "Résultat",
 		"ongoing": "En cours",
-		"ready": "Démarrer le test"
+		"ready": "Démarrer le test",
+		"preparation": "Démarrer la préparation"
 	},
 	"startingDate": "Date de début du test",
 	"endingDate": "Date de fin du test",

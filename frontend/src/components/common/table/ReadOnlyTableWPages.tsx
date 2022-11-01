@@ -1,6 +1,5 @@
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import TablePagination from '@mui/material/TablePagination';
 import { useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
+import { ThemedTableHead } from './customTableComponents';
 
 const rowsPerPageOptions = [10, 20, 30];
 
@@ -57,7 +57,7 @@ export default function ReadOnlyTableWPages({
 		<>
 			<TableContainer>
 				<Table size="small">
-					<TableHead>
+					<ThemedTableHead>
 						<TableRow>
 							{headers.map((header, index) => (
 								<TableCell key={`var-header-${index}`} align="center">
@@ -67,7 +67,7 @@ export default function ReadOnlyTableWPages({
 								</TableCell>
 							))}
 						</TableRow>
-					</TableHead>
+					</ThemedTableHead>
 					<TableBody>
 						{rows
 							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

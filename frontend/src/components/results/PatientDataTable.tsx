@@ -1,7 +1,7 @@
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
-import ReadOnlyTableWPages from '../common/ReadOnlyTableWPages';
+import ReadOnlyTableWPages from '../common/table/ReadOnlyTableWPages';
 import ExportToolbar from '../../components/results/ExportToolbar';
 import { Variable } from '../../entities/variable';
 

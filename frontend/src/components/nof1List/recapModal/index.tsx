@@ -16,6 +16,9 @@ import RecapVariables from './RecapVariables';
 import RecapPosologies from './RecapPosologies';
 import RecapParticipants from './RecapParticipants';
 import RecapRandomStrategy from './RecapRandomStrategy';
+import Typography from '@mui/material/Typography';
+import useTranslation from 'next-translate/useTranslation';
+import RecapClinicalInfo from './RecapClinicalInfo';
 
 /**
  * Modal transition animation.
@@ -39,6 +42,8 @@ interface RecapModalProps {
  * Modal recapitulating all information and parameters about the N-of-1 test.
  */
 export default function RecapModal({ open, setOpen, item }: RecapModalProps) {
+	const { t } = useTranslation('common');
+
 	return (
 		<Dialog
 			fullScreen
@@ -55,6 +60,9 @@ export default function RecapModal({ open, setOpen, item }: RecapModalProps) {
 						aria-label="close"
 					>
 						<CloseIcon />
+						<Typography variant="h6" ml={1}>
+							{t('close-modal')}
+						</Typography>
 					</IconButton>
 				</Toolbar>
 			</AppBar>
@@ -65,8 +73,12 @@ export default function RecapModal({ open, setOpen, item }: RecapModalProps) {
 							<RecapParticipants
 								patient={item.patient}
 								physician={item.physician}
-								pharmaEmail={item.pharmaEmail}
+								pharmacy={item.pharmacy}
 							/>
+						</Grid>
+
+						<Grid item xs={12}>
+							<RecapClinicalInfo clinicalInfo={item.clinicalInfo} />
 						</Grid>
 
 						<Grid item xs={12} sm={6}>
@@ -83,7 +95,7 @@ export default function RecapModal({ open, setOpen, item }: RecapModalProps) {
 						</Grid>
 
 						<Grid item xs={12}>
-							<RecapRandomStrategy strategy={item.randomization}/>
+							<RecapRandomStrategy strategy={item.randomization} />
 						</Grid>
 
 						<Grid item xs={12}>

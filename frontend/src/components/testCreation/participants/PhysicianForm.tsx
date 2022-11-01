@@ -42,10 +42,11 @@ export default function PhysicianForm({
 		{ name: 'firstname', trad: t('form.firstname'), size: 6 },
 		{ name: 'lastname', trad: t('form.lastname'), size: 6 },
 		{ name: 'phone', trad: t('form.phone') },
-		{ name: 'street', trad: t('form.street') },
-		{ name: 'zip', trad: t('form.zip'), size: 4 },
-		{ name: 'city', trad: t('form.city'), size: 8 },
 		{ name: 'email', trad: t('form.email') },
+		{ name: 'country', trad: t('form.country') },
+		{ name: 'street', trad: t('form.street') },
+		{ name: 'zip', trad: t('form.zip'), size: 5 },
+		{ name: 'city', trad: t('form.city'), size: 7 },
 		{ name: 'institution', trad: t('form.institution') },
 	];
 
@@ -96,7 +97,7 @@ export default function PhysicianForm({
 	return (
 		<Paper sx={{ p: 2, width: '100%' }}>
 			<Typography variant="h6">
-				{t('createTest:participants.physicianInfo')}
+				{t('createTest:participants.physician')}
 			</Typography>
 			<FormWithValidation<PhysicianFormData>
 				schema={schema}

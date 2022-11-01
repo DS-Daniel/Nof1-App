@@ -113,7 +113,9 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 	return (
 		<Paper sx={{ p: 3, width: '100%' }}>
 			<Stack spacing={3}>
-				<Typography variant="h5">{t('variables.title')}</Typography>
+				<Typography variant="h5" fontWeight="bold">
+					{t('variables.title')}
+				</Typography>
 
 				<VarTable rows={variables} removeRow={removeVariable} />
 
@@ -126,12 +128,6 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 						{t('common:button.add')}
 					</Button>
 				</Stack>
-
-				<VarDialog
-					open={openDialog}
-					handleDialogSubmit={(data) => handleDialogSubmit(data)}
-					handleClose={() => setOpenDialog(false)}
-				/>
 
 				<Typography variant="h6" mb={2}>
 					{t('variables.additional-var-subtitle')}
@@ -163,6 +159,11 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 					</Grid>
 				</FormGroup>
 			</Stack>
+			<VarDialog
+				open={openDialog}
+				handleDialogSubmit={(data) => handleDialogSubmit(data)}
+				handleClose={() => setOpenDialog(false)}
+			/>
 		</Paper>
 	);
 }

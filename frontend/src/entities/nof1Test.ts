@@ -1,6 +1,7 @@
 import { TestStatus } from '../utils/constants';
 import { RandomizationStrategy } from '../utils/nof1-lib/randomizationStrategy';
-import { Patient, Physician } from './people';
+import { IClinicalInfo } from './clinicalInfo';
+import { Patient, Pharmacy, Physician } from './people';
 import { PosologyDay, SubstancePosologies, SubstancePosology } from './posology';
 import { Substance } from './substance';
 import { Variable } from './variable';
@@ -10,7 +11,8 @@ export interface Nof1Test {
 	patient: Patient;
 	physician: Physician;
 	nof1Physician: Physician;
-	pharmaEmail: string;
+	pharmacy: Pharmacy;
+	clinicalInfo: IClinicalInfo;
 	status: TestStatus;
 	nbPeriods: number;
 	periodLen: number;
@@ -30,7 +32,9 @@ export interface Nof1Test {
 }
 
 export type AdministrationSchema = ({
-	date: string;
+	// date: string;
+	// day: number;
 	substance: string;
 	unit: string;
-} & Omit<PosologyDay, 'day'>)[];
+} & PosologyDay)[];
+// } & Omit<PosologyDay, 'day'>)[];

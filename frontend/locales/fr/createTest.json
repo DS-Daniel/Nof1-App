@@ -1,11 +1,14 @@
 {
 	"createBtn": "Valider et créer le test",
+  "create-error": "Veuillez compléter toutes les parties du formulaire avant de valider la création du test",
 	"draftBtn": "Sauvegarder le brouillon",
+  "draft-error": "Veuillez au moins renseigner les participants",
 	"participants": {
 		"title": "Informations des participants",
-		"pharmaEmail": "E-mail de la pharmacie partenaire",
-		"patientInfo": "Patient",
-		"physicianInfo": "Médecin traitant",
+		"pharmacy": "Pharmacie partenaire",
+		"patient": "Patient",
+		"physician": "Médecin traitant",
+		"nof1-physician": "Médecin responsable du test N-of-1",
 		"findPatient": "Trouver un patient par ID",
 		"findPhysician": "Trouver un médecin par ID"
 	},
@@ -32,7 +35,7 @@
 		"posology-repeat-switch": "Répéter la posologie du dernier jour pour la période suivante, si deux périodes consécutives concernent la même substance.",
 		"add-posology-btn": "Ajouter une posologie",
 		"save-posology-btn": "Sauvegarder la posologie",
-		"warning-save-posology": "(N'oubliez pas de sauvegarder après les modifications, sinon les changements ne seront pas pris en compte)",
+		"warning-save-posology": "(N'oubliez pas de sauvegarder les modifications, sinon elles ne seront pas prises en compte)",
 		"config-posology-btn": "Configurer les posologies*",
 		"warning-config-posology": "(*Paramétrez les substances et la durée des périodes avant de configurer les posologies. Vous ne pourrez plus modifier ceux-ci après avoir cliqué sur le bouton.)"
 	},
@@ -64,5 +67,28 @@
 		"var-remarks": "Remarques générales",
 		"var-remarks-desc": "Remarques générales.",
 		"modal-title": "Paramètres de la variable à monitorer"
-	}
+	},
+  "clinicalInfo": {
+    "title": "Informations cliniques",
+    "sex": "Sexe",
+    "sex-man": "Homme",
+    "sex-woman": "Femme",
+    "age": "Âge",
+    "weight": "Poids",
+    "height": "Taille",
+    "indication": "Indication au médicament à tester",
+    "other-diag": "Autres diagnostics importants",
+    "drugs": "Médicament(s) à tester (DCI et posologie)",
+    "other-drugs": "Autres médicaments en cours (DCI et posologie)",
+    "purpose": {
+			"title": "But du test N-of-1 :",
+      "efficacy": "Évaluation de l’efficacité",
+      "side-effects": "Évaluation d’effet(s) secondaire(s)",
+      "deprescription": "Déprescription",
+      "dosage": "Recherche de dose",
+      "drugs-choice": "Choix entre médicaments",
+      "generic-substitution": "Substitution générique/bio-similaire",
+      "other": "Autre"
+		}
+  }
 }

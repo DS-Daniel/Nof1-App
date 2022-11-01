@@ -462,14 +462,16 @@ export const sendPharmaEmail = async (
 		html: string;
 	},
 	dest: string,
+  subject: string,
 ): Promise<{
 	success: boolean;
 	msg: string;
 }> => {
 	const body = {
-		data,
-		msg,
+    msg,
 		dest,
+    subject,
+		data,
 	};
 	const { response } = await apiCall(token, body, 'POST', '/mail');
 	return response;
@@ -481,8 +483,10 @@ export const sendPharmaEmail = async (
  * @param token JWT API authorization token.
  * @param msg Email message in text and HTML format.
  * @param dest Recipient.
- * @param tokenExp String indicating the expiration delay of the
+ * @param tokenExp Unix date indicating the expiration date of the
  * access token for the health variables data page.
+ * @param notBefore Unix date indicating the date of the access token
+ * validity for the health variables data page.
  * @returns An object of type { success: boolean, msg: string }.
  */
 export const sendPatientEmail = async (
@@ -492,7 +496,9 @@ export const sendPatientEmail = async (
 		html: string;
 	},
 	dest: string,
-	tokenExp: string,
+	subject: string,
+	tokenExp: number,
+	notBefore: number,
 ): Promise<{
 	success: boolean;
 	msg: string;
@@ -500,7 +506,9 @@ export const sendPatientEmail = async (
 	const body = {
 		msg,
 		dest,
+    subject,
 		tokenExp,
+		notBefore,
 	};
 	const { response } = await apiCall(token, body, 'POST', '/mail/patient');
 	return response;
@@ -518,8 +526,9 @@ const toPhysician = (data: any): Physician => {
 		firstname: data.firstname,
 		address: {
 			street: data.address.street,
-			zip: data.address.zip.toString(),
+			zip: data.address.zip,
 			city: data.address.city,
+			country: data.address.country,
 		},
 		phone: data.phone,
 		email: data.email,
@@ -540,11 +549,13 @@ const toPatient = (data: any): Patient => {
 		firstname: data.firstname,
 		address: {
 			street: data.address.street,
-			zip: data.address.zip.toString(),
+			zip: data.address.zip,
 			city: data.address.city,
+			country: data.address.country,
 		},
 		phone: data.phone,
 		email: data.email,
+		birthYear: data.birthYear,
 		insurance: data.insurance,
 		insuranceNb: data.insuranceNb,
 	};

@@ -6,8 +6,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { MailDto } from './dto/mail.dto';
 import { PatientMailDto } from './dto/patientMail.dto';
+import { PharmaMailDto } from './dto/pharmaMail.dto';
 import { MailService } from './mail.service';
 
 /**
@@ -29,8 +29,8 @@ export class MailController {
    */
   @Post()
   @UsePipes(new ValidationPipe({ transform: true }))
-  sendEmail(@Body() mailDto: MailDto) {
-    return this.mailService.sendEmail(mailDto);
+  pharmaEmail(@Body() mailDto: PharmaMailDto) {
+    return this.mailService.sendPharmaEmail(mailDto);
   }
 
   /**

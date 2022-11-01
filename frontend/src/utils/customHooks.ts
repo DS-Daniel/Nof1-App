@@ -51,17 +51,17 @@ export const usePredefinedHealthVariables: () => Variable[] = () => {
  * @param user User information.
  * @returns An object containing all information needed to be sent.
  */
-export const useEmailInfos = (
+export const usePharmaEmailInfos = (
 	patient: Patient,
 	physician: Physician,
 	user: Physician,
 ) => {
 	const { t } = useTranslation('common');
 	const contact = `${user.lastname} ${user.firstname}`;
-	const msg = useEmailMsg(contact, user.email, user.phone);
+	const msg = usePharmaEmailMsg(contact, user.email, user.phone);
 
 	const schemaHeaders = [
-		t('date'),
+		t('day'),
 		t('substance'),
 		t('posology-table.morning'),
 		t('posology-table.fraction'),
@@ -79,16 +79,18 @@ export const useEmailInfos = (
 		t('form.street'),
 		t('form.zip'),
 		t('form.city'),
+		t('form.country'),
 		t('form.email'),
 		t('form.phone'),
 	];
 	const patientHeaders = [
 		...personHeaders,
+		t('form.birth-year'),
 		t('form.insurance'),
 		t('form.insuranceNb'),
 	];
 	const patientInfos = [
-		[t('patient')],
+		[t('createTest:participants.patient')],
 		patientHeaders,
 		[
 			patient.firstname,
@@ -96,15 +98,17 @@ export const useEmailInfos = (
 			patient.address.street,
 			patient.address.zip,
 			patient.address.city,
+			patient.address.country,
 			patient.email,
 			patient.phone,
+			patient.birthYear,
 			patient.insurance,
 			patient.insuranceNb,
 		],
 	];
 	const physicianHeaders = [...personHeaders, t('form.institution')];
 	const physicianInfos = [
-		[t('physician')],
+		[t('createTest:participants.physician')],
 		physicianHeaders,
 		[
 			physician.firstname,
@@ -112,13 +116,14 @@ export const useEmailInfos = (
 			physician.address.street,
 			physician.address.zip,
 			physician.address.city,
+			physician.address.country,
 			physician.email,
 			physician.phone,
 			physician.institution,
 		],
 	];
 	const nof1PhysicianInfos = [
-		[t('nof1-physician')],
+		[t('createTest:participants.nof1-physician')],
 		physicianHeaders,
 		[
 			user.firstname,
@@ -126,6 +131,7 @@ export const useEmailInfos = (
 			user.address.street,
 			user.address.zip,
 			user.address.city,
+			user.address.country,
 			user.email,
 			user.phone,
 			user.institution,
@@ -149,7 +155,7 @@ export const useEmailInfos = (
  * @param phone Phone of the contact.
  * @returns An object containing the message as plain text and html.
  */
-const useEmailMsg = (contact: string, contactEmail: string, phone: string) => {
+const usePharmaEmailMsg = (contact: string, contactEmail: string, phone: string) => {
 	const { t } = useTranslation('mail');
 	const warning = t('warning');
 	const hello = t('hello');
@@ -204,14 +210,17 @@ ${greetings}
  * Message use the locale of session for translation.
  * @param link URL link to the health logbook.
  * @param nof1Physician Physician's information.
+ * @param startDate Test start date.
+ * @param endDate Test end date.
  * @returns An object containing the message as plain text and html.
  */
-export const usePatientEmailMsg = (link: string, nof1Physician: Physician) => {
+export const usePatientEmailMsg = (link: string, nof1Physician: Physician, startDate: string, endDate: string) => {
 	const { t } = useTranslation('mail');
 	const warning = t('warning');
 	const hello = t('hello');
 	const intro = t('patient.intro');
-	const linkInfo = t('patient.link');
+	const linkInfo = t('patient.link', { startDate, endDate });
+	const linkInfo2 = t('patient.link2');
 	const contactInfo = t('patient.contact');
 	const contactName = t('patient.contact-name', {
 		name: `${nof1Physician.lastname} ${nof1Physician.firstname}`,
@@ -231,6 +240,8 @@ ${hello}
 ${intro}
 
 ${linkInfo}
+${linkInfo2}
+
 ${link}
 
 ${contactInfo}
@@ -245,10 +256,9 @@ ${greetings}
 	<br/>
 	<p>${hello}</p>
 	<p>${intro}</p>
-	<p>
-		${linkInfo}<br/>
-		${link}
-	</p>
+	<p>${linkInfo}</p>
+	<p>${linkInfo2}</p>
+	<a href=${link}>${link}</a><br/>
 	<p>${contactInfo}</p>
 	<p>
 		${contactName}<br/>

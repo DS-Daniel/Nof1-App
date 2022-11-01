@@ -6,6 +6,9 @@ import { CreatePersonDto } from '../../commonDto/create-person.dto';
  */
 export class CreatePatientDto extends CreatePersonDto {
   @IsString()
+  birthYear: string;
+
+  @IsString()
   insurance: string;
 
   @IsString()

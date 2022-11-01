@@ -1,11 +1,14 @@
 {
 	"createBtn": "Validate & create the test",
+	"create-error": "Please complete all parts of the form before validating the test creation",
 	"draftBtn": "Save draft",
+	"draft-error": "Please at least inform the participants",
 	"participants": {
 		"title": "Participants information",
-		"pharmaEmail": "E-mail of partner pharmacy",
-		"patientInfo": "Patient",
-		"physicianInfo": "Physician",
+		"pharmacy": "Partner pharmacy",
+		"patient": "Patient",
+		"physician": "Attending physician",
+		"nof1-physician": "Physician responsible of the N-of-1 test",
 		"findPatient": "Find a patient by ID",
 		"findPhysician": "Find a physician by ID"
 	},
@@ -32,7 +35,7 @@
 		"posology-repeat-switch": "Repeat the last day's dosage for the next period, if two consecutive periods involve the same substance.",
 		"add-posology-btn": "Add a posology",
 		"save-posology-btn": "Save posology",
-		"warning-save-posology": "(Don't forget to save after the modifications, otherwise the changes will not be taken into account)",
+		"warning-save-posology": "(Don't forget to save the modifications, otherwise they won't be taken into account)",
 		"config-posology-btn": "Configure posologies*",
 		"warning-config-posology": "(*Set up the substances and the duration of the test before setting up the dosages. You will not be able to change these after clicking on the button.)"
 	},
@@ -64,5 +67,28 @@
 		"var-remarks": "General remarks",
 		"var-remarks-desc": "General remarks.",
 		"modal-title": "Parameters of the variable to monitor"
+	},
+	"clinicalInfo": {
+		"title": "Clinical information",
+		"sex": "Sex",
+		"sex-man": "Man",
+		"sex-woman": "Woman",
+		"age": "Age",
+		"weight": "Weight",
+		"height": "Height",
+		"indication": "Indication for the drug to be tested",
+		"other-diag": "Other important diagnoses",
+		"drugs": "Drug(s) to be tested (INN and dosage)",
+		"other-drugs": "Other current medications (INN and dosage)",
+		"purpose": {
+			"title": "Purpose of the N-of-1 test:",
+			"efficacy": "Assessment of efficacy",
+			"side-effects": "Assessment of side effect(s)",
+			"deprescription": "Deprescription",
+			"dosage": "Searching for a dose",
+			"drugs-choice": "Choice between drugs",
+			"generic-substitution": "Generic/biosimilar substitution",
+			"other": "Other"
+		}
 	}
 }

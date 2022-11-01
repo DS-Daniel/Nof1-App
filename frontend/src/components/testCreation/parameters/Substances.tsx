@@ -39,9 +39,11 @@ export default function Substances({
 	 * @param idx Index of the substance.
 	 */
 	const removeSubstance = (idx: number) => {
-		const array = [...substances];
-		array.splice(idx, 1);
-		setSubstances(array);
+		setSubstances((prevSubstances) => {
+			const array = [...prevSubstances];
+			array.splice(idx, 1);
+			return array;
+		});
 	};
 
 	/**
@@ -61,7 +63,7 @@ export default function Substances({
 
 	return (
 		<Stack spacing={2} alignItems="flex-start">
-			<Typography variant="h6">
+			<Typography variant="h6" fontWeight="bold">
 				{t('parameters.subtitle-substances')}
 			</Typography>
 			<Typography fontStyle="italic">

@@ -1,17 +1,4 @@
-import { IsEmail, IsNotEmptyObject, IsObject } from 'class-validator';
-import { AdministrationSchema } from 'src/nof1-tests/@types/types';
-
-/**
- * Information required to generate the xlsx file about the N-of.1 test.
- */
-export interface MailData {
-  patientInfos: string[][];
-  physicianInfos: string[][];
-  nof1PhysicianInfos: string[][];
-  schemaHeaders: string[];
-  schema: AdministrationSchema[];
-  substancesRecap: (string | number)[][][];
-}
+import { IsEmail, IsNotEmptyObject, IsObject, IsString } from 'class-validator';
 
 export class MailDto {
   /**
@@ -31,9 +18,8 @@ export class MailDto {
   dest: string;
 
   /**
-   * Information to generate the xlsx file.
+   * Email subject.
    */
-  @IsObject()
-  @IsNotEmptyObject()
-  data: MailData;
+  @IsString()
+  subject: string;
 }

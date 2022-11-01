@@ -104,8 +104,8 @@ export default function PatientData() {
 	if (deadlineExceeded) {
 		return (
 			<Page>
-				<Typography variant="h5" align="center">
-					{t('deadline-error')}
+				<Typography variant="h5" align="center" sx={{ whiteSpace: 'pre-line' }}>
+					{t('patient.deadline-error')}
 				</Typography>
 			</Page>
 		);

@@ -25,9 +25,10 @@ import { TestStatus } from '../constants';
  */
 export const selectRandomPosology = (allPosologies: SubstancePosologies[]) => {
 	const selectedPosology: SubstancePosology[] = [];
-	allPosologies.forEach(({ substance, posologies }) => {
+	allPosologies.forEach(({ substance, unit, posologies }) => {
 		selectedPosology.push({
 			substance,
+			unit,
 			posology: getRandomElemFromArray(posologies),
 		});
 	});
@@ -79,17 +80,17 @@ export const generateAdministrationSchema = (
 	substances: Substance[],
 	seq: string[],
 	posologies: SubstancePosology[],
-	startDate: Date,
+	// startDate: Date,
 	periodLen: number,
 	nbPeriods: number,
 ): AdministrationSchema => {
 	const result: AdministrationSchema = [];
 	let dateCounter = 0;
-	const nextDate = () =>
-		dayjs(startDate)
-			.add(dateCounter++, 'day')
-			.toDate()
-			.toLocaleDateString();
+	// const nextDate = () =>
+	// 	dayjs(startDate)
+	// 		.add(dateCounter++, 'day')
+	// 		.toDate()
+	// 		.toLocaleDateString();
 
 	for (let i = 0; i < nbPeriods; i++) {
 		const abbrev = seq[i];
@@ -109,13 +110,15 @@ export const generateAdministrationSchema = (
 			for (let j = 0; j < periodLen; j++) {
 				result.push({
 					...prev,
-					date: nextDate(),
+					day: dateCounter++,
+					// date: nextDate(),
 				});
 			}
 		} else {
 			for (let j = 0; j < periodLen; j++) {
 				result.push({
-					date: nextDate(),
+					day: dateCounter++,
+					// date: nextDate(),
 					substance: substance.name,
 					morning: posology.posology[j].morning,
 					morningFraction: posology.posology[j].morningFraction,

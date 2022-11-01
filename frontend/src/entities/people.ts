@@ -6,12 +6,14 @@ interface PersonCommon {
 		street: string;
 		zip: string;
 		city: string;
+		country: string;
 	};
 	phone: string;
 	email: string;
 }
 
 export interface Patient extends PersonCommon {
+	birthYear: string;
 	insurance: string;
 	insuranceNb: string;
 }
@@ -24,7 +26,7 @@ export interface Physician extends PersonCommon {
 /**
  * @returns A Physician object with default values.
  */
-export const defaultPhysician = () => {
+export const defaultPhysician = (): Physician => {
 	return {
 		lastname: '',
 		firstname: '',
@@ -32,6 +34,7 @@ export const defaultPhysician = () => {
 			street: '',
 			zip: '',
 			city: '',
+			country: '',
 		},
 		phone: '',
 		email: '',
@@ -42,7 +45,7 @@ export const defaultPhysician = () => {
 /**
  * @returns A Patient object with default values.
  */
-export const defaultPatient = () => {
+export const defaultPatient = (): Patient => {
 	return {
 		lastname: '',
 		firstname: '',
@@ -50,11 +53,41 @@ export const defaultPatient = () => {
 			street: '',
 			zip: '',
 			city: '',
+			country: '',
 		},
 		phone: '',
 		email: '',
-		institution: '',
+		birthYear: '',
 		insurance: '',
 		insuranceNb: '',
+	};
+};
+
+export interface Pharmacy {
+	name: string;
+  email: string;
+  phone: string;
+	address: {
+		street: string;
+		zip: string;
+		city: string;
+		country: string;
+	};
+}
+
+/**
+ * @returns A Physician object with default values.
+ */
+export const defaultPharmacy = (): Pharmacy => {
+	return {
+		name: '',
+    email: '',
+    phone: '',
+		address: {
+			street: '',
+			zip: '',
+			city: '',
+			country: '',
+		},
 	};
 };
