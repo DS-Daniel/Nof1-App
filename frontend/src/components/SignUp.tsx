@@ -15,6 +15,7 @@ import Alert from '@mui/material/Alert';
 import { authenticate } from '../utils/apiCalls';
 import useTranslation from 'next-translate/useTranslation';
 import { UserContextType } from '../context/UserContext';
+import Captcha from '../components/common/Captcha';
 
 type SignUpProps = {
 	login: (u: UserContextType) => void;
@@ -28,6 +29,7 @@ export default function SignUp({ login }: SignUpProps) {
 	const { t } = useTranslation('common');
 	const [userExists, setUserExists] = useState(false);
 	const registerSchema = useRegisterSchema();
+	const [isCaptchaValid, setIsCaptchaValid] = useState(false);
 
 	const {
 		register,
@@ -38,7 +40,7 @@ export default function SignUp({ login }: SignUpProps) {
 	});
 
 	/**
-	 * Helper method called by the API call that handles the response. 
+	 * Helper method called by the API call that handles the response.
 	 * @param noError Boolean value indicating errors during authentication.
 	 * @param user User resulting from the authentication.
 	 */
@@ -52,7 +54,7 @@ export default function SignUp({ login }: SignUpProps) {
 	};
 
 	/**
-	 * Handle submit of the form. It call the API to register the user.
+	 * Handles submit of the form. It call the API to register the user.
 	 * @param data Data from the form.
 	 */
 	const onSubmitHandler: SubmitHandler<RegisterForm> = async (data) => {
@@ -60,7 +62,7 @@ export default function SignUp({ login }: SignUpProps) {
 	};
 
 	/**
-	 * Display an error message for the field, if any.
+	 * Displays an error message for the field, if any.
 	 * @param field Errors field.
 	 * @returns The error string message.
 	 */
@@ -74,6 +76,7 @@ export default function SignUp({ login }: SignUpProps) {
 				</Typography>
 				<Box
 					component="form"
+					id="signup-form"
 					noValidate
 					onSubmit={handleSubmit(onSubmitHandler)}
 					mt={3}
@@ -212,14 +215,16 @@ export default function SignUp({ login }: SignUpProps) {
 						</Grid>
 						<Grid item xs={12}>
 							<Alert variant="outlined" severity="warning">
-								<Typography
-									variant="body2"
-									// align="center"
-									sx={{ whiteSpace: 'pre-line' }}
-								>
+								<Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
 									{t('form.pwd-instructions')}
 								</Typography>
 							</Alert>
+						</Grid>
+						<Grid item xs={12}>
+							<Captcha
+								captchaNumbers={5}
+								onValidation={(valid: boolean) => setIsCaptchaValid(valid)}
+							/>
 						</Grid>
 						{userExists && (
 							<Grid item xs={12}>
@@ -231,8 +236,10 @@ export default function SignUp({ login }: SignUpProps) {
 						<Grid item xs={5} sm={5}>
 							<Button
 								type="submit"
+								form="signup-form"
 								variant="contained"
 								fullWidth
+								disabled={!isCaptchaValid}
 								sx={{ mt: 2 }}
 							>
 								{t('form.signUp')}
