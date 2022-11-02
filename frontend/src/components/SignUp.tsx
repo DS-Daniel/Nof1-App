@@ -16,6 +16,7 @@ import { authenticate } from '../utils/apiCalls';
 import useTranslation from 'next-translate/useTranslation';
 import { UserContextType } from '../context/UserContext';
 import Captcha from '../components/common/Captcha';
+import CaptchaSS from './common/CaptchaSS';
 
 type SignUpProps = {
 	login: (u: UserContextType) => void;
@@ -221,10 +222,13 @@ export default function SignUp({ login }: SignUpProps) {
 							</Alert>
 						</Grid>
 						<Grid item xs={12}>
-							<Captcha
-								captchaNumbers={5}
+							<CaptchaSS
 								onValidation={(valid: boolean) => setIsCaptchaValid(valid)}
 							/>
+							{/* <Captcha
+								captchaNumbers={5}
+								onValidation={(valid: boolean) => setIsCaptchaValid(valid)}
+							/> */}
 						</Grid>
 						{userExists && (
 							<Grid item xs={12}>

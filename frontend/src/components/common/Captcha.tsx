@@ -164,7 +164,7 @@ export default function Captcha({ captchaNumbers, onValidation }: Props) {
 	return (
 		<>
 			{isValid ? (
-				<Alert>Captcha valide</Alert>
+				<Alert>{t('captcha-success')}</Alert>
 			) : (
 				<Stack alignItems="center" spacing={1}>
 					<Stack direction="row" alignItems="center" spacing={1}>
@@ -183,7 +183,7 @@ export default function Captcha({ captchaNumbers, onValidation }: Props) {
 							error={captchaHelperTxt !== ''}
 							sx={{ width: captchaNumbers * charWidth }}
 						/>
-						<Button size="small" onClick={(e) => validateCaptcha()}>
+						<Button size="small" onClick={() => validateCaptcha()}>
 							{t('captcha-btn')}
 						</Button>
 					</Stack>
