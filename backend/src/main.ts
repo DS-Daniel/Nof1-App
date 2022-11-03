@@ -2,10 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import session from 'express-session';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 // Create app and start server.
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.set('trust proxy', 1);
   app.enableCors({
     origin: [process.env.FRONTEND_URL, /ds-daniel\.vercel\.app$/], // TODO remove for production
     credentials: true,
@@ -20,7 +22,7 @@ async function bootstrap() {
         sameSite: 'none',
         secure: true,
         path: '/captcha',
-        domain: process.env.SERVER_DOMAIN,
+        // domain: process.env.SERVER_DOMAIN,
       },
     }),
   );
