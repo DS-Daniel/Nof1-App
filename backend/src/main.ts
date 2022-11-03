@@ -19,10 +19,9 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        sameSite: 'none',
-        secure: true,
+        sameSite: 'lax',
+        // secure: true,
         path: '/captcha',
-        // domain: process.env.SERVER_DOMAIN,
       },
     }),
   );
