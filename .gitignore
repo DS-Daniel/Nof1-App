@@ -1,0 +1,6 @@
+.idea/.gitignore
+.idea/modules.xml
+.idea/Nof1_App.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/Project_Default.xml
+docker-compose.yaml
