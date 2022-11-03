@@ -13,10 +13,32 @@ export class Address {
  */
 export const AddressSchema = new Schema<Address>(
   {
-    street: { type: String, required: true, get: decrypt, set: encrypt },
-    zip: { type: String, required: true, get: decrypt, set: encrypt },
-    city: { type: String, required: true, get: decrypt, set: encrypt },
-    country: { type: String, required: true },
+    street: {
+      type: String,
+      // required: true,
+      get: decrypt,
+      set: encrypt,
+      default: '',
+    },
+    zip: {
+      type: String,
+      // required: true,
+      get: decrypt,
+      set: encrypt,
+      default: '',
+    },
+    city: {
+      type: String,
+      // required: true,
+      get: decrypt,
+      set: encrypt,
+      default: '',
+    },
+    country: {
+      type: String,
+      // required: true,
+      default: '',
+    },
   },
   {
     versionKey: false,

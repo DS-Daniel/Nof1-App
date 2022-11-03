@@ -5,7 +5,7 @@ import {
 	PharmacyFormData,
 	usePharmacySchema,
 } from '../../../utils/zodValidationHook';
-import FormWithValidation from '../../common/FormWithValidation';
+import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
 import { MutableRefObject, useState } from 'react';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import { Pharmacy } from '../../../entities/people';
@@ -27,9 +27,9 @@ export default function PharmaForm({ pharmacy }: PharmaFormProps) {
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 
 	// form inputs data.
-	const inputs = [
+	const inputs: FormInput[] = [
 		{ name: 'name', trad: t('form.lastname') },
-		{ name: 'email', trad: t('form.email') },
+		{ name: 'email', trad: t('form.email'), required: true },
 		{ name: 'phone', trad: t('form.phone'), size: 6 },
 		{ name: 'country', trad: t('form.country'), size: 6 },
 		{ name: 'street', trad: t('form.street') },

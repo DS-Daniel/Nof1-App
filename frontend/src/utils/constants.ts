@@ -15,18 +15,11 @@ export const alphaRegex = /^[a-zA-Z\s'\-À-ÖØ-öø-ÿ]*$/;
 export const smallNumberRange = /^(1|2)?[0-9]?[0-9]$|^$/;
 export const yearRegex = /^[0-9]{4}$/;
 
-// ENUMS
-export enum TestStatus {
-	Draft = 'draft',
-	Preparation = 'preparation',
-	Ready = 'ready',
-	Ongoing = 'ongoing',
-	Ended = 'ended',
-	Interrupted = 'interrupted',
-}
-
-// N-of-1 creation: parameter for randomization strategy
+// N-of-1 creation
+// parameter for randomization strategy
 export const maxRepOptions = [1, 2, 3, 4, 5];
+// max value for periods length and number of periods
+export const maxValue = 100;
 
 // Token expiration margin, in days.
 export const tokenExpMargin = 14;

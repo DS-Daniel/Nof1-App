@@ -1,4 +1,3 @@
-import { TestStatus } from '../utils/constants';
 import { RandomizationStrategy } from '../utils/nof1-lib/randomizationStrategy';
 import { IClinicalInfo } from './clinicalInfo';
 import { Patient, Pharmacy, Physician } from './people';
@@ -6,6 +5,18 @@ import { PosologyDay, SubstancePosologies, SubstancePosology } from './posology'
 import { Substance } from './substance';
 import { Variable } from './variable';
 
+export enum TestStatus {
+	Draft = 'draft',
+	Preparation = 'preparation',
+	Ready = 'ready',
+	Ongoing = 'ongoing',
+	Ended = 'ended',
+	Interrupted = 'interrupted',
+}
+
+// Participants (patient & physicians) information is recorded at
+// the moment "T" of the test creation. No dynamic link with patients
+// or physicians collections in DB. To ensure traceability.
 export interface Nof1Test {
 	uid?: string;
 	patient: Patient;

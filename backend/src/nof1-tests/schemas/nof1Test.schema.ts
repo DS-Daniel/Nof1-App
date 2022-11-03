@@ -51,7 +51,7 @@ class Nof1Test {
   @Prop({ type: PharmacySchema, required: true })
   pharmacy: Pharmacy;
 
-  @Prop({ type: Object, required: true })
+  @Prop({ type: Object })
   clinicalInfo: ClinicalInfo;
 
   @Prop({ type: String, required: true, enum: Object.values(TestStatus) })

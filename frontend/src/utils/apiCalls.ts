@@ -3,6 +3,31 @@ import { Nof1Data, Nof1DataUpdate, TestData } from '../entities/nof1Data';
 import { AdministrationSchema, Nof1Test } from '../entities/nof1Test';
 import { Patient, Physician } from '../entities/people';
 
+const getWithCredentials = async (endpoint: string) => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BACKEND_API_URL}${endpoint}`,
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			credentials: 'include',
+		},
+	);
+	const result = await response.json();
+	return result;
+};
+
+export const getCaptcha = (): Promise<{ captchaImg: string }> => {
+	return getWithCredentials('/captcha');
+};
+
+export const verifyCaptcha = (
+	captcha: string,
+): Promise<{ verified: boolean }> => {
+	return getWithCredentials(`/captcha/verify/${captcha}`);
+};
+
 /**
  * Authentication API call.
  * @param endpoint Endpoint to reach.
@@ -462,15 +487,15 @@ export const sendPharmaEmail = async (
 		html: string;
 	},
 	dest: string,
-  subject: string,
+	subject: string,
 ): Promise<{
 	success: boolean;
 	msg: string;
 }> => {
 	const body = {
-    msg,
+		msg,
 		dest,
-    subject,
+		subject,
 		data,
 	};
 	const { response } = await apiCall(token, body, 'POST', '/mail');
@@ -506,7 +531,7 @@ export const sendPatientEmail = async (
 	const body = {
 		msg,
 		dest,
-    subject,
+		subject,
 		tokenExp,
 		notBefore,
 	};

@@ -36,8 +36,8 @@ const getKey = (salt: BinaryLike) => {
  * @returns The encrypted value as a hex string.
  */
 export const encrypt = (value: string) => {
-  if (value === null) {
-    throw new Error('value must not be null or undefined');
+  if (value === '' || value == null) {
+    return value;
   }
 
   const iv = randomBytes(ivLength); // initialization vector
@@ -64,8 +64,8 @@ export const encrypt = (value: string) => {
  * @returns The decrypted value as a utf8 string.
  */
 export const decrypt = (value: string) => {
-  if (value == null) {
-    throw new Error('value must not be null or undefined');
+  if (value === '' || value == null) {
+    return value;
   }
 
   const stringValue = Buffer.from(String(value), 'hex');
@@ -98,8 +98,8 @@ export const decrypt = (value: string) => {
  * @returns The encrypted value as a hex string.
  */
 export const encryptMail = (value: string) => {
-  if (value === null) {
-    throw new Error('value must not be null or undefined');
+  if (value === '' || value == null) {
+    return value;
   }
 
   const iv = Buffer.from(process.env.IV_SECRET, 'utf8');

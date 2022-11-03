@@ -1,24 +1,23 @@
-import useTranslation from 'next-translate/useTranslation';
-import OptionBtn from './OptionBtn';
-import Stack from '@mui/material/Stack';
-import { OptionsProps } from '../Nof1TableItem';
-import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { TestStatus } from '../../../utils/constants';
-import { sendPharmaEmail, updateNof1Test } from '../../../utils/apiCalls';
-import { Nof1Test } from '../../../entities/nof1Test';
-import FailSnackbar from '../../common/FailSnackbar';
+import { useRouter } from 'next/router';
+import useTranslation from 'next-translate/useTranslation';
 import { useUserContext } from '../../../context/UserContext';
+import { Nof1Test, TestStatus } from '../../../entities/nof1Test';
+import { sendPharmaEmail, updateNof1Test } from '../../../utils/apiCalls';
 import {
-	generateAdministrationSchema,
+  generateAdministrationSchema,
 	generateSequence,
 	selectRandomPosology,
 	substancesRecap,
 } from '../../../utils/nof1-lib/lib';
 import { usePharmaEmailInfos } from '../../../utils/customHooks';
+import OptionBtn from './OptionBtn';
+import { OptionsProps } from '../Nof1TableItem';
 import EmailConfirmDialog from '../EmailConfirmDialog';
-import CircularProgress from '@mui/material/CircularProgress';
 import PreparationMenu from '../dropDownMenus/PreparationMenu';
+import FailSnackbar from '../../common/FailSnackbar';
+import CircularProgress from '@mui/material/CircularProgress';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
 interface PreparationOptionsProps extends OptionsProps {

@@ -41,10 +41,10 @@ export default function Auth() {
 						{t('auth:welcome')}
 					</Typography>
 				</Grid>
-				<Grid item xs={12} sm={5}>
+				<Grid item xs={12} sm={8} md={5}>
 					<SignIn login={login} />
 				</Grid>
-				<Grid item xs={12} sm={5}>
+				<Grid item xs={12} sm={8} md={5}>
 					<SignUp login={login} />
 				</Grid>
 			</Grid>

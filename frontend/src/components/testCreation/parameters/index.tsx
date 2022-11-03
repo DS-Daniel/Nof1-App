@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid';
 import { Substance } from '../../../entities/substance';
 import { SubstancePosologies } from '../../../entities/posology';
 import Posologies from './Posologies';
+import { maxValue } from '../../../utils/constants';
 
 export interface SubstancesProps {
 	substances: Substance[];
@@ -59,6 +60,8 @@ export default function TestParameters({
 	setAllPosologies,
 }: TestParametersProps) {
 	const { t } = useTranslation('createTest');
+	const nbPeriodsError = nbPeriods > maxValue;
+	const periodLenError = periodLen > maxValue;
 
 	return (
 		<Paper sx={{ p: 3, width: '100%' }}>
@@ -79,12 +82,16 @@ export default function TestParameters({
 						</Typography>
 						<TextField
 							size="small"
-							sx={{ width: 100 }}
+							sx={{ width: 110 }}
 							type="number"
 							InputProps={{ inputProps: { min: 1 } }}
 							name="nbPeriods"
 							value={nbPeriods}
 							onChange={(e) => setNbPeriods(Number(e.target.value))}
+							error={nbPeriodsError}
+							helperText={
+								nbPeriodsError && t('parameters.max-value', { max: maxValue })
+							}
 						/>
 					</Stack>
 					<Stack direction="row" alignItems="center" spacing={3} my={2}>
@@ -94,12 +101,16 @@ export default function TestParameters({
 						<TextField
 							disabled={allPosologies.length !== 0}
 							size="small"
-							sx={{ width: 100 }}
+							sx={{ width: 110 }}
 							type="number"
 							InputProps={{ inputProps: { min: 1 } }}
 							name="periodLen"
 							value={periodLen}
 							onChange={(e) => setPeriodLen(Number(e.target.value))}
+							error={periodLenError}
+							helperText={
+								periodLenError && t('parameters.max-value', { max: maxValue })
+							}
 						/>
 					</Stack>
 				</Grid>

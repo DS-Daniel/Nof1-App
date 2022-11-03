@@ -13,9 +13,8 @@ import {
 	RandomStrategy,
 } from './randomizationStrategy';
 import { Substance } from '../../entities/substance';
-import { AdministrationSchema, Nof1Test } from '../../entities/nof1Test';
+import { AdministrationSchema, Nof1Test, TestStatus } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
-import { TestStatus } from '../constants';
 
 /**
  * For each substance in the passed array, select a random posology from all
@@ -71,7 +70,6 @@ export const generateSequence = (
  * @param substances Substances of the test.
  * @param seq Substances administration sequence.
  * @param posologies Posologies for substances.
- * @param startDate Starting date of the test.
  * @param periodLen Period Length.
  * @param nbPeriods Number of periods.
  * @returns An array containing the administration schema for every day of the N-of-1 test.
@@ -80,18 +78,11 @@ export const generateAdministrationSchema = (
 	substances: Substance[],
 	seq: string[],
 	posologies: SubstancePosology[],
-	// startDate: Date,
 	periodLen: number,
 	nbPeriods: number,
 ): AdministrationSchema => {
 	const result: AdministrationSchema = [];
 	let dateCounter = 0;
-	// const nextDate = () =>
-	// 	dayjs(startDate)
-	// 		.add(dateCounter++, 'day')
-	// 		.toDate()
-	// 		.toLocaleDateString();
-
 	for (let i = 0; i < nbPeriods; i++) {
 		const abbrev = seq[i];
 		const substance = substances.find((s) => s.abbreviation === abbrev);
@@ -111,14 +102,12 @@ export const generateAdministrationSchema = (
 				result.push({
 					...prev,
 					day: dateCounter++,
-					// date: nextDate(),
 				});
 			}
 		} else {
 			for (let j = 0; j < periodLen; j++) {
 				result.push({
 					day: dateCounter++,
-					// date: nextDate(),
 					substance: substance.name,
 					morning: posology.posology[j].morning,
 					morningFraction: posology.posology[j].morningFraction,

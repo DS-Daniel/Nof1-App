@@ -33,7 +33,6 @@ const generateRows = (schema: AdministrationSchema, startDate: Date) => {
 			idx,
 			dayjs(startDate).add(row.day, 'day').toDate().toLocaleDateString(),
 		),
-		// renderTableCell(idx, row.date),
 		renderTableCell(++idx, row.substance),
 		renderTableCell(++idx, row.morning.toString()),
 		renderTableCell(++idx, row.morningFraction.toString()),

@@ -17,6 +17,7 @@ import {
   IsObject,
   IsNotEmptyObject,
   ValidateNested,
+  IsString,
 } from 'class-validator';
 import { TestStatus } from '../../utils/constants';
 import { Patient } from '../../persons/patients/schemas/patient.schema';
@@ -72,6 +73,7 @@ export class CreateNof1TestDto {
 
   @IsOptional()
   @IsArray()
+  @IsString({ each: true })
   substancesSequence: string[];
 
   @IsOptional()

@@ -5,7 +5,7 @@ import {
 	usePatientSchema,
 	PatientFormData,
 } from '../../../utils/zodValidationHook';
-import FormWithValidation from '../../common/FormWithValidation';
+import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
 import { Patient } from '../../../entities/people';
 import { MutableRefObject, useState } from 'react';
 import { formatPatientData } from '../../../utils/dataFormConvertor';
@@ -38,18 +38,18 @@ export default function PatientForm({
 	const [openFailSnackbar, setOpenFailSnackbar] = useState(false);
 
 	// form inputs data.
-	const inputs = [
-		{ name: 'firstname', trad: t('form.firstname'), size: 6 },
-		{ name: 'lastname', trad: t('form.lastname'), size: 6 },
-		{ name: 'phone', trad: t('form.phone') },
-		{ name: 'email', trad: t('form.email') },
-		{ name: 'birthYear', trad: t('form.birth-year'), size: 6 },
+	const inputs: FormInput[] = [
+		{ name: 'firstname', trad: t('form.firstname'), required: true, size: 6 },
+		{ name: 'lastname', trad: t('form.lastname'), required: true, size: 6 },
+		{ name: 'phone', trad: t('form.phone'), required: true },
+		{ name: 'email', trad: t('form.email'), required: true },
+		{ name: 'birthYear', trad: t('form.birth-year'), required: true, size: 6 },
 		{ name: 'country', trad: t('form.country'), size: 6 },
 		{ name: 'street', trad: t('form.street') },
 		{ name: 'zip', trad: t('form.zip'), size: 5 },
 		{ name: 'city', trad: t('form.city'), size: 7 },
-		{ name: 'insurance', trad: t('form.insurance') },
-		{ name: 'insuranceNb', trad: t('form.insuranceNb') },
+		{ name: 'insurance', trad: t('form.insurance'), required: true },
+		{ name: 'insuranceNb', trad: t('form.insuranceNb'), required: true },
 	];
 
 	/**
@@ -63,6 +63,12 @@ export default function PatientForm({
 		let creationError = false;
 		let updateError = false;
 		if (!isEqual(patient.current, newPatient)) {
+			if (data._id) {
+				delete newPatient._id;
+				// remove _id to avoid duplicate key in DB collection.
+				// In case the email is changed for an existing patient and
+				// a new patient creation is triggered below.
+			}
 			const patientInDB = await findPatient(
 				userContext.access_token,
 				newPatient.email,

@@ -1,6 +1,5 @@
 import { Address, AddressSchema } from './address.schema';
 import { Schema } from 'mongoose';
-// import { encrypt, decrypt } from '../../utils/cipher';
 
 export class Pharmacy {
   name: string;
@@ -14,15 +13,10 @@ export class Pharmacy {
  */
 export const PharmacySchema = new Schema<Pharmacy>(
   {
-    name: { type: String },
+    name: { type: String, default: '' },
     email: { type: String, required: true },
-    phone: { type: String },
+    phone: { type: String, default: '' },
     address: { type: AddressSchema },
   },
-  {
-    versionKey: false,
-    _id: false,
-    //  toObject: { getters: true },
-    //  toJSON: { getters: true },
-  },
+  { versionKey: false, _id: false },
 );

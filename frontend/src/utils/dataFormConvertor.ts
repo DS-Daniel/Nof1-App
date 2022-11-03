@@ -1,5 +1,10 @@
 import { Patient, Pharmacy, Physician } from '../entities/people';
-import { PatientFormData, PharmacyFormData, PhysicianFormData, RegisterForm } from './zodValidationHook';
+import {
+	PatientFormData,
+	PharmacyFormData,
+	PhysicianFormData,
+	RegisterForm,
+} from './zodValidationHook';
 
 /**
  * Format the registration form data to API format.
@@ -16,7 +21,7 @@ export const formatRegisterData = (data: RegisterForm) => {
 			street: data.street,
 			zip: data.zip,
 			city: data.city,
-      country: data.country,
+			country: data.country,
 		},
 		phone: data.phone,
 		institution: data.institution,
@@ -96,10 +101,13 @@ export const formatPatientData = (data: PatientFormData): Patient => {
 		},
 		phone: data.phone,
 		email: data.email,
-    birthYear: data.birthYear,
+		birthYear: data.birthYear,
 		insurance: data.insurance,
 		insuranceNb: data.insuranceNb,
 	};
+	if (data._id !== undefined) {
+		patient._id = data._id;
+	}
 	return patient;
 };
 
@@ -118,7 +126,7 @@ export const formatPatientDataToForm = (data: Patient): PatientFormData => {
 		country: data.address.country,
 		phone: data.phone,
 		email: data.email,
-    birthYear: data.birthYear,
+		birthYear: data.birthYear,
 		insurance: data.insurance,
 		insuranceNb: data.insuranceNb,
 	};
@@ -136,8 +144,8 @@ export const formatPatientDataToForm = (data: Patient): PatientFormData => {
 export const formatPharmacyData = (data: PharmacyFormData): Pharmacy => {
 	const pharmacy: Pharmacy = {
 		name: data.name,
-    email: data.email,
-    phone: data.phone,
+		email: data.email,
+		phone: data.phone,
 		address: {
 			street: data.street,
 			zip: data.zip,
@@ -153,9 +161,7 @@ export const formatPharmacyData = (data: PharmacyFormData): Pharmacy => {
  * @param data Pharmacy data.
  * @returns Data formatted.
  */
-export const formatPharmacyDataToForm = (
-	data: Pharmacy,
-): PharmacyFormData => {
+export const formatPharmacyDataToForm = (data: Pharmacy): PharmacyFormData => {
 	const formData: PharmacyFormData = {
 		name: data.name,
 		email: data.email,

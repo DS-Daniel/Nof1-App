@@ -1,31 +1,30 @@
-import AuthenticatedPage from '../components/layout/AuthenticatedPage';
-import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
-import useTranslation from 'next-translate/useTranslation';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Nof1Test } from '../entities/nof1Test';
-import { findNof1Data, findNof1TestById } from '../utils/apiCalls';
+import { useRouter } from 'next/router';
 import { useUserContext } from '../context/UserContext';
-import Button from '@mui/material/Button';
-import Typography, { TypographyProps } from '@mui/material/Typography';
+import useTranslation from 'next-translate/useTranslation';
+import { Nof1Test, TestStatus } from '../entities/nof1Test';
 import { TestData } from '../entities/nof1Data';
-import { styled } from '@mui/material/styles';
-import AdministrationTable from '../components/results/AdministrationTable';
-import dayjs from 'dayjs';
-import Paper from '@mui/material/Paper';
-import { TestStatus } from '../utils/constants';
-import PatientDataTable from '../components/results/PatientDataTable';
+import { VariableType } from '../entities/variable';
+import { findNof1Data, findNof1TestById } from '../utils/apiCalls';
 import { formatPatientDataToTable } from '../utils/nof1-lib/lib';
-import SelectedPosologies from '../components/results/SelectedPosologies';
+import { randomHexColor } from '../utils/charts';
 import {
-	RandomizationStrategy,
+  RandomizationStrategy,
 	RandomStrategy,
 } from '../utils/nof1-lib/randomizationStrategy';
 import { CustomLineChart } from '../components/results/LineChart';
-import { VariableType } from '../entities/variable';
-import { randomHexColor } from '../utils/charts';
 import RecapModal from '../components/nof1List/recapModal';
+import AuthenticatedPage from '../components/layout/AuthenticatedPage';
+import AdministrationTable from '../components/results/AdministrationTable';
+import PatientDataTable from '../components/results/PatientDataTable';
+import SelectedPosologies from '../components/results/SelectedPosologies';
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Typography, { TypographyProps } from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import dayjs from 'dayjs';
 
 const BoxedTxt = styled(Typography)<TypographyProps>(({ theme }) => ({
 	border: '1px solid black',

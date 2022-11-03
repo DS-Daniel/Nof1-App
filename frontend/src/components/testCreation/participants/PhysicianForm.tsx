@@ -5,7 +5,7 @@ import {
 	usePhysicianSchema,
 	PhysicianFormData,
 } from '../../../utils/zodValidationHook';
-import FormWithValidation from '../../common/FormWithValidation';
+import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
 import { Physician } from '../../../entities/people';
 import { MutableRefObject, useState } from 'react';
 import { formatPhysicianData } from '../../../utils/dataFormConvertor';
@@ -38,16 +38,16 @@ export default function PhysicianForm({
 	const [openFailSnackbar, setOpenFailSnackbar] = useState(false);
 
 	// form inputs data.
-	const inputs = [
-		{ name: 'firstname', trad: t('form.firstname'), size: 6 },
-		{ name: 'lastname', trad: t('form.lastname'), size: 6 },
-		{ name: 'phone', trad: t('form.phone') },
-		{ name: 'email', trad: t('form.email') },
+	const inputs: FormInput[] = [
+		{ name: 'firstname', trad: t('form.firstname'), required: true, size: 6 },
+		{ name: 'lastname', trad: t('form.lastname'), required: true, size: 6 },
+		{ name: 'phone', trad: t('form.phone'), required: true },
+		{ name: 'email', trad: t('form.email'), required: true },
 		{ name: 'country', trad: t('form.country') },
 		{ name: 'street', trad: t('form.street') },
 		{ name: 'zip', trad: t('form.zip'), size: 5 },
 		{ name: 'city', trad: t('form.city'), size: 7 },
-		{ name: 'institution', trad: t('form.institution') },
+		{ name: 'institution', trad: t('form.institution'), required: true },
 	];
 
 	/**
@@ -61,6 +61,12 @@ export default function PhysicianForm({
 		let creationError = false;
 		let updateError = false;
 		if (!isEqual(physician.current, newPhysician)) {
+			if (data._id) {
+				delete newPhysician._id;
+				// remove _id to avoid duplicate key in DB collection.
+				// In case the email is changed for an existing physician and
+				// a new physician creation is triggered below.
+			}
 			const physicianInDB = await findPhysician(
 				userContext.access_token,
 				newPhysician.email,

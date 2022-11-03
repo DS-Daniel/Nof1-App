@@ -8,6 +8,8 @@ import { MailModule } from './mail/mail.module';
 import { Nof1DataModule } from './nof1-data/nof1-data.module';
 import { PhysiciansModule } from './persons/physicians/physicians.module';
 import { PatientsModule } from './persons/patients/patients.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 /**
  * Module configuration.
@@ -31,5 +33,7 @@ import { PatientsModule } from './persons/patients/patients.module';
     MailModule,
     Nof1DataModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
