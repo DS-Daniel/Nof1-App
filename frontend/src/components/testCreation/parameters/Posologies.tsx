@@ -1,14 +1,15 @@
+import { useState } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import useTranslation from 'next-translate/useTranslation';
-import { useState } from 'react';
-import { PosologiesProps } from '.';
-import { initialPosology, Posology } from '../../../entities/posology';
-import PosologyTable from './PosologyTable';
 import ClearIcon from '@mui/icons-material/Clear';
+import { PosologiesProps } from '.';
+import PosologyTable from './PosologyTable';
+import { initialPosology, Posology } from '../../../entities/posology';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
+import FailSnackbar from '../../common/FailSnackbar';
 import { maxValue } from '../../../utils/constants';
 
 /**
@@ -22,6 +23,7 @@ export default function Posologies({
 }: PosologiesProps) {
 	const { t } = useTranslation('createTest');
 	const [openSnackbar, setOpenSnackbar] = useState(false);
+	const [openFailSnackbar, setOpenFailSnackbar] = useState(false);
 
 	/**
 	 * Saves the edited posology.
@@ -112,7 +114,9 @@ export default function Posologies({
     const someEmptySubstance = substances.some(sub => sub.name === '')
     if (periodLen <= maxValue && !someEmptySubstance) {
 			setDefaultPosologies();
-		}
+		} else {
+      setOpenFailSnackbar(true);
+    }
   }
 
 	return (
@@ -191,6 +195,11 @@ export default function Posologies({
 				open={openSnackbar}
 				setOpen={setOpenSnackbar}
 				msg={t('common:formErrors.successMsg')}
+			/>
+			<FailSnackbar
+				open={openFailSnackbar}
+				setOpen={setOpenFailSnackbar}
+				msg={t('common:formErrors.errorMsg')}
 			/>
 		</Stack>
 	);

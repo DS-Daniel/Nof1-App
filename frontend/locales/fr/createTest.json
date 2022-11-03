@@ -1,6 +1,6 @@
 {
 	"createBtn": "Valider et créer le test",
-  "create-error": "Veuillez compléter toutes les parties du formulaire avant de valider la création du test",
+  "create-error": "Veuillez compléter toutes les parties du formulaire avant de valider la création du test et/ou vérifier les champs incorrects",
 	"draftBtn": "Sauvegarder le brouillon",
   "draft-error": "Veuillez au moins renseigner les participants",
 	"participants": {
