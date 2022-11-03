@@ -17,9 +17,10 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        sameSite: 'lax',
+        sameSite: 'none',
+        secure: true,
         path: '/captcha',
-        domain: process.env.FRONTEND_DOMAIN,
+        domain: process.env.SERVER_DOMAIN,
       },
     }),
   );
