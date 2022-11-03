@@ -135,7 +135,6 @@ export default function SignUp({ login }: SignUpProps) {
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
-								required
 								fullWidth
 								id="street"
 								label={t('form.street')}
@@ -146,7 +145,6 @@ export default function SignUp({ login }: SignUpProps) {
 						</Grid>
 						<Grid item xs={12} sm={5}>
 							<TextField
-								required
 								fullWidth
 								id="zip"
 								label={t('form.zip')}
@@ -157,7 +155,6 @@ export default function SignUp({ login }: SignUpProps) {
 						</Grid>
 						<Grid item xs={12} sm={7}>
 							<TextField
-								required
 								fullWidth
 								id="city"
 								label={t('form.city')}
@@ -168,7 +165,6 @@ export default function SignUp({ login }: SignUpProps) {
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
-								required
 								fullWidth
 								id="country"
 								label={t('form.country')}

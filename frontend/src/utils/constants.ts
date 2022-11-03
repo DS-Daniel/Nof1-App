@@ -25,8 +25,11 @@ export enum TestStatus {
 	Interrupted = 'interrupted',
 }
 
-// N-of-1 creation: parameter for randomization strategy
+// N-of-1 creation
+// parameter for randomization strategy
 export const maxRepOptions = [1, 2, 3, 4, 5];
+// max value for periods length and number of periods
+export const maxValue = 100;
 
 // Token expiration margin, in days.
 export const tokenExpMargin = 14;

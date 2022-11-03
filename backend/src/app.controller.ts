@@ -34,7 +34,7 @@ export class AppController {
   @Public()
   @Get('captcha/verify/:captcha')
   verifyCaptcha(
-    @Session() session,
+    @Session() session: Record<string, any>,
     @Param('captcha') captcha: string,
   ): { verified: boolean } {
     return this.appService.verifyCaptcha(session.captcha, captcha);

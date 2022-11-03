@@ -20,6 +20,7 @@
 		"substance-abbrev": "Abbreviation",
 		"subtitle-duration": "Test duration",
 		"periods-nb": "Number of periods",
+		"max-value": "Maximum {{max}}",
 		"period-duration": "Period duration (in days)",
 		"subtitle-randomStrategy": "Randomization strategy of the administration scheme",
 		"randomStrategy-desc": "Choose the strategy that will be used to alternate the administration of the different substances selected.",

@@ -2,7 +2,7 @@ import AuthenticatedPage from '../components/layout/AuthenticatedPage';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import FormWithValidation from '../components/common/FormWithValidation';
+import FormWithValidation, { FormInput } from '../components/common/FormWithValidation';
 import { useUserContext } from '../context/UserContext';
 import {
 	usePhysicianSchema,
@@ -86,15 +86,16 @@ export default function Profile() {
 	};
 
 	// form inputs data.
-	const inputs = [
-		{ name: 'institution', trad: t('form.institution') },
-		{ name: 'firstname', trad: t('form.firstname'), size: 6 },
-		{ name: 'lastname', trad: t('form.lastname'), size: 6 },
-		{ name: 'phone', trad: t('form.phone') },
+	const inputs: FormInput[] = [
+		{ name: 'institution', trad: t('form.institution'), required: true },
+		{ name: 'firstname', trad: t('form.firstname'), required: true, size: 6 },
+		{ name: 'lastname', trad: t('form.lastname'), required: true, size: 6 },
+		{ name: 'phone', trad: t('form.phone'), required: true },
+		{ name: 'email', trad: t('form.email'), required: true },
 		{ name: 'street', trad: t('form.street') },
 		{ name: 'zip', trad: t('form.zip'), size: 4 },
 		{ name: 'city', trad: t('form.city'), size: 8 },
-		{ name: 'email', trad: t('form.email') },
+		{ name: 'country', trad: t('form.country') },
 	];
 
 	return (

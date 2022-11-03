@@ -14,7 +14,7 @@ import {
 	Physician,
 } from '../entities/people';
 import { useUserContext } from '../context/UserContext';
-import { TestStatus } from '../utils/constants';
+import { maxValue, TestStatus } from '../utils/constants';
 import TestParameters from '../components/testCreation/parameters';
 import { RandomStrategy } from '../utils/nof1-lib/randomizationStrategy';
 import Variables from '../components/testCreation/variables';
@@ -192,6 +192,7 @@ export default function CreateTest() {
 			),
 		[substances],
 	);
+
 	const participantsNotFilledIn = () =>
 		isEqual(patient.current, defaultPatient()) ||
 		isEqual(pharmacy.current, defaultPharmacy()) ||
@@ -205,6 +206,8 @@ export default function CreateTest() {
 	const handleCreation = () => {
 		if (
 			allPosologies.length === 0 ||
+			nbPeriods > maxValue ||
+			periodLen > maxValue ||
 			variables.length === 0 ||
 			substancesNotFilledIn ||
 			participantsNotFilledIn()

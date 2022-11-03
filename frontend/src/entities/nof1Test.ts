@@ -6,6 +6,9 @@ import { PosologyDay, SubstancePosologies, SubstancePosology } from './posology'
 import { Substance } from './substance';
 import { Variable } from './variable';
 
+// Participants (patient & physicians) information is recorded at
+// the moment "T" of the test creation. No dynamic link with patients
+// or physicians collections in DB. To ensure traceability.
 export interface Nof1Test {
 	uid?: string;
 	patient: Patient;

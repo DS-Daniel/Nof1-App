@@ -11,6 +11,36 @@ import {
 } from './constants';
 
 /**
+ * Returns a Zod validation schema for common fields of the different forms.
+ * @returns The common fields validation schema.
+ */
+function useCommonSchema() {
+	const { t } = useTranslation('common');
+
+	return object({
+		firstname: string()
+			.min(1, t('formErrors.requiredField'))
+			.max(32, t('formErrors.maxLen')),
+		lastname: string()
+			.min(1, t('formErrors.requiredField'))
+			.max(32, t('formErrors.maxLen')),
+		phone: string()
+			.min(1, t('formErrors.requiredField'))
+			.max(20, t('formErrors.digitsMax'))
+			.regex(/^[0-9]+$/, t('formErrors.digitsRequired')),
+		street: string().max(32, t('formErrors.maxLen')),
+		zip: string()
+			.max(20, t('formErrors.digitsMax'))
+			.regex(/^[0-9]*$/, t('formErrors.digitsRequired')),
+		city: string().max(32, t('formErrors.maxLen')),
+		country: string().regex(alphaRegex, t('formErrors.alpha')),
+		email: string()
+			.min(1, t('formErrors.requiredField'))
+			.email(t('formErrors.emailInvalid')),
+	});
+}
+
+/**
  * Returns a Zod validation schema for user registration form.
  * @returns The register form validation schema.
  */
@@ -53,41 +83,6 @@ export type RegisterForm = {
 	password: string;
 	passwordConfirm: string;
 };
-
-/**
- * Returns a Zod validation schema for common fields of the different forms.
- * @returns The common fields validation schema.
- */
-function useCommonSchema() {
-	const { t } = useTranslation('common');
-
-	return object({
-		firstname: string()
-			.min(1, t('formErrors.requiredField'))
-			.max(32, t('formErrors.maxLen')),
-		lastname: string()
-			.min(1, t('formErrors.requiredField'))
-			.max(32, t('formErrors.maxLen')),
-		phone: string()
-			.min(1, t('formErrors.requiredField'))
-			.max(20, t('formErrors.digitsMax'))
-			.regex(/^[0-9]+$/, t('formErrors.digitsRequired')),
-		street: string()
-			.min(1, t('formErrors.requiredField'))
-			.max(32, t('formErrors.maxLen')),
-		zip: string()
-			.min(1, t('formErrors.requiredField'))
-			.max(20, t('formErrors.digitsMax'))
-			.regex(/^[0-9]+$/, t('formErrors.digitsRequired')),
-		city: string()
-			.min(1, t('formErrors.requiredField'))
-			.max(32, t('formErrors.maxLen')),
-		country: string().regex(alphaRegex, t('formErrors.alpha')),
-		email: string()
-			.min(1, t('formErrors.requiredField'))
-			.email(t('formErrors.emailInvalid')),
-	});
-}
 
 /**
  * Returns a Zod validation schema for physician form.
@@ -168,11 +163,11 @@ export function usePharmacySchema() {
 			.email(t('formErrors.emailInvalid')),
 		phone: string()
 			.max(20, t('formErrors.digitsMax'))
-			.regex(/^[0-9]+$/, t('formErrors.digitsRequired')),
+			.regex(/^[0-9]*$/, t('formErrors.digitsRequired')),
 		street: string().max(32, t('formErrors.maxLen')),
 		zip: string()
 			.max(20, t('formErrors.digitsMax'))
-			.regex(/^[0-9]+$/, t('formErrors.digitsRequired')),
+			.regex(/^[0-9]*$/, t('formErrors.digitsRequired')),
 		city: string().max(32, t('formErrors.maxLen')),
 		country: string().regex(alphaRegex, t('formErrors.alpha')),
 	});

@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsArray } from 'class-validator';
+import { IsString, IsOptional, IsArray, IsNotEmpty } from 'class-validator';
 import { CreatePersonDto } from '../../commonDto/create-person.dto';
 
 /**
@@ -6,9 +6,11 @@ import { CreatePersonDto } from '../../commonDto/create-person.dto';
  */
 export class CreatePhysicianDto extends CreatePersonDto {
   @IsString()
+  @IsNotEmpty()
   institution: string;
 
   @IsOptional()
   @IsArray()
+  @IsString({ each: true })
   tests?: string[];
 }

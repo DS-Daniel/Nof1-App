@@ -14,7 +14,7 @@ export class Person {
   @Prop({ required: true, set: encrypt, get: decrypt })
   firstname: string;
 
-  @Prop({ type: AddressSchema, required: true })
+  @Prop({ type: AddressSchema })
   address: Address;
 
   @Prop({ required: true, set: encrypt, get: decrypt })

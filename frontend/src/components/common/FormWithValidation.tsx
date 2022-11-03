@@ -8,9 +8,16 @@ import Alert from '@mui/material/Alert';
 import { TypeOf } from 'zod';
 import { useMemo } from 'react';
 
+export type FormInput = {
+	name: string;
+	trad: string;
+	required?: boolean;
+	size?: number;
+};
+
 type FormWithValidationProps<T> = {
 	schema: any;
-	inputs: { name: string; trad: string; size?: number }[];
+	inputs: FormInput[];
 	btnLabel: string;
 	errorMsg: string;
 	onSubmit: (data: T) => void;
@@ -67,7 +74,7 @@ export default function FormWithValidation<T>({
 						>
 							<TextField
 								size="small"
-								required
+								required={input.required}
 								fullWidth
 								id={input.name}
 								label={input.trad}

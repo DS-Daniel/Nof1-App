@@ -6,7 +6,10 @@ import session from 'express-session';
 // Create app and start server.
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({ origin: [process.env.FRONTEND_URL], credentials: true });
+  app.enableCors({
+    origin: [process.env.FRONTEND_URL, /ds-daniel\.vercel\.app$/], // TODO remove for production
+    credentials: true,
+  });
   // using session for captcha challenges
   app.use(
     session({

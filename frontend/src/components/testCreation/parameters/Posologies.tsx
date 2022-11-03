@@ -9,6 +9,7 @@ import { initialPosology, Posology } from '../../../entities/posology';
 import PosologyTable from './PosologyTable';
 import ClearIcon from '@mui/icons-material/Clear';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
+import { maxValue } from '../../../utils/constants';
 
 /**
  * Posologies component. Renders the posologies form tables for each substance.
@@ -40,6 +41,7 @@ export default function Posologies({
 		});
 	};
 
+  // If we set up posologies as React state.
 	// const updatePosologies = (
 	// 	substanceIndex: number,
 	// 	posologyIndex: number,
@@ -103,11 +105,21 @@ export default function Posologies({
 		setAllPosologies(defaultPosologies);
 	};
 
+  /**
+   * Triggers the creation of the default posologies if parameters are valid.
+   */
+  const handlePosologiesSetUp = () => {
+    const someEmptySubstance = substances.some(sub => sub.name === '')
+    if (periodLen <= maxValue && !someEmptySubstance) {
+			setDefaultPosologies();
+		}
+  }
+
 	return (
 		<Stack alignItems="center">
 			{allPosologies.length === 0 ? (
 				<Stack alignItems="center" spacing={1}>
-					<Button variant="outlined" onClick={() => setDefaultPosologies()}>
+					<Button variant="outlined" onClick={handlePosologiesSetUp}>
 						{t('parameters.config-posology-btn')}
 					</Button>
 					<Typography
