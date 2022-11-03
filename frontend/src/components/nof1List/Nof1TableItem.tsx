@@ -1,14 +1,13 @@
+import { useState } from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import { TestStatus } from '../../utils/constants';
+import Stack from '@mui/material/Stack';
 import EndedOptions from './options/EndedOptions';
 import ReadyOptions from './options/ReadyOptions';
 import OngoingOptions from './options/OngoingOptions';
 import DraftOptions from './options/DraftOptions';
-import Stack from '@mui/material/Stack';
-import { Nof1Test } from '../../entities/nof1Test';
-import { useState } from 'react';
 import PreparationOptions from './options/PreparationOptions';
+import { Nof1Test, TestStatus } from '../../entities/nof1Test';
 
 interface TableItemProps {
 	item: Nof1Test;
