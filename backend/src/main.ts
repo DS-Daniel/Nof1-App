@@ -19,7 +19,7 @@ async function bootstrap() {
       cookie: {
         sameSite: 'lax',
         path: '/captcha',
-        domain: process.env.FRONTEND_URL,
+        domain: process.env.FRONTEND_DOMAIN,
       },
     }),
   );
