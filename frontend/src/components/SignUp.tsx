@@ -233,7 +233,7 @@ export default function SignUp({ login }: SignUpProps) {
 								</Alert>
 							</Grid>
 						)}
-						<Grid item xs={5} sm={5}>
+						<Grid item xs={5} sm={6}>
 							<Button
 								type="submit"
 								form="signup-form"

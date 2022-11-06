@@ -1,7 +1,7 @@
 {
 	"btn": {
 		"dataImport": "Import patient data",
-		"report": "Generate medical report",
+		"report": "Generate the medical report",
 		"xml": "Export N-of-1 data test to XML",
 		"recap-modal": "Consult the test parameters"
 	},
@@ -23,5 +23,17 @@
 	"xlsx-patient-data": "Patient_health_data",
 	"xlsx-posology-sub-x": "Posology_{{substance}}",
 	"graph-title": "Quantitative variables charts",
-	"dl-graph": "Download"
+	"dl-graph": "Download",
+	"report": {
+		"subject": "Concerns: N-of-1 test of the patient {{patient}}",
+		"dear": "Dear colleague,",
+		"intro": "Thank you for referring your patient, whom we have seen on several occasions, for a \"N-of-1\" test performed from {{startDate}} to {{endDate}} in our department. This test consisted of the administration of {{substances}} in alternating periods in a randomized, double-blind sequence. The patient was asked to report his or her health parameters during the {{nbPeriods}} periods of {{periodLen}} days that the test lasted. The results are summarized below.",
+		"sequence": "Medication schedule (after unblinding) :",
+		"method": "Method :",
+		"method-description": "description",
+		"results": "Results :",
+		"conclusion": "Conclusion",
+		"results-details": "Detailed results :",
+		"": ""
+	}
 }

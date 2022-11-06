@@ -9,15 +9,16 @@ import { findNof1Data, findNof1TestById } from '../utils/apiCalls';
 import { formatPatientDataToTable } from '../utils/nof1-lib/lib';
 import { randomHexColor } from '../utils/charts';
 import {
-  RandomizationStrategy,
+	RandomizationStrategy,
 	RandomStrategy,
 } from '../utils/nof1-lib/randomizationStrategy';
-import { CustomLineChart } from '../components/results/LineChart';
+import ExtendedLineChart from '../components/results/lineChart';
 import RecapModal from '../components/nof1List/recapModal';
 import AuthenticatedPage from '../components/layout/AuthenticatedPage';
 import AdministrationTable from '../components/results/AdministrationTable';
 import PatientDataTable from '../components/results/PatientDataTable';
 import SelectedPosologies from '../components/results/SelectedPosologies';
+import MedicalReportModal from '../components/results/medicalReport';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -43,6 +44,7 @@ export default function Results() {
 	const [testData, setTestData] = useState<TestData | null>(null);
 	const [substancesColors, setSubstancesColors] = useState<string[]>([]);
 	const [openRecapModal, setOpenRecapModal] = useState(false);
+	const [openReportModal, setOpenReportModal] = useState(false);
 
 	// fetch N-of-1 test and patient's health variables data.
 	useEffect(() => {
@@ -115,6 +117,9 @@ export default function Results() {
 				</Button>
 				<Button variant="contained" onClick={() => setOpenRecapModal(true)}>
 					{t('btn.recap-modal')}
+				</Button>
+				<Button variant="contained" onClick={() => setOpenReportModal(true)}>
+					{t('btn.report')}
 				</Button>
 				{/* <Button variant="contained" onClick={handleXML}>
 					{t('btn.xml')}
@@ -197,7 +202,7 @@ export default function Results() {
 											v.type === VariableType.VAS,
 									)
 									.map((v) => (
-										<CustomLineChart
+										<ExtendedLineChart
 											key={v.name}
 											testData={testData}
 											variable={v}
@@ -222,11 +227,21 @@ export default function Results() {
 				</Stack>
 			</Paper>
 			{test && (
-				<RecapModal
-					open={openRecapModal}
-					setOpen={setOpenRecapModal}
-					item={test}
-				/>
+				<>
+					<RecapModal
+						open={openRecapModal}
+						setOpen={setOpenRecapModal}
+						item={test}
+					/>
+					{testData && (
+						<MedicalReportModal
+							open={openReportModal}
+							handleClose={() => setOpenReportModal(false)}
+							item={test}
+							testData={testData}
+						/>
+					)}
+				</>
 			)}
 		</AuthenticatedPage>
 	);

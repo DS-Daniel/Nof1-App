@@ -4,15 +4,15 @@
 		"create-fromID": "create a new N-of-1 test, from another one",
 		"stop": "Stop the test",
 		"edit": "Edit test",
-		"delete": "Delete test",
-		"print": "Print logbook (print to pdf)"
+		"delete": "Delete test"
 	},
 	"delete-warning": "Are you sure you want to delete the test ?",
-	"print-warning": "(*check the orientation (portrait) and margins (default) in the print window if the rendering is not correct)",
 	"create-fromID-dialog-title": "Choose the test ID that will be used as a template",
-	"headerId": "Test ID",
-	"headerDate": "Creation date",
-	"headerState": "State",
+	"header": {
+    "id": "Test ID",
+    "date": "Creation date",
+    "state": "State"
+  },
 	"optionsMenu": "Options",
 	"menu": {
 		"parameters": "Consult the test parameters",
@@ -33,10 +33,12 @@
 		"ready": "Start the test",
 		"preparation": "Start the preparation"
 	},
-	"startingDate": "Test starting date",
-	"endingDate": "Test ending date",
-	"alert-date": "Please indicate a starting date for the test",
-	"alert-email": "Email could not be sent, please check the address and try again!",
-	"email-sent": "Email successfully sent",
-	"email-confirm": "Please check the following e-mail address before sending the e-mail (a non-existent address will not be detected) :"
+  "alert": {
+    "date": "Please indicate a starting date for the test",
+    "email": "Email could not be sent, please check the address and try again!"
+  },
+  "email": {
+    "sent": "Email successfully sent",
+    "confirm": "Please check the following e-mail address before sending the e-mail (a non-existent address will not be detected) :"
+  }
 }

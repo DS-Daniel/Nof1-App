@@ -22,7 +22,7 @@ export default function HealthLogbookModal({
 	handleClose,
 	item,
 }: HealthLogbookModalProps) {
-	const { t } = useTranslation('nof1List');
+	const { t } = useTranslation('common');
 	const componentRef = useRef(null);
 
 	/**
@@ -35,9 +35,9 @@ export default function HealthLogbookModal({
 	return (
 		<Dialog open={open} onClose={handleClose} fullWidth maxWidth={'md'}>
 			<DialogContent>
-				<Button onClick={handlePrint}>{t('btn.print')}</Button>
+				<Button onClick={handlePrint}>{t('print.btn')}</Button>
 				<Typography variant="body2" fontStyle="italic">
-					{t('print-warning')}
+					{t('print.warning')}
 				</Typography>
 				<HealthLogbook ref={componentRef} test={item} />
 			</DialogContent>

@@ -27,7 +27,8 @@ export default function Auth() {
 		<Page>
 			<Grid
 				container
-				rowSpacing={6}
+				rowSpacing={5}
+				// columnSpacing={12}
 				columnGap={12}
 				alignItems="center"
 				justifyContent="center"
@@ -41,10 +42,10 @@ export default function Auth() {
 						{t('auth:welcome')}
 					</Typography>
 				</Grid>
-				<Grid item xs={12} sm={8} md={5}>
+				<Grid item xs={12} sm={9} md={5}>
 					<SignIn login={login} />
 				</Grid>
-				<Grid item xs={12} sm={8} md={5}>
+				<Grid item xs={12} sm={9} md={5}>
 					<SignUp login={login} />
 				</Grid>
 			</Grid>

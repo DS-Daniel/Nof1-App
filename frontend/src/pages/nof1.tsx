@@ -90,19 +90,19 @@ export default function Nof1() {
 			id: 'id',
 			align: 'left',
 			disablePadding: false,
-			label: t('headerId'),
+			label: t('header.id'),
 		},
 		{
 			id: 'creationDate',
 			align: 'left',
 			disablePadding: false,
-			label: t('headerDate'),
+			label: t('header.date'),
 		},
 		{
 			id: 'status',
 			align: 'right',
 			disablePadding: false,
-			label: t('headerState'),
+			label: t('header.state'),
 		},
 	];
 

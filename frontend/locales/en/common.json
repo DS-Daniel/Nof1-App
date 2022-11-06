@@ -54,7 +54,8 @@
 		"cancel": "Cancel",
 		"saveDataBtn": "Save",
 		"send": "Send",
-		"delete": "Delete"
+		"delete": "Delete",
+		"close": "Close"
 	},
 	"measure-unit-label": "Measurement unit",
 	"posology-table": {
@@ -67,6 +68,8 @@
 		"dose": "Dose ({{unit}})"
 	},
 	"loading": "Loading...",
+	"startingDate": "Test starting date",
+	"endingDate": "Test ending date",
 	"date": "Date",
 	"day": "Day",
 	"days": "days",
@@ -81,5 +84,9 @@
 		"qty": "Total quantity for substance",
 		"dose": "doses (fractions)"
 	},
-	"close-modal": "Close recap"
+	"close-modal": "Close recap",
+	"print": {
+		"btn": "Print (print to pdf)*",
+		"warning": "(*check the orientation (portrait) and margins (default) in the print window if the rendering is not correct)"
+	}
 }

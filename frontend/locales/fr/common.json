@@ -54,7 +54,8 @@
 		"cancel": "Annuler",
 		"saveDataBtn": "Enregistrer",
 		"send": "Envoyer",
-		"delete": "Supprimer"
+		"delete": "Supprimer",
+		"close": "Fermer"
 	},
 	"measure-unit-label": "Unité de mesure",
 	"posology-table": {
@@ -67,6 +68,8 @@
 		"dose": "Dose ({{unit}})"
 	},
 	"loading": "Chargement...",
+	"startingDate": "Date de début du test",
+	"endingDate": "Date de fin du test",
 	"date": "Date",
 	"day": "Jour",
 	"days": "jours",
@@ -81,5 +84,9 @@
 		"qty": "Quantité totale pour substance",
 		"dose": "doses (fractions)"
 	},
-	"close-modal": "Fermer le récapitulatif"
+	"close-modal": "Fermer le récapitulatif",
+	"print": {
+		"btn": "Imprimer (imprimer en pdf)*",
+		"warning": "(*vérifier l'orientation (portrait) et les marges (par défaut) dans la fenêtre d'impression si le rendu n'est pas correct)"
+	}
 }

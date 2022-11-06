@@ -1,0 +1,169 @@
+@media print {
+	.printContainer {
+		height: initial !important;
+		overflow: initial !important;
+	}
+	.pageBreak {
+		display: block;
+		page-break-after: always;
+	}
+	.avoidBreak {
+		display: block;
+		page-break-inside: avoid;
+	}
+
+	@page {
+		size: portrait;
+		margin: 18mm;
+	}
+
+	.txtInput {
+		border: 0;
+		width: 100%;
+		resize: none;
+	}
+}
+
+@page {
+	size: portrait;
+	margin: 18mm;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.rightAlign {
+  float: right;
+}
+
+.flexH {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 0;
+}
+
+.flexV {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* gap: 10px 0; */
+}
+
+.flexItem {
+	flex: 1 1 auto;
+}
+
+.title {
+	font-weight: bold;
+	text-align: center;
+	/* margin: 1rem 0; */
+}
+
+.subtitle {
+	/* margin: 1rem 0; */
+	font-weight: bold;
+}
+
+.boxedText {
+	border: 1px solid black;
+	padding: 0.2rem 0.7rem;
+	text-align: center;
+}
+
+.txtInput {
+	width: 100%;
+	resize: vertical;
+	font-family: inherit;
+	font-size: inherit;
+	text-align: justify;
+}
+
+.justifyText {
+	text-align: justify;
+}
+
+.paper {
+	border: 1px solid gray;
+	border-radius: 5px;
+	padding: 1rem;
+	margin-bottom: 2rem;
+	min-width: 750px;
+}
+
+.paperHeader {
+	display: flex;
+	justify-content: space-between;
+}
+
+.paperHeader > span {
+	padding: 0.5rem 0;
+}
+
+.variables {
+	margin: 1rem;
+}
+
+.variable {
+	margin-bottom: 1rem;
+}
+
+.varTitle {
+	display: inline-block;
+	font-weight: bold;
+	width: 130px;
+}
+
+.varContent {
+	flex-grow: 1;
+}
+
+.textarea {
+	border: 1px solid black;
+	border-radius: 5px;
+	height: 100px;
+	width: 100%;
+}
+
+.txt {
+	margin: 0 0 0.5rem 0;
+}
+
+.inputLine {
+	display: inline-block;
+	width: 150px;
+	height: 16px;
+	border-bottom: 1px solid black;
+	margin: 0 1rem;
+}
+
+.line {
+	display: inline-block;
+	margin: 0 1rem;
+	width: 10cm;
+	height: 16px;
+	border-bottom: 2px solid black;
+}
+
+.radioBox {
+	display: inline-block;
+	margin: 10px;
+}
+
+.radioBox label {
+	display: block;
+	text-align: center;
+}
+
+.radioBox input {
+	appearance: none;
+	display: block;
+	margin: 0px auto;
+	width: 1.5em;
+	height: 1.5em;
+	border: 0.15em solid black;
+	border-radius: 50%;
+	background-color: #fff;
+}
