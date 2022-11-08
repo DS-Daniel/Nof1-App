@@ -36,7 +36,7 @@ const MultilineTextField: FC<TextFieldProps> = forwardRef((props, ref) => {
 			size="small"
 			fullWidth
 			multiline
-			minRows={1}
+			minRows={2}
 			maxRows={4}
 			inputProps={{ maxLength: 500 }}
 			inputRef={ref}
@@ -185,11 +185,29 @@ export default function ClinicalInfo({
 							/>
 						</Grid>
 						<Grid item xs={12}>
+							<Typography variant="caption">{t('clinicalInfo.fields-info')}</Typography>
+						</Grid>
+						<Grid item xs={12}>
+							<MultilineTextField
+								id="drugs"
+								label={t('clinicalInfo.drugs')}
+								error={!!errors['drugs']}
+								helperText={
+									errors.drugs?.message ||
+									t('clinicalInfo.separation-helper-txt')
+								}
+								{...register('drugs')}
+							/>
+						</Grid>
+						<Grid item xs={12}>
 							<MultilineTextField
 								id="indication"
 								label={t('clinicalInfo.indication')}
 								error={!!errors['indication']}
-								helperText={errors.indication?.message}
+								helperText={
+									errors.indication?.message ||
+									t('clinicalInfo.separation-helper-txt')
+								}
 								{...register('indication')}
 							/>
 						</Grid>
@@ -198,17 +216,11 @@ export default function ClinicalInfo({
 								id="otherDiag"
 								label={t('clinicalInfo.other-diag')}
 								error={!!errors['otherDiag']}
-								helperText={errors.otherDiag?.message}
+								helperText={
+									errors.otherDiag?.message ||
+									t('clinicalInfo.separation-helper-txt')
+								}
 								{...register('otherDiag')}
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<MultilineTextField
-								id="drugs"
-								label={t('clinicalInfo.drugs')}
-								error={!!errors['drugs']}
-								helperText={errors.drugs?.message}
-								{...register('drugs')}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -216,7 +228,10 @@ export default function ClinicalInfo({
 								id="otherDrugs"
 								label={t('clinicalInfo.other-drugs')}
 								error={!!errors['otherDrugs']}
-								helperText={errors.otherDrugs?.message}
+								helperText={
+									errors.otherDrugs?.message ||
+									t('clinicalInfo.separation-helper-txt')
+								}
 								{...register('otherDrugs')}
 							/>
 						</Grid>

@@ -59,7 +59,9 @@ export default function SignUp({ login }: SignUpProps) {
 	 * @param data Data from the form.
 	 */
 	const onSubmitHandler: SubmitHandler<RegisterForm> = async (data) => {
-		authenticate('/auth/register', formatRegisterData(data), handleAuth);
+		if (isCaptchaValid) {
+			authenticate('/auth/register', formatRegisterData(data), handleAuth);
+		}
 	};
 
 	/**

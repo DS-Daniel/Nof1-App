@@ -62,6 +62,7 @@ const CustomLineChart = forwardRef<any, Props>(
 							type="monotone"
 							dataKey={s}
 							stroke={substancesColors[idx]}
+							dot={false}
 						/>
 					))}
 					<XAxis

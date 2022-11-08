@@ -36,19 +36,19 @@ export default function Participants({
 						{t('participants.title')}
 					</Typography>
 				</Grid>
-				<Grid item xs={12} sm={4}>
+				<Grid item xs={12} sm={6} md={4}>
 					<PatientForm
 						patient={patient}
 						defaultValues={formatPatientDataToForm(patient.current)}
 					/>
 				</Grid>
-				<Grid item xs={12} sm={4}>
+				<Grid item xs={12} sm={6} md={4}>
 					<PhysicianForm
 						physician={physician}
 						defaultValues={formatPhysicianDataToForm(physician.current)}
 					/>
 				</Grid>
-				<Grid item xs={12} sm={4}>
+				<Grid item xs={12} sm={6} md={4}>
 					<PharmaForm pharmacy={pharmacy} />
 				</Grid>
 			</Grid>

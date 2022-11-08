@@ -60,7 +60,7 @@ export default function ReadOnlyTableWPages({
 					<ThemedTableHead>
 						<TableRow>
 							{headers.map((header, index) => (
-								<TableCell key={`var-header-${index}`} align="center">
+								<TableCell key={`table-header-${index}`} align="center">
 									<Typography variant="body1" fontWeight="bold">
 										{header}
 									</Typography>
