@@ -24,7 +24,7 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 		/**
 		 * Render the correct Variable according to its type.
 		 * @param variable Variable.
-		 * @returns 
+		 * @returns The correct variable component.
 		 */
 		const renderVariable = (variable: Variable) => {
 			switch (variable.type) {
@@ -45,9 +45,7 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 			<div ref={ref} className={styles.printContainer}>
 				<div>
 					<p>
-						{test.patient.lastname}
-						<br />
-						{test.patient.firstname}
+						{test.patient.lastname} {test.patient.firstname}
 						<br />
 						{test.patient.address.street}
 						<br />
@@ -81,6 +79,24 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 										{renderVariable(v)}
 									</div>
 								))}
+								{idx > 0 && (idx - 1) % test.periodLen === 0 && (
+									<>
+										<p>
+											<span className={styles.question}>
+												{t('supposition')}
+											</span>
+											<div className={styles.inputLine} />
+										</p>
+										<div>
+											<span className={styles.question}>{t('preference')}</span>
+											<div className={styles.inputLine} />
+										</div>
+										<div>
+											<div>{t('preference-remark')} :</div>
+											<div className={styles.textarea} />
+										</div>
+									</>
+								)}
 							</div>
 						</div>
 					),

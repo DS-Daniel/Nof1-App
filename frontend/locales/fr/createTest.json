@@ -77,6 +77,8 @@
     "age": "Âge",
     "weight": "Poids",
     "height": "Taille",
+    "fields-info": "Les champs suivants sont multi-lignes. Veuillez séparer différentes entrées par \";\" le cas échéant.",
+    "separation-helper-txt": "champ multi-lignes, séparez différentes entrées par \";\"",
     "indication": "Indication au médicament à tester",
     "other-diag": "Autres diagnostics importants",
     "drugs": "Médicament(s) à tester (DCI et posologie)",

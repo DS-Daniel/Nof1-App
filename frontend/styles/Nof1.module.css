@@ -76,8 +76,13 @@
 }
 
 .txt {
-	margin: 0 0 0.5rem 0;
+	margin-bottom: 0.5rem;
 }
+
+.question {
+  margin-right: 2rem;
+}
+
 
 .inputLine {
 	display: inline-block;

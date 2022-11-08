@@ -1,6 +1,6 @@
 {
 	"nav": {
-		"title": "N-of-1 tool",
+		"title": "N-of-1 companion",
 		"nof1List": "N-of-1 tests",
 		"profile": "My profile",
 		"logout": "Logout"
@@ -12,7 +12,7 @@
 		"password": "Password",
 		"passwordConfirm": "Confirm Password",
 		"title": "Title:",
-		"institution": "Institution",
+		"institution": "Institution / Medical office",
 		"firstname": "First Name",
 		"lastname": "Last Name",
 		"phone": "Phone",
@@ -88,5 +88,7 @@
 	"print": {
 		"btn": "Print (print to pdf)*",
 		"warning": "(*check the orientation (portrait) and margins (default) in the print window if the rendering is not correct)"
-	}
+	},
+	"yes": "Yes",
+	"no": "No"
 }

@@ -17,4 +17,9 @@ export type TestData = {
 		variableName: string;
 		value: string;
 	}[];
+	supposition?: string;
+	preference?: {
+		value?: string;
+		remark?: string;
+	};
 }[];
