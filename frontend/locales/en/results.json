@@ -30,7 +30,7 @@
 		"intro": "Thank you for referring your patient, whom we have seen on several occasions, for a \"N-of-1\" test performed from {{startDate}} to {{endDate}} in our department. This test consisted of the administration of {{substances}} in alternating periods in a randomized, double-blind sequence. The patient was asked to report his or her health parameters during the {{nbPeriods}} periods of {{periodLen}} days that the test lasted. The results are summarized below.",
 		"sequence": "Medication schedule (after unblinding) :",
 		"method": "Method :",
-		"method-description": "description",
+		"method-description": "A statistical analysis compares symptoms, plotted in mm on 100 mm Visual Analog Scales (VAS, see graphs below) during each period, according to the treatment received.",
 		"results": "Results :",
 		"conclusion": "Conclusion",
 		"results-details": "Detailed results :",
