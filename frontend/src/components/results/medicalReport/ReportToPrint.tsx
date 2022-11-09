@@ -1,5 +1,5 @@
 import useTranslation from 'next-translate/useTranslation';
-import { ChangeEvent, forwardRef, useState } from 'react';
+import { ChangeEvent, forwardRef, ReactNode, useState } from 'react';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { TestData } from '../../../entities/nof1Data';
 import { VariableType } from '../../../entities/variable';
@@ -14,15 +14,15 @@ import Button from '@mui/material/Button';
 
 dayjs.extend(LocalizedFormat);
 
-/**
- * Helper method to render a TableCell component.
- * @param idx Index for the key property of list element.
- * @param value Cell value.
- * @returns The TableCell component.
- */
-const renderTableCell = (idx: number, value: string) => {
-	return <td key={idx}>{value}</td>;
-};
+// /**
+//  * Helper method to render a TableCell component.
+//  * @param idx Index for the key property of list element.
+//  * @param value Cell value.
+//  * @returns The TableCell component.
+//  */
+// const renderTableCell = (idx: number, value: string) => {
+// 	return <td key={idx}>{value}</td>;
+// };
 
 /**
  * Generate the rows of the table.
@@ -59,6 +59,31 @@ const generateRows = (test: Nof1Test) => {
 	return rows;
 };
 
+interface EditableProps {
+	children: ReactNode;
+	style?: string;
+}
+
+const Editable = ({ children, style }: EditableProps) => {
+	return (
+		<p className={styles.editable + ' ' + style} contentEditable>
+			{children}
+		</p>
+	);
+};
+
+const EditableSubtitle = ({ children, style }: EditableProps) => {
+	return <Editable style={styles.subtitle + ' ' + style}>{children}</Editable>;
+};
+
+const EditableTextarea = ({ children, style }: EditableProps) => {
+	return (
+		<Editable style={styles.editableTextarea + ' ' + style}>
+			{children}
+		</Editable>
+	);
+};
+
 interface ReportToPrintProps {
 	test: Nof1Test;
 	testData: TestData;
@@ -92,8 +117,8 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 				{/* <div>
 					{file && (
 						<div className={styles.image}> */}
-							{/* <Image src={file} alt="institution_logo" /> */}
-							{/* <picture>
+				{/* <Image src={file} alt="institution_logo" /> */}
+				{/* <picture>
 								<source srcSet={file} type="image/webp" />
 								<img
 									src={file}
@@ -111,7 +136,7 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 					/>
 				</div> */}
 				<header className={styles.clearfix}>
-					<div>
+					<EditableTextarea style={styles.sender}>
 						{test.nof1Physician.institution}
 						<br />
 						{test.nof1Physician.lastname} {test.nof1Physician.firstname}
@@ -119,8 +144,8 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 						{test.nof1Physician.address.street}
 						<br />
 						{test.nof1Physician.address.zip} {test.nof1Physician.address.city}
-					</div>
-					<div className={styles.rightAlign}>
+					</EditableTextarea>
+					<EditableTextarea style={styles.recipient}>
 						{test.nof1Physician.institution}
 						<br />
 						{test.physician.lastname} {test.physician.firstname}
@@ -128,17 +153,24 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 						{test.physician.address.street}
 						<br />
 						{test.physician.address.zip} {test.physician.address.city}
-					</div>
+					</EditableTextarea>
 				</header>
 				<main>
-					<p className={styles.subtitle}>
-						{t('report.subject', {
-							patient: `${test.patient.lastname} ${test.patient.firstname}`,
+					<Editable style={styles.today}>
+						{t('report.today', {
+							city: test.nof1Physician.address.city,
+							date: dayjs().locale(lang).format('LL'),
 						})}
-					</p>
+					</Editable>
+					<EditableSubtitle>
+						{t('report.object', {
+							patient: `${test.patient.lastname} ${test.patient.firstname}`,
+							year: test.patient.birthYear,
+						})}
+					</EditableSubtitle>
 					<section>
-						<p>{t('report.dear')}</p>
-						<p className={styles.justifyText}>
+						<Editable>{t('report.dear')}</Editable>
+						<EditableTextarea>
 							{t('report.intro', {
 								startDate: dayjs(test.beginningDate).locale(lang).format('LL'),
 								endDate: dayjs(test.endingDate).locale(lang).format('LL'),
@@ -146,11 +178,11 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 								nbPeriods: test.nbPeriods,
 								periodLen: test.periodLen,
 							})}
-						</p>
+						</EditableTextarea>
 					</section>
 
 					<section>
-						<p className={styles.subtitle}>{t('report.sequence')}</p>
+						<EditableSubtitle>{t('report.sequence')}</EditableSubtitle>
 						<p>
 							{t('period-duration')} {test.periodLen} {t('common:days')}.
 						</p>
@@ -172,14 +204,12 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 					</section>
 
 					<section>
-						<p className={styles.subtitle}>{t('report.method')}</p>
-						<p className={styles.justifyText}>
-							{t('report.method-description')}
-						</p>
+						<EditableSubtitle>{t('report.method')}</EditableSubtitle>
+						<EditableTextarea>{t('report.method-desc')}</EditableTextarea>
 					</section>
 
 					<section className={styles.avoidBreak}>
-						<p className={styles.subtitle}>{t('report.results')}</p>
+						<EditableSubtitle>{t('report.results')}</EditableSubtitle>
 						<table className={styles.resultTable}>
 							<thead>
 								<tr>
@@ -196,14 +226,19 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 						</table>
 					</section>
 
-					<section>
-						<p className={styles.subtitle}>{t('report.conclusion')}</p>
-						<textarea className={styles.txtInput} />
+					<section className={styles.avoidBreak}>
+						<EditableSubtitle>{t('report.conclusion')}</EditableSubtitle>
+						<EditableTextarea
+							style={styles.conclusion + ' ' + styles.printNoBorder}
+						>
+							{t('report.conclusion-placeholder')}
+						</EditableTextarea>
+						{/* <textarea className={styles.textareaInput} /> */}
 					</section>
 
 					<section>
-						<p className={styles.subtitle}>{t('report.results-details')}</p>
-						<p>{t('graph-title')} :</p>
+						<EditableSubtitle>{t('report.results-details')}</EditableSubtitle>
+						<Editable>{t('graph-title')} :</Editable>
 						{testData ? (
 							test.monitoredVariables
 								.filter(
@@ -213,7 +248,7 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 								)
 								.map((v) => (
 									<div key={v.name} className={styles.avoidBreak}>
-										<div className={styles.title}>{v.name}</div>
+										<div className={styles.graphTitle}>{v.name}</div>
 										<CustomLineChart
 											height={190}
 											testData={testData}

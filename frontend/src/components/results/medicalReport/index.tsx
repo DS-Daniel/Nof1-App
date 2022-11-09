@@ -64,30 +64,28 @@ export default function MedicalReportModal({
 					<Typography variant="h6" component="div" ml={1} sx={{ flexGrow: 1 }}>
 						{t('button.close')}
 					</Typography>
-					<Button variant="contained" color="secondary" onClick={handlePrint}>
-						{t('print.btn')}
-					</Button>
+					<Stack direction="row" alignItems="center" spacing={2} paddingY={0}>
+						<Button variant="contained" color="invert" onClick={handlePrint}>
+							{t('print.btn')}
+						</Button>
+						<Typography variant="body2" fontStyle="italic" sx={{ width: 400 }}>
+							{t('print.warning')}
+						</Typography>
+					</Stack>
 				</Toolbar>
 			</AppBar>
 			<DialogContent sx={{ bgcolor: 'background.default' }}>
-				<Stack alignItems="center" spacing={1}>
-					<Button variant="contained" onClick={handlePrint}>
-						{t('print.btn')}
-					</Button>
-					<Typography variant="body2" fontStyle="italic">
-						{t('print.warning')}
-					</Typography>
-					<Paper
-						sx={{
-							width: '210mm',
-							minHeight: '297mm',
-							paddingX: '15mm',
-							paddingY: '18mm',
-						}}
-					>
-						<ReportToPrint ref={componentRef} test={item} testData={testData} />
-					</Paper>
-				</Stack>
+				<Paper
+					sx={{
+						width: '210mm',
+						minHeight: '297mm',
+						paddingX: '15mm',
+						paddingY: '18mm',
+						marginX: 'auto',
+					}}
+				>
+					<ReportToPrint ref={componentRef} test={item} testData={testData} />
+				</Paper>
 			</DialogContent>
 		</Dialog>
 	);
