@@ -14,6 +14,6 @@
 	},
 	"supposition": "Which treatment do you think you took this last period ?",
 	"preference": "Do you think the treatment of this period is optimal for you ?",
-	"preference-remark": "Remarks regarding the previous question",
+	"preference-remark": "Remarks regarding the two previous questions",
 	"idk": "no supposition"
 }

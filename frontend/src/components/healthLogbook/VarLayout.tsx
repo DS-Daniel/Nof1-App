@@ -12,10 +12,10 @@ interface VarLayoutProps {
  */
 export default function VarLayout({ children, name, desc }: VarLayoutProps) {
 	return (
-		<div className={styles.flexH}>
+		<div id="var-layout" className={styles.flexH}>
 			<div className={styles.varTitle}>{name}</div>
 			<div className={styles.varContent}>
-				<p className={styles.txt}>{desc}</p>
+				<p className={styles.description}>{desc}</p>
 				{children}
 			</div>
 		</div>

@@ -87,7 +87,7 @@
 	"close-modal": "Close recap",
 	"print": {
 		"btn": "Print (print to pdf)*",
-		"warning": "(*check the orientation (portrait) and margins (default) in the print window if the rendering is not correct)"
+		"warning": "*Check the print settings for correct rendering. In particular the margins (default) and the scaling (real size or default)"
 	},
 	"yes": "Yes",
 	"no": "No"

@@ -44,13 +44,13 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 		return (
 			<div ref={ref} className={styles.printContainer}>
 				<div>
-					<p>
+					<div>
 						{test.patient.lastname} {test.patient.firstname}
 						<br />
 						{test.patient.address.street}
 						<br />
 						{test.patient.address.zip} {test.patient.address.city}
-					</p>
+					</div>
 					<h3 className={styles.title}>{t('logbookTitle')}</h3>
 					<p>{t('subtitle')}</p>
 				</div>
@@ -81,20 +81,18 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 								))}
 								{idx > 0 && (idx - 1) % test.periodLen === 0 && (
 									<>
-										<p>
-											<span className={styles.question}>
-												{t('supposition')}
-											</span>
-											<div className={styles.inputLine} />
-										</p>
-										<div>
-											<span className={styles.question}>{t('preference')}</span>
-											<div className={styles.inputLine} />
+										<div className={styles.periodQuestion}>
+											<span>{t('supposition')}</span>
+											<div className={styles.periodAnswer} />
 										</div>
-										<div>
-											<div>{t('preference-remark')} :</div>
-											<div className={styles.textarea} />
+										<div className={styles.periodQuestion}>
+											<span>{t('preference')}</span>
+											<div className={styles.periodAnswer} />
 										</div>
+										<div className={styles.periodQuestion}>
+											{t('preference-remark')} :
+										</div>
+										<div className={styles.textarea} />
 									</>
 								)}
 							</div>

@@ -87,8 +87,8 @@
 	"close-modal": "Fermer le récapitulatif",
 	"print": {
 		"btn": "Imprimer (imprimer en pdf)*",
-		"warning": "(*vérifier l'orientation (portrait) et les marges (par défaut) dans la fenêtre d'impression si le rendu n'est pas correct)"
+		"warning": "*Vérifiez les paramètres d'impression pour un rendu correct. Notamment les marges (par défaut) et la mise à l'échelle (taille réel ou par défaut)"
 	},
-  "yes": "Oui",
-  "no": "Non"
+	"yes": "Oui",
+	"no": "Non"
 }
