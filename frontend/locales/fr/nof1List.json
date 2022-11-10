@@ -40,5 +40,6 @@
   "email": {
     "sent": "E-mail envoyé avec succès",
     "confirm": "Veuillez vérifier l'adresse e-mail avant d'envoyer l'e-mail (une adresse inexistante ne sera pas détectée) :"
-  }
+  },
+  "booklet-file-title": "Formulaire"
 }

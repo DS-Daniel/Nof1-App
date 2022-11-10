@@ -1,16 +1,14 @@
+import { forwardRef, ReactNode } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { ChangeEvent, forwardRef, ReactNode, useState } from 'react';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { TestData } from '../../../entities/nof1Data';
 import { VariableType } from '../../../entities/variable';
+import { randomHexColor } from '../../../utils/charts';
+import CustomLineChart from '../lineChart/LineChart';
 import styles from './ReportToPrint.module.css';
 import dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/locale/fr';
-import { randomHexColor } from '../../../utils/charts';
-import CustomLineChart from '../lineChart/LineChart';
-import Image from 'next/image';
-import Button from '@mui/material/Button';
 
 dayjs.extend(LocalizedFormat);
 
@@ -61,39 +59,81 @@ const generateRows = (test: Nof1Test) => {
 
 interface EditableProps {
 	children: ReactNode;
+	// defaultValue: string | JSX.Element;
 	style?: string;
 }
 
 const Editable = ({ children, style }: EditableProps) => {
 	return (
-		<p className={styles.editable + ' ' + style} contentEditable>
+		<p
+			className={`${styles.editable} ${style}`}
+			contentEditable={true}
+			suppressContentEditableWarning={true}
+			// only using children to set the default value and
+			// content only used when printing. Thus not a problem to
+			// loose/not track the changes (React independent).
+		>
 			{children}
 		</p>
 	);
 };
 
 const EditableSubtitle = ({ children, style }: EditableProps) => {
-	return <Editable style={styles.subtitle + ' ' + style}>{children}</Editable>;
+	return <Editable style={`${styles.subtitle} ${style}`}>{children}</Editable>;
 };
 
 const EditableTextarea = ({ children, style }: EditableProps) => {
 	return (
-		<Editable style={styles.editableTextarea + ' ' + style}>
+		<Editable style={`${styles.editableTextarea} ${style}`}>
 			{children}
 		</Editable>
 	);
 };
 
+// const Editable = ({ defaultValue, style }: EditableProps) => {
+// 	return (
+// 		<p
+// 			className={`${styles.editable} ${style}`}
+// 			contentEditable={true}
+// 			suppressContentEditableWarning={true}
+// 			// only using children to set the default value and
+// 			// content only used when printing. Thus not a problem to
+// 			// loose/not track the changes (React independent).
+// 		>
+// 			{defaultValue}
+// 		</p>
+// 	);
+// };
+
+// const EditableSubtitle = ({ defaultValue, style }: EditableProps) => {
+// 	return (
+// 		<Editable
+// 			style={`${styles.subtitle} ${style}`}
+// 			defaultValue={defaultValue}
+// 		/>
+// 	);
+// };
+
+// const EditableTextarea = ({ defaultValue, style }: EditableProps) => {
+// 	return (
+// 		<Editable
+// 			style={`${styles.editableTextarea} ${style}`}
+// 			defaultValue={defaultValue}
+// 		/>
+// 	);
+// };
+
 interface ReportToPrintProps {
 	test: Nof1Test;
 	testData: TestData;
+	logo: string | undefined;
 }
 
 /**
  * Component that render the medical report to be printed.
  */
 const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
-	({ test, testData }, ref) => {
+	({ test, testData, logo }, ref) => {
 		const { t, lang } = useTranslation('results');
 		const substancesNames = test.substances.map((sub) => sub.name);
 		const headers = [
@@ -105,37 +145,45 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 			'Difference',
 		];
 		const rows = generateRows(test);
-		const [file, setFile] = useState<string | undefined>();
-
-		const imgUpload = (e: ChangeEvent<HTMLInputElement>) => {
-			console.log(e.target.files);
-			if (e.target.files) setFile(URL.createObjectURL(e.target.files[0]));
-		};
 
 		return (
 			<div ref={ref} className={styles.printContainer}>
-				{/* <div>
-					{file && (
-						<div className={styles.image}> */}
-				{/* <Image src={file} alt="institution_logo" /> */}
-				{/* <picture>
-								<source srcSet={file} type="image/webp" />
-								<img
-									src={file}
-									alt="institution_logo"
-									className={styles.image}
-								/>
-							</picture>
-						</div>
+				<div>
+					{logo && (
+						// eslint-disable-next-line @next/next/no-img-element
+						<img src={logo} alt="institution_logo" className={styles.image} />
 					)}
-					<input
-						accept="image/png, image/jpeg"
-						type="file"
-						onChange={imgUpload}
-						className={styles.hidden}
+				</div>
+				<header className={styles.head}>
+					{/* <EditableTextarea
+						style={styles.sender}
+						defaultValue={
+							<>
+								{test.nof1Physician.institution}
+								<br />
+								{test.nof1Physician.lastname} {test.nof1Physician.firstname}
+								<br />
+								{test.nof1Physician.address.street}
+								<br />
+								{test.nof1Physician.address.zip}{' '}
+								{test.nof1Physician.address.city}
+							</>
+						}
 					/>
-				</div> */}
-				<header className={styles.clearfix}>
+					<EditableTextarea
+						style={styles.recipient}
+						defaultValue={
+							<>
+								{test.nof1Physician.institution}
+								<br />
+								{test.physician.lastname} {test.physician.firstname}
+								<br />
+								{test.physician.address.street}
+								<br />
+								{test.physician.address.zip} {test.physician.address.city}
+							</>
+						}
+					/> */}
 					<EditableTextarea style={styles.sender}>
 						{test.nof1Physician.institution}
 						<br />
@@ -156,6 +204,19 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 					</EditableTextarea>
 				</header>
 				<main>
+					{/* <Editable
+						style={styles.today}
+						defaultValue={t('report.today', {
+							city: test.nof1Physician.address.city,
+							date: dayjs().locale(lang).format('LL'),
+						})}
+					/>
+					<EditableSubtitle
+						defaultValue={t('report.object', {
+							patient: `${test.patient.lastname} ${test.patient.firstname}`,
+							year: test.patient.birthYear,
+						})}
+					/> */}
 					<Editable style={styles.today}>
 						{t('report.today', {
 							city: test.nof1Physician.address.city,
@@ -179,14 +240,25 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 								periodLen: test.periodLen,
 							})}
 						</EditableTextarea>
+						{/* <Editable defaultValue={t('report.dear')} />
+						<EditableTextarea
+							defaultValue={t('report.intro', {
+								startDate: dayjs(test.beginningDate).locale(lang).format('LL'),
+								endDate: dayjs(test.endingDate).locale(lang).format('LL'),
+								substances: `[${substancesNames.join(', ')}]`,
+								nbPeriods: test.nbPeriods,
+								periodLen: test.periodLen,
+							})}
+						/> */}
 					</section>
 
 					<section>
+						{/* <EditableSubtitle defaultValue={t('report.sequence')} /> */}
 						<EditableSubtitle>{t('report.sequence')}</EditableSubtitle>
 						<p>
 							{t('period-duration')} {test.periodLen} {t('common:days')}.
 						</p>
-						<div className={styles.flexH}>
+						<div className={styles.periods}>
 							{test.substancesSequence!.map((abbrev, idx) => (
 								<div key={idx} className={styles.flexItem}>
 									<div className={`${styles.boxedText} ${styles.subtitle}`}>
@@ -204,11 +276,14 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 					</section>
 
 					<section>
+						{/* <EditableSubtitle defaultValue={t('report.method')} />
+						<EditableTextarea defaultValue={t('report.method-desc')} /> */}
 						<EditableSubtitle>{t('report.method')}</EditableSubtitle>
 						<EditableTextarea>{t('report.method-desc')}</EditableTextarea>
 					</section>
 
 					<section className={styles.avoidBreak}>
+						{/* <EditableSubtitle defaultValue={t('report.results')} /> */}
 						<EditableSubtitle>{t('report.results')}</EditableSubtitle>
 						<table className={styles.resultTable}>
 							<thead>
@@ -227,16 +302,41 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 					</section>
 
 					<section className={styles.avoidBreak}>
-						<EditableSubtitle>{t('report.conclusion')}</EditableSubtitle>
+						{/* <EditableSubtitle defaultValue={t('report.conclusion')} />
 						<EditableTextarea
-							style={styles.conclusion + ' ' + styles.printNoBorder}
-						>
+							style={styles.conclusion}
+							defaultValue={t('report.conclusion-placeholder')}
+						/>
+						<div className={styles.signatures}>
+							<Editable style={styles.signature} defaultValue={''} />
+							<Editable style={styles.signature} defaultValue={''} />
+							<Editable style={styles.signature} defaultValue={''} />
+							<Editable style={styles.signature} defaultValue={''} />
+							<Editable
+								style={styles.signature}
+								defaultValue={`Dr. ${test.nof1Physician.firstname[0]}. ${test.nof1Physician.lastname}`}
+							/>
+						</div> */}
+						<EditableSubtitle>{t('report.conclusion')}</EditableSubtitle>
+						<EditableTextarea style={styles.conclusion}>
 							{t('report.conclusion-placeholder')}
 						</EditableTextarea>
+						<div className={styles.signatures}>
+							<Editable style={styles.signature}> </Editable>
+							<Editable style={styles.signature}> </Editable>
+							<Editable style={styles.signature}> </Editable>
+							<Editable style={styles.signature}> </Editable>
+							<Editable style={styles.signature}>
+								Dr. {test.nof1Physician.firstname[0]}.{' '}
+								{test.nof1Physician.lastname}
+							</Editable>
+						</div>
 						{/* <textarea className={styles.textareaInput} /> */}
 					</section>
 
 					<section>
+						{/* <EditableSubtitle defaultValue={t('report.results-details')} />
+						<Editable defaultValue={t('graph-title') + ' :'} /> */}
 						<EditableSubtitle>{t('report.results-details')}</EditableSubtitle>
 						<Editable>{t('graph-title')} :</Editable>
 						{testData ? (
@@ -266,6 +366,16 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 						)}
 					</section>
 				</main>
+				<div>
+					{/* <EditableTextarea
+						style={styles.conclusion}
+						defaultValue={'copie à / annexe'}
+					/> */}
+					<EditableTextarea style={styles.conclusion}>
+						{' '}
+						copie à / annexe
+					</EditableTextarea>
+				</div>
 				<footer>Footer?</footer>
 			</div>
 		);

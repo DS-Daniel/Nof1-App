@@ -6,8 +6,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import AppBar from '@mui/material/AppBar';
 import { useReactToPrint } from 'react-to-print';
 
 interface HealthLogbookModalProps {
@@ -32,22 +32,23 @@ export default function HealthLogbookModal({
 	 */
 	const handlePrint = useReactToPrint({
 		content: () => componentRef.current,
+		documentTitle: t('nof1List:booklet-file-title'),
 	});
 
 	return (
 		<Dialog open={open} onClose={handleClose} fullWidth maxWidth={'lg'}>
-			<Box
+			<AppBar
+				color="inherit"
 				sx={{
+					position: 'relative',
 					padding: '0.5rem 2rem',
-					borderBottom: 1,
-					borderBottomColor: 'rgba(0, 0, 0, 0.12)',
 				}}
 			>
 				<Button onClick={handlePrint}>{t('print.btn')}</Button>
 				<Typography variant="body2" fontStyle="italic" fontWeight="bold">
 					{t('print.warning')}
 				</Typography>
-			</Box>
+			</AppBar>
 			<DialogContent sx={{ bgcolor: 'background.default' }}>
 				<Paper
 					variant="outlined"

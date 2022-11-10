@@ -25,6 +25,12 @@
 	"graph-title": "Quantitative variables charts",
 	"dl-graph": "Download",
 	"report": {
+		"info": "Information about the report below :",
+		"info-1": "- most of the fields are editable.",
+		"info-2": "- the boxes define text zones but the border will not appear when printing.",
+		"info-3": "- if you close the report, the changes will be lost. So remember to print the report when you are done.",
+		"file-title": "Medical_report",
+		"upload-img": "Upload a logo",
 		"today": "{{city}}, {{date}}",
 		"object": "Object: N-of-1 test of the patient {{patient}}, born in {{year}}",
 		"dear": "Dear colleague,",

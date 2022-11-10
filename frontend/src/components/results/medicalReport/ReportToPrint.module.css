@@ -1,18 +1,11 @@
 @page {
 	size: portrait;
-	margin: 18mm 15mm;
+	margin: 18mm;
 }
 
 .image {
-	/* position: relative; */
-	width: 100px;
-	height: 40px;
-}
-
-.clearfix:after {
-	content: '';
-	display: table;
-	clear: both;
+	max-width: 200px;
+	max-height: 50px;
 }
 
 .editable {
@@ -29,19 +22,20 @@
 
 /* .textareaInput, */
 .editableTextarea {
-	max-height: 10cm;
+	max-height: calc(25 * 1.5rem);
 	text-align: justify;
 }
 
 .sender,
 .recipient {
 	margin: 0;
-	max-height: 5cm;
+	max-height: calc(8 * 1.5rem);
 }
 
 .recipient {
-	float: right;
 	margin-bottom: 1rem;
+	padding-right: 1rem;
+	padding-top: 3rem;
 }
 
 .today {
@@ -49,7 +43,51 @@
 	margin: 3rem 2rem;
 }
 
-.conclusion {
+.head,
+.periods,
+.signatures {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.head {
+	justify-content: space-between;
+}
+
+.periods {
+	gap: 10px 0;
+}
+
+.signatures {
+	gap: 0 20px;
+}
+
+/* .flexV {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px 0;
+} */
+
+.flexItem {
+	flex: 1 1 auto;
+}
+
+.signature {
+	flex: 1;
+	text-align: center;
+	margin-top: 0;
+	max-height: 4.5rem;
+}
+
+.boxedText {
+	border: 1px solid black;
+	padding: 0.2rem 0.7rem;
+	text-align: center;
+}
+
+.conclusion,
+.signature {
 	border: 1px solid silver;
 }
 
@@ -73,29 +111,6 @@
 	/* margin: 1rem 0; */
 }
 
-.flexH {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 10px 0;
-}
-
-/* .flexV {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 10px 0;
-} */
-
-.flexItem {
-	flex: 1 1 auto;
-}
-
-.boxedText {
-	border: 1px solid black;
-	padding: 0.2rem 0.7rem;
-	text-align: center;
-}
-
 .resultTable {
 	border-collapse: collapse;
 }
@@ -117,7 +132,7 @@
 @media print {
 	@page {
 		size: portrait;
-		margin: 18mm 15mm;
+		margin: 18mm;
 	}
 
 	.printContainer {
@@ -135,8 +150,13 @@
 		page-break-inside: avoid;
 	}
 
-	.conclusion {
+	.conclusion,
+	.signature {
 		border: 0;
+	}
+
+	.editable {
+		overflow: hidden;
 	}
 
 	/* .textareaInput {
@@ -150,13 +170,4 @@
 		width: 100%;
 		resize: none;
 	} */
-
-	.hidden {
-		display: none;
-	}
-
-	.image {
-		width: 100px;
-		height: 40px;
-	}
 }

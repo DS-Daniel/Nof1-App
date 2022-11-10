@@ -25,6 +25,12 @@
 	"graph-title": "Graphiques des variables quantitatives",
 	"dl-graph": "Télécharger",
   "report": {
+    "info": "Informations concernant le rapport ci-dessous :",
+    "info-1": "- la plupart des champs sont éditables.",
+    "info-2": "- les encadrés définissent des zones de texte mais la bordure n'apparaîtra pas lors de l'impression.",
+    "info-3": "- si vous fermez le rapport, les changements seront perdus. Pensez donc à imprimer le rapport une fois terminé.",
+    "file-title": "Rapport_médical",
+    "upload-img": "Charger un logo",
     "today": "{{city}}, le {{date}}",
     "object": "Concerne: Test N-of-1 du patient {{patient}}, né en {{year}}",
     "dear": "Chère, cher collègue,",
