@@ -1,24 +1,10 @@
-import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
 import { AdministrationSchema } from '../../entities/nof1Test';
 import ReadOnlyTableWPages from '../common/table/ReadOnlyTableWPages';
+import CustomTooltip from '../common/CustomTooltip';
 import ExportToolbar from '../../components/results/ExportToolbar';
 import dayjs from 'dayjs';
-
-/**
- * Helper method to render a TableCell component.
- * @param idx Index for the key property of list element.
- * @param value Cell value.
- * @returns The TableCell component.
- */
-const renderTableCell = (idx: number, value: string) => {
-	return (
-		<TableCell key={idx} align="center">
-			<Typography variant="body2">{value}</Typography>
-		</TableCell>
-	);
-};
 
 /**
  * Generate the row of the table.
@@ -27,22 +13,18 @@ const renderTableCell = (idx: number, value: string) => {
  * @returns An array of table row (TableCell array).
  */
 const generateRows = (schema: AdministrationSchema, startDate: Date) => {
-	return schema.map((row, idx) => [
-		// using idx for key properties (of list of elements)
-		renderTableCell(
-			idx,
-			dayjs(startDate).add(row.day, 'day').toDate().toLocaleDateString(),
-		),
-		renderTableCell(++idx, row.substance),
-		renderTableCell(++idx, row.morning.toString()),
-		renderTableCell(++idx, row.morningFraction.toString()),
-		renderTableCell(++idx, row.noon.toString()),
-		renderTableCell(++idx, row.noonFraction.toString()),
-		renderTableCell(++idx, row.evening.toString()),
-		renderTableCell(++idx, row.eveningFraction.toString()),
-		renderTableCell(++idx, row.night.toString()),
-		renderTableCell(++idx, row.nightFraction.toString()),
-		renderTableCell(++idx, row.unit),
+	return schema.map((row) => [
+		dayjs(startDate).add(row.day, 'day').toDate().toLocaleDateString(),
+		row.substance,
+		row.unit,
+		row.morning.toString(),
+		row.morningFraction.toString(),
+		row.noon.toString(),
+		row.noonFraction.toString(),
+		row.evening.toString(),
+		row.eveningFraction.toString(),
+		row.night.toString(),
+		row.nightFraction.toString(),
 	]);
 };
 
@@ -59,21 +41,30 @@ export default function AdministrationTable({
 	startDate,
 }: Props) {
 	const { t } = useTranslation('common');
+	const headers0 = [
+		{ name: '', colspan: 1, borderR: false },
+		{ name: '', colspan: 1, borderR: false },
+		{ name: '', colspan: 1 },
+		{ name: t('posology-table.morning'), colspan: 2 },
+		{ name: t('posology-table.noon'), colspan: 2 },
+		{ name: t('posology-table.evening'), colspan: 2 },
+		{ name: t('posology-table.night'), colspan: 2 },
+	];
+	const dosage = [
+		t('posology-table.dose-w/o-unit'),
+		t('posology-table.fraction'),
+	];
 	const headers = [
 		t('date'),
 		t('substance'),
-		t('posology-table.morning'),
-		t('posology-table.fraction'),
-		t('posology-table.noon'),
-		t('posology-table.fraction'),
-		t('posology-table.evening'),
-		t('posology-table.fraction'),
-		t('posology-table.night'),
-		t('posology-table.fraction'),
-		t('measure-unit-label'),
+		t('posology-table.unit'),
+		...dosage,
+		...dosage,
+		...dosage,
+		...dosage,
 	];
 	// filename of the XLSX export. Max length = 31 chars
-	const filename = t('results:xlsx-admin-schema');
+	const filename = t('results:xlsx.file-admin-schema');
 
 	return (
 		<>
@@ -83,8 +74,16 @@ export default function AdministrationTable({
 					rows: administrationSchema,
 					headers,
 				}}
+				info={
+					<CustomTooltip infoText={t('posology-table.fraction-desc')}>
+						<Typography fontStyle="italic">
+							{t('posology-table.fraction-info')}
+						</Typography>
+					</CustomTooltip>
+				}
 			/>
 			<ReadOnlyTableWPages
+				headers0={headers0}
 				headers={headers}
 				rows={generateRows(administrationSchema, startDate)}
 				emptyCellHeight={33}

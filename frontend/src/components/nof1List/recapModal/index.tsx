@@ -1,24 +1,24 @@
+import { Dispatch, forwardRef, SetStateAction } from 'react';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Typography from '@mui/material/Typography';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
-import { Dispatch, forwardRef, SetStateAction } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import Grid from '@mui/material/Grid';
-import { Nof1Test } from '../../../entities/nof1Test';
 import Container from '@mui/material/Container';
+import { Nof1Test } from '../../../entities/nof1Test';
 import RecapSubstances from './RecapSubstances';
 import RecapDuration from './RecapDuration';
 import RecapVariables from './RecapVariables';
 import RecapPosologies from './RecapPosologies';
 import RecapParticipants from './RecapParticipants';
 import RecapRandomStrategy from './RecapRandomStrategy';
-import Typography from '@mui/material/Typography';
-import useTranslation from 'next-translate/useTranslation';
 import RecapClinicalInfo from './RecapClinicalInfo';
+import useTranslation from 'next-translate/useTranslation';
 
 /**
  * Modal transition animation.

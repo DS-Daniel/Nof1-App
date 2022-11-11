@@ -1,14 +1,3 @@
-import useTranslation from 'next-translate/useTranslation';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import { useClinicalInfoSchema } from '../../../utils/zodValidationHook';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Alert from '@mui/material/Alert';
 import {
 	Dispatch,
 	FC,
@@ -18,16 +7,27 @@ import {
 	useMemo,
 	useState,
 } from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useClinicalInfoSchema } from '../../../utils/zodValidationHook';
+import { Patient } from '../../../entities/people';
+import { IClinicalInfo } from '../../../entities/clinicalInfo';
+import SuccessSnackbar from '../../common/SuccessSnackbar';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { IClinicalInfo } from '../../../entities/clinicalInfo';
-import SuccessSnackbar from '../../common/SuccessSnackbar';
 import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs';
-import { Patient } from '../../../entities/people';
 
 // Custom multiline TextField component
 const MultilineTextField: FC<TextFieldProps> = forwardRef((props, ref) => {
@@ -36,7 +36,7 @@ const MultilineTextField: FC<TextFieldProps> = forwardRef((props, ref) => {
 			size="small"
 			fullWidth
 			multiline
-			minRows={1}
+			minRows={2}
 			maxRows={4}
 			inputProps={{ maxLength: 500 }}
 			inputRef={ref}
@@ -185,6 +185,20 @@ export default function ClinicalInfo({
 							/>
 						</Grid>
 						<Grid item xs={12}>
+							<Typography variant="caption">
+								{t('clinicalInfo.fields-info')}
+							</Typography>
+						</Grid>
+						<Grid item xs={12}>
+							<MultilineTextField
+								id="drugs"
+								label={t('clinicalInfo.drugs')}
+								error={!!errors['drugs']}
+								helperText={errors.drugs?.message}
+								{...register('drugs')}
+							/>
+						</Grid>
+						<Grid item xs={12}>
 							<MultilineTextField
 								id="indication"
 								label={t('clinicalInfo.indication')}
@@ -200,15 +214,6 @@ export default function ClinicalInfo({
 								error={!!errors['otherDiag']}
 								helperText={errors.otherDiag?.message}
 								{...register('otherDiag')}
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<MultilineTextField
-								id="drugs"
-								label={t('clinicalInfo.drugs')}
-								error={!!errors['drugs']}
-								helperText={errors.drugs?.message}
-								{...register('drugs')}
 							/>
 						</Grid>
 						<Grid item xs={12}>

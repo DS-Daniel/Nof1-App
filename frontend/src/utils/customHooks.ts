@@ -10,34 +10,34 @@ export const usePredefinedHealthVariables: () => Variable[] = () => {
 	const { t } = useTranslation('createTest');
 	return [
 		{
-			name: t('variables.var-side-effect'),
+			name: t('variables.predefined.side-effect'),
 			type: VariableType.Text,
-			desc: t('variables.var-side-effect-desc'),
+			desc: t('variables.predefined.side-effect-desc'),
 		},
 		{
-			name: t('variables.var-problem'),
+			name: t('variables.predefined.problem'),
 			type: VariableType.Text,
-			desc: t('variables.var-problem-desc'),
+			desc: t('variables.predefined.problem-desc'),
 		},
 		{
-			name: t('variables.var-reserved-medic'),
+			name: t('variables.predefined.backup-medic'),
 			type: VariableType.Text,
-			desc: t('variables.var-reserved-medic-desc'),
+			desc: t('variables.predefined.backup-medic-desc'),
 		},
 		{
-			name: t('variables.var-fraction'),
+			name: t('variables.predefined.fraction'),
 			type: VariableType.Text,
-			desc: t('variables.var-fraction-desc'),
+			desc: t('variables.predefined.fraction-desc'),
 		},
 		{
-			name: t('variables.var-interruption'),
+			name: t('variables.predefined.interruption'),
 			type: VariableType.Text,
-			desc: t('variables.var-interruption-desc'),
+			desc: t('variables.predefined.interruption-desc'),
 		},
 		{
-			name: t('variables.var-remarks'),
+			name: t('variables.predefined.remarks'),
 			type: VariableType.Text,
-			desc: t('variables.var-remarks-desc'),
+			desc: t('variables.predefined.remarks-desc'),
 		},
 	];
 };

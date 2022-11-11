@@ -197,12 +197,12 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 			<SuccessSnackbar
 				open={openEmailSuccessSB}
 				setOpen={setOpenEmailSuccessSB}
-				msg={t('email-sent')}
+				msg={t('email.sent')}
 			/>
 			<FailSnackbar
 				open={openEmailFailSB}
 				setOpen={setOpenEmailFailSB}
-				msg={t('alert-email')}
+				msg={t('alert.email')}
 			/>
 		</div>
 	);

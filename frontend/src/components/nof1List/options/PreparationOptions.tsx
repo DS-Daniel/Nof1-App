@@ -5,7 +5,7 @@ import { useUserContext } from '../../../context/UserContext';
 import { Nof1Test, TestStatus } from '../../../entities/nof1Test';
 import { sendPharmaEmail, updateNof1Test } from '../../../utils/apiCalls';
 import {
-  generateAdministrationSchema,
+	generateAdministrationSchema,
 	generateSequence,
 	selectRandomPosology,
 	substancesRecap,
@@ -62,7 +62,6 @@ export default function PreparationOptions({
 			test.substances,
 			test.substancesSequence,
 			test.selectedPosologies,
-			// test.beginningDate!,
 			test.periodLen,
 			test.nbPeriods,
 		);
@@ -71,8 +70,8 @@ export default function PreparationOptions({
 	};
 
 	/**
-	 * Sends the email to the pharmacy and updates the test information.
-	 * @param email Confirmed pharmacy email address.
+	 * Sends an email to the pharmacy and updates the test's information.
+	 * @param test N-of-1 test information.
 	 */
 	const sendEmail = async (test: Nof1Test) => {
 		const response = await sendPharmaEmail(
@@ -102,8 +101,8 @@ export default function PreparationOptions({
 			setItem(test); // update display
 		} else {
 			setOpenEmailFailSB(true);
-			setSendingEmail((prevState) => !prevState);
 		}
+		setSendingEmail((prevState) => !prevState);
 	};
 
 	/**
@@ -117,17 +116,12 @@ export default function PreparationOptions({
 	};
 
 	/**
-	 * Handles click on the start button, triggering the email confirmation dialog.
+	 * Handles the submission of the email confirmation dialog.
+   * Updates the test information and sends the email to the pharmacy.
+	 * @email Confirmed email.
 	 */
-	const handlePreparation = () => {
-		setOpenEmailDialog(true);
+	const handleEmailDialogSubmit = (email: string) => {
 		setSendingEmail((prevState) => !prevState);
-	};
-
-	/**
-	 * Handles the click of the confirm action of the email validation dialog.
-	 */
-	const handleDialogSubmit = (email: string) => {
 		const test = updateTest(email);
 		sendEmail(test);
 	};
@@ -142,7 +136,7 @@ export default function PreparationOptions({
 				<Button
 					variant="contained"
 					sx={{ width: 250 }}
-					onClick={handlePreparation}
+					onClick={() => setOpenEmailDialog(true)}
 				>
 					{t('btnStatus.preparation')}
 				</Button>
@@ -159,7 +153,7 @@ export default function PreparationOptions({
 				<PreparationMenu
 					item={item}
 					xlsxData={{
-            patientInfos,
+						patientInfos,
 						physicianInfos,
 						nof1PhysicianInfos,
 						schemaHeaders,
@@ -169,13 +163,13 @@ export default function PreparationOptions({
 			<EmailConfirmDialog
 				open={openEmailDialog}
 				handleClose={() => setOpenEmailDialog(false)}
-				handleDialogSubmit={(email) => handleDialogSubmit(email)}
+				handleDialogSubmit={(email) => handleEmailDialogSubmit(email)}
 				email={item.pharmacy.email}
 			/>
 			<FailSnackbar
 				open={openEmailFailSB}
 				setOpen={setOpenEmailFailSB}
-				msg={t('alert-email')}
+				msg={t('alert.email')}
 			/>
 		</>
 	);

@@ -1,45 +1,10 @@
-import TableCell from '@mui/material/TableCell';
-import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
 import ReadOnlyTableWPages from '../common/table/ReadOnlyTableWPages';
 import ExportToolbar from '../../components/results/ExportToolbar';
 import { Variable } from '../../entities/variable';
 
-/**
- * Helper method to render a TableCell component.
- * @param idx Index for the key property of list element.
- * @param value Cell value.
- * @returns The TableCell component.
- */
-const renderTableCell = (idx: number, value: string) => {
-	return (
-		<TableCell key={idx} align="center">
-			<Typography variant="body2">{value}</Typography>
-		</TableCell>
-	);
-};
-
-/**
- * Generate the row of the table.
- * @param data Cells data.
- * @param variablesNames Array of variable names.
- * @returns An array of table row (TableCell array).
- */
-const generateRows = (data: any[], variablesNames: string[]) => {
-	return data.map((row, idx) => {
-		const rows = [
-			renderTableCell(idx++, row.date),
-			renderTableCell(idx++, row.substance),
-		];
-		variablesNames.forEach((name) =>
-			rows.push(renderTableCell(idx++, row[name])),
-		);
-		return rows;
-	});
-};
-
 interface Props {
-	data: any[];
+	data: (string)[][];
 	variables: Variable[];
 }
 
@@ -47,11 +12,18 @@ interface Props {
  * Table component to display the patient's health variables data.
  */
 export default function PatientDataTable({ data, variables }: Props) {
-	const { t } = useTranslation('common');
+	const { t } = useTranslation('results');
 	const variablesNames = variables.map((v) => v.name);
-	const headers = [t('date'), t('substance'), ...variablesNames];
+	const headers = [
+		t('common:date'),
+		t('common:substance'),
+		t('data-table.supposition'),
+		t('data-table.optimal'),
+		t('data-table.remark'),
+		...variablesNames,
+	];
 	// filename of the XLSX export. Max length = 31 chars
-	const filename = t('results:xlsx-patient-data');
+	const filename = t('xlsx.file-patient-data');
 
 	return (
 		<>
@@ -64,7 +36,7 @@ export default function PatientDataTable({ data, variables }: Props) {
 			/>
 			<ReadOnlyTableWPages
 				headers={headers}
-				rows={generateRows(data, variablesNames)}
+				rows={data}
 				emptyCellHeight={33}
 			/>
 		</>

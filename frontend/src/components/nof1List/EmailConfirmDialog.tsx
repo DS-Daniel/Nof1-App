@@ -48,7 +48,7 @@ export default function EmailConfirmDialog({
 
 	return (
 		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle variant="body1">{t('nof1List:email-confirm')}</DialogTitle>
+			<DialogTitle variant="body1">{t('nof1List:email.confirm')}</DialogTitle>
 			<DialogContent>
 				<Box mt={1}>
 					<TextField
@@ -56,6 +56,7 @@ export default function EmailConfirmDialog({
 						autoFocus
 						id="emailInput"
 						label={t('form.email')}
+						autoComplete="email"
 						value={value}
 						onChange={(e) => setValue(e.target.value)}
 						error={!isInputValid()}

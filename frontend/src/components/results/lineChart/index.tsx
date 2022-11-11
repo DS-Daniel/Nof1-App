@@ -1,25 +1,17 @@
+import { useCallback } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import FileSaver from 'file-saver';
-import useTranslation from 'next-translate/useTranslation';
-import { useCallback } from 'react';
-import {
-	LineChart,
-	Line,
-	XAxis,
-	YAxis,
-	Tooltip,
-	Legend,
-	ResponsiveContainer,
-} from 'recharts';
-import { useCurrentPng } from 'recharts-to-png';
-import { TestData } from '../../entities/nof1Data';
-import { Variable } from '../../entities/variable';
-import { currentSubstance, formatGraphData } from '../../utils/charts';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import Paper from '@mui/material/Paper';
-import { Substance } from '../../entities/substance';
+import { TestData } from '../../../entities/nof1Data';
+import { Variable } from '../../../entities/variable';
+import { Substance } from '../../../entities/substance';
+import { currentSubstance } from '../../../utils/charts';
+import { useCurrentPng } from 'recharts-to-png';
+import FileSaver from 'file-saver';
+import CustomLineChart from './LineChart';
 
 interface Props {
 	testData: TestData;
@@ -33,7 +25,7 @@ interface Props {
 /**
  * Line chart component, rendering a line chart for the given data.
  */
-export function CustomLineChart({
+export default function ExtendedLineChart({
 	testData,
 	variable,
 	periodLen,
@@ -41,9 +33,9 @@ export function CustomLineChart({
 	substancesSeq,
 	substancesColors,
 }: Props) {
-	const { t } = useTranslation('results');
+	const { t } = useTranslation('common');
 	const [getPng, { ref }] = useCurrentPng();
-	const data = formatGraphData(testData, variable, periodLen);
+	// const data = formatGraphData(testData, variable, periodLen);
 
 	/**
 	 * Handle click on the download button. It triggers a file save.
@@ -70,7 +62,7 @@ export function CustomLineChart({
 			}
 			return (
 				<Paper variant="outlined" sx={{ padding: 1 }}>
-					<Typography>{`${t('common:day')} ${label}`}</Typography>
+					<Typography>{`${t('day')} ${label}`}</Typography>
 					<Typography>{`${correctPayload.dataKey} : ${correctPayload.value}`}</Typography>
 				</Paper>
 			);
@@ -91,44 +83,20 @@ export function CustomLineChart({
 					endIcon={<FileDownloadOutlinedIcon />}
 					sx={{ justifySelf: 'flex-end' }}
 				>
-					{t('dl-graph')}
+					{t('button.download')}
 				</Button>
 			</Stack>
-			<ResponsiveContainer width="80%" height={300}>
-				<LineChart
-					data={data}
-					ref={ref}
-					margin={{ top: 5, right: 5, left: 5, bottom: 15 }}
-				>
-					{substancesNames.map((s, idx) => (
-						<Line
-							key={s}
-							type="monotone"
-							dataKey={s}
-							stroke={substancesColors[idx]}
-						/>
-					))}
-					<XAxis
-						dataKey="day"
-						label={{
-							value: t('common:days'),
-							offset: -1,
-							position: 'bottom',
-						}}
-					/>
-					<YAxis
-						label={{ value: variable.unit, angle: -90, position: 'insideLeft' }}
-						type="number"
-						domain={
-							Number(variable.min) && Number(variable.max)
-								? [Number(variable.min), Number(variable.max)]
-								: [0, 'auto']
-						}
-					/>
-					<Tooltip content={<CustomTooltip />} />
-					<Legend verticalAlign="top" />
-				</LineChart>
-			</ResponsiveContainer>
+			<CustomLineChart
+				ref={ref}
+				width="90%"
+				height={300}
+				customTooltip={CustomTooltip}
+				testData={testData}
+				variable={variable}
+				periodLen={periodLen}
+				substancesNames={substancesNames}
+				substancesColors={substancesColors}
+			/>
 		</Stack>
 	);
 }

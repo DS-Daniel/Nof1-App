@@ -59,7 +59,9 @@ export default function SignUp({ login }: SignUpProps) {
 	 * @param data Data from the form.
 	 */
 	const onSubmitHandler: SubmitHandler<RegisterForm> = async (data) => {
-		authenticate('/auth/register', formatRegisterData(data), handleAuth);
+		if (isCaptchaValid) {
+			authenticate('/auth/register', formatRegisterData(data), handleAuth);
+		}
 	};
 
 	/**
@@ -80,11 +82,11 @@ export default function SignUp({ login }: SignUpProps) {
 					id="signup-form"
 					noValidate
 					onSubmit={handleSubmit(onSubmitHandler)}
-					mt={3}
+					mt={2}
 				>
 					<Grid
 						container
-						spacing={2}
+						spacing={1}
 						alignItems="center"
 						justifyContent="center"
 					>
@@ -233,7 +235,7 @@ export default function SignUp({ login }: SignUpProps) {
 								</Alert>
 							</Grid>
 						)}
-						<Grid item xs={5} sm={5}>
+						<Grid item xs={5} sm={6}>
 							<Button
 								type="submit"
 								form="signup-form"

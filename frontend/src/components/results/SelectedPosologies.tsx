@@ -1,11 +1,12 @@
+import useTranslation from 'next-translate/useTranslation';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import useTranslation from 'next-translate/useTranslation';
 import Radio from '@mui/material/Radio';
-import { SubstancePosology } from '../../entities/posology';
-import ExportToolbar from './ExportToolbar';
 import Paper from '@mui/material/Paper';
+import ExportToolbar from './ExportToolbar';
+import CustomTooltip from '../common/CustomTooltip';
 import PosologyTable from '../common/table/posologyTable';
+import { SubstancePosology } from '../../entities/posology';
 
 interface SelectedPosologiesProps {
 	posologies: SubstancePosology[];
@@ -41,10 +42,17 @@ export default function SelectedPosologies({
 					<Paper>
 						<ExportToolbar
 							data={{
-								filename: t('results:xlsx-posology-sub-x', { substance }), // filename max length = 31 chars
+								filename: t('results:xlsx.file-posology-x', { substance }), // filename max length = 31 chars
 								rows: posology.posology,
 								headers: headers(unit),
 							}}
+							info={
+								<CustomTooltip infoText={t('posology-table.fraction-desc')}>
+									<Typography fontStyle="italic">
+										{t('posology-table.fraction-info')}
+									</Typography>
+								</CustomTooltip>
+							}
 						/>
 						<PosologyTable posology={posology.posology} substanceUnit={unit} />
 						<Stack direction="row" alignItems="center" spacing={2}>

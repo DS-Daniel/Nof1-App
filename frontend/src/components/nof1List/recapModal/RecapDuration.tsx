@@ -53,7 +53,7 @@ export default function RecapDuration({
 				<Grid item xs={12} sm={6}>
 					<TextField
 						size="small"
-						label={t('nof1List:startingDate')}
+						label={t('common:startingDate')}
 						// date can be a string or Date, so wrapping with dayjs to
 						// ensure to have a Date Object with both cases.
 						defaultValue={dayjs(beginningDate).toDate().toLocaleDateString()}
@@ -67,7 +67,7 @@ export default function RecapDuration({
 				<Grid item xs={12} sm={6}>
 					<TextField
 						size="small"
-						label={t('nof1List:endingDate')}
+						label={t('common:endingDate')}
 						defaultValue={dayjs(endingDate).toDate().toLocaleDateString()}
 						InputProps={{
 							readOnly: true,

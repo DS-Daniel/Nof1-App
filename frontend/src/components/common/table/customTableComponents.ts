@@ -7,13 +7,18 @@ import TableHead, { TableHeadProps } from '@mui/material/TableHead';
 import { styled } from '@mui/material/styles';
 
 interface StyledTableCellProps extends TableCellProps {
-	borderR: boolean;
+	borderR?: boolean;
+	paddingX?: number;
 }
 
-// custom TableCell component
+/**
+ * Custom TableCell component. Additional optional properties:
+ * @property {boolean} [borderR=true] Determine if a right border is drawn.
+ * @property {number} [paddingX=1] Determine the horizontal padding, in a multiple of rem.
+ */
 export const StyledTableCell = styled(TableCell, {
-	shouldForwardProp: (prop) => prop !== 'borderR',
-})<StyledTableCellProps>(({ borderR, theme }) => ({
+	shouldForwardProp: (prop) => prop !== 'borderR' && prop !== 'paddingX',
+})<StyledTableCellProps>(({ borderR = true, paddingX = 1, theme }) => ({
 	// [`&.${tableCellClasses.head}`]: {
 	// 	color: theme.palette.common.white,
 	// 	borderRight: '1px solid',
@@ -23,6 +28,7 @@ export const StyledTableCell = styled(TableCell, {
 	// },
 	...(borderR && { borderRight: '1px solid' }),
 	borderColor: theme.palette.divider,
+	paddingInline: `${paddingX}rem`,
 }));
 
 // custom TableRow component

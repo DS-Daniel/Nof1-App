@@ -1,5 +1,4 @@
-import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
+import { MutableRefObject } from 'react';
 import { Nof1Test } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
 import { Variable, VariableType } from '../../entities/variable';
@@ -9,7 +8,9 @@ import Numeric from './Numeric';
 import Text from './Text';
 import Qualitative from './Qualitative';
 import VAS from './VAS';
-import { MutableRefObject } from 'react';
+import PeriodQuestions from './PeriodQuestions';
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 
 interface LogbookProps {
 	test: Nof1Test | undefined;
@@ -126,6 +127,13 @@ export default function Logbook({
 								updateTestData(dayIdx, varIdx),
 							);
 						})}
+						{dayIdx > 0 && (dayIdx - 1) % test.periodLen === 0 && (
+							<PeriodQuestions
+								dayIdx={dayIdx}
+								testData={testData}
+								substances={test.substances}
+							/>
+						)}
 					</LogbookCard>
 				))
 			) : (

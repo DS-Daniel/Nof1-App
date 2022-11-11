@@ -264,8 +264,7 @@ export default function CreateTest() {
 						direction={{ xs: 'column', sm: 'row' }}
 						justifyContent="center"
 						spacing={{ xs: 1, sm: 6 }}
-						paddingTop={2}
-						paddingBottom={1}
+						paddingY={1}
 					>
 						<Button variant="contained" onClick={handleDraft}>
 							{t('draftBtn')}

@@ -19,7 +19,7 @@ export default function CustomDatePicker({
 	value,
 	setValue,
 }: CustomDatePickerProps) {
-	const { t, lang } = useTranslation('nof1List');
+	const { t, lang } = useTranslation('common');
 
 	return (
 		<LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={lang}>

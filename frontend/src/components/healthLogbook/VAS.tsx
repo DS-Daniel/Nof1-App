@@ -12,9 +12,13 @@ interface VASProps {
 export default function VAS({ variable }: VASProps) {
 	return (
 		<VarLayout name={variable.name} desc={variable.desc}>
-			<span>{variable.min}</span>
-			<div className={styles.line} />
-			<span>{variable.max}</span>
+			<div>
+				<div className={styles.line} />
+				<div className={`${styles.flexH} ${styles.vasBounds}`}>
+					<div>{variable.min}</div>
+					<div>{variable.max}</div>
+				</div>
+			</div>
 		</VarLayout>
 	);
 }

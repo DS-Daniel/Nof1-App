@@ -17,4 +17,7 @@ export type TestData = {
 		variableName: string;
 		value: string;
 	}[];
+	supposition?: string;
+	optimal?: string;
+	endPeriodRemark?: string;
 }[];

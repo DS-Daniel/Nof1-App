@@ -13,7 +13,11 @@ import {
 	RandomStrategy,
 } from './randomizationStrategy';
 import { Substance } from '../../entities/substance';
-import { AdministrationSchema, Nof1Test, TestStatus } from '../../entities/nof1Test';
+import {
+	AdministrationSchema,
+	Nof1Test,
+	TestStatus,
+} from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
 
 /**
@@ -158,20 +162,24 @@ export const substancesRecap = (
 };
 
 /**
- * Format the patient health variables data to render it into a table.
+ * Format the patient's health variables data, to render it into a table.
  * @param data Patient health variables data.
- * @returns The formatted data (as an array of objects containing the variables data
- * for a date and substance (flat object).
+ * @returns The formatted data (as an array of objects containing the
+ * variables data for a date and substance (flat object).
  */
-export const formatPatientDataToTable = (data: TestData) => {
+export const formatPatientDataToTable = (
+	data: TestData,
+): (string)[][] => {
 	return data.map((d) => {
-		const variables: { [key: string]: string } = {};
-		d.data.forEach((v) => (variables[v.variableName] = v.value));
-		return {
-			date: new Date(d.date).toLocaleDateString(),
-			substance: d.substance,
-			...variables,
-		};
+		const row = [
+			new Date(d.date).toLocaleDateString(),
+			d.substance,
+			d.supposition ?? '',
+			d.optimal ?? '',
+			d.endPeriodRemark ?? '',
+		];
+		d.data.forEach((v) => row.push(v.value));
+		return row;
 	});
 };
 

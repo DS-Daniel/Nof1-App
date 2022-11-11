@@ -7,13 +7,18 @@ import Typography from '@mui/material/Typography';
 import TablePagination from '@mui/material/TablePagination';
 import { useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { ThemedTableHead } from './customTableComponents';
+import { StyledTableCell, ThemedTableHead } from './customTableComponents';
 
 const rowsPerPageOptions = [10, 20, 30];
 
 interface ReadOnlyTableProps {
+	headers0?: {
+		name: string;
+		colspan: number;
+		borderR?: boolean;
+	}[];
 	headers: string[];
-	rows: JSX.Element[][];
+	rows: string[][];
 	emptyCellHeight: number;
 }
 
@@ -21,6 +26,7 @@ interface ReadOnlyTableProps {
  * Common read only table component, with pagination options.
  */
 export default function ReadOnlyTableWPages({
+	headers0,
 	headers,
 	rows,
 	emptyCellHeight,
@@ -58,13 +64,30 @@ export default function ReadOnlyTableWPages({
 			<TableContainer>
 				<Table size="small">
 					<ThemedTableHead>
+						{headers0 && (
+							<TableRow>
+								{headers0.map((h, idx) => (
+									<StyledTableCell
+										key={`table-header0-${idx}`}
+										align="center"
+										paddingX={0.6}
+										colSpan={h.colspan}
+										borderR={h.borderR}
+									>
+										<Typography fontWeight="bold">{h.name}</Typography>
+									</StyledTableCell>
+								))}
+							</TableRow>
+						)}
 						<TableRow>
 							{headers.map((header, index) => (
-								<TableCell key={`var-header-${index}`} align="center">
-									<Typography variant="body1" fontWeight="bold">
-										{header}
-									</Typography>
-								</TableCell>
+								<StyledTableCell
+									key={`table-header-${index}`}
+									align="center"
+									paddingX={0.6}
+								>
+									<Typography fontWeight="bold">{header}</Typography>
+								</StyledTableCell>
 							))}
 						</TableRow>
 					</ThemedTableHead>
@@ -72,7 +95,17 @@ export default function ReadOnlyTableWPages({
 						{rows
 							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 							.map((row, index) => (
-								<TableRow key={index}>{row}</TableRow>
+								<TableRow key={index}>
+									{row.map((value, idx) => (
+										<TableCell
+											key={idx}
+											align="center"
+											sx={{ paddingX: '0.6rem' }}
+										>
+											<Typography variant="body2">{value}</Typography>
+										</TableCell>
+									))}
+								</TableRow>
 							))}
 						{
 							/* row padding to keep table aspect ratio */
@@ -82,7 +115,7 @@ export default function ReadOnlyTableWPages({
 										height: emptyCellHeight * emptyRows,
 									}}
 								>
-									<TableCell colSpan={12} />
+									<TableCell colSpan={headers.length} />
 								</TableRow>
 							)
 						}

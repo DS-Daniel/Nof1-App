@@ -58,6 +58,10 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 		return test;
 	};
 
+	/**
+	 * Sends an email to the patient and updates the test's information.
+	 * @param test N-of-1 test information.
+	 */
 	const sendEmail = async (test: Nof1Test) => {
 		const tokenExp = dayjs(test.endingDate)
 			.startOf('day')
@@ -78,8 +82,8 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 			setItem(test); // update display
 		} else {
 			setOpenEmailFailSnackbar(true);
-			setSendingEmail((prevState) => !prevState);
 		}
+		setSendingEmail((prevState) => !prevState);
 	};
 
 	/**
@@ -93,7 +97,6 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 			beginningDate.startOf('day') >= dayjs().startOf('day')
 		) {
 			setOpenEmailDialog(true);
-			setSendingEmail((prevState) => !prevState);
 		} else {
 			setOpenDateSnackbar(true);
 		}
@@ -104,6 +107,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 	 * information update and sending the e-mail to the patient.
 	 */
 	const handleDialogSubmit = (email: string) => {
+		setSendingEmail((prevState) => !prevState);
 		const test = updateTest(email);
 		sendEmail(test);
 	};
@@ -137,12 +141,12 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 			<FailSnackbar
 				open={openDateSnackbar}
 				setOpen={setOpenDateSnackbar}
-				msg={t('alert-date')}
+				msg={t('alert.date')}
 			/>
 			<FailSnackbar
 				open={openEmailFailSnackbar}
 				setOpen={setOpenEmailFailSnackbar}
-				msg={t('alert-email')}
+				msg={t('alert.email')}
 			/>
 		</>
 	);

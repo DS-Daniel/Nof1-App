@@ -1,12 +1,14 @@
+import { useRef } from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import { Nof1Test } from '../../../entities/nof1Test';
+import { HealthLogbook } from '../../healthLogbook';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
-import useTranslation from 'next-translate/useTranslation';
-import { HealthLogbook } from '../../healthLogbook';
-import { Nof1Test } from '../../../entities/nof1Test';
-import { useRef } from 'react';
-import { useReactToPrint } from 'react-to-print';
 import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import AppBar from '@mui/material/AppBar';
+import { useReactToPrint } from 'react-to-print';
 
 interface HealthLogbookModalProps {
 	open: boolean;
@@ -22,7 +24,7 @@ export default function HealthLogbookModal({
 	handleClose,
 	item,
 }: HealthLogbookModalProps) {
-	const { t } = useTranslation('nof1List');
+	const { t } = useTranslation('common');
 	const componentRef = useRef(null);
 
 	/**
@@ -30,16 +32,36 @@ export default function HealthLogbookModal({
 	 */
 	const handlePrint = useReactToPrint({
 		content: () => componentRef.current,
+		documentTitle: t('nof1List:booklet-file-title'),
 	});
 
 	return (
-		<Dialog open={open} onClose={handleClose} fullWidth maxWidth={'md'}>
-			<DialogContent>
-				<Button onClick={handlePrint}>{t('btn.print')}</Button>
-				<Typography variant="body2" fontStyle="italic">
-					{t('print-warning')}
+		<Dialog open={open} onClose={handleClose} fullWidth maxWidth={'lg'}>
+			<AppBar
+				color="inherit"
+				sx={{
+					position: 'relative',
+					padding: '0.5rem 2rem',
+				}}
+			>
+				<Button onClick={handlePrint}>{t('print.btn')}</Button>
+				<Typography variant="body2" fontStyle="italic" fontWeight="bold">
+					{t('print.warning')}
+					<br />
+					{t('print.warning2')}
 				</Typography>
-				<HealthLogbook ref={componentRef} test={item} />
+			</AppBar>
+			<DialogContent sx={{ bgcolor: 'background.default' }}>
+				<Paper
+					variant="outlined"
+					sx={{
+						width: '210mm',
+						padding: '18mm',
+						marginX: 'auto',
+					}}
+				>
+					<HealthLogbook ref={componentRef} test={item} />
+				</Paper>
 			</DialogContent>
 		</Dialog>
 	);

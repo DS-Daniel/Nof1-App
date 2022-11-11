@@ -1,10 +1,10 @@
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useState } from 'react';
 import Typography from '@mui/material/Typography';
-import TooltipRight from './TooltipRight';
+import CustomTooltip from './CustomTooltip';
 
 interface IMenuItem {
 	name: string;
@@ -89,9 +89,9 @@ export default function MenuContainer({
 							}}
 						>
 							{i.tooltipText ? (
-								<TooltipRight infoText={i.tooltipText}>
+								<CustomTooltip infoText={i.tooltipText}>
 									<Typography color={i.color || 'black'}>{i.name}</Typography>
-								</TooltipRight>
+								</CustomTooltip>
 							) : (
 								<Typography color={i.color || 'black'}>{i.name}</Typography>
 							)}

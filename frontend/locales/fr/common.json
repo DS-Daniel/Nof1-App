@@ -1,6 +1,6 @@
 {
 	"nav": {
-		"title": "N-of-1 tool",
+		"title": "N-of-1 companion",
 		"nof1List": "Tests N-of-1",
 		"profile": "Mon profil",
 		"logout": "Déconnexion"
@@ -12,7 +12,7 @@
 		"password": "Mot de passe",
 		"passwordConfirm": "Confirmer le mot de passe",
 		"title": "Titre",
-		"institution": "Institution",
+		"institution": "Institution / Cabinet médical",
 		"firstname": "Prénom",
 		"lastname": "Nom",
 		"phone": "Téléphone",
@@ -54,7 +54,9 @@
 		"cancel": "Annuler",
 		"saveDataBtn": "Enregistrer",
 		"send": "Envoyer",
-		"delete": "Supprimer"
+		"delete": "Supprimer",
+		"close": "Fermer",
+		"download": "Télécharger"
 	},
 	"measure-unit-label": "Unité de mesure",
 	"posology-table": {
@@ -63,10 +65,16 @@
 		"noon": "Midi",
 		"evening": "Soir",
 		"night": "Nuit",
-		"fraction": "Divisé en X Fractions",
-		"dose": "Dose ({{unit}})"
+		"fraction": "Fraction(s)*",
+		"fraction-info": "*information fractions",
+		"fraction-desc": "Indique en combien de fractions (gélules, comprimés, etc) la dose totale doit être divisée. Exemple: fractions=2 & dose=100mg signifie 2 fractions de 50mg.",
+		"dose": "Dose ({{unit}})",
+		"dose-w/o-unit": "Dose",
+    "unit": "Unité"
 	},
 	"loading": "Chargement...",
+	"startingDate": "Date de début du test",
+	"endingDate": "Date de fin du test",
 	"date": "Date",
 	"day": "Jour",
 	"days": "jours",
@@ -81,5 +89,12 @@
 		"qty": "Quantité totale pour substance",
 		"dose": "doses (fractions)"
 	},
-	"close-modal": "Fermer le récapitulatif"
+	"close-modal": "Fermer le récapitulatif",
+	"print": {
+		"btn": "Imprimer (imprimer en pdf)*",
+		"warning": "*Vérifiez les paramètres d'impression pour un rendu correct. Notamment les marges (par défaut) et la mise à l'échelle (taille réel, 100% ou par défaut).",
+    "warning2": "Préférez une impression direct si ces paramètres ne sont pas modifiables lors de l'enregistrement en PDF (c'est par exemple le cas pour Chrome. FireFox et Edge permettent une impression en PDF qui respectent les dimensions)."
+	},
+	"yes": "Oui",
+	"no": "Non"
 }

@@ -24,7 +24,7 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 		/**
 		 * Render the correct Variable according to its type.
 		 * @param variable Variable.
-		 * @returns 
+		 * @returns The correct variable component.
 		 */
 		const renderVariable = (variable: Variable) => {
 			switch (variable.type) {
@@ -43,48 +43,62 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 
 		return (
 			<div ref={ref} className={styles.printContainer}>
-				<div>
-					<p>
-						{test.patient.lastname}
-						<br />
-						{test.patient.firstname}
-						<br />
-						{test.patient.address.street}
-						<br />
-						{test.patient.address.zip} {test.patient.address.city}
-					</p>
-					<h3 className={styles.title}>{t('logbookTitle')}</h3>
+				<header>
+					{test.patient.lastname} {test.patient.firstname}
+					<br />
+					{test.patient.address.street}
+					<br />
+					{test.patient.address.zip} {test.patient.address.city}
+				</header>
+				<h3 className={styles.title}>{t('logbookTitle')}</h3>
+				<main>
 					<p>{t('subtitle')}</p>
-				</div>
-				{Array.from({ length: test.nbPeriods * test.periodLen }).map(
-					(_, idx) => (
-						<div key={idx} className={styles.paper + ' ' + styles.pageBreak}>
-							<div className={styles.paperHeader}>
-								<span>
-									{t('common:date')} :{' '}
-									{dayjs(test.beginningDate)
-										.add(idx, 'day')
-										.toDate()
-										.toLocaleDateString()}
-								</span>
-								<span>
-									{t('common:day')} {idx + 1} | {t('period')}{' '}
-									{Math.floor(idx / test.periodLen) + 1}
-								</span>
+					{Array.from({ length: test.nbPeriods * test.periodLen }).map(
+						(_, idx) => (
+							<div key={idx} className={styles.paper + ' ' + styles.pageBreak}>
+								<div className={styles.paperHeader}>
+									<span>
+										{t('common:date')} :{' '}
+										{dayjs(test.beginningDate)
+											.add(idx, 'day')
+											.toDate()
+											.toLocaleDateString()}
+									</span>
+									<span>
+										{t('common:day')} {idx + 1} | {t('period')}{' '}
+										{Math.floor(idx / test.periodLen) + 1}
+									</span>
+								</div>
+								<div className={styles.variables}>
+									{test.monitoredVariables.map((v, index) => (
+										<div
+											key={index}
+											className={styles.variable + ' ' + styles.avoidBreak}
+										>
+											{renderVariable(v)}
+										</div>
+									))}
+									{idx > 0 && (idx - 1) % test.periodLen === 0 && (
+										<>
+											<div className={styles.periodQuestion}>
+												<span>{t('supposition')}</span>
+												<div className={styles.periodAnswer} />
+											</div>
+											<div className={styles.periodQuestion}>
+												<span>{t('optimal')}</span>
+												<div className={styles.periodAnswer} />
+											</div>
+											<div className={styles.periodQuestion}>
+												{t('period-Q-remark')} :
+											</div>
+											<div className={styles.textarea} />
+										</>
+									)}
+								</div>
 							</div>
-							<div className={styles.variables}>
-								{test.monitoredVariables.map((v, index) => (
-									<div
-										key={index}
-										className={styles.variable + ' ' + styles.avoidBreak}
-									>
-										{renderVariable(v)}
-									</div>
-								))}
-							</div>
-						</div>
-					),
-				)}
+						),
+					)}
+				</main>
 			</div>
 		);
 	},

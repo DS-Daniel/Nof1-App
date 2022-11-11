@@ -1,27 +1,52 @@
 {
 	"btn": {
 		"dataImport": "Import patient data",
-		"report": "Generate medical report",
+		"report": "Generate the medical report",
 		"xml": "Export N-of-1 data test to XML",
 		"recap-modal": "Consult the test parameters"
 	},
-	"title": "Detailed results",
-	"test-id": "Test ID :",
-	"start-date": "Start date:",
-	"end-date": "End date:",
+	"title": {
+		"main": "Detailed results",
+		"testID": "ID test : {{testID}}",
+		"random-sub-seq": "Randomized sequence of substance administration",
+		"selected-posologies": "Selected posologies",
+		"admin-schema": "Administration schema",
+		"patient-data": "Records of patient's health variables",
+		"graph": "Quantitative variables charts"
+	},
 	"interrupted": "Test interrupted",
-	"random-sub-seq-title": "Randomized sequence of substance administration",
 	"period-duration": "Period duration :",
 	"randomStrategy": "Randomization strategy :",
-	"selected-posologies": "Selected posologies",
 	"posology-repeat": "Last day's dosage repeated for the next period, if two consecutive periods involve the same substance.",
-	"admin-schema-title": "Administration schema",
-	"patient-data-title": "Records of patient's health variables",
 	"no-data": "You have not imported the patient's data yet.",
-	"xlsx-export": "Export excel file",
-	"xlsx-admin-schema": "Administration_schema",
-	"xlsx-patient-data": "Patient_health_data",
-	"xlsx-posology-sub-x": "Posology_{{substance}}",
-	"graph-title": "Quantitative variables charts",
-	"dl-graph": "Download"
+	"xlsx": {
+		"export": "Export excel file",
+		"file-admin-schema": "Administration_schema",
+		"file-patient-data": "Patient_health_data",
+		"file-posology-x": "Posology_{{substance}}"
+	},
+	"report": {
+		"info": "Information about the report below :",
+		"info-1": "- most of the fields are editable.",
+		"info-2": "- the boxes define text zones but the border will not appear when printing.",
+		"info-3": "- if you close the report, the changes will be lost. So remember to print the report when you are done.",
+		"file-title": "Medical_report",
+		"upload-img": "Upload a logo",
+		"today": "{{city}}, {{date}}",
+		"object": "Object: N-of-1 test of the patient {{patient}}, born in {{year}}",
+		"dear": "Dear colleague,",
+		"intro": "Thank you for referring your patient, whom we have seen on several occasions, for a \"N-of-1\" test performed from {{startDate}} to {{endDate}} in our department. This test consisted of the administration of {{substances}} in alternating periods in a randomized, double-blind sequence. The patient was asked to report his or her health parameters during the {{nbPeriods}} periods of {{periodLen}} days that the test lasted. The results are summarized below.",
+		"sequence": "Medication schedule (after unblinding) :",
+		"method": "Method :",
+		"method-desc": "A statistical analysis compares symptoms, plotted in mm on 100 mm Visual Analog Scales (VAS, see graphs below) during each period, according to the treatment received.",
+		"results": "Results :",
+		"conclusion": "Conclusion",
+		"conclusion-placeholder": "Write your conclusion here...",
+		"results-details": "Detailed results :"
+	},
+	"data-table": {
+		"supposition": "Treatment supposition",
+		"optimal": "Optimal treatment",
+		"remark": "Remarks (supposition & optimal)"
+	}
 }
