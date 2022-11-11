@@ -86,11 +86,11 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 											<div className={styles.periodAnswer} />
 										</div>
 										<div className={styles.periodQuestion}>
-											<span>{t('preference')}</span>
+											<span>{t('optimal')}</span>
 											<div className={styles.periodAnswer} />
 										</div>
 										<div className={styles.periodQuestion}>
-											{t('preference-remark')} :
+											{t('period-Q-remark')} :
 										</div>
 										<div className={styles.textarea} />
 									</>
