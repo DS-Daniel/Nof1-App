@@ -81,16 +81,15 @@ export default function SignIn({ login }: SignInProps) {
 				<Typography component="h1" variant="h5" align="center">
 					{t('form.signIn')}
 				</Typography>
-				<Box component="form" onSubmit={handleSubmit} mt={1}>
+				<Box component="form" onSubmit={handleSubmit} mt={2}>
 					<Grid
 						container
-						rowSpacing={2}
+						rowSpacing={1}
 						alignItems="center"
 						justifyContent="center"
 					>
 						<Grid item xs={12}>
 							<TextField
-								margin="normal"
 								required
 								fullWidth
 								id="signIn-email"

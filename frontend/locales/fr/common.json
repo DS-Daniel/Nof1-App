@@ -92,7 +92,8 @@
 	"close-modal": "Fermer le récapitulatif",
 	"print": {
 		"btn": "Imprimer (imprimer en pdf)*",
-		"warning": "*Vérifiez les paramètres d'impression pour un rendu correct. Notamment les marges (par défaut) et la mise à l'échelle (taille réel ou par défaut)"
+		"warning": "*Vérifiez les paramètres d'impression pour un rendu correct. Notamment les marges (par défaut) et la mise à l'échelle (taille réel, 100% ou par défaut).",
+    "warning2": "Préférez une impression direct si ces paramètres ne sont pas modifiables lors de l'enregistrement en PDF (c'est par exemple le cas pour Chrome. FireFox et Edge permettent une impression en PDF qui respectent les dimensions)."
 	},
 	"yes": "Oui",
 	"no": "Non"

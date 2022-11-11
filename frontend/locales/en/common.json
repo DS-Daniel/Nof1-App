@@ -92,7 +92,8 @@
 	"close-modal": "Close recap",
 	"print": {
 		"btn": "Print (print to pdf)*",
-		"warning": "*Check the print settings for correct rendering. In particular the margins (default) and the scaling (real size or default)"
+		"warning": "*Check the print settings for correct rendering. In particular the margins (default) and the scaling (real size, 100% or default).",
+    "warning2": "Prefer direct printing if these parameters cannot be modified when saving as a PDF (this is the case for Chrome, for example. FireFox and Edge allow printing in PDF that respects the dimensions)."
 	},
 	"yes": "Yes",
 	"no": "No"

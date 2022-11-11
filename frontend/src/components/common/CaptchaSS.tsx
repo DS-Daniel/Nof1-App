@@ -75,7 +75,7 @@ export default function CaptchaSS({ onValidation }: CaptchaSSProps) {
 			{isValid ? (
 				<Alert>{t('captcha-success')}</Alert>
 			) : (
-				<Stack alignItems="center" spacing={1}>
+				<Stack alignItems="center">
 					<Stack direction="row" alignItems="center" spacing={1}>
 						<Box
 							sx={{ height: 50 }}

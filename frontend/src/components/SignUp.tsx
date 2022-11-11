@@ -82,11 +82,11 @@ export default function SignUp({ login }: SignUpProps) {
 					id="signup-form"
 					noValidate
 					onSubmit={handleSubmit(onSubmitHandler)}
-					mt={3}
+					mt={2}
 				>
 					<Grid
 						container
-						spacing={2}
+						spacing={1}
 						alignItems="center"
 						justifyContent="center"
 					>

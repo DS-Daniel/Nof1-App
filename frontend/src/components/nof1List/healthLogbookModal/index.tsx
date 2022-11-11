@@ -47,6 +47,8 @@ export default function HealthLogbookModal({
 				<Button onClick={handlePrint}>{t('print.btn')}</Button>
 				<Typography variant="body2" fontStyle="italic" fontWeight="bold">
 					{t('print.warning')}
+					<br />
+					{t('print.warning2')}
 				</Typography>
 			</AppBar>
 			<DialogContent sx={{ bgcolor: 'background.default' }}>
