@@ -30,7 +30,7 @@
 		"RS-random-max-rep-N": "Max number of repetitions",
 		"RS-random": "Totally random",
 		"subtitle-posology": "Dosage schedules",
-		"posology-desc": "Indicate the total expected morning, noon, evening and night doses for the selected substances.\nThe \"Fraction(s)\" columns can optionally be used to indicate how many parts the dose should be divided into, in order to allow for spontaneous adaptation when taking the medication (if Morning = 100 and Fraction(s) = 2, the system will provide 2 doses of 50).",
+		"posology-desc": "Indicate the total expected morning, noon, evening and night doses for the selected substances.\nThe \"Fraction(s)*\" columns are used to indicate how many parts (capsules, tablets, etc) the dose should be divided into, in order to allow for spontaneous adaptation when taking the medication. Example: if the morning dose = 100mg and fraction(s) = 2, then the system will provide for a preparation of 2 doses of 50mg.",
 		"substance-x": "Substance: {{substance}}",
 		"posology-x": "- Posology {{x}}",
 		"posology-repeat-switch": "Repeat the last day's dosage for the next period, if two consecutive periods involve the same substance.",

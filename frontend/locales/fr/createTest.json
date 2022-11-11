@@ -30,7 +30,7 @@
 		"RS-random-max-rep-N": "Nombre de répétitions max",
 		"RS-random": "Totalement aléatoire",
 		"subtitle-posology": "Schémas posologiques",
-		"posology-desc": "Indiquez les doses totales prévues le matin, à midi, le soir et la nuit pour les substances choisies.\nLes colonnes \"Fraction(s)\" permettent optionnellement d'indiquer en combien de parts la dose doit être répartie, afin de laisser une possibilité d'adaptation spontanée lors de la prise du médicament (si Matin = 100 et Fraction(s) = 2, le système prévoira 2 doses de 50).",
+		"posology-desc": "Indiquez les doses totales prévues le matin, à midi, le soir et la nuit pour les substances choisies.\nLes colonnes \"Fraction(s)*\" permettent d'indiquer en combien de parts (gélules, comprimés, etc) la dose totale doit être divisée, afin de laisser une possibilité d'adaptation spontanée lors de la prise du médicament. Exemple: si la dose du matin = 100mg et fraction(s) = 2, alors le système prévoira une préparation de 2 doses de 50mg.",
 		"substance-x": "Substance: {{substance}}",
 		"posology-x": "- Posologie {{x}}",
 		"posology-repeat-switch": "Répéter la posologie du dernier jour pour la période suivante, si deux périodes consécutives concernent la même substance.",

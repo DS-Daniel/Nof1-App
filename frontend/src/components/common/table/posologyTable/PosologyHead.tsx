@@ -24,13 +24,12 @@ export default function PosologyHead({ substanceUnit }: PosologyHeadProps) {
 	return (
 		<ThemedTableHead>
 			<TableRow>
-				<StyledTableCell padding="none" borderR></StyledTableCell>
+				<StyledTableCell padding="none"></StyledTableCell>
 				{headers0.map((h, idx) => (
 					<StyledTableCell
 						key={`posology-header0-${idx}`}
 						align="center"
 						colSpan={2}
-						borderR
 					>
 						<Typography fontWeight="bold">{h}</Typography>
 					</StyledTableCell>
@@ -41,7 +40,6 @@ export default function PosologyHead({ substanceUnit }: PosologyHeadProps) {
 					<StyledTableCell
 						key={`posology-header1-${index}`}
 						align="center"
-						padding="none"
 						borderR={index % 2 === 0}
 					>
 						<Typography variant="body2" fontWeight="bold">

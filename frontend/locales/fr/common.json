@@ -65,8 +65,12 @@
 		"noon": "Midi",
 		"evening": "Soir",
 		"night": "Nuit",
-		"fraction": "Divisé en X Fractions",
-		"dose": "Dose ({{unit}})"
+		"fraction": "Fraction(s)*",
+		"fraction-info": "*information fractions",
+		"fraction-desc": "Indique en combien de fractions (gélules, comprimés, etc) la dose totale doit être divisée. Exemple: fractions=2 & dose=100mg signifie 2 fractions de 50mg.",
+		"dose": "Dose ({{unit}})",
+		"dose-w/o-unit": "Dose",
+    "unit": "Unité"
 	},
 	"loading": "Chargement...",
 	"startingDate": "Date de début du test",

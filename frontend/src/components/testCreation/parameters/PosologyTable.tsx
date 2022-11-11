@@ -121,7 +121,7 @@ export default function PosologyTable({
 							{rows.map((posology, index) => (
 								// iterate over object properties does not guarantee right ordering
 								<StyledTableRow key={`table-row-${index}`}>
-									<StyledTableCell align="center" borderR>
+									<StyledTableCell align="center">
 										<Input
 											size="small"
 											id={`${index}.day`}

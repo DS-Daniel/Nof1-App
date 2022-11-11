@@ -65,8 +65,12 @@
 		"noon": "Noon",
 		"evening": "Evening",
 		"night": "Night",
-		"fraction": "Divided into X fractions",
-		"dose": "Dose ({{unit}})"
+		"fraction": "Fraction(s)*",
+		"fraction-info": "*fractions information",
+		"fraction-desc": "Indicates how many fractions (capsules, tablets, etc) the total dose should be divided into. Example: fractions=2 & dose=100mg means 2 parts of 50mg.",
+		"dose": "Dose ({{unit}})",
+		"dose-w/o-unit": "Dose",
+		"unit": "Unit"
 	},
 	"loading": "Loading...",
 	"startingDate": "Test starting date",

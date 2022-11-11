@@ -10,12 +10,13 @@ interface Props {
 		rows: any[];
 		headers: string[];
 	};
+	info?: JSX.Element;
 }
 
 /**
  * Toolbar component offering a XLSX file export for a table data.
  */
-export default function ExportToolbar({ data }: Props) {
+export default function ExportToolbar({ data, info }: Props) {
 	const { t } = useTranslation('results');
 
 	/**
@@ -26,7 +27,11 @@ export default function ExportToolbar({ data }: Props) {
 	};
 
 	return (
-		<Toolbar variant="dense" sx={{ justifyContent: 'flex-end' }}>
+		<Toolbar
+			variant="dense"
+			sx={{ justifyContent: info ? 'space-between' : 'flex-end' }}
+		>
+			{info && info}
 			<Button endIcon={<FileDownloadOutlinedIcon />} onClick={handleExport}>
 				{t('xlsx.export')}
 			</Button>
