@@ -22,24 +22,14 @@ const renderTableCell = (idx: number, value: string) => {
 /**
  * Generate the row of the table.
  * @param data Cells data.
- * @param variablesNames Array of variable names.
  * @returns An array of table row (TableCell array).
  */
-const generateRows = (data: any[], variablesNames: string[]) => {
-	return data.map((row, idx) => {
-		const rows = [
-			renderTableCell(idx++, row.date),
-			renderTableCell(idx++, row.substance),
-		];
-		variablesNames.forEach((name) =>
-			rows.push(renderTableCell(idx++, row[name])),
-		);
-		return rows;
-	});
+const generateRows = (data: (string)[][]) => {
+	return data.map((row, idx) => row.map((e) => renderTableCell(idx++, e)));
 };
 
 interface Props {
-	data: any[];
+	data: (string)[][];
 	variables: Variable[];
 }
 
@@ -49,7 +39,14 @@ interface Props {
 export default function PatientDataTable({ data, variables }: Props) {
 	const { t } = useTranslation('common');
 	const variablesNames = variables.map((v) => v.name);
-	const headers = [t('date'), t('substance'), ...variablesNames];
+	const headers = [
+		t('date'),
+		t('substance'),
+		t('results:data-table.supposition'),
+		t('results:data-table.optimal'),
+		t('results:data-table.remark'),
+		...variablesNames,
+	];
 	// filename of the XLSX export. Max length = 31 chars
 	const filename = t('results:xlsx-patient-data');
 
@@ -64,7 +61,7 @@ export default function PatientDataTable({ data, variables }: Props) {
 			/>
 			<ReadOnlyTableWPages
 				headers={headers}
-				rows={generateRows(data, variablesNames)}
+				rows={generateRows(data)}
 				emptyCellHeight={33}
 			/>
 		</>

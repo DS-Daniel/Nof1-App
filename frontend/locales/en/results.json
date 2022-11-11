@@ -42,5 +42,10 @@
 		"conclusion": "Conclusion",
 		"conclusion-placeholder": "Write your conclusion here...",
 		"results-details": "Detailed results :"
+	},
+	"data-table": {
+		"supposition": "Treatment supposition",
+		"optimal": "Optimal treatment",
+		"remark": "Remarks (supposition & optimal)"
 	}
 }

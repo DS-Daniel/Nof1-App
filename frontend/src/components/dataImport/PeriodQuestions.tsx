@@ -1,16 +1,12 @@
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { TestData } from '../../entities/nof1Data';
 import { Substance } from '../../entities/substance';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import TextareaWithCustomValidation from '../common/TextareaWithCustomValidation';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 
 interface PeriodQuestionsProps {
 	dayIdx: number;
@@ -25,26 +21,28 @@ export default function PeriodQuestions({
 }: PeriodQuestionsProps) {
 	const { t } = useTranslation('importData');
 	const [supposition, setSupposition] = useState(
-		testData.current![dayIdx].supposition || t('idk'),
+		testData.current![dayIdx].supposition || '',
 	);
-	const [prefValue, setPrefValue] = useState(
-		testData.current![dayIdx].preference?.value || '',
+	const [optimal, setOptimal] = useState(
+		testData.current![dayIdx].optimal || '',
 	);
 
 	return (
 		<>
-			<Grid item xs={12} sm={8}>
+			<Grid item xs={12} sm={9}>
 				<Typography>{t('supposition')}</Typography>
 			</Grid>
-			<Grid item xs={12} sm={4}>
-				<Select
+			<Grid item xs={12} sm={3}>
+				<TextField
+					select
 					size="small"
 					fullWidth
 					id="supposition"
+					label={t('response')}
 					value={supposition}
 					onChange={(e) => {
-						setSupposition(e.target.value);
 						testData.current![dayIdx].supposition = e.target.value;
+						setSupposition(e.target.value);
 					}}
 				>
 					<MenuItem value={t('idk')}>{t('idk')}</MenuItem>
@@ -53,73 +51,35 @@ export default function PeriodQuestions({
 							{sub.name}
 						</MenuItem>
 					))}
-				</Select>
+				</TextField>
 			</Grid>
 			<Grid item xs={12} sm={9}>
-				<Typography>{t('preference')}</Typography>
+				<Typography>{t('optimal')}</Typography>
 			</Grid>
 			<Grid item xs={12} sm={3}>
-				<Select
+				<TextField
+					select
 					size="small"
 					fullWidth
-					id="preference"
-					displayEmpty
-					value={prefValue}
+					id="optimal"
+					label={t('response')}
+					value={optimal}
 					onChange={(e) => {
-						setPrefValue(e.target.value);
-						let pref = testData.current![dayIdx].preference;
-						testData.current![dayIdx].preference = {
-							...pref,
-							value: e.target.value,
-						};
-						console.log(testData.current![dayIdx]);
+						testData.current![dayIdx].optimal = e.target.value;
+						setOptimal(e.target.value);
 					}}
 				>
+					<MenuItem value={t('idk')}>{t('idk')}</MenuItem>
 					<MenuItem value={t('common:yes')}>{t('common:yes')}</MenuItem>
 					<MenuItem value={t('common:no')}>{t('common:no')}</MenuItem>
-				</Select>
+				</TextField>
 			</Grid>
-			<Grid item xs={12} sm={9}>
+			<Grid item xs={12} sm={12}>
 				<TextareaWithCustomValidation
-					label={t('preference-remark')}
-					defaultValue={testData.current![dayIdx].preference?.remark || ''}
-					onChange={(val) => {
-						let pref = testData.current![dayIdx].preference;
-						testData.current![dayIdx].preference = {
-							...pref,
-							remark: val,
-						};
-					}}
+					label={t('period-Q-remark')}
+					defaultValue={testData.current![dayIdx].endPeriodRemark || ''}
+					onChange={(val) => (testData.current![dayIdx].endPeriodRemark = val)}
 				/>
-			</Grid>
-			<Grid item xs={12} sm={3}>
-				<FormControl>
-					<RadioGroup
-						row
-						value={prefValue}
-						onChange={(e) => {
-							setPrefValue(e.target.value);
-							let pref = testData.current![dayIdx].preference;
-							testData.current![dayIdx].preference = {
-								...pref,
-								value: e.target.value,
-							};
-						}}
-					>
-						<FormControlLabel
-							value={t('common:yes')}
-							control={<Radio />}
-							label={t('common:yes')}
-							labelPlacement="bottom"
-						/>
-						<FormControlLabel
-							value={t('common:no')}
-							control={<Radio />}
-							label={t('common:no')}
-							labelPlacement="bottom"
-						/>
-					</RadioGroup>
-				</FormControl>
 			</Grid>
 		</>
 	);

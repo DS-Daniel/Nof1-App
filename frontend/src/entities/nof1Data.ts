@@ -18,8 +18,6 @@ export type TestData = {
 		value: string;
 	}[];
 	supposition?: string;
-	preference?: {
-		value?: string;
-		remark?: string;
-	};
+	optimal?: string;
+	endPeriodRemark?: string;
 }[];

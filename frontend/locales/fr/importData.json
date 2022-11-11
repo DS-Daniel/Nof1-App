@@ -13,7 +13,7 @@
 		"deadline-error": "Ce test thérapeutique est soit terminé, soit il n'a pas encore commencé.\nMerci de consulter l'e-mail que vous avez reçu pour prendre connaissance des dates de ce dernier.\n\nSi le test thérapeutique est terminé, vous ne pouvez plus accéder au formulaire.\nS'il n'a pas encore commencé, merci de revenir sur cette page à partir de la date de commencement."
 	},
   "supposition": "Quel traitement pensez-vous avoir pris cette dernière période ?",
-  "preference": "Pensez-vous que le traitement de cette période soit optimal pour vous ?",
-  "preference-remark": "Remarques concernant les deux questions précédentes",
-  "idk": "pas de supposition"
+  "optimal": "Pensez-vous que le traitement de cette période soit optimal pour vous ?",
+  "period-Q-remark": "Remarques concernant les deux questions précédentes",
+  "idk": "Je ne sais pas"
 }

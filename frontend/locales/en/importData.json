@@ -13,7 +13,7 @@
 		"deadline-error": "This therapeutic test is either over or has not yet begun.\nPlease refer to the e-mail you received to find out the dates.\n\nIf the therapeutic test is over, you can no longer access the form.\nIf it has not yet started, please come back to this page from the start date."
 	},
 	"supposition": "Which treatment do you think you took this last period ?",
-	"preference": "Do you think the treatment of this period is optimal for you ?",
-	"preference-remark": "Remarks regarding the two previous questions",
-	"idk": "no supposition"
+	"optimal": "Do you think the treatment of this period is optimal for you ?",
+	"period-Q-remark": "Remarks regarding the two previous questions",
+	"idk": "I don't know'"
 }
