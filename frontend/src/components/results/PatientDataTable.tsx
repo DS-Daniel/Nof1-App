@@ -48,7 +48,7 @@ export default function PatientDataTable({ data, variables }: Props) {
 		...variablesNames,
 	];
 	// filename of the XLSX export. Max length = 31 chars
-	const filename = t('results:xlsx-patient-data');
+	const filename = t('results:xlsx.file-patient-data');
 
 	return (
 		<>

@@ -41,7 +41,7 @@ export default function SelectedPosologies({
 					<Paper>
 						<ExportToolbar
 							data={{
-								filename: t('results:xlsx-posology-sub-x', { substance }), // filename max length = 31 chars
+								filename: t('results:xlsx.file-posology-x', { substance }), // filename max length = 31 chars
 								rows: posology.posology,
 								headers: headers(unit),
 							}}

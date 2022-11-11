@@ -29,7 +29,7 @@ export default function ImportData() {
 	const { userContext } = useUserContext();
 	const [test, setTest] = useState<Nof1Test | undefined>(undefined);
 	const testData = useRef<TestData | undefined>(undefined);
-	const dataFound = useRef<boolean>(false);
+	const [dataFound, setDataFound] = useState(false);
 	const [fileError, setFileError] = useState(false);
 	const [fileSuccess, setFileSuccess] = useState(false);
 	const [success, setSuccess] = useState(false);
@@ -44,9 +44,8 @@ export default function ImportData() {
 				id,
 			);
 			const { response } = await findNof1Data(userContext.access_token, id);
-			console.log('find data res', response);
-			dataFound.current = response !== null;
 			testData.current = response ? response.data : defaultData(test);
+			setDataFound(response !== null);
 			setTest(test);
 			// setTest() needs to be done after setting testData,
 			// because a re-render is needed to display testData
@@ -64,7 +63,7 @@ export default function ImportData() {
 	const createOrUpdateData = async () => {
 		const testId = router.query.id as string;
 		let error = false;
-		if (dataFound.current) {
+		if (dataFound) {
 			const { statusCode } = await updateNof1Data(
 				userContext.access_token,
 				testId,
@@ -87,7 +86,7 @@ export default function ImportData() {
 	 * data will be sent to the API if file is correct.
 	 * @param e Html event, containing the file.
 	 */
-	const handleImport = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleJsonImport = (e: ChangeEvent<HTMLInputElement>) => {
 		const uploadedFile = e.target.files?.[0];
 		const fileReader = new FileReader();
 		fileReader.onloadend = async () => {
@@ -126,7 +125,7 @@ export default function ImportData() {
 						hidden
 						accept=".json"
 						type="file"
-						onChange={handleImport}
+						onChange={handleJsonImport}
 					/>
 					<Button variant="contained" component="span">
 						{t('import-btn')}

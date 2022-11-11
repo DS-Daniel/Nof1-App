@@ -33,7 +33,7 @@ export default function ExtendedLineChart({
 	substancesSeq,
 	substancesColors,
 }: Props) {
-	const { t } = useTranslation('results');
+	const { t } = useTranslation('common');
 	const [getPng, { ref }] = useCurrentPng();
 	// const data = formatGraphData(testData, variable, periodLen);
 
@@ -62,7 +62,7 @@ export default function ExtendedLineChart({
 			}
 			return (
 				<Paper variant="outlined" sx={{ padding: 1 }}>
-					<Typography>{`${t('common:day')} ${label}`}</Typography>
+					<Typography>{`${t('day')} ${label}`}</Typography>
 					<Typography>{`${correctPayload.dataKey} : ${correctPayload.value}`}</Typography>
 				</Paper>
 			);
@@ -83,7 +83,7 @@ export default function ExtendedLineChart({
 					endIcon={<FileDownloadOutlinedIcon />}
 					sx={{ justifySelf: 'flex-end' }}
 				>
-					{t('dl-graph')}
+					{t('button.download')}
 				</Button>
 			</Stack>
 			<CustomLineChart

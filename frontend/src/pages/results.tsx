@@ -129,20 +129,20 @@ export default function Results() {
 			<Paper sx={{ p: 3, mt: 4 }}>
 				<Stack spacing={3}>
 					<Typography variant="h4" textAlign="center">
-						{t('title')}
+						{t('title.main')}
 					</Typography>
 					<Typography variant="h6">
-						{t('test-id')} {router.query.id}
+						{t('title.testID', { testID: router.query.id })}
 					</Typography>
 					{test ? (
 						<>
 							<div>
 								<Typography>
-									{t('start-date')}{' '}
+									{t('common:startingDate')}{' '}
 									{dayjs(test.beginningDate).toDate().toLocaleDateString()}
 								</Typography>
 								<Typography>
-									{t('end-date')}{' '}
+									{t('common:endingDate')}{' '}
 									{dayjs(test.endingDate).toDate().toLocaleDateString()}
 								</Typography>
 								{test.status === TestStatus.Interrupted && (
@@ -150,7 +150,7 @@ export default function Results() {
 								)}
 							</div>
 
-							<Typography variant="h5">{t('random-sub-seq-title')}</Typography>
+							<Typography variant="h5">{t('title.random-sub-seq')}</Typography>
 							<Stack direction="row">
 								{test.substancesSequence!.map((abbrev, idx) => (
 									<div key={idx}>
@@ -170,10 +170,12 @@ export default function Results() {
 								</Typography>
 							</div>
 
-							<Typography variant="h5">{t('selected-posologies')}</Typography>
+							<Typography variant="h5">
+								{t('title.selected-posologies')}
+							</Typography>
 							<SelectedPosologies posologies={test.selectedPosologies!} />
 
-							<Typography variant="h5">{t('admin-schema-title')}</Typography>
+							<Typography variant="h5">{t('title.admin-schema')}</Typography>
 							<Paper>
 								<AdministrationTable
 									administrationSchema={getAdministrationSchema(test)}
@@ -181,7 +183,7 @@ export default function Results() {
 								/>
 							</Paper>
 
-							<Typography variant="h5">{t('patient-data-title')}</Typography>
+							<Typography variant="h5">{t('title.patient-data')}</Typography>
 							{testData ? (
 								<Paper>
 									<PatientDataTable
@@ -193,7 +195,7 @@ export default function Results() {
 								<Typography>{t('no-data')}</Typography>
 							)}
 
-							<Typography variant="h5">{t('graph-title')}</Typography>
+							<Typography variant="h5">{t('title.graph')}</Typography>
 							{testData ? (
 								test.monitoredVariables
 									.filter(

@@ -55,7 +55,8 @@
 		"saveDataBtn": "Save",
 		"send": "Send",
 		"delete": "Delete",
-		"close": "Close"
+		"close": "Close",
+		"download": "Download"
 	},
 	"measure-unit-label": "Measurement unit",
 	"posology-table": {

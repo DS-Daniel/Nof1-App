@@ -28,7 +28,7 @@ export default function ExportToolbar({ data }: Props) {
 	return (
 		<Toolbar variant="dense" sx={{ justifyContent: 'flex-end' }}>
 			<Button endIcon={<FileDownloadOutlinedIcon />} onClick={handleExport}>
-				{t('xlsx-export')}
+				{t('xlsx.export')}
 			</Button>
 		</Toolbar>
 	);

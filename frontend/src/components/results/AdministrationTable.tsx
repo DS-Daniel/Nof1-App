@@ -73,7 +73,7 @@ export default function AdministrationTable({
 		t('measure-unit-label'),
 	];
 	// filename of the XLSX export. Max length = 31 chars
-	const filename = t('results:xlsx-admin-schema');
+	const filename = t('results:xlsx.file-admin-schema');
 
 	return (
 		<>

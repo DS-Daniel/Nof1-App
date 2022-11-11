@@ -80,7 +80,6 @@
 		"weight": "Weight",
 		"height": "Height",
 		"fields-info": "The following fields are multiline. Please separate different entries with \";\" if necessary.",
-		"separation-helper-txt": "multiline field, separate different entries with \";\"",
 		"indication": "Indication for the drug to be tested",
 		"other-diag": "Other important diagnoses",
 		"drugs": "Drug(s) to be tested (INN and dosage)",
