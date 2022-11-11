@@ -19,6 +19,7 @@ import {
 	TestStatus,
 } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
+import { administrationSchemaXlsx } from '../xlsx';
 
 /**
  * For each substance in the passed array, select a random posology from all
@@ -161,15 +162,49 @@ export const substancesRecap = (
 	});
 };
 
+export const generateXlsxSchemaExample = (
+	test: Nof1Test,
+	xlsxData: {
+		patientInfos: string[][];
+		physicianInfos: string[][];
+		nof1PhysicianInfos: string[][];
+		schemaHeaders: string[];
+	},
+	recapTxt: { qty: string; dose: string },
+) => {
+	const selectedPosologies = selectRandomPosology(test.posologies);
+	const substancesSequence = generateSequence(
+		test.substances,
+		test.randomization,
+		test.nbPeriods,
+	);
+	const administrationSchema = generateAdministrationSchema(
+		test.substances,
+		substancesSequence,
+		selectedPosologies,
+		test.periodLen,
+		test.nbPeriods,
+	);
+	const recap = substancesRecap(
+		test.substances,
+		administrationSchema,
+		recapTxt.qty,
+		recapTxt.dose,
+	);
+	return administrationSchemaXlsx({
+		...xlsxData,
+		schema: administrationSchema,
+		substancesRecap: recap,
+	});
+};
+
 /**
  * Format the patient's health variables data, to render it into a table.
  * @param data Patient health variables data.
  * @returns The formatted data (as an array of objects containing the
  * variables data for a date and substance (flat object).
  */
-export const formatPatientDataToTable = (
-	data: TestData,
-): (string)[][] => {
+export const formatPatientDataToTable = (data: TestData): string[][] => {
 	return data.map((d) => {
 		const row = [
 			new Date(d.date).toLocaleDateString(),

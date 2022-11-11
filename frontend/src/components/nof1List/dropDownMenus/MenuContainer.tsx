@@ -4,7 +4,11 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Typography from '@mui/material/Typography';
-import CustomTooltip from './CustomTooltip';
+import CustomTooltip from '../../common/CustomTooltip';
+import useTranslation from 'next-translate/useTranslation';
+import RecapModal from '../recapModal';
+import DeleteDialog from './DeleteDialog';
+import { Nof1Test } from '../../../entities/nof1Test';
 
 interface IMenuItem {
 	name: string;
@@ -16,6 +20,7 @@ interface IMenuItem {
 interface MenuContainerProps {
 	name: string;
 	items: IMenuItem[];
+	test: Nof1Test;
 	btnSize?: number;
 }
 
@@ -28,10 +33,31 @@ const menuId = 'option-menu';
 export default function MenuContainer({
 	name,
 	items,
-	btnSize,
+	test,
+	btnSize = 180,
 }: MenuContainerProps) {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
+	const { t } = useTranslation('nof1List');
+	const [openRecapModal, setOpenRecapModal] = useState(false);
+	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
+	const menuItems = [
+		{
+			name: t('menu.parameters'),
+			callback: () => {
+				setOpenRecapModal(true);
+			},
+		},
+		...items,
+		{
+			name: t('menu.delete-test'),
+			color: 'red',
+			callback: () => {
+				setOpenDeleteDialog(true);
+			},
+		},
+	];
 
 	/**
 	 * Handle click on the menu item.
@@ -79,7 +105,7 @@ export default function MenuContainer({
 					horizontal: 'right',
 				}}
 			>
-				{items.map((i, idx) => {
+				{menuItems.map((i, idx) => {
 					return (
 						<MenuItem
 							key={idx}
@@ -99,6 +125,16 @@ export default function MenuContainer({
 					);
 				})}
 			</Menu>
+			<RecapModal
+				open={openRecapModal}
+				setOpen={setOpenRecapModal}
+				item={test}
+			/>
+			<DeleteDialog
+				open={openDeleteDialog}
+				handleClose={() => setOpenDeleteDialog(false)}
+				testId={test.uid!}
+			/>
 		</>
 	);
 }

@@ -1,14 +1,12 @@
-import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
-import { Nof1Test } from '../../../entities/nof1Test';
-import MenuContainer from '../../common/MenuContainer';
-import RecapModal from '../recapModal';
-import DeleteDialog from './DeleteDialog';
-import { usePharmaEmailInfos } from '../../../utils/customHooks';
+import { useUserContext } from '../../../context/UserContext';
+import useTranslation from 'next-translate/useTranslation';
+import MenuContainer from './MenuContainer';
 import EmailConfirmDialog from '../EmailConfirmDialog';
+import { Nof1Test } from '../../../entities/nof1Test';
+import { usePharmaEmailInfos } from '../../../utils/customHooks';
 import { sendPharmaEmail, updateNof1Test } from '../../../utils/apiCalls';
 import { substancesRecap } from '../../../utils/nof1-lib/lib';
-import { useUserContext } from '../../../context/UserContext';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import FailSnackbar from '../../common/FailSnackbar';
 
@@ -22,8 +20,6 @@ interface ReadyMenuProps {
 export default function ReadyMenu({ item }: ReadyMenuProps) {
 	const { t } = useTranslation('nof1List');
 	const { userContext } = useUserContext();
-	const [openRecapModal, setOpenRecapModal] = useState(false);
-	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 	const [openPharmaEmailDialog, setOpenPharmaEmailDialog] = useState(false);
 	const [openEmailSuccessSB, setOpenEmailSuccessSB] = useState(false);
 	const [openEmailFailSB, setOpenEmailFailSB] = useState(false);
@@ -38,22 +34,9 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 
 	const menuItems = [
 		{
-			name: t('menu.parameters'),
-			callback: () => {
-				setOpenRecapModal(true);
-			},
-		},
-		{
 			name: t('menu.send-email-pharma'),
 			callback: async () => {
 				setOpenPharmaEmailDialog(true);
-			},
-		},
-		{
-			name: t('menu.delete-test'),
-			color: 'red',
-			callback: () => {
-				setOpenDeleteDialog(true);
 			},
 		},
 	];
@@ -97,23 +80,13 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 	};
 
 	return (
-		<div>
-			<MenuContainer name={t('optionsMenu')} items={menuItems} btnSize={180} />
-			<RecapModal
-				open={openRecapModal}
-				setOpen={setOpenRecapModal}
-				item={item}
-			/>
+		<>
+			<MenuContainer name={t('optionsMenu')} items={menuItems} test={item} />
 			<EmailConfirmDialog
 				open={openPharmaEmailDialog}
 				handleClose={() => setOpenPharmaEmailDialog(false)}
 				handleDialogSubmit={(email) => sendPharmaEmailCB(email)}
 				email={item.pharmacy.email}
-			/>
-			<DeleteDialog
-				open={openDeleteDialog}
-				handleClose={() => setOpenDeleteDialog(false)}
-				testId={item.uid!}
 			/>
 			<SuccessSnackbar
 				open={openEmailSuccessSB}
@@ -125,6 +98,6 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 				setOpen={setOpenEmailFailSB}
 				msg={t('alert.email')}
 			/>
-		</div>
+		</>
 	);
 }
