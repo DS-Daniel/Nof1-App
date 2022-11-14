@@ -96,8 +96,6 @@ export default function Results() {
 				return `${t('createTest:parameters.RS-random-max-rep')}. ${t(
 					'createTest:parameters.RS-random-max-rep-N',
 				)} : ${randomization.maxRep}.`;
-			case RandomStrategy.Random:
-				return t('createTest:parameters.RS-random');
 		}
 	};
 

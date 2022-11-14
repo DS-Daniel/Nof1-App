@@ -83,12 +83,6 @@ export default function RandomizationStrategy({
 						</Stack>
 					</>
 				);
-			case RandomStrategy.Random:
-				return (
-					<Typography variant="body1" pt={'9px'}>
-						{t('parameters.RS-random')}
-					</Typography>
-				);
 		}
 	};
 

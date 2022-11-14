@@ -7,7 +7,6 @@ import {
 	getRandomElemFromArray,
 	MaxRep,
 	Permutation,
-	Random,
 	Randomization,
 	RandomizationStrategy,
 	RandomStrategy,
@@ -61,9 +60,6 @@ export const generateSequence = (
 			break;
 		case RandomStrategy.MaxRep:
 			r = new MaxRep(randomization.maxRep!);
-			break;
-		case RandomStrategy.Random:
-			r = new Random();
 			break;
 	}
 	return r.randomize(substancesAbbrev, nbPeriods);
