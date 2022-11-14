@@ -63,8 +63,9 @@ export default function CreateTest() {
 	const [variables, setVariables] = useState<Variable[]>([]);
 	const [allPosologies, setAllPosologies] = useState<SubstancePosologies[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [clinicalInfo, setClinicalInfo] =
-		useState<IClinicalInfo>(defaultClinicalInfo);
+	const [clinicalInfo, setClinicalInfo] = useState<IClinicalInfo>(
+		defaultClinicalInfo(),
+	);
 	const [incompleteForm, setIncompleteForm] = useState(false);
 	const [draftError, setDraftError] = useState(false);
 

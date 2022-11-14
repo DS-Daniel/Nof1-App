@@ -131,24 +131,29 @@ export default function ClinicalInfo({
 					</Grid>
 					<Grid item container xs={12} sm={8} spacing={2}>
 						<Grid item xs={12} sm={3}>
-							<TextField
-								size="small"
-								fullWidth
-								id="sex"
-								select
-								defaultValue={''}
-								label={t('clinicalInfo.sex')}
-								error={!!errors['sex']}
-								helperText={errors.sex?.message}
-								{...register('sex')}
-							>
-								<MenuItem value={t('clinicalInfo.sex-man')}>
-									{t('clinicalInfo.sex-man')}
-								</MenuItem>
-								<MenuItem value={t('clinicalInfo.sex-woman')}>
-									{t('clinicalInfo.sex-woman')}
-								</MenuItem>
-							</TextField>
+							<Controller
+								name="sex"
+								control={control}
+								render={({ field }) => (
+									<TextField
+										select
+										size="small"
+										fullWidth
+										id="sex"
+										label={t('clinicalInfo.sex')}
+										error={!!errors['sex']}
+										helperText={errors.sex?.message}
+										{...field}
+									>
+										<MenuItem value={t('clinicalInfo.sex-man')}>
+											{t('clinicalInfo.sex-man')}
+										</MenuItem>
+										<MenuItem value={t('clinicalInfo.sex-woman')}>
+											{t('clinicalInfo.sex-woman')}
+										</MenuItem>
+									</TextField>
+								)}
+							/>
 						</Grid>
 						{age && (
 							<Grid item xs={12} sm={3}>

@@ -18,22 +18,24 @@ export interface IClinicalInfo {
 	};
 }
 
-export const defaultClinicalInfo = {
-	sex: '',
-	age: '',
-	weight: '',
-	height: '',
-	indication: '',
-	otherDiag: '',
-	drugs: '',
-	otherDrugs: '',
-	purpose: {
-		efficacy: false,
-		sideEffects: false,
-		deprescription: false,
-		dosage: false,
-		drugsChoice: false,
-		genericSubstitutions: false,
-		other: false,
-	},
+export const defaultClinicalInfo = () => {
+	return {
+		sex: '',
+		age: '',
+		weight: '',
+		height: '',
+		indication: '',
+		otherDiag: '',
+		drugs: '',
+		otherDrugs: '',
+		purpose: {
+			efficacy: false,
+			sideEffects: false,
+			deprescription: false,
+			dosage: false,
+			drugsChoice: false,
+			genericSubstitutions: false,
+			other: false,
+		},
+	};
 };
