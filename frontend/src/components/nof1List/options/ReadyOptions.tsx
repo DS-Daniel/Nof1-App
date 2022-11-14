@@ -93,8 +93,10 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 	 */
 	const handleReady = () => {
 		if (
-			beginningDate &&
-			beginningDate.startOf('day') >= dayjs().startOf('day')
+			beginningDate
+			// TODO revert for production !!!
+			// beginningDate &&
+			// beginningDate.startOf('day') >= dayjs().startOf('day')
 		) {
 			setOpenEmailDialog(true);
 		} else {
