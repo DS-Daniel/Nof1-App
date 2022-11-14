@@ -9,6 +9,8 @@ import useTranslation from 'next-translate/useTranslation';
 import RecapModal from '../recapModal';
 import DeleteDialog from './DeleteDialog';
 import { Nof1Test } from '../../../entities/nof1Test';
+import { generateXlsxSchemaExample } from '../../../utils/nof1-lib/lib';
+import { usePharmaEmailInfos } from '../../../utils/customHooks';
 
 interface IMenuItem {
 	name: string;
@@ -34,13 +36,19 @@ export default function MenuContainer({
 	name,
 	items,
 	test,
-	btnSize = 180,
+	btnSize = 220,
 }: MenuContainerProps) {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const { t } = useTranslation('nof1List');
 	const [openRecapModal, setOpenRecapModal] = useState(false);
 	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+	const {
+		schemaHeaders,
+		patientInfos,
+		physicianInfos,
+		nof1PhysicianInfos,
+	} = usePharmaEmailInfos(test.patient, test.physician, test.nof1Physician);
 
 	const menuItems = [
 		{
@@ -50,6 +58,25 @@ export default function MenuContainer({
 			},
 		},
 		...items,
+		{
+			name: t('menu.xlsx-exemple'),
+			tooltipText: t('menu.xlsx-exemple-info'),
+			callback: () => {
+				generateXlsxSchemaExample(
+					test,
+					{
+            patientInfos,
+						physicianInfos,
+						nof1PhysicianInfos,
+						schemaHeaders,
+					},
+					{
+						qty: t('common:sub-recap.qty'),
+						dose: t('common:sub-recap.dose'),
+					},
+				);
+			},
+		},
 		{
 			name: t('menu.delete-test'),
 			color: 'red',

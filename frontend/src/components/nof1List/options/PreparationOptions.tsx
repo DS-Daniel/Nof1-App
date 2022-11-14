@@ -117,7 +117,7 @@ export default function PreparationOptions({
 
 	/**
 	 * Handles the submission of the email confirmation dialog.
-   * Updates the test information and sends the email to the pharmacy.
+	 * Updates the test information and sends the email to the pharmacy.
 	 * @email Confirmed email.
 	 */
 	const handleEmailDialogSubmit = (email: string) => {
@@ -129,17 +129,17 @@ export default function PreparationOptions({
 	return (
 		<>
 			{sendingEmail ? (
-				<OptionBtn variant="contained" disabled>
+				<OptionBtn disabled>
 					<CircularProgress size="2em" />
 				</OptionBtn>
 			) : (
-				<Button
-					variant="contained"
-					sx={{ width: 250 }}
+				<OptionBtn
 					onClick={() => setOpenEmailDialog(true)}
+					tooltipText={t('btnStatus.preparation-info')}
+					width={275}
 				>
 					{t('btnStatus.preparation')}
-				</Button>
+				</OptionBtn>
 			)}
 			<Stack
 				direction="row"
@@ -150,15 +150,7 @@ export default function PreparationOptions({
 				<OptionBtn variant="outlined" onClick={handleEdit}>
 					{t('btn.edit')}
 				</OptionBtn>
-				<PreparationMenu
-					item={item}
-					xlsxData={{
-						patientInfos,
-						physicianInfos,
-						nof1PhysicianInfos,
-						schemaHeaders,
-					}}
-				/>
+				<PreparationMenu item={item} />
 			</Stack>
 			<EmailConfirmDialog
 				open={openEmailDialog}

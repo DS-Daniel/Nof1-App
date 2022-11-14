@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
 import useTranslation from 'next-translate/useTranslation';
 import MenuContainer from './MenuContainer';
-import HealthLogbookModal from '../healthLogbookModal';
+import HealthLogbookModal from '../HealthLogbookModal';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import FailSnackbar from '../../common/FailSnackbar';

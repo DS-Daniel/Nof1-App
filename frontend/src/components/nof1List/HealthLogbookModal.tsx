@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { Nof1Test } from '../../../entities/nof1Test';
-import { HealthLogbook } from '../../healthLogbook';
+import { Nof1Test } from '../../entities/nof1Test';
+import { HealthLogbook } from '../healthLogbook';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';

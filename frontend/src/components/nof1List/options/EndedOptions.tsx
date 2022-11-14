@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation';
 import OptionBtn from './OptionBtn';
 import { OptionsProps } from '../Nof1TableItem';
 import { useRouter } from 'next/router';
+import Stack from '@mui/material/Stack';
 
 /**
  * Component rendering the options for a test with the status ended.
@@ -14,7 +15,6 @@ export default function EndedOptions({ item }: OptionsProps) {
 	return (
 		<>
 			<OptionBtn
-				variant="contained"
 				onClick={() => {
 					router.push({
 						pathname: '/results',
@@ -24,7 +24,26 @@ export default function EndedOptions({ item }: OptionsProps) {
 			>
 				{t('btnStatus.ended')}
 			</OptionBtn>
-			<EndedTestMenu item={item} />
+			<Stack
+				direction="row"
+				justifyContent="flex-end"
+				alignItems="center"
+				spacing={2}
+			>
+				<OptionBtn
+					variant="outlined"
+					width={310}
+					onClick={() => {
+						router.push({
+							pathname: '/import-data',
+							query: { id: item.uid },
+						});
+					}}
+				>
+					{t('menu.dataImport')}
+				</OptionBtn>
+				<EndedTestMenu item={item} />
+			</Stack>
 		</>
 	);
 }
