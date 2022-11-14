@@ -42,9 +42,7 @@ export default function AdministrationTable({
 }: Props) {
 	const { t } = useTranslation('common');
 	const headers0 = [
-		{ name: '', colspan: 1, borderR: false },
-		{ name: '', colspan: 1, borderR: false },
-		{ name: '', colspan: 1 },
+		{ name: '', colspan: 3 },
 		{ name: t('posology-table.morning'), colspan: 2 },
 		{ name: t('posology-table.noon'), colspan: 2 },
 		{ name: t('posology-table.evening'), colspan: 2 },

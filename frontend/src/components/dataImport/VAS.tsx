@@ -6,6 +6,9 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
+const min = 0;
+const max = 100;
+
 /**
  * Component that renders a slider for a VAS type variable.
  */
@@ -15,8 +18,6 @@ export default function Numeric({
 	onChange,
 }: VarProps) {
 	const [value, setValue] = useState(defaultValue);
-	const min = 0;
-	const max = 100;
 
 	/**
 	 * Handles slider value changes.

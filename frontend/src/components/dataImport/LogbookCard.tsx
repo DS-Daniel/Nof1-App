@@ -25,7 +25,7 @@ export default function LogbookCard({
 	const { t } = useTranslation('common');
 
 	return (
-		<Paper variant="outlined" sx={{ padding: 3, maxWidth: 800 }}>
+		<Paper variant="outlined" sx={{ padding: 3, maxWidth: 900, width: '100%' }}>
 			{/* header */}
 			<Stack direction="row" justifyContent="space-between" mb={2}>
 				<Typography>
@@ -38,7 +38,7 @@ export default function LogbookCard({
 				</Typography>
 			</Stack>
 			{/* content */}
-			<Grid container spacing={1} px={1}>
+			<Grid id="card-content" container rowSpacing={1} columnSpacing={2} px={1}>
 				{children}
 			</Grid>
 		</Paper>

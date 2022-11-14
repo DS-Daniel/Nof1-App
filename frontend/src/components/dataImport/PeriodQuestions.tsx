@@ -29,10 +29,10 @@ export default function PeriodQuestions({
 
 	return (
 		<>
-			<Grid item xs={12} sm={9}>
+			<Grid item xs={12} sm={8} md={9}>
 				<Typography>{t('supposition')}</Typography>
 			</Grid>
-			<Grid item xs={12} sm={3}>
+			<Grid item xs={8} sm={4} md={3}>
 				<TextField
 					select
 					size="small"
@@ -53,10 +53,10 @@ export default function PeriodQuestions({
 					))}
 				</TextField>
 			</Grid>
-			<Grid item xs={12} sm={9}>
+			<Grid item xs={12} sm={8} md={9}>
 				<Typography>{t('optimal')}</Typography>
 			</Grid>
-			<Grid item xs={12} sm={3}>
+			<Grid item xs={8} sm={4} md={3}>
 				<TextField
 					select
 					size="small"
