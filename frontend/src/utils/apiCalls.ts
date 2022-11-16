@@ -1,7 +1,8 @@
 import { UserContextType } from '../context/UserContext';
-import { Nof1Data, Nof1DataUpdate, TestData } from '../entities/nof1Data';
-import { AdministrationSchema, Nof1Test } from '../entities/nof1Test';
+import { Nof1Data, Nof1DataUpdate } from '../entities/nof1Data';
+import { Nof1Test } from '../entities/nof1Test';
 import { Patient, Physician } from '../entities/people';
+import { XlsxSchema } from './xlsx';
 
 const getWithCredentials = async (endpoint: string) => {
 	const response = await fetch(
@@ -478,9 +479,10 @@ export const sendPharmaEmail = async (
 		patientInfos: string[][];
 		physicianInfos: string[][];
 		nof1PhysicianInfos: string[][];
-		schemaHeaders: string[];
-		schema: AdministrationSchema;
+		schemaHeaders: string[][];
+		schema: XlsxSchema;
 		substancesRecap: (string | number)[][][];
+		comments: [string];
 	},
 	msg: {
 		text: string;

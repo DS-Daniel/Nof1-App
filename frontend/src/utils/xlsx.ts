@@ -1,7 +1,8 @@
 import { utils, writeFileXLSX } from 'xlsx';
 import { AdministrationSchema } from '../entities/nof1Test';
+import { Substance } from '../entities/substance';
 
-const defaultCellWidth = 12;
+const defaultCellWidth = 10;
 
 /**
  * Exports data to a XLSX file and triggers the file download.
@@ -11,8 +12,8 @@ const defaultCellWidth = 12;
  */
 export const generateXLSX = async (
 	filename: string,
-	rows: any[],
-	headers: string[],
+	rows: (string | number)[][],
+	headers: string[][],
 ) => {
 	const workbook = utils.book_new();
 	workbook.Props = {
@@ -20,13 +21,15 @@ export const generateXLSX = async (
 		CreatedDate: new Date(),
 	};
 
-	const worksheet = utils.aoa_to_sheet([headers]);
-	utils.sheet_add_json(worksheet, rows, {
-		skipHeader: true,
+	// headers
+	const worksheet = utils.aoa_to_sheet(headers);
+	// data
+	utils.sheet_add_aoa(worksheet, rows, {
 		origin: -1,
 	});
 
-	const colsWidth = headers.map((h) => ({
+	// use last header row to determine column widths.
+	const colsWidth = headers[headers.length - 1].map((h) => ({
 		wch: Math.max(h.length, defaultCellWidth),
 	}));
 	worksheet['!cols'] = colsWidth;
@@ -36,18 +39,125 @@ export const generateXLSX = async (
 	writeFileXLSX(workbook, `${filename}.xlsx`);
 };
 
+export type XlsxSchema = (AdministrationSchema[number] & {
+	morningUnit: number;
+	noonUnit: number;
+	eveningUnit: number;
+	nightUnit: number;
+})[];
+
+/**
+ * Formats the administration schema data for the xlsx export.
+ * @param schema Administration schema.
+ * @returns The formatted schema.
+ */
+export const formatSchema = (schema: AdministrationSchema): XlsxSchema => {
+	const unitaryDose = (dose: number, fraction: number) => {
+		if (fraction === 0 || dose === 0) return 0;
+		return Math.round((dose / fraction) * 100) / 100;
+	};
+
+	return schema.map((row) => {
+		return {
+			day: row.day + 1, // 0 indexed
+			substance: row.substance,
+			unit: row.unit,
+			morning: row.morning,
+			morningFraction: row.morningFraction,
+			morningUnit: unitaryDose(row.morning, row.morningFraction),
+			noon: row.noon,
+			noonFraction: row.noonFraction,
+			noonUnit: unitaryDose(row.noon, row.noonFraction),
+			evening: row.evening,
+			eveningFraction: row.eveningFraction,
+			eveningUnit: unitaryDose(row.evening, row.eveningFraction),
+			night: row.night,
+			nightFraction: row.nightFraction,
+			nightUnit: unitaryDose(row.night, row.nightFraction),
+		};
+	});
+};
+
+/**
+ * Helper method to calculate the number of doses for each substance dosage.
+ * @param unitaryDoseEnum Array of the different dosages (unique).
+ * @param unitaryDoseCount Array of counters for the different dosages.
+ * @param doseEnum Current dosage to calculate.
+ * @param fraction Number of doses for the current dosage.
+ */
+const count = (
+	unitaryDoseEnum: number[],
+	unitaryDoseCount: number[],
+	doseEnum: number,
+	fraction: number,
+) => {
+	if (fraction === 0 || doseEnum === 0) return;
+
+	if (unitaryDoseEnum.includes(doseEnum)) {
+		const doseIdx = unitaryDoseEnum.indexOf(doseEnum);
+		unitaryDoseCount[doseIdx] += fraction;
+	} else {
+		unitaryDoseEnum.push(doseEnum);
+		unitaryDoseCount[unitaryDoseEnum.indexOf(doseEnum)] = fraction;
+	}
+};
+
+/**
+ * For each substance, calculates the total number of doses with its amount and
+ * the number of doses for each different dosage.
+ * Format the output for an XLSX export, with header and data in an array of array.
+ * @param substances The substances.
+ * @param schema The xlsx administration schema.
+ * @param trad Translation texts.
+ * @returns An array of xlsx rows (array of array) containing dosage recapitulation
+ * for each substance.
+ */
+export const substancesRecap = (
+	substances: Substance[],
+	schema: XlsxSchema,
+	trad: { qty: string; totalDose: string; unitDose: string },
+) => {
+	return substances.map((s) => {
+		let total = 0;
+		let totalDoses = 0;
+		const doseEnum: number[] = [];
+		const doseCount: number[] = [];
+		schema.forEach((row) => {
+			if (row.substance === s.name) {
+				total += row.morning + row.noon + row.evening + row.night;
+				totalDoses +=
+					row.morningFraction +
+					row.noonFraction +
+					row.eveningFraction +
+					row.nightFraction;
+				count(doseEnum, doseCount, row.morningUnit, row.morningFraction);
+				count(doseEnum, doseCount, row.noonUnit, row.noonFraction);
+				count(doseEnum, doseCount, row.eveningUnit, row.eveningFraction);
+				count(doseEnum, doseCount, row.nightUnit, row.morningFraction);
+			}
+		});
+		return [
+			[`${trad.qty} "${s.name}":`],
+			[total, s.unit],
+			[totalDoses, trad.totalDose],
+			...doseEnum.map((d, idx) => [doseCount[idx], trad.unitDose + d + s.unit]),
+		];
+	});
+};
+
 /**
  * Exports an exemple of the administration schema xlsx file that will be
- * generated and sent to the pharmacy.
- * @param data Data to export in xlsx.
+ * generated and sent to the pharmacy. Triggers a file download.
+ * @param data Data to export.
  */
 export const administrationSchemaXlsx = async (data: {
 	patientInfos: string[][];
 	physicianInfos: string[][];
 	nof1PhysicianInfos: string[][];
-	schemaHeaders: string[];
-	schema: AdministrationSchema;
+	schemaHeaders: string[][];
+	schema: XlsxSchema;
 	substancesRecap: (string | number)[][][];
+	comments: [string];
 }) => {
 	const filename = 'Administration_schema_exemple.xlsx';
 	const workbook = utils.book_new();
@@ -55,41 +165,58 @@ export const administrationSchemaXlsx = async (data: {
 		Title: filename,
 		CreatedDate: new Date(),
 	};
-	// comma for empty row (space)
+
+	// participants worksheet
 	const participants = [
 		...data.patientInfos,
-		[''],
+		[''], // empty row (space)
 		...data.physicianInfos,
 		[''],
 		...data.nof1PhysicianInfos,
 	];
-	// participants worksheet
 	const wsParticipants = utils.aoa_to_sheet(participants);
 	// determine column cell width
 	const wsColsWidth = data.patientInfos[1].map((e) => ({
 		wch: Math.max(e.length, defaultCellWidth),
 	}));
-	wsParticipants['!cols'] = wsColsWidth; // cells width
+	wsParticipants['!cols'] = wsColsWidth;
 	utils.book_append_sheet(workbook, wsParticipants, 'Participants');
 
 	// administration schema worksheet
-	const wsSchema = utils.aoa_to_sheet([data.schemaHeaders]);
+	// header
+	const wsSchema = utils.aoa_to_sheet(data.schemaHeaders);
+	wsSchema['!merges'] = [
+		{ s: { c: 0, r: 0 }, e: { c: 2, r: 0 } }, // A1:C1
+		{ s: { c: 3, r: 0 }, e: { c: 5, r: 0 } }, // D1:F1
+		{ s: { c: 6, r: 0 }, e: { c: 8, r: 0 } }, // G1:I1
+		{ s: { c: 9, r: 0 }, e: { c: 11, r: 0 } }, // J1:L1
+		{ s: { c: 12, r: 0 }, e: { c: 14, r: 0 } }, // M1:O1
+	];
+	// determine column widths using last header row
+	const lastHeader = data.schemaHeaders[data.schemaHeaders.length - 1];
+	const wsColsW = lastHeader.map((h) => ({
+		wch: Math.max(h.length, defaultCellWidth),
+	}));
+	wsSchema['!cols'] = wsColsW;
+
+	// data
 	utils.sheet_add_json(wsSchema, data.schema, {
 		skipHeader: true,
 		origin: -1,
 	});
-	// add data to an offset position
+	utils.sheet_add_aoa(wsSchema, [data.comments], {
+		origin: { r: 0, c: lastHeader.length + 1 },
+	});
+
+	// add recap data to an offset position
 	let offset = 0;
 	data.substancesRecap.forEach((recap) => {
 		utils.sheet_add_aoa(wsSchema, [[], ...recap], {
-			origin: { r: 0 + offset, c: 12 },
+			origin: { r: 1 + offset, c: lastHeader.length + 1 },
 		});
-		offset += 4;
+		offset += recap.length + 1;
 	});
-	const wsColsW = data.schemaHeaders.map((h) => ({
-		wch: Math.max(h.length, defaultCellWidth),
-	}));
-	wsSchema['!cols'] = wsColsW;
+
 	utils.book_append_sheet(workbook, wsSchema, 'Administration schema');
 
 	writeFileXLSX(workbook, filename);

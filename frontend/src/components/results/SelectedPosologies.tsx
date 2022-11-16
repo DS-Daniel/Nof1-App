@@ -10,7 +10,26 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExportToolbar from './ExportToolbar';
 import CustomTooltip from '../common/CustomTooltip';
 import PosologyTable from '../common/table/posologyTable';
-import { SubstancePosology } from '../../entities/posology';
+import { PosologyDay, SubstancePosology } from '../../entities/posology';
+
+/**
+ * Formate the posologies array for the xlsx export.
+ * @param posology Posologies array.
+ * @returns The formatted array.
+ */
+const formateRows = (posology: PosologyDay[]) => {
+	return posology.map((p) => [
+		p.day,
+		p.morning,
+		p.morningFraction,
+		p.noon,
+		p.noonFraction,
+		p.evening,
+		p.eveningFraction,
+		p.night,
+		p.nightFraction,
+	]);
+};
 
 interface SelectedPosologiesProps {
 	posologies: SubstancePosology[];
@@ -27,13 +46,13 @@ export default function SelectedPosologies({
 	const xlsxHeaders = (unit: string) => [
 		t('posology-table.day'),
 		t('posology-table.dose', { unit }) + ' ' + t('posology-table.morning'),
-		t('posology-table.fraction'),
+		t('posology-table.fraction') + ' ' + t('posology-table.morning'),
 		t('posology-table.dose', { unit }) + ' ' + t('posology-table.noon'),
-		t('posology-table.fraction'),
+		t('posology-table.fraction') + ' ' + t('posology-table.noon'),
 		t('posology-table.dose', { unit }) + ' ' + t('posology-table.evening'),
-		t('posology-table.fraction'),
+		t('posology-table.fraction') + ' ' + t('posology-table.evening'),
 		t('posology-table.dose', { unit }) + ' ' + t('posology-table.night'),
-		t('posology-table.fraction'),
+		t('posology-table.fraction') + ' ' + t('posology-table.night'),
 	];
 
 	return (
@@ -54,8 +73,8 @@ export default function SelectedPosologies({
 								<ExportToolbar
 									data={{
 										filename: t('results:xlsx.file-posology-x', { substance }), // filename max length = 31 chars
-										rows: posology.posology,
-										headers: xlsxHeaders(unit),
+										rows: formateRows(posology.posology),
+										headers: [xlsxHeaders(unit)],
 									}}
 									info={
 										<CustomTooltip infoText={t('posology-table.fraction-desc')}>

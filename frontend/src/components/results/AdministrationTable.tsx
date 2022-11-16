@@ -7,10 +7,10 @@ import ExportToolbar from '../../components/results/ExportToolbar';
 import dayjs from 'dayjs';
 
 /**
- * Generate the row of the table.
+ * Generate the row of the administration schema table.
  * @param schema Administration schema.
  * @param startDate Test start date.
- * @returns An array of table row (TableCell array).
+ * @returns The formatted array.
  */
 const generateRows = (schema: AdministrationSchema, startDate: Date) => {
 	return schema.map((row) => [
@@ -61,6 +61,21 @@ export default function AdministrationTable({
 		...dosage,
 		...dosage,
 	];
+	const xlsxHeaders = [
+		[
+			'',
+			'',
+			'',
+			t('posology-table.morning'),
+			'',
+			t('posology-table.noon'),
+			'',
+			t('posology-table.evening'),
+			'',
+			t('posology-table.night'),
+		],
+		headers,
+	];
 	// filename of the XLSX export. Max length = 31 chars
 	const filename = t('results:xlsx.file-admin-schema');
 
@@ -69,8 +84,8 @@ export default function AdministrationTable({
 			<ExportToolbar
 				data={{
 					filename,
-					rows: administrationSchema,
-					headers,
+					rows: generateRows(administrationSchema, startDate),
+					headers: xlsxHeaders,
 				}}
 				info={
 					<CustomTooltip infoText={t('posology-table.fraction-desc')}>

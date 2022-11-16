@@ -65,15 +65,17 @@ export default function MenuContainer({
 				generateXlsxSchemaExample(
 					test,
 					{
-            patientInfos,
+						patientInfos,
 						physicianInfos,
 						nof1PhysicianInfos,
 						schemaHeaders,
 					},
 					{
 						qty: t('common:sub-recap.qty'),
-						dose: t('common:sub-recap.dose'),
+						totalDose: t('common:sub-recap.total-dose'),
+						unitDose: t('common:sub-recap.unit-dose'),
 					},
+					[`* ${t('common:posology-table.fraction-desc')}`],
 				);
 			},
 		},

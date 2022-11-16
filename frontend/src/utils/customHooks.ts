@@ -60,18 +60,37 @@ export const usePharmaEmailInfos = (
 	const contact = `${user.lastname} ${user.firstname}`;
 	const msg = usePharmaEmailMsg(contact, user.email, user.phone);
 
-	const schemaHeaders = [
-		t('day'),
-		t('substance'),
+	const mergeHeader = [
+		'',
+		'',
+		'',
 		t('posology-table.morning'),
-		t('posology-table.fraction'),
+		'',
+		'',
 		t('posology-table.noon'),
-		t('posology-table.fraction'),
+		'',
+		'',
 		t('posology-table.evening'),
-		t('posology-table.fraction'),
+		'',
+		'',
 		t('posology-table.night'),
+	];
+	const dosage = [
+		t('posology-table.dose-w/o-unit'),
 		t('posology-table.fraction'),
-		t('measure-unit-label'),
+		t('posology-table.dose-unitary'),
+	];
+	const schemaHeaders = [
+		mergeHeader,
+		[
+			t('day'),
+			t('substance'),
+			t('posology-table.unit'),
+			...dosage,
+			...dosage,
+			...dosage,
+			...dosage,
+		],
 	];
 	const personHeaders = [
 		t('form.firstname'),
@@ -155,7 +174,11 @@ export const usePharmaEmailInfos = (
  * @param phone Phone of the contact.
  * @returns An object containing the message as plain text and html.
  */
-const usePharmaEmailMsg = (contact: string, contactEmail: string, phone: string) => {
+const usePharmaEmailMsg = (
+	contact: string,
+	contactEmail: string,
+	phone: string,
+) => {
 	const { t } = useTranslation('mail');
 	const warning = t('warning');
 	const hello = t('hello');
@@ -214,7 +237,12 @@ ${greetings}
  * @param endDate Test end date.
  * @returns An object containing the message as plain text and html.
  */
-export const usePatientEmailMsg = (link: string, nof1Physician: Physician, startDate: string, endDate: string) => {
+export const usePatientEmailMsg = (
+	link: string,
+	nof1Physician: Physician,
+	startDate: string,
+	endDate: string,
+) => {
 	const { t } = useTranslation('mail');
 	const warning = t('warning');
 	const hello = t('hello');

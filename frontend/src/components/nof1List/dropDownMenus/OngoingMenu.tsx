@@ -16,7 +16,7 @@ import {
 	sendPharmaEmail,
 	updateNof1Test,
 } from '../../../utils/apiCalls';
-import { substancesRecap } from '../../../utils/nof1-lib/lib';
+import { formatSchema, substancesRecap } from '../../../utils/xlsx';
 import { tokenExpMargin } from '../../../utils/constants';
 import dayjs from 'dayjs';
 
@@ -66,6 +66,7 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				pharmacy: { ...item.pharmacy, email: email },
 			});
 		}
+		const xlsxSchema = formatSchema(item.administrationSchema!);
 		const response = await sendPharmaEmail(
 			userContext.access_token,
 			{
@@ -73,13 +74,13 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				physicianInfos,
 				nof1PhysicianInfos,
 				schemaHeaders,
-				schema: item.administrationSchema!,
-				substancesRecap: substancesRecap(
-					item.substances,
-					item.administrationSchema!,
-					t('common:sub-recap.qty'),
-					t('common:sub-recap.dose'),
-				),
+				schema: xlsxSchema,
+				substancesRecap: substancesRecap(item.substances, xlsxSchema, {
+					qty: t('common:sub-recap.qty'),
+					totalDose: t('common:sub-recap.total-dose'),
+					unitDose: t('common:sub-recap.unit-dose'),
+				}),
+				comments: [`* ${t('common:posology-table.fraction-desc')}`],
 			},
 			msg,
 			email,

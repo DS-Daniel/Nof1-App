@@ -4,7 +4,7 @@ import ExportToolbar from '../../components/results/ExportToolbar';
 import { Variable } from '../../entities/variable';
 
 interface Props {
-	data: (string)[][];
+	data: string[][];
 	variables: Variable[];
 }
 
@@ -31,14 +31,10 @@ export default function PatientDataTable({ data, variables }: Props) {
 				data={{
 					filename,
 					rows: data,
-					headers,
+					headers: [headers],
 				}}
 			/>
-			<ReadOnlyTableWPages
-				headers={headers}
-				rows={data}
-				emptyCellHeight={33}
-			/>
+			<ReadOnlyTableWPages headers={headers} rows={data} emptyCellHeight={33} />
 		</>
 	);
 }

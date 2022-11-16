@@ -6,7 +6,7 @@ import EmailConfirmDialog from '../EmailConfirmDialog';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { usePharmaEmailInfos } from '../../../utils/customHooks';
 import { sendPharmaEmail, updateNof1Test } from '../../../utils/apiCalls';
-import { substancesRecap } from '../../../utils/nof1-lib/lib';
+import { formatSchema, substancesRecap } from '../../../utils/xlsx';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import FailSnackbar from '../../common/FailSnackbar';
 
@@ -23,7 +23,6 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 	const [openPharmaEmailDialog, setOpenPharmaEmailDialog] = useState(false);
 	const [openEmailSuccessSB, setOpenEmailSuccessSB] = useState(false);
 	const [openEmailFailSB, setOpenEmailFailSB] = useState(false);
-
 	const {
 		schemaHeaders,
 		patientInfos,
@@ -53,6 +52,8 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 				pharmacy: { ...item.pharmacy, email: email },
 			});
 		}
+
+		const xlsxSchema = formatSchema(item.administrationSchema!);
 		const response = await sendPharmaEmail(
 			userContext.access_token,
 			{
@@ -60,13 +61,13 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 				physicianInfos,
 				nof1PhysicianInfos,
 				schemaHeaders,
-				schema: item.administrationSchema!,
-				substancesRecap: substancesRecap(
-					item.substances,
-					item.administrationSchema!,
-					t('common:sub-recap.qty'),
-					t('common:sub-recap.dose'),
-				),
+				schema: xlsxSchema,
+				substancesRecap: substancesRecap(item.substances, xlsxSchema, {
+					qty: t('common:sub-recap.qty'),
+					totalDose: t('common:sub-recap.total-dose'),
+					unitDose: t('common:sub-recap.unit-dose'),
+				}),
+				comments: [`* ${t('common:posology-table.fraction-desc')}`],
 			},
 			msg,
 			email,
