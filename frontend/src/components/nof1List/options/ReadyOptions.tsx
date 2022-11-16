@@ -93,8 +93,10 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 	 */
 	const handleReady = () => {
 		if (
-			beginningDate &&
-			beginningDate.startOf('day') >= dayjs().startOf('day')
+			beginningDate
+			// TODO revert for production !!!
+			// beginningDate &&
+			// beginningDate.startOf('day') >= dayjs().startOf('day')
 		) {
 			setOpenEmailDialog(true);
 		} else {
@@ -122,11 +124,14 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 			>
 				<DatePicker value={beginningDate} setValue={setBeginningDate} />
 				{sendingEmail ? (
-					<OptionBtn variant="contained" disabled>
+					<OptionBtn disabled>
 						<CircularProgress size="2em" />
 					</OptionBtn>
 				) : (
-					<OptionBtn variant="contained" onClick={handleReady}>
+					<OptionBtn
+						tooltipText={t('btnStatus.ready-info')}
+						onClick={handleReady}
+					>
 						{t('btnStatus.ready')}
 					</OptionBtn>
 				)}

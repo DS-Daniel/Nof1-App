@@ -8,7 +8,7 @@ interface Props {
 	data: {
 		filename: string;
 		rows: any[];
-		headers: string[];
+		headers: string[][];
 	};
 	info?: JSX.Element;
 }

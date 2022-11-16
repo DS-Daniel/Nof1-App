@@ -7,7 +7,6 @@ import {
 	getRandomElemFromArray,
 	MaxRep,
 	Permutation,
-	Random,
 	Randomization,
 	RandomizationStrategy,
 	RandomStrategy,
@@ -19,6 +18,11 @@ import {
 	TestStatus,
 } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
+import {
+	administrationSchemaXlsx,
+	formatSchema,
+	substancesRecap,
+} from '../xlsx';
 
 /**
  * For each substance in the passed array, select a random posology from all
@@ -61,9 +65,6 @@ export const generateSequence = (
 		case RandomStrategy.MaxRep:
 			r = new MaxRep(randomization.maxRep!);
 			break;
-		case RandomStrategy.Random:
-			r = new Random();
-			break;
 	}
 	return r.randomize(substancesAbbrev, nbPeriods);
 };
@@ -89,12 +90,10 @@ export const generateAdministrationSchema = (
 	let dateCounter = 0;
 	for (let i = 0; i < nbPeriods; i++) {
 		const abbrev = seq[i];
-		const substance = substances.find((s) => s.abbreviation === abbrev);
-		if (!substance) throw new Error('substance not found');
+		const substance = substances.find((s) => s.abbreviation === abbrev)!;
 		const posology = posologies.find(
 			(e) => e.substance === substance.name,
-		)?.posology;
-		if (!posology) throw new Error('posology not found');
+		)!.posology;
 		// if a substance is repeated and repeatLast option is true, we repeat the last posology.
 		if (
 			i > 0 &&
@@ -129,35 +128,37 @@ export const generateAdministrationSchema = (
 	return result;
 };
 
-/**
- * Calculate the total amount and number of doses to prepare for each substance.
- * Format the output for an XLSX export, with header and data in an array of array.
- * @param substances The substances.
- * @param schema The administration schema.
- * @param tradQty Translation text for the header.
- * @param tradDose Translation of the word "dose".
- * @returns An array of rows (array of array) for the XLSX export for each substance.
- */
-export const substancesRecap = (
-	substances: Substance[],
-	schema: AdministrationSchema,
-	tradQty: string,
-	tradDose: string,
+export const generateXlsxSchemaExample = (
+	test: Nof1Test,
+	xlsxData: {
+		patientInfos: string[][];
+		physicianInfos: string[][];
+		nof1PhysicianInfos: string[][];
+		schemaHeaders: string[][];
+	},
+	recapTxt: { qty: string; totalDose: string; unitDose: string },
+  comments: [string],
 ) => {
-	return substances.map((s) => {
-		let total = 0;
-		let doses = 0;
-		schema.forEach((row) => {
-			if (row.substance === s.name) {
-				total += row.morning + row.noon + row.evening + row.night;
-				doses +=
-					row.morningFraction +
-					row.noonFraction +
-					row.eveningFraction +
-					row.nightFraction;
-			}
-		});
-		return [[`${tradQty} "${s.name}":`], [total, s.unit], [doses, tradDose]];
+	const selectedPosologies = selectRandomPosology(test.posologies);
+	const substancesSequence = generateSequence(
+		test.substances,
+		test.randomization,
+		test.nbPeriods,
+	);
+	const administrationSchema = generateAdministrationSchema(
+		test.substances,
+		substancesSequence,
+		selectedPosologies,
+		test.periodLen,
+		test.nbPeriods,
+	);
+	const xlsSchema = formatSchema(administrationSchema);
+	const recap = substancesRecap(test.substances, xlsSchema, recapTxt);
+	return administrationSchemaXlsx({
+		...xlsxData,
+		schema: xlsSchema,
+		substancesRecap: recap,
+		comments,
 	});
 };
 
@@ -167,9 +168,7 @@ export const substancesRecap = (
  * @returns The formatted data (as an array of objects containing the
  * variables data for a date and substance (flat object).
  */
-export const formatPatientDataToTable = (
-	data: TestData,
-): (string)[][] => {
+export const formatPatientDataToTable = (data: TestData): string[][] => {
 	return data.map((d) => {
 		const row = [
 			new Date(d.date).toLocaleDateString(),

@@ -1,7 +1,6 @@
 export enum RandomStrategy {
 	Permutations = 'Permutations',
 	MaxRep = 'MaxRep',
-	Random = 'Random',
 }
 
 export interface RandomizationStrategy {
@@ -11,7 +10,8 @@ export interface RandomizationStrategy {
 }
 
 /**
- * Generate all permutations, without repetitions, of the elements of the array provided in parameter.
+ * Generate all permutations, without repetitions, of the elements
+ * of the array provided in parameter.
  * @param xs Array of elements to permute.
  * @returns An array of all permutations arrays.
  */
@@ -24,7 +24,8 @@ export function permutations<T>(xs: T[]): T[][] {
 }
 
 /**
- * Source : https://github.com/trekhleb/javascript-algorithms/blob/master/src/algorithms/sets/permutations/permutateWithRepetitions.js
+ * Source : https://github.com/trekhleb/javascript-algorithms/blob/master/
+ * src/algorithms/sets/permutations/permutateWithRepetitions.js
  * @param {*[]} permutationOptions
  * @param {number} permutationLength
  * @return {*[]}
@@ -128,15 +129,5 @@ export class MaxRep extends Randomization {
 			}
 		}
 		return res;
-	}
-}
-
-/**
- * Implements the randomize method with a pur random algorithm.
- */
-export class Random extends Randomization {
-	randomize(abbrevSeq: string[], nbPeriods: number): string[] {
-		const perms = permutateWithRepetitions(abbrevSeq, nbPeriods);
-		return getRandomElemFromArray(perms);
 	}
 }

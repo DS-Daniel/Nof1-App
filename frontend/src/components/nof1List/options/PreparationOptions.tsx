@@ -8,9 +8,9 @@ import {
 	generateAdministrationSchema,
 	generateSequence,
 	selectRandomPosology,
-	substancesRecap,
 } from '../../../utils/nof1-lib/lib';
 import { usePharmaEmailInfos } from '../../../utils/customHooks';
+import { formatSchema, substancesRecap } from '../../../utils/xlsx';
 import OptionBtn from './OptionBtn';
 import { OptionsProps } from '../Nof1TableItem';
 import EmailConfirmDialog from '../EmailConfirmDialog';
@@ -18,7 +18,6 @@ import PreparationMenu from '../dropDownMenus/PreparationMenu';
 import FailSnackbar from '../../common/FailSnackbar';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 
 interface PreparationOptionsProps extends OptionsProps {
 	setItem: Dispatch<SetStateAction<Nof1Test>>;
@@ -74,6 +73,7 @@ export default function PreparationOptions({
 	 * @param test N-of-1 test information.
 	 */
 	const sendEmail = async (test: Nof1Test) => {
+		const xlsxSchema = formatSchema(test.administrationSchema!);
 		const response = await sendPharmaEmail(
 			userContext.access_token,
 			{
@@ -81,13 +81,13 @@ export default function PreparationOptions({
 				physicianInfos,
 				nof1PhysicianInfos,
 				schemaHeaders,
-				schema: test.administrationSchema!,
-				substancesRecap: substancesRecap(
-					test.substances,
-					test.administrationSchema!,
-					t('common:sub-recap.qty'),
-					t('common:sub-recap.dose'),
-				),
+				schema: xlsxSchema,
+				substancesRecap: substancesRecap(test.substances, xlsxSchema, {
+					qty: t('common:sub-recap.qty'),
+					totalDose: t('common:sub-recap.total-dose'),
+					unitDose: t('common:sub-recap.unit-dose'),
+				}),
+				comments: [`* ${t('common:posology-table.fraction-desc')}`],
 			},
 			msg,
 			test.pharmacy.email,
@@ -117,7 +117,7 @@ export default function PreparationOptions({
 
 	/**
 	 * Handles the submission of the email confirmation dialog.
-   * Updates the test information and sends the email to the pharmacy.
+	 * Updates the test information and sends the email to the pharmacy.
 	 * @email Confirmed email.
 	 */
 	const handleEmailDialogSubmit = (email: string) => {
@@ -129,17 +129,17 @@ export default function PreparationOptions({
 	return (
 		<>
 			{sendingEmail ? (
-				<OptionBtn variant="contained" disabled>
+				<OptionBtn disabled>
 					<CircularProgress size="2em" />
 				</OptionBtn>
 			) : (
-				<Button
-					variant="contained"
-					sx={{ width: 250 }}
+				<OptionBtn
 					onClick={() => setOpenEmailDialog(true)}
+					tooltipText={t('btnStatus.preparation-info')}
+					width={275}
 				>
 					{t('btnStatus.preparation')}
-				</Button>
+				</OptionBtn>
 			)}
 			<Stack
 				direction="row"
@@ -150,15 +150,7 @@ export default function PreparationOptions({
 				<OptionBtn variant="outlined" onClick={handleEdit}>
 					{t('btn.edit')}
 				</OptionBtn>
-				<PreparationMenu
-					item={item}
-					xlsxData={{
-						patientInfos,
-						physicianInfos,
-						nof1PhysicianInfos,
-						schemaHeaders,
-					}}
-				/>
+				<PreparationMenu item={item} />
 			</Stack>
 			<EmailConfirmDialog
 				open={openEmailDialog}

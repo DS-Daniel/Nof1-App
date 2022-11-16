@@ -338,7 +338,7 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 						{/* <EditableSubtitle defaultValue={t('report.results-details')} />
 						<Editable defaultValue={t('graph-title') + ' :'} /> */}
 						<EditableSubtitle>{t('report.results-details')}</EditableSubtitle>
-						<Editable>{t('graph-title')} :</Editable>
+						<Editable>{t('title.graph')} :</Editable>
 						{testData ? (
 							test.monitoredVariables
 								.filter(

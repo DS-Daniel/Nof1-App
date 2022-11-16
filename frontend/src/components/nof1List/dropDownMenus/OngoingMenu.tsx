@@ -1,9 +1,12 @@
-import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
+import { useUserContext } from '../../../context/UserContext';
+import useTranslation from 'next-translate/useTranslation';
+import MenuContainer from './MenuContainer';
+import HealthLogbookModal from '../HealthLogbookModal';
+import EmailConfirmDialog from '../EmailConfirmDialog';
+import SuccessSnackbar from '../../common/SuccessSnackbar';
+import FailSnackbar from '../../common/FailSnackbar';
 import { Nof1Test } from '../../../entities/nof1Test';
-import MenuContainer from '../../common/MenuContainer';
-import RecapModal from '../recapModal';
-import HealthLogbookModal from '../healthLogbookModal';
 import {
 	usePharmaEmailInfos,
 	usePatientEmailMsg,
@@ -13,14 +16,9 @@ import {
 	sendPharmaEmail,
 	updateNof1Test,
 } from '../../../utils/apiCalls';
-import { useUserContext } from '../../../context/UserContext';
-import { substancesRecap } from '../../../utils/nof1-lib/lib';
-import SuccessSnackbar from '../../common/SuccessSnackbar';
-import FailSnackbar from '../../common/FailSnackbar';
-import EmailConfirmDialog from '../EmailConfirmDialog';
+import { formatSchema, substancesRecap } from '../../../utils/xlsx';
 import { tokenExpMargin } from '../../../utils/constants';
 import dayjs from 'dayjs';
-import DeleteDialog from './DeleteDialog';
 
 interface OngoingMenuProps {
 	item: Nof1Test;
@@ -32,8 +30,6 @@ interface OngoingMenuProps {
 export default function OngoingMenu({ item }: OngoingMenuProps) {
 	const { t, lang } = useTranslation('nof1List');
 	const { userContext } = useUserContext();
-	const [openRecapModal, setOpenRecapModal] = useState(false);
-	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 	const [openLogbookModal, setOpenLogbookModal] = useState(false);
 	const [openPharmaEmailDialog, setOpenPharmaEmailDialog] = useState(false);
 	const [openPatientEmailDialog, setOpenPatientEmailDialog] = useState(false);
@@ -70,6 +66,7 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				pharmacy: { ...item.pharmacy, email: email },
 			});
 		}
+		const xlsxSchema = formatSchema(item.administrationSchema!);
 		const response = await sendPharmaEmail(
 			userContext.access_token,
 			{
@@ -77,13 +74,13 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				physicianInfos,
 				nof1PhysicianInfos,
 				schemaHeaders,
-				schema: item.administrationSchema!,
-				substancesRecap: substancesRecap(
-					item.substances,
-					item.administrationSchema!,
-					t('common:sub-recap.qty'),
-					t('common:sub-recap.dose'),
-				),
+				schema: xlsxSchema,
+				substancesRecap: substancesRecap(item.substances, xlsxSchema, {
+					qty: t('common:sub-recap.qty'),
+					totalDose: t('common:sub-recap.total-dose'),
+					unitDose: t('common:sub-recap.unit-dose'),
+				}),
+				comments: [`* ${t('common:posology-table.fraction-desc')}`],
 			},
 			msg,
 			email,
@@ -132,12 +129,6 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 
 	const menuItems = [
 		{
-			name: t('menu.parameters'),
-			callback: () => {
-				setOpenRecapModal(true);
-			},
-		},
-		{
 			name: t('menu.varBooklet'),
 			callback: () => {
 				setOpenLogbookModal(true);
@@ -155,23 +146,11 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				setOpenPatientEmailDialog(true);
 			},
 		},
-		{
-			name: t('menu.delete-test'),
-			color: 'red',
-			callback: () => {
-				setOpenDeleteDialog(true);
-			},
-		},
 	];
 
 	return (
-		<div>
-			<MenuContainer name={t('optionsMenu')} items={menuItems} btnSize={180} />
-			<RecapModal
-				open={openRecapModal}
-				setOpen={setOpenRecapModal}
-				item={item}
-			/>
+		<>
+			<MenuContainer name={t('optionsMenu')} items={menuItems} test={item} />
 			<HealthLogbookModal
 				open={openLogbookModal}
 				handleClose={() => setOpenLogbookModal(false)}
@@ -189,11 +168,6 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				handleDialogSubmit={(email) => sendPatientEmailCB(email)}
 				email={item.patient.email}
 			/>
-			<DeleteDialog
-				open={openDeleteDialog}
-				handleClose={() => setOpenDeleteDialog(false)}
-				testId={item.uid!}
-			/>
 			<SuccessSnackbar
 				open={openEmailSuccessSB}
 				setOpen={setOpenEmailSuccessSB}
@@ -204,6 +178,6 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				setOpen={setOpenEmailFailSB}
 				msg={t('alert.email')}
 			/>
-		</div>
+		</>
 	);
 }

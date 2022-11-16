@@ -96,8 +96,6 @@ export default function Results() {
 				return `${t('createTest:parameters.RS-random-max-rep')}. ${t(
 					'createTest:parameters.RS-random-max-rep-N',
 				)} : ${randomization.maxRep}.`;
-			case RandomStrategy.Random:
-				return t('createTest:parameters.RS-random');
 		}
 	};
 
@@ -170,9 +168,6 @@ export default function Results() {
 								</Typography>
 							</div>
 
-							<Typography variant="h5">
-								{t('title.selected-posologies')}
-							</Typography>
 							<SelectedPosologies posologies={test.selectedPosologies!} />
 
 							<Typography variant="h5">{t('title.admin-schema')}</Typography>

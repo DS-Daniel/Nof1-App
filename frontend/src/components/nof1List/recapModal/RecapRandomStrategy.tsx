@@ -28,8 +28,6 @@ export default function RecapRandomStrategy({
 				return `${t('parameters.RS-random-max-rep')}. ${t(
 					'parameters.RS-random-max-rep-N',
 				)} : ${strategy.maxRep}.`;
-			case RandomStrategy.Random:
-				return t('parameters.RS-random');
 		}
 	};
 

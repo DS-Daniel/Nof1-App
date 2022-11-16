@@ -55,12 +55,14 @@ export default function OngoingOptions({ item, setItem }: OngoingOptionsProps) {
 				alignItems="center"
 				spacing={2}
 			>
-				<OptionBtn variant="contained" color="error" onClick={handleStop}>
+				<OptionBtn
+					color="error"
+					tooltipText={t('btn.stop-info')}
+					onClick={handleStop}
+				>
 					{t('btn.stop')}
 				</OptionBtn>
-				<OptionBtn variant="contained" disabled>
-					{t('btnStatus.ongoing')}
-				</OptionBtn>
+				<OptionBtn disabled>{t('btnStatus.ongoing')}</OptionBtn>
 			</Stack>
 			<OngoingMenu item={item} />
 		</>

@@ -70,6 +70,8 @@
 		"fraction-desc": "Indique en combien de fractions (gélules, comprimés, etc) la dose totale doit être divisée. Exemple: fractions=2 & dose=100mg signifie 2 fractions de 50mg.",
 		"dose": "Dose ({{unit}})",
 		"dose-w/o-unit": "Dose",
+		"dose-total": "Dose totale",
+		"dose-unitary": "Dose unitaire",
     "unit": "Unité"
 	},
 	"loading": "Chargement...",
@@ -87,7 +89,8 @@
 	},
 	"sub-recap": {
 		"qty": "Quantité totale pour substance",
-		"dose": "doses (fractions)"
+		"total-dose": "doses (fractions) totales",
+		"unit-dose": "doses (fractions) de "
 	},
 	"close-modal": "Fermer le récapitulatif",
 	"print": {
