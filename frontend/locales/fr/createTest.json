@@ -38,7 +38,12 @@
 		"save-posology-btn": "Sauvegarder la posologie",
 		"warning-save-posology": "(N'oubliez pas de sauvegarder les modifications, sinon elles ne seront pas prises en compte)",
 		"config-posology-btn": "Configurer les posologies*",
-		"warning-config-posology": "(*Paramétrez les substances et la durée des périodes avant de configurer les posologies. Vous ne pourrez plus modifier ceux-ci après avoir cliqué sur le bouton.)"
+		"warning-config-posology": "(*Paramétrez les substances et la durée des périodes avant de configurer les posologies. Vous ne pourrez plus modifier ceux-ci après avoir cliqué sur le bouton.)",
+		"decreasing-posology": {
+			"title": "Posologie décroissante",
+			"desc": "Rajouter une posologie décroissante lors de la période suivante si le traitement change, afin d'éviter un syndrome de sevrage de la substance courante lors du changement de période ?\n(Celle-ci se poursuivra la période suivante en même temps qu'une autre substance)",
+      "btn": "Ajouter une posologie décroissante"
+		}
 	},
 	"variables": {
 		"title": "Variables à monitorer",

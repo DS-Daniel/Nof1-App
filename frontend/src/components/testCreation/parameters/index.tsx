@@ -28,6 +28,7 @@ export interface RandomStrategyProps {
 
 export interface PosologiesProps {
 	substances: Substance[];
+	setSubstances: Dispatch<SetStateAction<Substance[]>>;
 	periodLen: number;
 	allPosologies: SubstancePosologies[];
 	setAllPosologies: Dispatch<SetStateAction<SubstancePosologies[]>>;
@@ -36,7 +37,7 @@ export interface PosologiesProps {
 interface TestParametersProps
 	extends Omit<SubstancesProps, 'editable'>,
 		RandomStrategyProps,
-		Omit<PosologiesProps, 'substances'> {
+		Omit<PosologiesProps, 'substances' | 'setSubstances'> {
 	nbPeriods: number;
 	setNbPeriods: Dispatch<SetStateAction<number>>;
 	setPeriodLen: Dispatch<SetStateAction<number>>;
@@ -136,7 +137,7 @@ export default function TestParameters({
 					<Typography variant="h6" fontWeight="bold">
 						{t('parameters.subtitle-posology')}
 					</Typography>
-					<Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+					<Typography sx={{ whiteSpace: 'pre-line' }}>
 						{t('parameters.posology-desc')}
 					</Typography>
 				</Grid>
@@ -144,6 +145,7 @@ export default function TestParameters({
 				<Grid item xs={12}>
 					<Posologies
 						substances={substances}
+						setSubstances={setSubstances}
 						periodLen={periodLen}
 						allPosologies={allPosologies}
 						setAllPosologies={setAllPosologies}

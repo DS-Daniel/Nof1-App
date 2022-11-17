@@ -56,7 +56,6 @@ export default function CaptchaSS({ onValidation }: CaptchaSSProps) {
 		const input = inputRef.current?.value;
 		if (input) {
 			const { verified } = await verifyCaptcha(input);
-			console.log('verified', verified);
 			if (verified) {
 				setIsValid((prevState) => !prevState);
 			} else {

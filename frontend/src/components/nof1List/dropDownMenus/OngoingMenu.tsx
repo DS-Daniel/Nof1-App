@@ -11,12 +11,8 @@ import {
 	usePharmaEmailInfos,
 	usePatientEmailMsg,
 } from '../../../utils/customHooks';
-import {
-	sendPatientEmail,
-	sendPharmaEmail,
-	updateNof1Test,
-} from '../../../utils/apiCalls';
-import { formatSchema, substancesRecap } from '../../../utils/xlsx';
+import { sendPatientEmail, updateNof1Test } from '../../../utils/apiCalls';
+import { sendPharmaEmailWrapper } from '../../../utils/nof1-lib/lib';
 import { tokenExpMargin } from '../../../utils/constants';
 import dayjs from 'dayjs';
 
@@ -41,6 +37,9 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 		physicianInfos,
 		nof1PhysicianInfos,
 		msg,
+		recapTxt,
+		comments,
+		emailSubject,
 	} = usePharmaEmailInfos(item.patient, item.physician, item.nof1Physician);
 	const patientEmailMsg = usePatientEmailMsg(
 		`${
@@ -66,26 +65,21 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				pharmacy: { ...item.pharmacy, email: email },
 			});
 		}
-		const xlsxSchema = formatSchema(item.administrationSchema!);
-		const response = await sendPharmaEmail(
+
+		const response = await sendPharmaEmailWrapper(
+			item,
 			userContext.access_token,
-			{
-				patientInfos,
-				physicianInfos,
-				nof1PhysicianInfos,
-				schemaHeaders,
-				schema: xlsxSchema,
-				substancesRecap: substancesRecap(item.substances, xlsxSchema, {
-					qty: t('common:sub-recap.qty'),
-					totalDose: t('common:sub-recap.total-dose'),
-					unitDose: t('common:sub-recap.unit-dose'),
-				}),
-				comments: [`* ${t('common:posology-table.fraction-desc')}`],
-			},
+			patientInfos,
+			physicianInfos,
+			nof1PhysicianInfos,
+			schemaHeaders,
+			comments,
+			recapTxt,
+			[t('common:xlsx.decreasing-dosage-info')],
 			msg,
-			email,
-			t('mail:pharma.subject'),
+			emailSubject,
 		);
+
 		if (response.success) {
 			setOpenEmailSuccessSB(true);
 		} else {

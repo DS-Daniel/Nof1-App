@@ -72,7 +72,7 @@
 		"dose-w/o-unit": "Dose",
 		"dose-total": "Dose totale",
 		"dose-unitary": "Dose unitaire",
-    "unit": "Unité"
+		"unit": "Unité"
 	},
 	"loading": "Chargement...",
 	"startingDate": "Date de début du test",
@@ -87,16 +87,19 @@
 		"ofLabel": "sur",
 		"moreLabel": "plus de"
 	},
-	"sub-recap": {
-		"qty": "Quantité totale pour substance",
-		"total-dose": "doses (fractions) totales",
-		"unit-dose": "doses (fractions) de "
+	"xlsx": {
+		"sub-recap": {
+			"qty": "Quantité totale pour substance",
+			"total-dose": "doses (fractions) totales",
+			"unit-dose": "doses (fractions) de "
+		},
+		"decreasing-dosage-info": "Schéma d'administration supplémentaire pour les substances nécessitant un traitement décroissant (au changement de période)."
 	},
 	"close-modal": "Fermer le récapitulatif",
 	"print": {
 		"btn": "Imprimer (imprimer en pdf)*",
 		"warning": "*Vérifiez les paramètres d'impression pour un rendu correct. Notamment les marges (par défaut) et la mise à l'échelle (taille réel, 100% ou par défaut).",
-    "warning2": "Préférez une impression direct si ces paramètres ne sont pas modifiables lors de l'enregistrement en PDF (c'est par exemple le cas pour Chrome. FireFox et Edge permettent une impression en PDF qui respectent les dimensions)."
+		"warning2": "Préférez une impression direct si ces paramètres ne sont pas modifiables lors de l'enregistrement en PDF (c'est par exemple le cas pour Chrome. FireFox et Edge permettent une impression en PDF qui respectent les dimensions)."
 	},
 	"yes": "Oui",
 	"no": "Non"

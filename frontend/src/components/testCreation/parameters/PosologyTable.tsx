@@ -70,6 +70,7 @@ export default function PosologyTable({
 	 * Renders an input TableCell component.
 	 * @param name Name of the input.
 	 * @param defaultValue Default value.
+	 * @param borderRight Display a right border.
 	 * @returns The TableCell component.
 	 */
 	const renderTableCell = (
@@ -77,7 +78,7 @@ export default function PosologyTable({
 		defaultValue: number,
 		borderRight: boolean = false,
 	) => {
-		const [row, property] = name.split('.');
+		// const [row, property] = name.split('.');
 		return (
 			<StyledTableCell align="center" borderR={borderRight}>
 				<Input
@@ -108,8 +109,6 @@ export default function PosologyTable({
 			</StyledTableCell>
 		);
 	};
-
-	console.log('re-render posoTable');
 
 	return (
 		<>

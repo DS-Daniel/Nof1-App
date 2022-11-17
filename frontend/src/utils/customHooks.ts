@@ -59,7 +59,6 @@ export const usePharmaEmailInfos = (
 	const { t } = useTranslation('common');
 	const contact = `${user.lastname} ${user.firstname}`;
 	const msg = usePharmaEmailMsg(contact, user.email, user.phone);
-
 	const mergeHeader = [
 		'',
 		'',
@@ -156,12 +155,20 @@ export const usePharmaEmailInfos = (
 			user.institution,
 		],
 	];
+	const recapTxt = {
+		qty: t('xlsx.sub-recap.qty'),
+		totalDose: t('xlsx.sub-recap.total-dose'),
+		unitDose: t('xlsx.sub-recap.unit-dose'),
+	};
 	return {
 		schemaHeaders,
 		patientInfos,
 		physicianInfos,
 		nof1PhysicianInfos,
 		msg,
+		recapTxt,
+		comments: [`* ${t('posology-table.fraction-desc')}`],
+		emailSubject: t('mail:pharma.subject'),
 	};
 };
 
