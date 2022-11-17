@@ -1,18 +1,21 @@
+import { ReactNode } from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { ReactNode } from 'react';
+import { SvgIconProps } from '@mui/material/SvgIcon';
 
 type TooltipRightProps = {
 	infoText: string;
 	placement?: TooltipProps['placement'];
+	color?: SvgIconProps['color'];
 	children: ReactNode;
 };
 
 export default function CustomTooltip({
 	infoText,
 	placement = 'right',
+	color = 'primary',
 	children,
 }: TooltipRightProps) {
 	return (
@@ -27,7 +30,7 @@ export default function CustomTooltip({
 				placement={placement}
 				arrow
 			>
-				<InfoOutlinedIcon color="primary" fontSize="small" />
+				<InfoOutlinedIcon color={color} fontSize="small" />
 			</Tooltip>
 		</Stack>
 	);

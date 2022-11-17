@@ -78,7 +78,7 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 											{renderVariable(v)}
 										</div>
 									))}
-									{idx > 0 && (idx - 1) % test.periodLen === 0 && (
+									{(idx + 1) % test.periodLen === 0 && (
 										<>
 											<div className={styles.periodQuestion}>
 												<span>{t('supposition')}</span>

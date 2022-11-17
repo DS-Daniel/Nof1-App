@@ -127,7 +127,7 @@ export default function Logbook({
 								updateTestData(dayIdx, varIdx),
 							);
 						})}
-						{dayIdx > 0 && (dayIdx - 1) % test.periodLen === 0 && (
+						{(dayIdx + 1) % test.periodLen === 0 && (
 							<PeriodQuestions
 								dayIdx={dayIdx}
 								testData={testData}
