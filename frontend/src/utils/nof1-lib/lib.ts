@@ -3,14 +3,6 @@ import {
 	SubstancePosologies,
 	SubstancePosology,
 } from '../../entities/posology';
-import {
-	getRandomElemFromArray,
-	MaxRep,
-	Permutation,
-	Randomization,
-	RandomizationStrategy,
-	RandomStrategy,
-} from './randomizationStrategy';
 import { Substance } from '../../entities/substance';
 import {
 	AdministrationSchema,
@@ -19,13 +11,18 @@ import {
 } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
 import {
-	administrationSchemaXlsx,
-	formatSchema,
-	substancesRecap,
-} from '../xlsx';
+	getRandomElemFromArray,
+	MaxRep,
+	Permutation,
+	Randomization,
+	RandomizationStrategy,
+	RandomStrategy,
+} from './randomizationStrategy';
+import { pharmaXlsx, formatSchema, substancesRecap } from '../xlsx';
+import { sendPharmaEmail } from '../apiCalls';
 
 /**
- * For each substance in the passed array, select a random posology from all
+ * For each substance in the passed array, selects a random posology from all
  * of the posologies of the substance.
  * @param allPosologies Array of substances and their posologies.
  * @returns An array of objects containing the substance and its selected posology.
@@ -43,9 +40,9 @@ export const selectRandomPosology = (allPosologies: SubstancePosologies[]) => {
 };
 
 /**
- * Generate a random administration sequence for all substances of the N-of-1 test,
- * according to the randomization strategy (for the number of periods).
- * The resulting array contains the substances abbreviations.
+ * Generates a random administration sequence for all substances of the
+ * N-of-1 test, according to the randomization strategy (for the number
+ * of periods). The resulting array contains the substances abbreviations.
  * @param substances Substances of the N-of-1 test.
  * @param randomization Randomization strategy chosen.
  * @param nbPeriods Number of periods during the test.
@@ -70,14 +67,16 @@ export const generateSequence = (
 };
 
 /**
- * Generate the administration schema of substances for the N-of-1 test, according to
- * the selected substances, their posologies and the substances administration sequence.
+ * Generates the administration schema of substances for the N-of-1 test,
+ * according to the selected substances, their posologies and the
+ * substances administration sequence.
  * @param substances Substances of the test.
  * @param seq Substances administration sequence.
  * @param posologies Posologies for substances.
  * @param periodLen Period Length.
  * @param nbPeriods Number of periods.
- * @returns An array containing the administration schema for every day of the N-of-1 test.
+ * @returns An array containing the administration schema for every day of
+ * the N-of-1 test.
  */
 export const generateAdministrationSchema = (
 	substances: Substance[],
@@ -94,7 +93,8 @@ export const generateAdministrationSchema = (
 		const posology = posologies.find(
 			(e) => e.substance === substance.name,
 		)!.posology;
-		// if a substance is repeated and repeatLast option is true, we repeat the last posology.
+		// if a substance is repeated and repeatLast option is true,
+		// we repeat the last posology.
 		if (
 			i > 0 &&
 			result.slice().pop()?.substance === substance.name &&
@@ -128,6 +128,57 @@ export const generateAdministrationSchema = (
 	return result;
 };
 
+/**
+ * Generates the decreasing dosage administration schema of substances.
+ * @param periodLen Period Length.
+ * @param nbPeriods Number of periods.
+ * @param schema Substances administration schema.
+ * @param substances Substances of the test.
+ * @returns An array containing the decreasing dosage administration
+ * schema of substances.
+ */
+export const generateDecreasingSchema = (
+	periodLen: number,
+	nbPeriods: number,
+	schema: AdministrationSchema,
+	substances: Substance[],
+) => {
+	const result: AdministrationSchema = [];
+	for (let i = periodLen; i < nbPeriods * periodLen; i += periodLen) {
+		const prevSub = schema[i - 1].substance;
+		if (schema[i].substance !== prevSub) {
+			for (let j = 0; j < periodLen; j++) {
+				const decreasingDosage = substances.find(
+					(s) => s.name === prevSub,
+				)!.decreasingDosage;
+				if (decreasingDosage) {
+					result.push({
+						day: schema[i].day + j,
+						substance: prevSub,
+						unit: schema[i - 1].unit,
+						morning: decreasingDosage[j].morning,
+						morningFraction: decreasingDosage[j].morningFraction,
+						noon: decreasingDosage[j].noon,
+						noonFraction: decreasingDosage[j].noonFraction,
+						evening: decreasingDosage[j].evening,
+						eveningFraction: decreasingDosage[j].eveningFraction,
+						night: decreasingDosage[j].night,
+						nightFraction: decreasingDosage[j].nightFraction,
+					});
+				}
+			}
+		}
+	}
+	return result;
+};
+
+/**
+ * Generates an example of the xlsx file sent to the pharmacy.
+ * The file is different from the one sent to the pharmacy.
+ * @param test Nof1 test.
+ * @param xlsxData Data to display into the xlsx file.
+ * @returns Triggers the xlsx file download.
+ */
 export const generateXlsxSchemaExample = (
 	test: Nof1Test,
 	xlsxData: {
@@ -135,9 +186,10 @@ export const generateXlsxSchemaExample = (
 		physicianInfos: string[][];
 		nof1PhysicianInfos: string[][];
 		schemaHeaders: string[][];
+		comments: string[];
+		recapTxt: { qty: string; totalDose: string; unitDose: string };
+		decreasingSchemaInfo: string[];
 	},
-	recapTxt: { qty: string; totalDose: string; unitDose: string },
-  comments: [string],
 ) => {
 	const selectedPosologies = selectRandomPosology(test.posologies);
 	const substancesSequence = generateSequence(
@@ -152,14 +204,32 @@ export const generateXlsxSchemaExample = (
 		test.periodLen,
 		test.nbPeriods,
 	);
+	const decreasingSchema = generateDecreasingSchema(
+		test.periodLen,
+		test.nbPeriods,
+		administrationSchema,
+		test.substances,
+	);
 	const xlsSchema = formatSchema(administrationSchema);
-	const recap = substancesRecap(test.substances, xlsSchema, recapTxt);
-	return administrationSchemaXlsx({
-		...xlsxData,
-		schema: xlsSchema,
-		substancesRecap: recap,
-		comments,
-	});
+	const xlsDecreasingSchema = formatSchema(decreasingSchema);
+	const recap = substancesRecap(
+		test.substances,
+		xlsSchema,
+		xlsDecreasingSchema,
+		xlsxData.recapTxt,
+	);
+	return pharmaXlsx(
+		xlsxData.patientInfos,
+		xlsxData.physicianInfos,
+		xlsxData.nof1PhysicianInfos,
+		{ schema: xlsSchema, headers: xlsxData.schemaHeaders },
+		recap,
+		xlsxData.comments,
+		{
+			schema: xlsDecreasingSchema,
+			headers: [xlsxData.decreasingSchemaInfo, ...xlsxData.schemaHeaders],
+		},
+	);
 };
 
 /**
@@ -206,4 +276,69 @@ export const defaultData = (test: Nof1Test): TestData => {
 		});
 	}
 	return data;
+};
+
+/**
+ * Wrapper to send an email to the pharmacy with all the information.
+ * @param test Nof1 test.
+ * @param accessToken User access token for API call.
+ * @param patientInfos Patient information.
+ * @param physicianInfos Physician information.
+ * @param nof1PhysicianInfos Nof1 physician information.
+ * @param schemaHeaders Substances administration schema headers.
+ * @param comments Comments for the xslx header.
+ * @param recapTxt Substances recapitulation texts.
+ * @param decreasingSchemaInfo Information/title for the decreasing dosage schema.
+ * @param msg Email message.
+ * @param emailSubject Email subject.
+ * @returns The API response to an email request.
+ */
+export const sendPharmaEmailWrapper = (
+	test: Nof1Test,
+	accessToken: string,
+	patientInfos: string[][],
+	physicianInfos: string[][],
+	nof1PhysicianInfos: string[][],
+	schemaHeaders: string[][],
+	comments: string[],
+	recapTxt: { qty: string; totalDose: string; unitDose: string },
+	decreasingSchemaInfo: string[],
+	msg: {
+		text: string;
+		html: string;
+	},
+	emailSubject: string,
+) => {
+	const xlsxSchema = formatSchema(test.administrationSchema!);
+	const xlsDecreasingSchema = formatSchema(
+		generateDecreasingSchema(
+			test.periodLen,
+			test.nbPeriods,
+			test.administrationSchema!,
+			test.substances,
+		),
+	);
+	return sendPharmaEmail(
+		accessToken,
+		{
+			patientInfos,
+			physicianInfos,
+			nof1PhysicianInfos,
+			administrationSchema: { headers: schemaHeaders, schema: xlsxSchema },
+			substancesRecap: substancesRecap(
+				test.substances,
+				xlsxSchema,
+				xlsDecreasingSchema,
+				recapTxt,
+			),
+			comments,
+			decreasingSchema: {
+				headers: [decreasingSchemaInfo, ...schemaHeaders],
+				schema: xlsDecreasingSchema,
+			},
+		},
+		msg,
+		test.pharmacy.email,
+		emailSubject,
+	);
 };

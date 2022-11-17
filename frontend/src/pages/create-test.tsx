@@ -13,7 +13,7 @@ import {
 import { Nof1Test, TestStatus } from '../entities/nof1Test';
 import { Variable } from '../entities/variable';
 import { SubstancePosologies } from '../entities/posology';
-import { Substance } from '../entities/substance';
+import { Substance, emptySubstance } from '../entities/substance';
 import { defaultClinicalInfo, IClinicalInfo } from '../entities/clinicalInfo';
 import { maxValue } from '../utils/constants';
 import { RandomStrategy } from '../utils/nof1-lib/randomizationStrategy';
@@ -33,12 +33,6 @@ import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
 import Alert from '@mui/material/Alert';
 import isEqual from 'lodash.isequal';
-
-const emptySubstance = {
-	name: '',
-	abbreviation: '',
-	unit: '',
-};
 
 /**
  * N-of-1 test creation page.

@@ -3,14 +3,14 @@ import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { useUserContext } from '../../../context/UserContext';
 import { Nof1Test, TestStatus } from '../../../entities/nof1Test';
-import { sendPharmaEmail, updateNof1Test } from '../../../utils/apiCalls';
+import { updateNof1Test } from '../../../utils/apiCalls';
 import {
 	generateAdministrationSchema,
 	generateSequence,
 	selectRandomPosology,
+	sendPharmaEmailWrapper,
 } from '../../../utils/nof1-lib/lib';
 import { usePharmaEmailInfos } from '../../../utils/customHooks';
-import { formatSchema, substancesRecap } from '../../../utils/xlsx';
 import OptionBtn from './OptionBtn';
 import { OptionsProps } from '../Nof1TableItem';
 import EmailConfirmDialog from '../EmailConfirmDialog';
@@ -42,6 +42,9 @@ export default function PreparationOptions({
 		physicianInfos,
 		nof1PhysicianInfos,
 		msg,
+		recapTxt,
+		comments,
+		emailSubject,
 	} = usePharmaEmailInfos(item.patient, item.physician, item.nof1Physician);
 
 	/**
@@ -73,25 +76,18 @@ export default function PreparationOptions({
 	 * @param test N-of-1 test information.
 	 */
 	const sendEmail = async (test: Nof1Test) => {
-		const xlsxSchema = formatSchema(test.administrationSchema!);
-		const response = await sendPharmaEmail(
+		const response = await sendPharmaEmailWrapper(
+			test,
 			userContext.access_token,
-			{
-				patientInfos,
-				physicianInfos,
-				nof1PhysicianInfos,
-				schemaHeaders,
-				schema: xlsxSchema,
-				substancesRecap: substancesRecap(test.substances, xlsxSchema, {
-					qty: t('common:sub-recap.qty'),
-					totalDose: t('common:sub-recap.total-dose'),
-					unitDose: t('common:sub-recap.unit-dose'),
-				}),
-				comments: [`* ${t('common:posology-table.fraction-desc')}`],
-			},
+			patientInfos,
+			physicianInfos,
+			nof1PhysicianInfos,
+			schemaHeaders,
+			comments,
+			recapTxt,
+			[t('common:xlsx.decreasing-dosage-info')],
 			msg,
-			test.pharmacy.email,
-			t('mail:pharma.subject'),
+			emailSubject,
 		);
 
 		if (response.success) {

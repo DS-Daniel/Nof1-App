@@ -48,6 +48,8 @@ export default function MenuContainer({
 		patientInfos,
 		physicianInfos,
 		nof1PhysicianInfos,
+		recapTxt,
+		comments,
 	} = usePharmaEmailInfos(test.patient, test.physician, test.nof1Physician);
 
 	const menuItems = [
@@ -62,21 +64,15 @@ export default function MenuContainer({
 			name: t('menu.xlsx-exemple'),
 			tooltipText: t('menu.xlsx-exemple-info'),
 			callback: () => {
-				generateXlsxSchemaExample(
-					test,
-					{
-						patientInfos,
-						physicianInfos,
-						nof1PhysicianInfos,
-						schemaHeaders,
-					},
-					{
-						qty: t('common:sub-recap.qty'),
-						totalDose: t('common:sub-recap.total-dose'),
-						unitDose: t('common:sub-recap.unit-dose'),
-					},
-					[`* ${t('common:posology-table.fraction-desc')}`],
-				);
+				generateXlsxSchemaExample(test, {
+					patientInfos,
+					physicianInfos,
+					nof1PhysicianInfos,
+					schemaHeaders,
+					recapTxt,
+					comments,
+					decreasingSchemaInfo: [t('common:xlsx.decreasing-dosage-info')],
+				});
 			},
 		},
 		{

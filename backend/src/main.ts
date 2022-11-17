@@ -15,6 +15,7 @@ async function bootstrap() {
   // using session for captcha challenges
   app.use(
     session({
+      name: 'captcha',
       secret: process.env.SESSION_KEY,
       resave: false,
       saveUninitialized: false,
@@ -23,6 +24,7 @@ async function bootstrap() {
         sameSite: 'none',
         secure: true,
         path: '/captcha',
+        maxAge: 1000 * 60 * 15, // 15 minutes
       },
     }),
   );

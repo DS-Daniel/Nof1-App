@@ -479,10 +479,16 @@ export const sendPharmaEmail = async (
 		patientInfos: string[][];
 		physicianInfos: string[][];
 		nof1PhysicianInfos: string[][];
-		schemaHeaders: string[][];
-		schema: XlsxSchema;
+		administrationSchema: {
+			headers: string[][];
+			schema: XlsxSchema;
+		};
 		substancesRecap: (string | number)[][][];
-		comments: [string];
+		comments: string[];
+		decreasingSchema: {
+			headers: string[][];
+			schema: XlsxSchema;
+		};
 	},
 	msg: {
 		text: string;

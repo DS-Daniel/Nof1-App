@@ -38,7 +38,12 @@
 		"save-posology-btn": "Save posology",
 		"warning-save-posology": "(Don't forget to save the modifications, otherwise they won't be taken into account)",
 		"config-posology-btn": "Configure posologies*",
-		"warning-config-posology": "(*Set up the substances and the duration of the test before setting up the dosages. You will not be able to change these after clicking on the button.)"
+		"warning-config-posology": "(*Set up the substances and the duration of the test before setting up the dosages. You will not be able to change these after clicking on the button.)",
+		"decreasing-posology": {
+			"title": "Decreasing posology",
+			"desc": "Add a decreasing dosage during the next period if the treatment changes, in order to avoid a withdrawal syndrome of the current substance when changing periods ?\n(It will be continued the next period with another substance)",
+			"btn": "Add a decreasing posology"
+		}
 	},
 	"variables": {
 		"title": "Variables to monitor",
