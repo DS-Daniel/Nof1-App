@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Req, Session } from '@nestjs/common';
+import { Controller, Get, Param, Req } from '@nestjs/common';
 import { Public } from './utils/customDecorators/publicEndpoint';
 import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
@@ -14,7 +14,7 @@ export class AppController {
 
   /**
    * Retrieves a randomly generated captcha.
-   * @param req Request object.
+   * @param req Http request object.
    * @returns An object { captchaImg: string; } containing the captcha
    * svg representation as string.
    */
@@ -26,7 +26,7 @@ export class AppController {
 
   /**
    * Verifies the user's input against the generated captcha.
-   * @param session Http session containing the stored captcha value.
+   * @param req Http request object.
    * @param captcha User input for the captcha.
    * @returns An object { verified: boolean } indicating if the user's
    * input is valid or not.
@@ -34,9 +34,9 @@ export class AppController {
   @Public()
   @Get('captcha/verify/:captcha')
   verifyCaptcha(
-    @Session() session: Record<string, any>,
+    @Req() req: Request,
     @Param('captcha') captcha: string,
   ): { verified: boolean } {
-    return this.appService.verifyCaptcha(session.captcha, captcha);
+    return this.appService.verifyCaptcha(req, captcha);
   }
 }

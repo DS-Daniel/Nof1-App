@@ -21,17 +21,23 @@ export class AppService {
     });
     const session = req.session;
     session['captcha'] = captcha.text;
+    console.log('get sessionID', req.sessionID);
     return { captchaImg: captcha.data };
   }
 
   /**
    * Verifies the user's input against the generated captcha.
-   * @param storedCaptcha The stored captcha value.
+   * @param req Http request object.
    * @param userCaptcha User input for the captcha.
    * @returns An object { verified: boolean } indicating if the user's
    * input is valid or not.
    */
-  verifyCaptcha(storedCaptcha: string, userCaptcha: string) {
-    return { verified: storedCaptcha === userCaptcha };
+  verifyCaptcha(req: Record<string, any>, userCaptcha: string) {
+    console.log('verify sessionID', req.sessionID);
+    const isVerified = req.session.captcha === userCaptcha;
+    if (isVerified) {
+      req.session.destroy(null);
+    }
+    return { verified: isVerified };
   }
 }
