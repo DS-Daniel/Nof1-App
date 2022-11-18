@@ -56,6 +56,13 @@
 		"header-0": "Negative label (0)",
 		"header-1": "Positive label (1)",
 		"header-values": "Values (qualitative)",
+		"types": {
+			"txt": "Textual",
+			"vas": "VAS",
+			"numeric": "Numeric",
+			"qualitative": "Qualitative",
+			"binary": "Binary"
+		},
 		"quantitative-helper-txt": "Values (please separate them by \";\" and order them if ordinal)",
 		"add-new-btn": "Add new variable",
 		"add-existing-btn": "Add predefined variable",
@@ -74,7 +81,8 @@
 			"remarks": "General remarks",
 			"remarks-desc": "General remarks :"
 		},
-		"modal-title": "Parameters of the variable to monitor"
+		"modal-title": "Parameters of the variable to monitor",
+		"error-already-exist": "This variable already exists"
 	},
 	"clinicalInfo": {
 		"title": "Clinical information",

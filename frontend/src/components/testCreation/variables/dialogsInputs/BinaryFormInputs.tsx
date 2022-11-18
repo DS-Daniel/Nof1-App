@@ -1,44 +1,29 @@
-import useTranslation from 'next-translate/useTranslation';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { UseFormRegister } from 'react-hook-form';
-import { Variable } from '../../../../entities/variable';
-
-interface Props {
-	register: UseFormRegister<Variable>;
-}
+import { Description, InputsProps, Name } from './inputs';
 
 /**
- * Component that render inputs for a binary type variable.
+ * Component that renders inputs for a binary type variable.
  */
-export default function BinaryFormInputs({ register }: Props) {
-	const { t } = useTranslation('createTest');
-
+export default function BinaryFormInputs({
+	register,
+	t,
+	validation,
+}: InputsProps) {
+	const { ref: inputRefMin, ...minRegisterProps } = register('min', {
+		shouldUnregister: true,
+	});
+	const { ref: inputRefMax, ...maxRegisterProps } = register('max', {
+		shouldUnregister: true,
+	});
 	return (
 		<>
 			<Grid item xs={7}>
-				<TextField
-					autoFocus
-					id="name"
-					label={t('variables.header-name')}
-					type="text"
-					fullWidth
-					{...register('name')}
-				/>
+				<Name register={register} t={t} validation={validation} />
 			</Grid>
 			<Grid item xs={4}></Grid>
 			<Grid item xs={11}>
-				<TextField
-					autoFocus
-					id="desc"
-					label={t('variables.header-desc')}
-					type="text"
-					// fullWidth
-					multiline
-					maxRows={3}
-					fullWidth
-					{...register('desc')}
-				/>
+				<Description register={register} t={t} />
 			</Grid>
 			<Grid item xs={5.5}>
 				<TextField
@@ -47,7 +32,8 @@ export default function BinaryFormInputs({ register }: Props) {
 					label={t('variables.header-0')}
 					type="text"
 					fullWidth
-					{...register('min')}
+					inputRef={inputRefMin}
+					{...minRegisterProps}
 				/>
 			</Grid>
 			<Grid item xs={5.5}>
@@ -57,7 +43,8 @@ export default function BinaryFormInputs({ register }: Props) {
 					label={t('variables.header-1')}
 					type="text"
 					fullWidth
-					{...register('max')}
+					inputRef={inputRefMax}
+					{...maxRegisterProps}
 				/>
 			</Grid>
 		</>

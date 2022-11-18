@@ -14,7 +14,7 @@ export default function Qualitative({
 	defaultValue,
 	onChange,
 }: VarProps) {
-	const inputs = variable.values!.split(';');
+	const inputs = variable.values!.split(';').map((s) => s.trim());
 	const [value, setValue] = useState(defaultValue);
 
 	/**
