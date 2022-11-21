@@ -1,30 +1,23 @@
-import useTranslation from 'next-translate/useTranslation';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { UseFormRegister } from 'react-hook-form';
-import { Variable } from '../../../../entities/variable';
-
-interface Props {
-	register: UseFormRegister<Variable>;
-}
+import { Description, InputsProps, Max, Min, Name } from './inputs';
 
 /**
- * Component that render inputs for a VAS type variable.
+ * Component that renders inputs for a VAS type variable.
  */
-export default function VASFormInputs({ register }: Props) {
-	const { t } = useTranslation('createTest');
-
+export default function VASFormInputs({
+	register,
+	t,
+	validation,
+}: InputsProps) {
+	const { ref: inputRef, ...registerProps } = register('unit', {
+		value: 'mm',
+		shouldUnregister: true,
+	});
 	return (
 		<>
 			<Grid item xs={7}>
-				<TextField
-					autoFocus
-					id="name"
-					label={t('variables.header-name')}
-					type="text"
-					fullWidth
-					{...register('name')}
-				/>
+				<Name register={register} t={t} validation={validation} />
 			</Grid>
 			<Grid item xs={4}>
 				<TextField
@@ -33,41 +26,20 @@ export default function VASFormInputs({ register }: Props) {
 					label={t('variables.header-unit')}
 					type="text"
 					fullWidth
+					InputLabelProps={{ shrink: true }}
 					value="mm"
-					{...register('unit', { value: 'mm' })}
+					inputRef={inputRef}
+					{...registerProps}
 				/>
 			</Grid>
 			<Grid item xs={11}>
-				<TextField
-					autoFocus
-					id="desc"
-					label={t('variables.header-desc')}
-					type="text"
-					fullWidth
-					multiline
-					maxRows={3}
-					{...register('desc')}
-				/>
+				<Description register={register} t={t} />
 			</Grid>
 			<Grid item xs={5.5}>
-				<TextField
-					autoFocus
-					id="min"
-					label={t('variables.header-min')}
-					type="text"
-					fullWidth
-					{...register('min')}
-				/>
+				<Min register={register} t={t} />
 			</Grid>
 			<Grid item xs={5.5}>
-				<TextField
-					autoFocus
-					id="max"
-					label={t('variables.header-max')}
-					type="text"
-					fullWidth
-					{...register('max')}
-				/>
+				<Max register={register} t={t} />
 			</Grid>
 		</>
 	);

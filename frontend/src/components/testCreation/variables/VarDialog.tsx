@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import { Controller, useForm } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -5,72 +8,145 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import useTranslation from 'next-translate/useTranslation';
-import { Variable, VariableType } from '../../../entities/variable';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
-import { useForm } from 'react-hook-form';
+import { Variable, VariableType } from '../../../entities/variable';
 import TextFormInputs from './dialogsInputs/TextFormInputs';
 import BinaryFormInputs from './dialogsInputs/BinaryFormInputs';
 import VASFormInputs from './dialogsInputs/VASFormInputs';
 import NumericFormInputs from './dialogsInputs/NumericFormInputs';
 import QualitativeFormInputs from './dialogsInputs/QualitativeFormInputs';
+import { defaultVariable } from '.';
 
 interface VarDialogProps {
 	open: boolean;
-	handleClose: () => void;
+	defaultValue: Variable;
+	editing: boolean;
+	validate: (name: string) => boolean;
 	handleDialogSubmit: (variable: Variable) => void;
+	handleClose: () => void;
 }
 
 /**
- * Dialog component to add a new monitored health variable.
+ * Dialog component to add or edit a monitored health variable.
  */
 export default function VarDialog({
 	open,
-	handleClose,
+	defaultValue,
+	editing,
+	validate,
 	handleDialogSubmit,
+	handleClose,
 }: VarDialogProps) {
 	const { t } = useTranslation('createTest');
-
-	const { register, handleSubmit, reset, watch } = useForm<Variable>({
-		defaultValues: { type: VariableType.Text },
+	const {
+		register,
+		handleSubmit,
+		reset,
+		watch,
+		control,
+		formState: { isSubmitSuccessful, errors },
+	} = useForm<Variable>({
+		defaultValues: defaultValue,
 	});
 
+	// resets fields when successfully submitted or
+	// loads variable's information when editing.
+	useEffect(() => {
+		console.log('running useEffect');
+		if (editing) {
+			reset(defaultValue); // load variable's values
+		} else if (isSubmitSuccessful) {
+			console.log('reset after submit');
+			reset(defaultVariable);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [editing, isSubmitSuccessful, reset]);
+
 	/**
-	 * Handle submit of the dialog form.
-	 * @param data Form data.
+	 * Resets form inputs and closes the dialog.
 	 */
-	const onSubmit = (data: Variable) => {
-		handleDialogSubmit(data);
-		reset();
+	const closeDialog = () => {
+		reset(defaultVariable);
+		handleClose();
 	};
 
 	/**
-	 * Return the appropriate inputs according to the variable type.
+	 * Returns the appropriate inputs according to the variable type.
 	 */
-	const getInputs = () => {
+	const renderInputs = () => {
 		switch (watch('type')) {
 			case VariableType.Text:
-				return <TextFormInputs register={register} />;
+				return (
+					<TextFormInputs
+						register={register}
+						t={t}
+						validation={{ validate, errors }}
+					/>
+				);
 			case VariableType.Binary:
-				return <BinaryFormInputs register={register} />;
+				return (
+					<BinaryFormInputs
+						register={register}
+						t={t}
+						validation={{ validate, errors }}
+					/>
+				);
 			case VariableType.VAS:
-				return <VASFormInputs register={register} />;
+				return (
+					<VASFormInputs
+						register={register}
+						t={t}
+						validation={{ validate, errors }}
+					/>
+				);
 			case VariableType.Numeric:
-				return <NumericFormInputs register={register} />;
+				return (
+					<NumericFormInputs
+						register={register}
+						t={t}
+						validation={{ validate, errors }}
+					/>
+				);
 			case VariableType.Qualitative:
-				return <QualitativeFormInputs register={register} />;
+				return (
+					<QualitativeFormInputs
+						register={register}
+						t={t}
+						validation={{ validate, errors }}
+					/>
+				);
+		}
+	};
+
+	/**
+	 * Selects a traduction according to the variable's type.
+	 * @param type Variable's type
+	 * @returns The traduction string.
+	 */
+	const selectTrad = (type: VariableType) => {
+		switch (type) {
+			case VariableType.Text:
+				return t('variables.types.txt');
+			case VariableType.VAS:
+				return t('variables.types.vas');
+			case VariableType.Binary:
+				return t('variables.types.binary');
+			case VariableType.Numeric:
+				return t('variables.types.numeric');
+			case VariableType.Qualitative:
+				return t('variables.types.qualitative');
 		}
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose}>
+		<Dialog open={open} onClose={closeDialog}>
 			<DialogTitle>{t('variables.modal-title')}</DialogTitle>
 			<DialogContent>
 				<Box
 					component="form"
 					id="var-form"
-					onSubmit={handleSubmit(onSubmit)}
+					onSubmit={handleSubmit(handleDialogSubmit)}
 					mt={1}
 				>
 					<Grid
@@ -80,27 +156,32 @@ export default function VarDialog({
 						columnSpacing={4}
 					>
 						<Grid item xs={11}>
-							<TextField
-								autoFocus
-								id="type"
-								label={t('variables.header-type')}
-								select
-								defaultValue={VariableType.Text}
-								{...register('type')}
-							>
-								{Object.values(VariableType).map((t) => (
-									<MenuItem key={`select-${t}`} value={t}>
-										{t}
-									</MenuItem>
-								))}
-							</TextField>
+							<Controller
+								name="type"
+								control={control}
+								render={({ field }) => (
+									<TextField
+										select
+										autoFocus
+										id="type"
+										label={t('variables.header-type')}
+										{...field}
+									>
+										{Object.values(VariableType).map((t) => (
+											<MenuItem key={`select-${t}`} value={t}>
+												{selectTrad(t)}
+											</MenuItem>
+										))}
+									</TextField>
+								)}
+							/>
 						</Grid>
-						{getInputs()}
+						{renderInputs()}
 					</Grid>
 				</Box>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose}>{t('common:button.cancel')}</Button>
+				<Button onClick={closeDialog}>{t('common:button.cancel')}</Button>
 				<Button type="submit" form="var-form">
 					{t('common:button.add')}
 				</Button>

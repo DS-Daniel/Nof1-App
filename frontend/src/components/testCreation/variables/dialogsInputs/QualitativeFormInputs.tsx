@@ -1,44 +1,26 @@
-import useTranslation from 'next-translate/useTranslation';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { UseFormRegister } from 'react-hook-form';
-import { Variable } from '../../../../entities/variable';
-
-interface Props {
-	register: UseFormRegister<Variable>;
-}
+import { Description, InputsProps, Name } from './inputs';
 
 /**
- * Component that render inputs for a qualitative type variable.
+ * Component that renders inputs for a qualitative type variable.
  */
-export default function QualitativeFormInputs({ register }: Props) {
-	const { t } = useTranslation('createTest');
-
+export default function QualitativeFormInputs({
+	register,
+	t,
+	validation,
+}: InputsProps) {
+	const { ref: inputRef, ...registerProps } = register('values', {
+		shouldUnregister: true,
+	});
 	return (
 		<>
 			<Grid item xs={7}>
-				<TextField
-					autoFocus
-					id="name"
-					label={t('variables.header-name')}
-					type="text"
-					fullWidth
-					{...register('name')}
-				/>
+				<Name register={register} t={t} validation={validation} />
 			</Grid>
 			<Grid item xs={4}></Grid>
 			<Grid item xs={11}>
-				<TextField
-					autoFocus
-					id="desc"
-					label={t('variables.header-desc')}
-					type="text"
-					// fullWidth
-					multiline
-					maxRows={3}
-					fullWidth
-					{...register('desc')}
-				/>
+				<Description register={register} t={t} />
 			</Grid>
 			<Grid item xs={11}>
 				{t('variables.quantitative-helper-txt')}
@@ -50,7 +32,8 @@ export default function QualitativeFormInputs({ register }: Props) {
 					label={t('variables.header-values')}
 					type="text"
 					fullWidth
-					{...register('values')}
+					inputRef={inputRef}
+					{...registerProps}
 				/>
 			</Grid>
 		</>

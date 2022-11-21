@@ -1,11 +1,3 @@
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import useTranslation from 'next-translate/useTranslation';
 import {
 	ChangeEvent,
 	Dispatch,
@@ -13,12 +5,28 @@ import {
 	useEffect,
 	useState,
 } from 'react';
-import { Variable } from '../../../entities/variable';
-import VarTable from './VarTable';
-import AddIcon from '@mui/icons-material/Add';
-import VarDialog from './VarDialog';
+import useTranslation from 'next-translate/useTranslation';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import AddIcon from '@mui/icons-material/Add';
+import { Variable, VariableType } from '../../../entities/variable';
 import { usePredefinedHealthVariables } from '../../../utils/customHooks';
+import VarTable from './VarTable';
+import VarDialog from './VarDialog';
+
+export const defaultVariable = {
+	type: VariableType.VAS,
+	name: '',
+	desc: '',
+};
+
+const notEditing = -1;
 
 interface VariablesProps {
 	variables: Variable[];
@@ -26,11 +34,11 @@ interface VariablesProps {
 }
 
 /**
- * Monitored health variables section component. Manages and displays variables in a table.
+ * Component managing the monitored health variables section.
+ * Manages and displays variables in a table.
  */
 export default function Variables({ variables, setVariables }: VariablesProps) {
 	const { t } = useTranslation('createTest');
-
 	const predefinedHealthVariables = usePredefinedHealthVariables();
 	// determine the default checkboxes states.
 	const defaultCheckboxes = () => {
@@ -40,8 +48,12 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 	};
 	const [checkboxesState, setCheckboxesState] = useState(defaultCheckboxes());
 	const [openDialog, setOpenDialog] = useState(false);
+	const [defaultValue, setDefaultValue] = useState<Variable>(defaultVariable);
+	const [editing, setEditing] = useState(notEditing);
+	// used to check editing mode and get variable's index
+	const isEditing = editing !== notEditing;
 
-	// update checkboxes state if data are loaded from an existing N-of-1 test
+	// update checkboxes state if data are loaded from an existing N-of-1 test.
 	useEffect(() => {
 		const state = { ...checkboxesState };
 		predefinedHealthVariables.forEach((predefinedVar) => {
@@ -51,19 +63,43 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 			}
 		});
 		setCheckboxesState(state);
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []); // only when rendered for the first time
 
 	/**
-	 * Add a new variable.
+	 * Adds a new variable.
 	 * @param v Variable.
 	 */
 	const addVariable = (v: Variable) => {
-		setVariables([...variables, v]);
+		setVariables((prevVariables) => [...prevVariables, v]);
 	};
 
 	/**
-	 * Remove a variable.
+	 * Edits a variable.
+	 * @param idx Index of the variable.
+	 * @param v New variable information.
+	 */
+	const editVariable = (idx: number, v: Variable) => {
+		setVariables((prevVariables) => {
+			const array = [...prevVariables];
+			array[idx] = v;
+			return array;
+		});
+	};
+
+	/**
+	 * Opens the dialog to edit a variable.
+	 * @param idx Index of the variable.
+	 * @param v Variable.
+	 */
+	const openEdit = (idx: number, v: Variable) => {
+		setDefaultValue(v);
+		setEditing(idx);
+		setOpenDialog(true);
+	};
+
+	/**
+	 * Removes a variable.
 	 * @param idx Index of the variable to remove.
 	 */
 	const removeVariable = (idx: number) => {
@@ -83,16 +119,21 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 	};
 
 	/**
-	 * Handle the submit action of the dialog that add a new variable.
-	 * @param variable Variable.
+	 * Handles the submit action of the dialog that add or edit a variable.
+	 * @param variable Variable to add or edit.
 	 */
 	const handleDialogSubmit = (variable: Variable) => {
-		addVariable(variable);
+		if (isEditing) {
+			editVariable(editing, variable);
+			setEditing(notEditing);
+		} else {
+			addVariable(variable);
+		}
 		setOpenDialog(false);
 	};
 
 	/**
-	 * Handle the action to trigger when un/checking a checkboxes (add/remove).
+	 * Handles the action to trigger when un/checking a checkboxes (add/remove).
 	 * @param event HTML event.
 	 */
 	const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -110,6 +151,15 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 		}
 	};
 
+	/**
+	 * Allows the same variable name only when editing a variable,
+	 * but not when creating a new one.
+	 * @param name Name enter into the input.
+	 * @returns True if name is allowed, otherwise false.
+	 */
+	const validateVarName = (name: string) =>
+		isEditing || !variables.some((v) => v.name === name);
+
 	return (
 		<Paper sx={{ p: 3, width: '100%' }}>
 			<Stack spacing={3}>
@@ -117,7 +167,7 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 					{t('variables.title')}
 				</Typography>
 
-				<VarTable rows={variables} removeRow={removeVariable} />
+				<VarTable rows={variables} removeRow={removeVariable} edit={openEdit} />
 
 				<Stack alignItems="center">
 					<Button
@@ -161,8 +211,14 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 			</Stack>
 			<VarDialog
 				open={openDialog}
-				handleDialogSubmit={(data) => handleDialogSubmit(data)}
-				handleClose={() => setOpenDialog(false)}
+				defaultValue={defaultValue}
+				editing={isEditing}
+				validate={validateVarName}
+				handleDialogSubmit={handleDialogSubmit}
+				handleClose={() => {
+					isEditing && setEditing(notEditing);
+					setOpenDialog(false);
+				}}
 			/>
 		</Paper>
 	);

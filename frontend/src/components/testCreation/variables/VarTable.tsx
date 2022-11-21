@@ -4,10 +4,11 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import { Variable, VariableType } from '../../../entities/variable';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
+import { Variable, VariableType } from '../../../entities/variable';
 import {
 	ThemedTableHead,
 	StyledTableContainer,
@@ -29,12 +30,13 @@ const renderTableCell = (name: string | number | VariableType | undefined) => {
 type VarTableProps = {
 	rows: Variable[];
 	removeRow: (idx: number) => void;
+	edit: (idx: number, v: Variable) => void;
 };
 
 /**
  * Table component for health variables.
  */
-export default function VarTable({ rows, removeRow }: VarTableProps) {
+export default function VarTable({ rows, removeRow, edit }: VarTableProps) {
 	const { t } = useTranslation('createTest');
 	const headers = [
 		t('variables.header-name'),
@@ -74,6 +76,12 @@ export default function VarTable({ rows, removeRow }: VarTableProps) {
 								{renderTableCell(variable.max)}
 								{renderTableCell(variable.values)}
 								<TableCell align="center">
+									<IconButton
+										aria-label="edit"
+										onClick={() => edit(index, variable)}
+									>
+										<EditIcon />
+									</IconButton>
 									<IconButton
 										color="error"
 										aria-label="delete"
