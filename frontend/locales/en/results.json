@@ -2,7 +2,10 @@
 	"btn": {
 		"dataImport": "Import patient data",
 		"report": "Generate the medical report",
-		"xml": "Export N-of-1 data test to XML",
+		"xml": "Export N-of-1 test data to ODM-XML format",
+		"xml-clear": "Identifying data in clear text",
+		"xml-anonymous": "Anonymized identifying data",
+		"xml-encrypted": "Encrypted identifying data",
 		"recap-modal": "Consult the test parameters"
 	},
 	"title": {

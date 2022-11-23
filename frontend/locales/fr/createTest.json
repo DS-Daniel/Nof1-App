@@ -24,7 +24,7 @@
 		"period-duration": "Durée d'une période (en jours)",
 		"subtitle-randomStrategy": "Stratégie de randomisation du schéma d'administration",
 		"randomStrategy-desc": "Choisissez la stratégie qui sera utilisée pour alterner l'administration des différentes substances choisies.",
-		"RS-permutation": "Répétition aléatoire de séquence de permutations de toutes les substances",
+		"RS-permutation": "Répétition aléatoire des séquences de permutations de toutes les substances",
 		"RS-permutation-helper": "Par exemple avec 2 substances choisies, A et B. Il s’agira d’une répétition des séquences de permutation AB ou BA. Exemple : AB AB BA ...\nAvec 3 substances : A, B et C. iI s’agira d’une répétition des séquences de permutation ABC, ACB, BCA, etc...\nEt ainsi de suite.",
 		"RS-random-max-rep": "Aléatoire, mais avec un nombre maximum de répétitions consécutives d'une même substance",
 		"RS-random-max-rep-N": "Nombre de répétitions max",

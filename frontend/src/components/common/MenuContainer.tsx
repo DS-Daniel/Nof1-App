@@ -4,15 +4,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Typography from '@mui/material/Typography';
-import CustomTooltip from '../../common/CustomTooltip';
-import useTranslation from 'next-translate/useTranslation';
-import RecapModal from '../recapModal';
-import DeleteDialog from './DeleteDialog';
-import { Nof1Test } from '../../../entities/nof1Test';
-import { generateXlsxSchemaExample } from '../../../utils/nof1-lib/lib';
-import { usePharmaEmailInfos } from '../../../utils/customHooks';
+import CustomTooltip from './CustomTooltip';
 
-interface IMenuItem {
+export interface IMenuItem {
 	name: string;
 	color?: string;
 	tooltipText?: string;
@@ -22,8 +16,7 @@ interface IMenuItem {
 interface MenuContainerProps {
 	name: string;
 	items: IMenuItem[];
-	test: Nof1Test;
-	btnSize?: number;
+	btnSize?: number | string;
 }
 
 const btnId = 'option-button';
@@ -35,57 +28,13 @@ const menuId = 'option-menu';
 export default function MenuContainer({
 	name,
 	items,
-	test,
-	btnSize = 220,
+	btnSize = 'auto',
 }: MenuContainerProps) {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
-	const { t } = useTranslation('nof1List');
-	const [openRecapModal, setOpenRecapModal] = useState(false);
-	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-	const {
-		schemaHeaders,
-		patientInfos,
-		physicianInfos,
-		nof1PhysicianInfos,
-		recapTxt,
-		comments,
-	} = usePharmaEmailInfos(test.patient, test.physician, test.nof1Physician);
-
-	const menuItems = [
-		{
-			name: t('menu.parameters'),
-			callback: () => {
-				setOpenRecapModal(true);
-			},
-		},
-		...items,
-		{
-			name: t('menu.xlsx-exemple'),
-			tooltipText: t('menu.xlsx-exemple-info'),
-			callback: () => {
-				generateXlsxSchemaExample(test, {
-					patientInfos,
-					physicianInfos,
-					nof1PhysicianInfos,
-					schemaHeaders,
-					recapTxt,
-					comments,
-					decreasingSchemaInfo: [t('common:xlsx.decreasing-dosage-info')],
-				});
-			},
-		},
-		{
-			name: t('menu.delete-test'),
-			color: 'red',
-			callback: () => {
-				setOpenDeleteDialog(true);
-			},
-		},
-	];
 
 	/**
-	 * Handle click on the menu item.
+	 * Handles click on the menu item.
 	 * @param event HTML event.
 	 */
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -93,7 +42,7 @@ export default function MenuContainer({
 	};
 
 	/**
-	 * Handle menu closure.
+	 * Handles menu closure.
 	 */
 	const handleClose = () => {
 		setAnchorEl(null);
@@ -130,7 +79,7 @@ export default function MenuContainer({
 					horizontal: 'right',
 				}}
 			>
-				{menuItems.map((i, idx) => {
+				{items.map((i, idx) => {
 					return (
 						<MenuItem
 							key={idx}
@@ -150,16 +99,6 @@ export default function MenuContainer({
 					);
 				})}
 			</Menu>
-			<RecapModal
-				open={openRecapModal}
-				setOpen={setOpenRecapModal}
-				item={test}
-			/>
-			<DeleteDialog
-				open={openDeleteDialog}
-				handleClose={() => setOpenDeleteDialog(false)}
-				testId={test.uid!}
-			/>
 		</>
 	);
 }

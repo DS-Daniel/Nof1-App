@@ -2,7 +2,10 @@
 	"btn": {
 		"dataImport": "Importer les données du patient",
 		"report": "Générer le rapport médical",
-		"xml": "Exporter données du test N-of-1 en XML",
+		"xml": "Exporter les données du test N-of-1 au format ODM-XML",
+    "xml-clear": "Données identifiantes en clair",
+    "xml-anonymous": "Données identifiantes anonymisées",
+    "xml-encrypted": "Données identifiantes chiffrées",
 		"recap-modal": "Consulter les paramètres du test"
 	},
 	"title": {

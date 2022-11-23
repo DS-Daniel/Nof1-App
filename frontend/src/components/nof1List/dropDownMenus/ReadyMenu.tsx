@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
 import useTranslation from 'next-translate/useTranslation';
-import MenuContainer from './MenuContainer';
+import MenuOptions from './MenuOptions';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { usePharmaEmailInfos } from '../../../utils/customHooks';
@@ -79,7 +79,7 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 
 	return (
 		<>
-			<MenuContainer name={t('optionsMenu')} items={menuItems} test={item} />
+			<MenuOptions name={t('optionsMenu')} items={menuItems} test={item} />
 			<EmailConfirmDialog
 				open={openPharmaEmailDialog}
 				handleClose={() => setOpenPharmaEmailDialog(false)}

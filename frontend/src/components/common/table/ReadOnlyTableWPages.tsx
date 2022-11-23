@@ -7,7 +7,11 @@ import Typography from '@mui/material/Typography';
 import TablePagination from '@mui/material/TablePagination';
 import { useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { StyledTableCell, ThemedTableHead } from './customTableComponents';
+import {
+	StyledTableCell,
+	StyledTableRow,
+	ThemedTableHead,
+} from './customTableComponents';
 
 const rowsPerPageOptions = [10, 20, 30];
 
@@ -95,7 +99,7 @@ export default function ReadOnlyTableWPages({
 						{rows
 							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 							.map((row, index) => (
-								<TableRow key={index}>
+								<StyledTableRow key={index}>
 									{row.map((value, idx) => (
 										<TableCell
 											key={idx}
@@ -105,7 +109,7 @@ export default function ReadOnlyTableWPages({
 											<Typography variant="body2">{value}</Typography>
 										</TableCell>
 									))}
-								</TableRow>
+								</StyledTableRow>
 							))}
 						{
 							/* row padding to keep table aspect ratio */

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
 import useTranslation from 'next-translate/useTranslation';
-import MenuContainer from './MenuContainer';
+import MenuOptions from './MenuOptions';
 import HealthLogbookModal from '../HealthLogbookModal';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
@@ -144,7 +144,7 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 
 	return (
 		<>
-			<MenuContainer name={t('optionsMenu')} items={menuItems} test={item} />
+			<MenuOptions name={t('optionsMenu')} items={menuItems} test={item} />
 			<HealthLogbookModal
 				open={openLogbookModal}
 				handleClose={() => setOpenLogbookModal(false)}

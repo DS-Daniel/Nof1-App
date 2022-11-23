@@ -5,13 +5,19 @@ import useTranslation from 'next-translate/useTranslation';
 import { Nof1Test, TestStatus } from '../entities/nof1Test';
 import { TestData } from '../entities/nof1Data';
 import { VariableType } from '../entities/variable';
-import { findNof1Data, findNof1TestById } from '../utils/apiCalls';
-import { formatPatientDataToTable } from '../utils/nof1-lib/lib';
+import {
+	findNof1Data,
+	findNof1TestById,
+	anonymousXML,
+	clearXML,
+	encryptedXML,
+} from '../utils/apiCalls';
 import { randomHexColor } from '../utils/charts';
 import {
 	RandomizationStrategy,
 	RandomStrategy,
 } from '../utils/nof1-lib/randomizationStrategy';
+import { formatPatientDataToTable } from '../utils/nof1-lib/lib';
 import ExtendedLineChart from '../components/results/lineChart';
 import RecapModal from '../components/nof1List/recapModal';
 import AuthenticatedPage from '../components/layout/AuthenticatedPage';
@@ -19,6 +25,8 @@ import AdministrationTable from '../components/results/AdministrationTable';
 import PatientDataTable from '../components/results/PatientDataTable';
 import SelectedPosologies from '../components/results/SelectedPosologies';
 import MedicalReportModal from '../components/results/medicalReport';
+import FailSnackbar from '../components/common/FailSnackbar';
+import MenuContainer from '../components/common/MenuContainer';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -27,6 +35,7 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import dayjs from 'dayjs';
 
+// Custom Typography component.
 const BoxedTxt = styled(Typography)<TypographyProps>(({ theme }) => ({
 	border: '1px solid black',
 	padding: theme.spacing(1),
@@ -45,6 +54,7 @@ export default function Results() {
 	const [substancesColors, setSubstancesColors] = useState<string[]>([]);
 	const [openRecapModal, setOpenRecapModal] = useState(false);
 	const [openReportModal, setOpenReportModal] = useState(false);
+	const [openFailSB, setOpenFailSB] = useState(false);
 
 	// fetch N-of-1 test and patient's health variables data.
 	useEffect(() => {
@@ -65,9 +75,54 @@ export default function Results() {
 		}
 	}, [router.query, userContext]);
 
-	// const handleXML = () => {
-	// 	alert('Feature not yet available');
-	// };
+	const xmlBtnOptions = [
+		{
+			name: t('btn.xml-clear'),
+			callback: () => {
+				handleXML(clearXML);
+			},
+		},
+		{
+			name: t('btn.xml-anonymous'),
+			callback: () => {
+				handleXML(anonymousXML);
+			},
+		},
+		{
+			name: t('btn.xml-encrypted'),
+			callback: () => {
+				handleXML(encryptedXML);
+			},
+		},
+	];
+
+	/**
+	 * Handles the XML file download.
+	 * @param fetchXML API fetch method to retrieve the appropriate XML string.
+	 */
+	const handleXML = async (
+		fetchXML: (
+			token: string,
+			testId: string,
+		) => Promise<{
+			success: boolean;
+			response: any;
+		}>,
+	) => {
+		if (test && testData) {
+			const { response } = await fetchXML(userContext.access_token, test.uid!);
+			var dl = document.createElement('a');
+			dl.href = URL.createObjectURL(
+				new Blob([response.xml], {
+					type: 'text/plain',
+				}),
+			);
+			dl.download = 'nof1.xml';
+			dl.click();
+		} else {
+			setOpenFailSB(true);
+		}
+	};
 
 	/**
 	 * Retrieve the administration schema of the N-of-1 test.
@@ -101,7 +156,11 @@ export default function Results() {
 
 	return (
 		<AuthenticatedPage>
-			<Stack direction="row" justifyContent="center" spacing={4}>
+			<Stack
+				direction={{ xs: 'column', sm: 'row' }}
+				justifyContent="center"
+				spacing={{ xs: 1, sm: 5 }}
+			>
 				<Button
 					variant="contained"
 					onClick={() => {
@@ -119,9 +178,7 @@ export default function Results() {
 				<Button variant="contained" onClick={() => setOpenReportModal(true)}>
 					{t('btn.report')}
 				</Button>
-				{/* <Button variant="contained" onClick={handleXML}>
-					{t('btn.xml')}
-				</Button> */}
+				<MenuContainer name={t('btn.xml')} items={xmlBtnOptions} />
 			</Stack>
 
 			<Paper sx={{ p: 3, mt: 4 }}>
@@ -136,11 +193,13 @@ export default function Results() {
 						<>
 							<div>
 								<Typography>
-									{t('common:startingDate')}{' '}
+									{t('common:startingDate')}
+									{': '}
 									{dayjs(test.beginningDate).toDate().toLocaleDateString()}
 								</Typography>
 								<Typography>
-									{t('common:endingDate')}{' '}
+									{t('common:endingDate')}
+									{': '}
 									{dayjs(test.endingDate).toDate().toLocaleDateString()}
 								</Typography>
 								{test.status === TestStatus.Interrupted && (
@@ -240,6 +299,11 @@ export default function Results() {
 					)}
 				</>
 			)}
+			<FailSnackbar
+				open={openFailSB}
+				setOpen={setOpenFailSB}
+				msg={t('no-data')}
+			/>
 		</AuthenticatedPage>
 	);
 }

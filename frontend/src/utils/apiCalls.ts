@@ -112,6 +112,28 @@ const apiGet = async (token: string, endpoint: string, param: string = '') => {
 };
 
 /**
+ * Generic API GET request.
+ * @param token JWT API authorization token.
+ * @param endpoint Endpoint to reach.
+ * @param param Parameter of the HTTP request.
+ * @returns The result of the request.
+ */
+const apiGet2 = async (token: string, endpoint: string, param: string = '') => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BACKEND_API_URL}${endpoint}${param}`,
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		},
+	);
+	const res = await response.json();
+	return { success: response.ok, response: res };
+};
+
+/**
  * Generic API request.
  * @param token JWT API authorization token.
  * @param body Body of the request.
@@ -418,6 +440,38 @@ export const getPatientData = async (token: string, id: string) => {
 	);
 	const res = await response.json();
 	return { success: response.ok, response: res };
+};
+
+/**
+ * Retrieves an XML string representing an XML file, in ODM-XML format,
+ * containing all the information about a N-of-1 test and its patient's data.
+ * @param testId N-of-1 test id.
+ * @returns An object containing the xml string.
+ */
+export const clearXML = async (token: string, testId: string) => {
+	return apiGet2(token, '/nof1-data/xml', `/${testId}`);
+};
+
+/**
+ * Retrieves an XML string representing an XML file, in ODM-XML format,
+ * containing all the information about a N-of-1 test and its patient's data.
+ * Identifying information about people involved in the N-of-1 test is hashed.
+ * @param testId N-of-1 test id.
+ * @returns An object containing the xml string.
+ */
+export const anonymousXML = async (token: string, testId: string) => {
+	return apiGet2(token, '/nof1-data/xml/anonymous', `/${testId}`);
+};
+
+/**
+ * Retrieves an XML string representing an XML file, in ODM-XML format,
+ * containing all the information about a N-of-1 test and its patient's data.
+ * Identifying information about people involved in the N-of-1 test is encrypted.
+ * @param testId N-of-1 test id.
+ * @returns An object containing the xml string.
+ */
+export const encryptedXML = async (token: string, testId: string) => {
+	return apiGet2(token, '/nof1-data/xml/encrypted', `/${testId}`);
 };
 
 /**

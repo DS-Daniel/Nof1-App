@@ -76,6 +76,7 @@ export class Substance {
   name: string;
   abbreviation: string;
   unit: string;
+  decreasingDosage?: PosologyDay[];
 }
 
 export class ClinicalInfo {
