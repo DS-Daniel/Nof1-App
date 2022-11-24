@@ -40,7 +40,7 @@ export default function ReadOnlyTableWPages({
 	const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
 
 	/**
-	 * Handle table page change.
+	 * Handles table page change.
 	 * @param event Not used
 	 * @param newPage New page number.
 	 */
@@ -49,7 +49,7 @@ export default function ReadOnlyTableWPages({
 	};
 
 	/**
-	 * Change the number of rows displayed by the table.
+	 * Changes the number of rows displayed by the table.
 	 * @param event HTML event containing the number of rows.
 	 */
 	const handleChangeRowsPerPage = (

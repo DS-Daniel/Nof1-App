@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import ClearIcon from '@mui/icons-material/Clear';
 import { PosologiesProps } from '.';
 import PosologyTable from './PosologyTable';
+import PosologyTableWithState from './PosologyTableWithState';
 import {
 	initialPosology,
 	Posology,
@@ -14,7 +15,6 @@ import {
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import FailSnackbar from '../../common/FailSnackbar';
 import { maxValue } from '../../../utils/constants';
-import SimplePosologyTable from './SimplePosologyTable';
 
 /**
  * Posologies component. Renders the posologies form tables for each substance.
@@ -195,7 +195,7 @@ export default function Posologies({
 						{t('common:button.delete')}
 					</Button>
 				</Stack>
-				<SimplePosologyTable
+				<PosologyTableWithState
 					rows={table}
 					onChange={(posologyRow, property, value) =>
 						updateDecreasingDosage(subIdx, posologyRow, property, value)
