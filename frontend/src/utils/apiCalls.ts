@@ -15,8 +15,7 @@ const getWithCredentials = async (endpoint: string) => {
 			credentials: 'include',
 		},
 	);
-	const result = await response.json();
-	return result;
+	return await response.json();
 };
 
 export const getCaptcha = (): Promise<{ captchaImg: string }> => {
@@ -107,8 +106,7 @@ const apiGet = async (token: string, endpoint: string, param: string = '') => {
 			},
 		},
 	);
-	const result = await response.json();
-	return result;
+	return await response.json();
 };
 
 /**
@@ -419,6 +417,7 @@ export const findNof1Data = (token: string, testId: string) => {
 
 /**
  * Retrieves a N-of-1 test and its health variables data.
+ * @param token JWT API authorization token.
  * @param id Id of the test.
  * @returns Promise<{
  * success: boolean;
@@ -445,6 +444,7 @@ export const getPatientData = async (token: string, id: string) => {
 /**
  * Retrieves an XML string representing an XML file, in ODM-XML format,
  * containing all the information about a N-of-1 test and its patient's data.
+ * @param token JWT API authorization token.
  * @param testId N-of-1 test id.
  * @returns An object containing the xml string.
  */
@@ -456,6 +456,7 @@ export const clearXML = async (token: string, testId: string) => {
  * Retrieves an XML string representing an XML file, in ODM-XML format,
  * containing all the information about a N-of-1 test and its patient's data.
  * Identifying information about people involved in the N-of-1 test is hashed.
+ * @param token JWT API authorization token.
  * @param testId N-of-1 test id.
  * @returns An object containing the xml string.
  */
@@ -467,6 +468,7 @@ export const anonymousXML = async (token: string, testId: string) => {
  * Retrieves an XML string representing an XML file, in ODM-XML format,
  * containing all the information about a N-of-1 test and its patient's data.
  * Identifying information about people involved in the N-of-1 test is encrypted.
+ * @param token JWT API authorization token.
  * @param testId N-of-1 test id.
  * @returns An object containing the xml string.
  */
@@ -525,6 +527,7 @@ export const patientDataUpdate = (
  * @param data Data to be exported.
  * @param msg Email message.
  * @param dest Recipient email.
+ * @param subject Email subject.
  * @returns The response object of the request.
  */
 export const sendPharmaEmail = async (
@@ -570,6 +573,7 @@ export const sendPharmaEmail = async (
  * @param token JWT API authorization token.
  * @param msg Email message in text and HTML format.
  * @param dest Recipient.
+ * @param subject Email subject.
  * @param tokenExp Unix date indicating the expiration date of the
  * access token for the health variables data page.
  * @param notBefore Unix date indicating the date of the access token

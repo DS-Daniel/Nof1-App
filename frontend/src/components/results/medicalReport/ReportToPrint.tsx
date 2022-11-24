@@ -12,23 +12,13 @@ import 'dayjs/locale/fr';
 
 dayjs.extend(LocalizedFormat);
 
-// /**
-//  * Helper method to render a TableCell component.
-//  * @param idx Index for the key property of list element.
-//  * @param value Cell value.
-//  * @returns The TableCell component.
-//  */
-// const renderTableCell = (idx: number, value: string) => {
-// 	return <td key={idx}>{value}</td>;
-// };
-
 /**
  * Generate the rows of the table.
  * @param test N-of-1 test.
  * @returns An array of table row.
  */
 const generateRows = (test: Nof1Test) => {
-	const rows = test.monitoredVariables
+	return test.monitoredVariables
 		.filter(
 			(variable) =>
 				variable.type === VariableType.Numeric ||
@@ -44,17 +34,6 @@ const generateRows = (test: Nof1Test) => {
 			],
 			<td key={`${variable.name}${idx++}`}>{Math.random().toFixed(2)}</td>,
 		]);
-	// .map((variable, idx) => [
-	// 	renderTableCell(idx++, variable.name),
-	// 	[
-	// 		...test.substances.flatMap(() => [
-	// 			renderTableCell(idx++, Math.random().toFixed(2)),
-	// 			renderTableCell(idx++, Math.random().toFixed(2)),
-	// 		]),
-	// 	],
-	// 	renderTableCell(idx++, Math.random().toFixed(2)),
-	// ]);
-	return rows;
 };
 
 interface EditableProps {
@@ -70,8 +49,8 @@ const Editable = ({ children, style }: EditableProps) => {
 			contentEditable={true}
 			suppressContentEditableWarning={true}
 			// only using children to set the default value and
-			// content only used when printing. Thus not a problem to
-			// loose/not track the changes (React independent).
+			// content only used when printing. Thus, not a problem to
+			// lose/not track the changes (React independent).
 		>
 			{children}
 		</p>

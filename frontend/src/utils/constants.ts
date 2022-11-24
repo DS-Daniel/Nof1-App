@@ -10,9 +10,9 @@ export const oneDigitOrSpecialRegex = new RegExp(
 );
 export const numericInputPattern = '^[0-9]$|^[1-9][0-9]*$|^[0-9]+\\.[0-9]+$';
 export const numericInputRegex = new RegExp(numericInputPattern);
-export const textareaRegex = /^[\w\s,.:;'"\/+\?!#%\-()À-ÖØ-öø-ÿ]*$/;
+export const textareaRegex = /^[\w\s,.:;'"\/+?!#%\-()À-ÖØ-öø-ÿ]*$/;
 export const alphaRegex = /^[a-zA-Z\s'\-À-ÖØ-öø-ÿ]*$/;
-export const smallNumberRange = /^(1|2)?[0-9]?[0-9]$|^$/;
+export const smallNumberRange = /^([12])?[0-9]?[0-9]$|^$/;
 export const yearRegex = /^[0-9]{4}$/;
 
 // N-of-1 creation

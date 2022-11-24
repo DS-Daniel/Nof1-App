@@ -73,19 +73,17 @@ export default function ClinicalInfo({
 		resolver: zodResolver(schema),
 		defaultValues: useMemo(() => clinicalInfo, [clinicalInfo]),
 	});
-	const [age, setAge] = useState(clinicalInfo.age);
 
 	/**
 	 * Handles form submit.
 	 * @param data Form data.
 	 */
 	const submitHandler: SubmitHandler<IClinicalInfo> = (data) => {
-		let currentAge = age;
-		if (age === '' && patient.current.birthYear !== '') {
+		let currentAge = clinicalInfo.age;
+		if (currentAge === '' && patient.current.birthYear !== '') {
 			currentAge = dayjs()
 				.diff(dayjs(patient.current.birthYear, 'YYYY'), 'year')
 				.toString();
-			setAge(currentAge);
 		}
 		data.age = currentAge;
 		setClinicalInfo(data);
@@ -155,7 +153,7 @@ export default function ClinicalInfo({
 								)}
 							/>
 						</Grid>
-						{age && (
+						{clinicalInfo.age && (
 							<Grid item xs={12} sm={3}>
 								<TextField
 									size="small"
@@ -163,7 +161,7 @@ export default function ClinicalInfo({
 									id="age"
 									label={t('clinicalInfo.age')}
 									disabled
-									{...(register('age'), { value: age })}
+									{...register('age')}
 								/>
 							</Grid>
 						)}

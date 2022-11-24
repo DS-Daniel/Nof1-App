@@ -48,7 +48,7 @@ export default function ImportData() {
 			setDataFound(response !== null);
 			setTest(test);
 			// setTest() needs to be done after setting testData,
-			// because a re-render is needed to display testData
+			// because a render is needed to display testData
 		}
 		const { id } = router.query;
 		if (id && userContext.access_token) {

@@ -142,7 +142,7 @@ export const formatPatientDataToForm = (data: Patient): PatientFormData => {
  * @returns Data formatted.
  */
 export const formatPharmacyData = (data: PharmacyFormData): Pharmacy => {
-	const pharmacy: Pharmacy = {
+	return {
 		name: data.name,
 		email: data.email,
 		phone: data.phone,
@@ -153,7 +153,6 @@ export const formatPharmacyData = (data: PharmacyFormData): Pharmacy => {
 			country: data.country,
 		},
 	};
-	return pharmacy;
 };
 
 /**
@@ -162,7 +161,7 @@ export const formatPharmacyData = (data: PharmacyFormData): Pharmacy => {
  * @returns Data formatted.
  */
 export const formatPharmacyDataToForm = (data: Pharmacy): PharmacyFormData => {
-	const formData: PharmacyFormData = {
+	return {
 		name: data.name,
 		email: data.email,
 		phone: data.phone,
@@ -171,5 +170,4 @@ export const formatPharmacyDataToForm = (data: Pharmacy): PharmacyFormData => {
 		city: data.address.city,
 		country: data.address.country,
 	};
-	return formData;
 };

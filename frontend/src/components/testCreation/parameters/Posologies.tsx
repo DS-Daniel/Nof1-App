@@ -86,6 +86,7 @@ export default function Posologies({
 	/**
 	 * Removes a new posology table form for a substance.
 	 * @param substanceIndex Substance index.
+	 * @param posologyIndex Posology index.
 	 */
 	const removePosologyTable = (
 		substanceIndex: number,
@@ -212,7 +213,7 @@ export default function Posologies({
 
 	return (
 		<>
-			{/* ----- display a button to setup posologies if not done yet ----- */}
+			{/* ----- display a button to set up posologies if not done yet ----- */}
 			{allPosologies.length === 0 ? (
 				<Stack alignItems="center" spacing={1}>
 					<Button variant="outlined" onClick={handlePosologiesSetUp}>

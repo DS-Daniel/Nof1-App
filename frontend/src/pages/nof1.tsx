@@ -38,7 +38,7 @@ export interface Nof1TableInterface {
 export default function Nof1() {
 	const { t } = useTranslation('nof1List');
 	const router = useRouter();
-	const { userContext, setUserContext } = useUserContext();
+	const { userContext } = useUserContext();
 	const [data, setData] = useState<Nof1Test[]>([]);
 	const [openDialogBtn, setOpenDialogBtn] = useState(false);
 

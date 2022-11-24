@@ -19,7 +19,7 @@ interface ParticipantsProps {
 }
 
 /**
- * Participants section component. Renders forms for each participant.
+ * Participants section component. Render forms for each participant.
  */
 export default function Participants({
 	pharmacy,

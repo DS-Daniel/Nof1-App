@@ -111,7 +111,7 @@ export default function Results() {
 	) => {
 		if (test && testData) {
 			const { response } = await fetchXML(userContext.access_token, test.uid!);
-			var dl = document.createElement('a');
+			const dl = document.createElement('a');
 			dl.href = URL.createObjectURL(
 				new Blob([response.xml], {
 					type: 'text/plain',

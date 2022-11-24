@@ -6,14 +6,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { getComparator, Order } from '../../utils/tableSorting';
-import EnhancedTableHead, { HeadCell } from '../common/table/EnhancedTableHead';
-import { useState } from 'react';
+import Skeleton from '@mui/material/Skeleton';
+import { useState, MouseEvent, ChangeEvent } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import Nof1TableItem from './Nof1TableItem';
+import EnhancedTableHead, { HeadCell } from '../common/table/EnhancedTableHead';
+import { getComparator, Order } from '../../utils/tableSorting';
 import { Nof1Test } from '../../entities/nof1Test';
 import { Nof1TableInterface } from '../../pages/nof1';
-import useTranslation from 'next-translate/useTranslation';
-import Skeleton from '@mui/material/Skeleton';
 
 const rowsPerPageOptions = [5, 10, 15];
 
@@ -46,7 +46,7 @@ export default function Nof1Table({
 	 * @param property Property which define the order.
 	 */
 	const handleRequestSort = (
-		event: React.MouseEvent<unknown>,
+		event: MouseEvent<unknown>,
 		property: keyof Nof1TableInterface,
 	) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -67,9 +67,7 @@ export default function Nof1Table({
 	 * Changes the number of rows displayed by the table.
 	 * @param event HTML event containing the number of rows.
 	 */
-	const handleChangeRowsPerPage = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
+	const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
 	};

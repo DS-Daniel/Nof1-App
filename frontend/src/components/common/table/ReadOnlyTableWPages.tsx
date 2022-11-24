@@ -5,7 +5,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import TablePagination from '@mui/material/TablePagination';
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import {
 	StyledTableCell,
@@ -53,7 +53,7 @@ export default function ReadOnlyTableWPages({
 	 * @param event HTML event containing the number of rows.
 	 */
 	const handleChangeRowsPerPage = (
-		event: React.ChangeEvent<HTMLInputElement>,
+		event: ChangeEvent<HTMLInputElement>,
 	) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);

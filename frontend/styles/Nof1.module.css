@@ -108,7 +108,7 @@
 .radioBox input {
 	appearance: none;
 	display: block;
-	margin: 0px auto;
+	margin: 0 auto;
 	width: 1.5em;
 	height: 1.5em;
 	border: 0.15em solid black;

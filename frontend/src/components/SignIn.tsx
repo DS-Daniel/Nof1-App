@@ -5,13 +5,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { useRouter } from 'next/router';
 import Alert from '@mui/material/Alert';
-import { useState } from 'react';
-import { authenticate } from '../utils/apiCalls';
+import { useRouter } from 'next/router';
+import { useState, FormEvent } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { UserContextType } from '../context/UserContext';
+import { authenticate } from '../utils/apiCalls';
 import { emailRegex } from '../utils/constants';
+import { UserContextType } from '../context/UserContext';
 
 type SignInProps = {
 	login: (u: UserContextType) => void;
@@ -41,10 +41,10 @@ export default function SignIn({ login }: SignInProps) {
 	};
 
 	/**
-	 * Handle submit of the form. It call the API to sign in the user.
+	 * Handle submit of the form. It calls the API to sign in the user.
 	 * @param event HTML form event.
 	 */
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
 		const emailData = data.get('email');

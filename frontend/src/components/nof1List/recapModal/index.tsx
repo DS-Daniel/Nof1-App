@@ -1,4 +1,4 @@
-import { Dispatch, forwardRef, SetStateAction } from 'react';
+import { Dispatch, forwardRef, ReactElement, Ref, SetStateAction } from 'react';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -25,9 +25,9 @@ import useTranslation from 'next-translate/useTranslation';
  */
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
-		children: React.ReactElement;
+		children: ReactElement;
 	},
-	ref: React.Ref<unknown>,
+	ref: Ref<unknown>,
 ) {
 	return <Slide direction="up" ref={ref} {...props} />;
 });

@@ -27,8 +27,6 @@ export type SubstancePosology = {
 	posology: Posology;
 };
 
-export type PosologySchema = SubstancePosology[];
-
 /**
  * Returns a default Posology object.
  * @param nbRows Number of days for the posology.

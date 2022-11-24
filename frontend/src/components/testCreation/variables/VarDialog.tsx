@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { Controller, useForm } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
@@ -53,11 +53,9 @@ export default function VarDialog({
 	// resets fields when successfully submitted or
 	// loads variable's information when editing.
 	useEffect(() => {
-		console.log('running useEffect');
 		if (editing) {
 			reset(defaultValue); // load variable's values
 		} else if (isSubmitSuccessful) {
-			console.log('reset after submit');
 			reset(defaultVariable);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
