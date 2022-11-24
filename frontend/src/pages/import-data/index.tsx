@@ -4,7 +4,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useRouter } from 'next/router';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Nof1Test } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
 import {
@@ -81,27 +81,6 @@ export default function ImportData() {
 	};
 
 	/**
-	 * Handles the click on the import button.
-	 * It triggers a file upload which will be parsed and
-	 * data will be sent to the API if file is correct.
-	 * @param e Html event, containing the file.
-	 */
-	const handleJsonImport = (e: ChangeEvent<HTMLInputElement>) => {
-		const uploadedFile = e.target.files?.[0];
-		const fileReader = new FileReader();
-		fileReader.onloadend = async () => {
-			try {
-				testData.current = JSON.parse(fileReader.result as string);
-				const error = await createOrUpdateData();
-				error ? setDbError(true) : setFileSuccess(true);
-			} catch (_) {
-				setFileError(true);
-			}
-		};
-		if (uploadedFile) fileReader.readAsText(uploadedFile);
-	};
-
-	/**
 	 * Handles the click on the save button. Checks form validity
 	 * before triggering an API call to post the data.
 	 */
@@ -118,26 +97,13 @@ export default function ImportData() {
 
 	return (
 		<AuthenticatedPage>
-			<Stack alignItems="center">
-				<label htmlFor="upload-btn">
-					<input
-						id="upload-btn"
-						hidden
-						accept=".json"
-						type="file"
-						onChange={handleJsonImport}
-					/>
-					<Button variant="contained" component="span">
-						{t('import-btn')}
-					</Button>
-				</label>
-			</Stack>
 			<Stack
 				direction="row"
 				spacing={2}
 				justifyContent="center"
 				alignItems="center"
-				paddingY={2}
+				paddingTop={1}
+				paddingBottom={1.5}
 				position="sticky"
 				top={0}
 				bgcolor="background.default"
