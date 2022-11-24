@@ -62,7 +62,7 @@ export default function Substances({
 	};
 
 	return (
-		<Stack spacing={2} alignItems="flex-start">
+		<Stack spacing={2} alignItems="flex-start" mb={1}>
 			<Typography variant="h6" fontWeight="bold">
 				{t('parameters.subtitle-substances')}
 			</Typography>

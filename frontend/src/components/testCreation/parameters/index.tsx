@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { RandomStrategy } from '../../../utils/nof1-lib/randomizationStrategy';
+import { RandomizationStrategy as IRandomizationStrategy } from '../../../utils/nof1-lib/randomizationStrategy';
 import Substances from './Substances';
 import RandomizationStrategy from './RandomizationStrategy';
 import TextField from '@mui/material/TextField';
@@ -20,10 +20,9 @@ export interface SubstancesProps {
 }
 
 export interface RandomStrategyProps {
-	strategy: RandomStrategy;
-	setStrategy: Dispatch<SetStateAction<RandomStrategy>>;
-	maxRep: number;
-	setMaxRep: Dispatch<SetStateAction<number>>;
+	strategy: IRandomizationStrategy;
+	setStrategy: Dispatch<SetStateAction<IRandomizationStrategy>>;
+	isSequenceError: (seq: string[]) => boolean;
 }
 
 export interface PosologiesProps {
@@ -36,7 +35,7 @@ export interface PosologiesProps {
 
 interface TestParametersProps
 	extends Omit<SubstancesProps, 'editable'>,
-		RandomStrategyProps,
+		Omit<RandomStrategyProps, 'isSequenceError'>,
 		Omit<PosologiesProps, 'substances' | 'setSubstances'> {
 	nbPeriods: number;
 	setNbPeriods: Dispatch<SetStateAction<number>>;
@@ -44,15 +43,13 @@ interface TestParametersProps
 }
 
 /**
- * Test parameters section component. Renders inputs for the parameters of the test.
+ * Test parameters section component. Render inputs for the parameters of the test.
  */
 export default function TestParameters({
 	substances,
 	setSubstances,
 	strategy,
 	setStrategy,
-	maxRep,
-	setMaxRep,
 	nbPeriods,
 	setNbPeriods,
 	periodLen,
@@ -73,11 +70,11 @@ export default function TestParameters({
 					</Typography>
 				</Grid>
 
-				<Grid item xs={12} sm={6}>
+				<Grid item xs={12}>
 					<Typography variant="h6" fontWeight="bold">
 						{t('parameters.subtitle-duration')}
 					</Typography>
-					<Stack direction="row" alignItems="center" spacing={3} my={2}>
+					<Stack direction="row" alignItems="center" spacing={3} my={1}>
 						<Typography variant="body1">
 							{t('parameters.periods-nb')}
 						</Typography>
@@ -95,7 +92,7 @@ export default function TestParameters({
 							}
 						/>
 					</Stack>
-					<Stack direction="row" alignItems="center" spacing={3} my={2}>
+					<Stack direction="row" alignItems="center" spacing={3}>
 						<Typography variant="body1">
 							{t('parameters.period-duration')}
 						</Typography>
@@ -116,15 +113,6 @@ export default function TestParameters({
 					</Stack>
 				</Grid>
 
-				<Grid item xs={12} sm={6}>
-					<RandomizationStrategy
-						strategy={strategy}
-						setStrategy={setStrategy}
-						maxRep={maxRep}
-						setMaxRep={setMaxRep}
-					/>
-				</Grid>
-
 				<Grid item xs={12}>
 					<Substances
 						substances={substances}
@@ -134,7 +122,20 @@ export default function TestParameters({
 				</Grid>
 
 				<Grid item xs={12}>
-					<Typography variant="h6" fontWeight="bold">
+					<RandomizationStrategy
+						strategy={strategy}
+						setStrategy={setStrategy}
+						isSequenceError={(seq) =>
+							seq.length !== nbPeriods ||
+							!seq.every((s) =>
+								substances.map((sub) => sub.abbreviation).includes(s),
+							)
+						}
+					/>
+				</Grid>
+
+				<Grid item xs={12}>
+					<Typography variant="h6" fontWeight="bold" mb={2}>
 						{t('parameters.subtitle-posology')}
 					</Typography>
 					<Typography sx={{ whiteSpace: 'pre-line' }}>

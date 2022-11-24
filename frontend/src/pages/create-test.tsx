@@ -16,7 +16,10 @@ import { SubstancePosologies } from '../entities/posology';
 import { Substance, emptySubstance } from '../entities/substance';
 import { defaultClinicalInfo, IClinicalInfo } from '../entities/clinicalInfo';
 import { maxValue } from '../utils/constants';
-import { RandomStrategy } from '../utils/nof1-lib/randomizationStrategy';
+import {
+	RandomizationStrategy,
+	RandomStrategy,
+} from '../utils/nof1-lib/randomizationStrategy';
 import {
 	createNof1Test,
 	findNof1TestById,
@@ -41,6 +44,8 @@ export default function CreateTest() {
 	const { t } = useTranslation('createTest');
 	const { userContext, setUserContext } = useUserContext();
 	const router = useRouter();
+	const [incompleteForm, setIncompleteForm] = useState(false);
+	const [draftError, setDraftError] = useState(false);
 
 	// Test data. Using Ref to avoid countless re-renders.
 	const patient = useRef<Patient>(defaultPatient());
@@ -52,16 +57,15 @@ export default function CreateTest() {
 	]);
 	const [nbPeriods, setNbPeriods] = useState(6);
 	const [periodLen, setPeriodLen] = useState(7);
-	const [strategy, setStrategy] = useState(RandomStrategy.Permutations);
-	const [maxRep, setMaxRep] = useState(1);
+	const [strategy, setStrategy] = useState<RandomizationStrategy>({
+		strategy: RandomStrategy.Permutations,
+	});
 	const [variables, setVariables] = useState<Variable[]>([]);
 	const [allPosologies, setAllPosologies] = useState<SubstancePosologies[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [clinicalInfo, setClinicalInfo] = useState<IClinicalInfo>(
 		defaultClinicalInfo(),
 	);
-	const [incompleteForm, setIncompleteForm] = useState(false);
-	const [draftError, setDraftError] = useState(false);
 
 	// fills parameters in case of test edit or "new from template"
 	useEffect(() => {
@@ -77,10 +81,7 @@ export default function CreateTest() {
 			setSubstances(test.substances);
 			setNbPeriods(test.nbPeriods);
 			setPeriodLen(test.periodLen);
-			setStrategy(test.randomization.strategy);
-			if (test.randomization.strategy === RandomStrategy.MaxRep) {
-				setMaxRep(test.randomization.maxRep!);
-			}
+			setStrategy(test.randomization);
 			setVariables(test.monitoredVariables);
 			if (edit === 'true') {
 				setAllPosologies(test.posologies);
@@ -144,14 +145,11 @@ export default function CreateTest() {
 			clinicalInfo,
 			nbPeriods,
 			periodLen,
-			randomization: { strategy },
+			randomization: strategy,
 			substances,
 			posologies: allPosologies,
 			monitoredVariables: variables,
 		};
-		if (strategy === RandomStrategy.MaxRep) {
-			tmp.randomization.maxRep = maxRep;
-		}
 		return tmp;
 	};
 
@@ -176,6 +174,9 @@ export default function CreateTest() {
 		router.push('/nof1');
 	};
 
+	/**
+	 * Checks if substances are filled in.
+	 */
 	const substancesNotFilledIn = useMemo(
 		() =>
 			substances.length < 2 ||
@@ -188,24 +189,41 @@ export default function CreateTest() {
 		[substances],
 	);
 
+	/**
+	 * Checks if participants are filled in.
+	 */
 	const participantsNotFilledIn = () =>
 		isEqual(patient.current, defaultPatient()) ||
 		isEqual(pharmacy.current, defaultPharmacy()) ||
 		isEqual(physician.current, defaultPhysician());
-	// mutable values doesn't trigger a re-render, thus as
+	// mutable values doesn't trigger a render, thus as
 	// a function call and without useMemo.
 
 	/**
+	 * Checks if the predefined sequence is correct, in case of custom sequence strategy.
+	 */
+	const sequenceError =
+		strategy.predefinedSeq !== undefined &&
+		!(
+			strategy.predefinedSeq.length === nbPeriods &&
+			strategy.predefinedSeq.every((s) =>
+				substances.map((sub) => sub.abbreviation).includes(s),
+			)
+		);
+
+	/**
 	 * Handles the button's click to create a new test.
+	 * Checks if required inputs are filled in correctly.
 	 */
 	const handleCreation = () => {
 		if (
-			allPosologies.length === 0 ||
+			participantsNotFilledIn() ||
 			nbPeriods > maxValue ||
 			periodLen > maxValue ||
 			variables.length === 0 ||
 			substancesNotFilledIn ||
-			participantsNotFilledIn()
+			allPosologies.length === 0 ||
+			(strategy.strategy === RandomStrategy.Custom && sequenceError)
 		) {
 			setIncompleteForm(true);
 		} else {
@@ -303,8 +321,6 @@ export default function CreateTest() {
 					setSubstances={setSubstances}
 					strategy={strategy}
 					setStrategy={setStrategy}
-					maxRep={maxRep}
-					setMaxRep={setMaxRep}
 					nbPeriods={nbPeriods}
 					setNbPeriods={setNbPeriods}
 					periodLen={periodLen}

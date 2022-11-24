@@ -11,6 +11,7 @@ import {
 } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
 import {
+	CustomSequence,
 	getRandomElemFromArray,
 	MaxRep,
 	Permutation,
@@ -22,8 +23,8 @@ import { pharmaXlsx, formatSchema, substancesRecap } from '../xlsx';
 import { sendPharmaEmail } from '../apiCalls';
 
 /**
- * For each substance in the passed array, selects a random posology from all
- * of the posologies of the substance.
+ * For each substance in the array, selects a random posology from all
+ * the posologies of the substance.
  * @param allPosologies Array of substances and their posologies.
  * @returns An array of objects containing the substance and its selected posology.
  */
@@ -56,12 +57,15 @@ export const generateSequence = (
 	const substancesAbbrev = substances.map((s) => s.abbreviation);
 	let r: Randomization;
 	switch (randomization.strategy) {
-		case RandomStrategy.Permutations:
-			r = new Permutation();
-			break;
 		case RandomStrategy.MaxRep:
 			r = new MaxRep(randomization.maxRep!);
 			break;
+		case RandomStrategy.Custom:
+			r = new CustomSequence(randomization.predefinedSeq!);
+			break;
+		case RandomStrategy.Permutations:
+		default:
+			r = new Permutation();
 	}
 	return r.randomize(substancesAbbrev, nbPeriods);
 };
@@ -235,8 +239,7 @@ export const generateXlsxSchemaExample = (
 /**
  * Format the patient's health variables data, to render it into a table.
  * @param data Patient health variables data.
- * @returns The formatted data (as an array of objects containing the
- * variables data for a date and substance (flat object).
+ * @returns The formatted data (as an array of string).
  */
 export const formatPatientDataToTable = (data: TestData): string[][] => {
 	return data.map((d) => {
@@ -279,7 +282,7 @@ export const defaultData = (test: Nof1Test): TestData => {
 };
 
 /**
- * Wrapper to send an email to the pharmacy with all the information.
+ * Wrapper to email the pharmacy with all the information.
  * @param test Nof1 test.
  * @param accessToken User access token for API call.
  * @param patientInfos Patient information.
