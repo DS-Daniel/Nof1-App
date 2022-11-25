@@ -23,7 +23,10 @@ export class Nof1TestsService {
   async create(createNof1TestDto: CreateNof1TestDto) {
     try {
       const nof1 = await this.nof1Model.create(createNof1TestDto);
-      const uid = nof1.nof1Physician.institution.toUpperCase() + '-' + nof1.id;
+      const uid =
+        nof1.participants.nof1Physician.institution.toUpperCase() +
+        '-' +
+        nof1.id;
       nof1.set('uid', uid);
       nof1.save();
       return { id: uid };

@@ -341,7 +341,7 @@ export const sendPharmaEmailWrapper = (
 			},
 		},
 		msg,
-		test.pharmacy.email,
+		test.participants.pharmacy.email,
 		emailSubject,
 	);
 };

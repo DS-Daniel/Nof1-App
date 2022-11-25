@@ -6,7 +6,6 @@ import {
 	PhysicianFormData,
 } from '../../../utils/zodValidationHook';
 import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
-import { Physician } from '../../../entities/people';
 import { MutableRefObject, useState } from 'react';
 import { formatPhysicianData } from '../../../utils/dataFormConvertor';
 import {
@@ -18,9 +17,10 @@ import isEqual from 'lodash.isequal';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import FailSnackbar from '../../common/FailSnackbar';
 import { useUserContext } from '../../../context/UserContext';
+import { IParticipants } from '../../../entities/nof1Test';
 
 type PhysicianFormProps = {
-	physician: MutableRefObject<Physician>;
+	participants: MutableRefObject<IParticipants>;
 	defaultValues: PhysicianFormData;
 };
 
@@ -28,7 +28,7 @@ type PhysicianFormProps = {
  * Component that manages and renders the physician form.
  */
 export default function PhysicianForm({
-	physician,
+	participants,
 	defaultValues,
 }: PhysicianFormProps) {
 	const { t } = useTranslation('common');
@@ -60,7 +60,7 @@ export default function PhysicianForm({
 		const newPhysician = formatPhysicianData(data);
 		let creationError = false;
 		let updateError = false;
-		if (!isEqual(physician.current, newPhysician)) {
+		if (!isEqual(participants.current.requestingPhysician, newPhysician)) {
 			if (data._id) {
 				delete newPhysician._id;
 				// remove _id to avoid duplicate key in DB collection.
@@ -95,7 +95,7 @@ export default function PhysicianForm({
 		if (creationError || updateError) {
 			setOpenFailSnackbar(true);
 		} else {
-			physician.current = newPhysician;
+			participants.current.requestingPhysician = newPhysician;
 			setOpenSuccessSnackbar(true);
 		}
 	};

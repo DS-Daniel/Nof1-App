@@ -11,8 +11,8 @@ import useTranslation from 'next-translate/useTranslation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useClinicalInfoSchema } from '../../../utils/zodValidationHook';
-import { Patient } from '../../../entities/people';
 import { IClinicalInfo } from '../../../entities/clinicalInfo';
+import { IParticipants } from '../../../entities/nof1Test';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -49,7 +49,7 @@ MultilineTextField.displayName = 'MultilineTextField';
 interface ClinicalInfoProps {
 	clinicalInfo: IClinicalInfo;
 	setClinicalInfo: Dispatch<SetStateAction<IClinicalInfo>>;
-	patient: MutableRefObject<Patient>;
+	participants: MutableRefObject<IParticipants>;
 }
 
 /**
@@ -59,7 +59,7 @@ interface ClinicalInfoProps {
 export default function ClinicalInfo({
 	clinicalInfo,
 	setClinicalInfo,
-	patient,
+	participants,
 }: ClinicalInfoProps) {
 	const { t } = useTranslation('createTest');
 	const schema = useClinicalInfoSchema();
@@ -79,13 +79,9 @@ export default function ClinicalInfo({
 	 * @param data Form data.
 	 */
 	const submitHandler: SubmitHandler<IClinicalInfo> = (data) => {
-		let currentAge = clinicalInfo.age;
-		if (currentAge === '' && patient.current.birthYear !== '') {
-			currentAge = dayjs()
-				.diff(dayjs(patient.current.birthYear, 'YYYY'), 'year')
-				.toString();
-		}
-		data.age = currentAge;
+		data.age = dayjs()
+			.diff(dayjs(participants.current.patient.birthYear, 'YYYY'), 'year')
+			.toString();
 		setClinicalInfo(data);
 		setOpenSuccessSB(true);
 	};
@@ -161,6 +157,7 @@ export default function ClinicalInfo({
 									id="age"
 									label={t('clinicalInfo.age')}
 									disabled
+									value={clinicalInfo.age}
 									{...register('age')}
 								/>
 							</Grid>

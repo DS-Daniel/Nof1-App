@@ -70,11 +70,7 @@ export default function RecapModal({ open, setOpen, item }: RecapModalProps) {
 				<Container maxWidth="lg">
 					<Grid container spacing={4} pb={3}>
 						<Grid item xs={12}>
-							<RecapParticipants
-								patient={item.patient}
-								physician={item.physician}
-								pharmacy={item.pharmacy}
-							/>
+							<RecapParticipants participants={item.participants} />
 						</Grid>
 
 						<Grid item xs={12}>

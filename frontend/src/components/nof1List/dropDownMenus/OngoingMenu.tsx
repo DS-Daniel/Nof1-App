@@ -40,12 +40,16 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 		recapTxt,
 		comments,
 		emailSubject,
-	} = usePharmaEmailInfos(item.patient, item.physician, item.nof1Physician);
+	} = usePharmaEmailInfos(
+		item.participants.patient,
+		item.participants.requestingPhysician,
+		item.participants.nof1Physician,
+	);
 	const patientEmailMsg = usePatientEmailMsg(
 		`${
 			process.env.NEXT_PUBLIC_APP_URL
 		}${lang}/import-data/patient?id=${item.uid!}&token=TOKEN`,
-		item.nof1Physician,
+		item.participants.nof1Physician,
 		dayjs(item.beginningDate).toDate().toLocaleDateString(),
 		dayjs(item.endingDate)
 			.add(tokenExpMargin, 'day')
@@ -60,9 +64,12 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 	 */
 	const sendPharmaEmailCB = async (email: string) => {
 		// update email if different
-		if (email !== item.pharmacy.email) {
+		if (email !== item.participants.pharmacy.email) {
 			updateNof1Test(userContext.access_token, item.uid!, {
-				pharmacy: { ...item.pharmacy, email: email },
+				participants: {
+					...item.participants,
+					pharmacy: { ...item.participants.pharmacy, email },
+				},
 			});
 		}
 
@@ -94,9 +101,12 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 	 */
 	const sendPatientEmailCB = async (email: string) => {
 		// update email if different
-		if (email !== item.patient.email) {
+		if (email !== item.participants.patient.email) {
 			updateNof1Test(userContext.access_token, item.uid!, {
-				patient: { ...item.patient, email },
+				participants: {
+					...item.participants,
+					patient: { ...item.participants.patient, email },
+				},
 			});
 		}
 
@@ -154,13 +164,13 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 				open={openPharmaEmailDialog}
 				handleClose={() => setOpenPharmaEmailDialog(false)}
 				handleDialogSubmit={(email) => sendPharmaEmailCB(email)}
-				email={item.pharmacy.email}
+				email={item.participants.pharmacy.email}
 			/>
 			<EmailConfirmDialog
 				open={openPatientEmailDialog}
 				handleClose={() => setOpenPatientEmailDialog(false)}
 				handleDialogSubmit={(email) => sendPatientEmailCB(email)}
-				email={item.patient.email}
+				email={item.participants.patient.email}
 			/>
 			<SuccessSnackbar
 				open={openEmailSuccessSB}

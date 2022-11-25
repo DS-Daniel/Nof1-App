@@ -6,7 +6,6 @@ import {
 	PatientFormData,
 } from '../../../utils/zodValidationHook';
 import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
-import { Patient } from '../../../entities/people';
 import { MutableRefObject, useState } from 'react';
 import { formatPatientData } from '../../../utils/dataFormConvertor';
 import {
@@ -18,9 +17,10 @@ import isEqual from 'lodash.isequal';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import FailSnackbar from '../../common/FailSnackbar';
 import { useUserContext } from '../../../context/UserContext';
+import { IParticipants } from '../../../entities/nof1Test';
 
 type PatientFormProps = {
-	patient: MutableRefObject<Patient>;
+	participants: MutableRefObject<IParticipants>;
 	defaultValues: PatientFormData;
 };
 
@@ -28,7 +28,7 @@ type PatientFormProps = {
  * Component that manages and renders the patient form.
  */
 export default function PatientForm({
-	patient,
+	participants,
 	defaultValues,
 }: PatientFormProps) {
 	const { t } = useTranslation('common');
@@ -62,7 +62,7 @@ export default function PatientForm({
 		const newPatient = formatPatientData(data);
 		let creationError = false;
 		let updateError = false;
-		if (!isEqual(patient.current, newPatient)) {
+		if (!isEqual(participants.current.patient, newPatient)) {
 			if (data._id) {
 				delete newPatient._id;
 				// remove _id to avoid duplicate key in DB collection.
@@ -97,7 +97,7 @@ export default function PatientForm({
 		if (creationError || updateError) {
 			setOpenFailSnackbar(true);
 		} else {
-			patient.current = newPatient;
+			participants.current.patient = newPatient;
 			setOpenSuccessSnackbar(true);
 		}
 	};

@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
 import { MutableRefObject } from 'react';
-import { Patient, Pharmacy, Physician } from '../../../entities/people';
+import { IParticipants } from '../../../entities/nof1Test';
 import {
 	formatPatientDataToForm,
 	formatPhysicianDataToForm,
@@ -13,19 +13,13 @@ import PharmaForm from './PharmaForm';
 import PhysicianForm from './PhysicianForm';
 
 interface ParticipantsProps {
-	pharmacy: MutableRefObject<Pharmacy>;
-	patient: MutableRefObject<Patient>;
-	physician: MutableRefObject<Physician>;
+	participants: MutableRefObject<IParticipants>;
 }
 
 /**
  * Participants section component. Render forms for each participant.
  */
-export default function Participants({
-	pharmacy,
-	patient,
-	physician,
-}: ParticipantsProps) {
+export default function Participants({ participants }: ParticipantsProps) {
 	const { t } = useTranslation('createTest');
 
 	return (
@@ -38,18 +32,22 @@ export default function Participants({
 				</Grid>
 				<Grid item xs={12} sm={6} md={4}>
 					<PatientForm
-						patient={patient}
-						defaultValues={formatPatientDataToForm(patient.current)}
+						participants={participants}
+						defaultValues={formatPatientDataToForm(
+							participants.current.patient,
+						)}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6} md={4}>
 					<PhysicianForm
-						physician={physician}
-						defaultValues={formatPhysicianDataToForm(physician.current)}
+						participants={participants}
+						defaultValues={formatPhysicianDataToForm(
+							participants.current.requestingPhysician,
+						)}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6} md={4}>
-					<PharmaForm pharmacy={pharmacy} />
+					<PharmaForm participants={participants} />
 				</Grid>
 			</Grid>
 		</Paper>
