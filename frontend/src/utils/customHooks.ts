@@ -126,7 +126,7 @@ export const usePharmaEmailInfos = (
 	];
 	const physicianHeaders = [...personHeaders, t('form.institution')];
 	const physicianInfos = [
-		[t('createTest:participants.physician')],
+		[t('createTest:participants.requestingPhysician')],
 		physicianHeaders,
 		[
 			physician.firstname,

@@ -193,7 +193,7 @@ export default function RecapParticipants({
 			<Grid item xs={12} sm={4}>
 				<Paper sx={{ p: 2, width: '100%' }}>
 					<Typography variant="h6">
-						{t('createTest:participants.physician')}
+						{t('createTest:participants.requestingPhysician')}
 					</Typography>
 					<ReadOnlyForm inputs={physicianInputs} />
 				</Paper>
