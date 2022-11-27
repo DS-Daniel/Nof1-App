@@ -3,7 +3,6 @@ import {
 	Permutation,
 	permutations,
 	permutateWithRepetitions,
-	Random,
 	Randomization,
 } from '../src/utils/nof1-lib/randomizationStrategy';
 
@@ -27,7 +26,7 @@ describe('Permutation class', () => {
 			Math.ceil(nbPeriods / seq2.length),
 		).map((i) => i.flatMap((x) => x).slice(0, nbPeriods));
 		const r = rnd.randomize(seq2, nbPeriods);
-		console.log(r)
+		console.log(r);
 		expect(
 			allPerms.some((p) => JSON.stringify(p) === JSON.stringify(r)),
 		).toBeTruthy();
@@ -193,26 +192,5 @@ describe('MaxRep class', () => {
 				allPerms.some((p) => JSON.stringify(p) === JSON.stringify(r)),
 			).toBeTruthy();
 		});
-	});
-});
-
-describe('Random class', () => {
-	it('should randomize correctly seq[1,2]', () => {
-		rnd = new Random();
-		const allPerms = [
-			['1', '1', '1'],
-			['1', '1', '2'],
-			['1', '2', '1'],
-			['1', '2', '2'],
-			['2', '2', '2'],
-			['2', '2', '1'],
-			['2', '1', '1'],
-			['2', '1', '2'],
-		];
-		const r = rnd.randomize(seq2, 3);
-		// console.log(r);
-		expect(
-			allPerms.some((p) => JSON.stringify(p) === JSON.stringify(r)),
-		).toBeTruthy();
 	});
 });

@@ -7,7 +7,6 @@ import {
   RandomizationStrategy,
   Substance,
   SubstancePosologies,
-  SubstancePosology,
   Variable,
 } from '../@types/types';
 import { TestStatus } from '../../utils/constants';
@@ -66,9 +65,6 @@ class Nof1Test {
 
   @Prop({ type: [Object], required: true })
   posologies: SubstancePosologies[];
-
-  @Prop({ type: [Object] })
-  selectedPosologies: SubstancePosology[];
 
   @Prop({ type: [Object], required: true })
   monitoredVariables: Variable[];

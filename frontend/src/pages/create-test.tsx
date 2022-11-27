@@ -79,7 +79,12 @@ export default function CreateTest() {
 				nof1Physician: userContext.user!,
 			};
 			setClinicalInfo(test.clinicalInfo);
-			setSubstances(test.substances);
+			setSubstances(
+				test.substances.map((s) => {
+					const { posology, decreasingDosage, ...rest } = s;
+					return rest;
+				}),
+			);
 			setNbPeriods(test.nbPeriods);
 			setPeriodLen(test.periodLen);
 			setStrategy(test.randomization);

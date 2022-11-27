@@ -58,7 +58,9 @@ export default function PreparationOptions({
 	 */
 	const updateTest = (email: string) => {
 		const test = { ...item };
-		test.selectedPosologies = selectRandomPosology(test.posologies);
+		test.substances.forEach(
+			(s) => (s.posology = selectRandomPosology(test.posologies, s.name)),
+		);
 		test.substancesSequence = generateSequence(
 			test.substances,
 			test.randomization,
@@ -67,7 +69,6 @@ export default function PreparationOptions({
 		test.administrationSchema = generateAdministrationSchema(
 			test.substances,
 			test.substancesSequence,
-			test.selectedPosologies,
 			test.periodLen,
 			test.nbPeriods,
 		);

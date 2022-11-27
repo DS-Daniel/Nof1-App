@@ -227,7 +227,7 @@ export default function Results() {
 								</Typography>
 							</div>
 
-							<SelectedPosologies posologies={test.selectedPosologies!} />
+							<SelectedPosologies substances={test.substances} />
 
 							<Typography variant="h5">{t('title.admin-schema')}</Typography>
 							<Paper>

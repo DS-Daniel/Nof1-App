@@ -1,10 +1,11 @@
-import { PosologyDay } from './posology';
+import { Posology, PosologyDay } from './posology';
 
 export interface Substance {
-	[key: string]: string | PosologyDay[] | undefined;
+	[key: string]: string | Posology | PosologyDay[] | undefined;
 	name: string;
 	abbreviation: string;
 	unit: string;
+	posology?: Posology;
 	decreasingDosage?: PosologyDay[];
 }
 

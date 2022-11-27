@@ -1,14 +1,15 @@
 export enum RandomStrategy {
   Permutations = 'Permutations',
   MaxRep = 'MaxRep',
-  Random = 'Random',
+  Custom = 'Custom',
 }
 
 // Randomization strategy object.
 export interface RandomizationStrategy {
   strategy: RandomStrategy;
-  // optional options
+  // optional options according to the strategy
   maxRep?: number;
+  predefinedSeq?: string[];
 }
 
 // posology for a day.
@@ -45,13 +46,6 @@ export class SubstancePosologies {
   posologies: Posology[];
 }
 
-// a substance with its posology.
-export class SubstancePosology {
-  substance: string;
-  unit: string;
-  posology: Posology;
-}
-
 // Variable infos.
 export class Variable {
   name: string;
@@ -76,6 +70,7 @@ export class Substance {
   name: string;
   abbreviation: string;
   unit: string;
+  posology?: Posology;
   decreasingDosage?: PosologyDay[];
 }
 

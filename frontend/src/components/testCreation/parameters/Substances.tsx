@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import { SubstancesProps } from '.';
-import { Substance } from '../../../entities/substance';
+import { emptySubstance, Substance } from '../../../entities/substance';
 
 /**
  * Substances component. Renders the substances inputs.
@@ -26,11 +26,7 @@ export default function Substances({
 	const addSubstance = () => {
 		setSubstances((prevSubstances) => [
 			...prevSubstances,
-			{
-				name: '',
-				abbreviation: '',
-				unit: '',
-			},
+			{ ...emptySubstance },
 		]);
 	};
 

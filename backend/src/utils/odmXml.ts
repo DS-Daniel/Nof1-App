@@ -518,13 +518,12 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
                      <![CDATA[${sub.unit}]]>
                   </ItemDataString>
                   <ItemDataBoolean ItemOID="Item.repeatLast">${
-                    test.selectedPosologies[idx].posology.repeatLast
+                    sub.posology.repeatLast
                   }</ItemDataBoolean>
                </ItemGroupData>
-               ${test.selectedPosologies[idx].posology.posology.reduce(
-                 (prev, p, idx) => {
-                   const tab = idx > 0 ? '\n               ' : ''; // for indentation
-                   prev += `${tab}<ItemGroupData ItemGroupOID="ItemGroup.nof1-posology" ItemGroupRepeatKey="${p.day}">
+               ${sub.posology.posology.reduce((prev, p, idx) => {
+                 const tab = idx > 0 ? '\n               ' : ''; // for indentation
+                 prev += `${tab}<ItemGroupData ItemGroupOID="ItemGroup.nof1-posology" ItemGroupRepeatKey="${p.day}">
                   <ItemDataInteger ItemOID="Item.day">${p.day}</ItemDataInteger>
                   <ItemDataInteger ItemOID="Item.morningDose">${p.morning}</ItemDataInteger>
                   <ItemDataInteger ItemOID="Item.morningFraction">${p.morningFraction}</ItemDataInteger>
@@ -535,10 +534,8 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
                   <ItemDataInteger ItemOID="Item.nightDose">${p.night}</ItemDataInteger>
                   <ItemDataInteger ItemOID="Item.nightFraction">${p.nightFraction}</ItemDataInteger>
                </ItemGroupData>`;
-                   return prev;
-                 },
-                 '',
-               )}${
+                 return prev;
+               }, '')}${
                 sub.decreasingDosage
                   ? sub.decreasingDosage.reduce((prev, p) => {
                       const tab = '\n               '; // for indentation
@@ -572,11 +569,12 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
                <ItemGroupData ItemGroupOID="ItemGroup.nof1-monitoredVariables">
                   ${current.data.reduce((prev, d, idx) => {
                     const tab = idx > 0 ? '\n                  ' : ''; // for indentation
-                    return (prev += `${tab}<ItemDataString ItemOID="Item.${d.variableName
+                    prev += `${tab}<ItemDataString ItemOID="Item.${d.variableName
                       .toLowerCase()
                       .replaceAll(' ', '-')}">
                      <![CDATA[${d.value}]]>
-                  </ItemDataString>`);
+                  </ItemDataString>`;
+                    return prev;
                   }, '')}${
              current.supposition || current.optimal
                ? `\n                  <ItemDataString ItemOID="Item.supposition">

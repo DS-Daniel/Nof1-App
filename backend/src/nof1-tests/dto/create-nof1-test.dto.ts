@@ -4,7 +4,6 @@ import {
   RandomizationStrategy,
   Substance,
   SubstancePosologies,
-  SubstancePosology,
   Variable,
 } from '../@types/types';
 import {
@@ -71,10 +70,6 @@ export class CreateNof1TestDto {
 
   @IsArray()
   posologies: SubstancePosologies[];
-
-  @IsOptional()
-  @IsArray()
-  selectedPosologies: SubstancePosology[];
 
   @IsArray()
   monitoredVariables: Variable[];

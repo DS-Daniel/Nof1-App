@@ -1,11 +1,7 @@
 import { RandomizationStrategy } from '../utils/nof1-lib/randomizationStrategy';
 import { IClinicalInfo } from './clinicalInfo';
 import { Patient, Pharmacy, Physician } from './people';
-import {
-	PosologyDay,
-	SubstancePosologies,
-	SubstancePosology,
-} from './posology';
+import { PosologyDay, SubstancePosologies } from './posology';
 import { Substance } from './substance';
 import { Variable } from './variable';
 
@@ -35,7 +31,6 @@ export interface Nof1Test {
 	administrationSchema?: AdministrationSchema;
 	substances: Substance[];
 	posologies: SubstancePosologies[];
-	selectedPosologies?: SubstancePosology[];
 	monitoredVariables: Variable[];
 	meta_info?: {
 		creationDate: Date;
