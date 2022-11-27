@@ -10,6 +10,7 @@ import {
 	TestStatus,
 } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
+import { Patient, PersonCommon, Physician } from '../../entities/people';
 import {
 	CustomSequence,
 	getRandomElemFromArray,
@@ -343,5 +344,48 @@ export const sendPharmaEmailWrapper = (
 		msg,
 		test.participants.pharmacy.email,
 		emailSubject,
+	);
+};
+
+/**
+ * Checks equality of two person's information.
+ * @param p1 Person 1.
+ * @param p2 Person 2.
+ * @returns True if equal, false otherwise.
+ */
+const isPersonEqual = (p1: PersonCommon, p2: PersonCommon) => {
+	return (
+		p1.lastname === p2.lastname &&
+		p1.firstname === p2.firstname &&
+		p1.email === p2.email &&
+		p1.phone === p2.phone &&
+		p1.address.street === p2.address.street &&
+		p1.address.city === p2.address.city &&
+		p1.address.zip === p2.address.zip &&
+		p1.address.country === p2.address.country
+	);
+};
+
+/**
+ * Checks equality of two physician's information.
+ * @param p1 Person 1.
+ * @param p2 Person 2.
+ * @returns True if equal, false otherwise.
+ */
+export const isPhysicianInfoEqual = (p1: Physician, p2: Physician) => {
+	return isPersonEqual(p1, p2) && p1.institution === p2.institution;
+};
+
+/**
+ * Checks equality of two patient's information.
+ * @param p1 Person 1.
+ * @param p2 Person 2.
+ * @returns True if equal, false otherwise.
+ */
+export const isPatientInfoEqual = (p1: Patient, p2: Patient) => {
+	return (
+		isPersonEqual(p1, p2) &&
+		p1.insurance === p2.insurance &&
+		p1.insuranceNb === p2.insuranceNb
 	);
 };

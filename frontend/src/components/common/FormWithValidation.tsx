@@ -61,9 +61,9 @@ export default function FormWithValidation<T>({
 			component="form"
 			noValidate
 			onSubmit={handleSubmit(submitHandler)}
-			mt={3}
+			mt={1}
 		>
-			<Grid container spacing={2} alignItems="center" justifyContent="center">
+			<Grid container spacing={1.3} alignItems="center" justifyContent="center">
 				{inputs.map((input) => {
 					return (
 						<Grid

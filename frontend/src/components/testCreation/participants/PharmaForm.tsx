@@ -44,7 +44,7 @@ export default function PharmaForm({ participants }: PharmaFormProps) {
 
 	return (
 		<Paper sx={{ p: 2, width: '100%' }}>
-			<Typography variant="h6">
+			<Typography variant="h6" align="center">
 				{t('createTest:participants.pharmacy')}
 			</Typography>
 			<FormWithValidation<PharmacyFormData>

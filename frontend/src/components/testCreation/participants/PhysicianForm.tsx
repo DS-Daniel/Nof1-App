@@ -1,35 +1,40 @@
+import { useState } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import useTranslation from 'next-translate/useTranslation';
 import {
 	usePhysicianSchema,
 	PhysicianFormData,
 } from '../../../utils/zodValidationHook';
-import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
-import { MutableRefObject, useState } from 'react';
-import { formatPhysicianData } from '../../../utils/dataFormConvertor';
+import {
+	formatPhysicianData,
+	formatPhysicianDataToForm,
+} from '../../../utils/dataFormConvertor';
 import {
 	createPhysician,
 	findPhysician,
 	updatePhysician,
 } from '../../../utils/apiCalls';
-import isEqual from 'lodash.isequal';
+import { isPhysicianInfoEqual } from '../../../utils/nof1-lib/lib';
+import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import FailSnackbar from '../../common/FailSnackbar';
 import { useUserContext } from '../../../context/UserContext';
-import { IParticipants } from '../../../entities/nof1Test';
+import { Physician } from '../../../entities/people';
 
 type PhysicianFormProps = {
-	participants: MutableRefObject<IParticipants>;
-	defaultValues: PhysicianFormData;
+	header: string;
+	physician: () => Physician;
+	setPhysician: (physician: Physician) => void;
 };
 
 /**
  * Component that manages and renders the physician form.
  */
 export default function PhysicianForm({
-	participants,
-	defaultValues,
+	header,
+	physician,
+	setPhysician,
 }: PhysicianFormProps) {
 	const { t } = useTranslation('common');
 	const { userContext } = useUserContext();
@@ -60,19 +65,20 @@ export default function PhysicianForm({
 		const newPhysician = formatPhysicianData(data);
 		let creationError = false;
 		let updateError = false;
-		if (!isEqual(participants.current.requestingPhysician, newPhysician)) {
-			if (data._id) {
-				delete newPhysician._id;
-				// remove _id to avoid duplicate key in DB collection.
-				// In case the email is changed for an existing physician and
-				// a new physician creation is triggered below.
-			}
+		if (!isPhysicianInfoEqual(physician(), newPhysician)) {
+			// check existence to determine an update or a creation.
 			const physicianInDB = await findPhysician(
 				userContext.access_token,
 				newPhysician.email,
 			);
 			if (!physicianInDB) {
 				// new physician
+				if (newPhysician._id) {
+					delete newPhysician._id;
+					// remove _id to avoid duplicate key in DB collection.
+					// In case the email was changed for an existing physician
+					// and a new physician creation is triggered.
+				}
 				const { response, statusCode } = await createPhysician(
 					userContext.access_token,
 					newPhysician,
@@ -81,11 +87,11 @@ export default function PhysicianForm({
 				newPhysician._id = response._id; // undefined if not present
 			} else {
 				newPhysician._id = physicianInDB._id;
-				if (!isEqual(physicianInDB, newPhysician)) {
+				if (!isPhysicianInfoEqual(physicianInDB, newPhysician)) {
 					// update information in DB if needed
 					const { statusCode } = await updatePhysician(
 						userContext.access_token,
-						physicianInDB._id!,
+						newPhysician._id!,
 						newPhysician,
 					);
 					updateError = statusCode !== 200;
@@ -95,15 +101,15 @@ export default function PhysicianForm({
 		if (creationError || updateError) {
 			setOpenFailSnackbar(true);
 		} else {
-			participants.current.requestingPhysician = newPhysician;
+			setPhysician(newPhysician);
 			setOpenSuccessSnackbar(true);
 		}
 	};
 
 	return (
 		<Paper sx={{ p: 2, width: '100%' }}>
-			<Typography variant="h6">
-				{t('createTest:participants.requestingPhysician')}
+			<Typography variant="h6" align="center">
+				{header}
 			</Typography>
 			<FormWithValidation<PhysicianFormData>
 				schema={schema}
@@ -111,7 +117,7 @@ export default function PhysicianForm({
 				btnLabel={t('button.saveDataBtn')}
 				errorMsg={t('formErrors.errorMsg')}
 				onSubmit={handleSubmit}
-				defaultValues={defaultValues}
+				defaultValues={formatPhysicianDataToForm(physician())}
 			/>
 			<SuccessSnackbar
 				open={openSuccessSnackbar}

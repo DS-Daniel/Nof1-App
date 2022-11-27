@@ -2,13 +2,14 @@
 	"createBtn": "Valider et créer le test",
 	"create-error": "Veuillez compléter toutes les parties du formulaire avant de valider la création du test et/ou vérifier les champs incorrects",
 	"draftBtn": "Sauvegarder le brouillon",
-	"draft-error": "Veuillez au moins renseigner les participants",
+	"draft-error": "Veuillez au minimum renseigner les participants",
 	"participants": {
 		"title": "Informations des participants",
 		"pharmacy": "Pharmacie partenaire",
 		"patient": "Patient",
 		"requestingPhysician": "Médecin demandeur du test N-of-1",
 		"attendingPhysician": "Médecin traitant",
+		"btn-add-attendingPhysician": "Ajouter un médecin traitant",
 		"nof1-physician": "Médecin responsable du test N-of-1",
 		"findPatient": "Trouver un patient par ID",
 		"findPhysician": "Trouver un médecin par ID"

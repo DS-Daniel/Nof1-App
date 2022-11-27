@@ -90,11 +90,12 @@ export default function CreateTest() {
 			setLoading(false);
 		}
 
-		if (router.isReady && userContext.access_token) {
+		if (router.isReady && userContext.access_token && userContext.user) {
 			const { id, edit } = router.query;
 			if (id) {
 				fetchData(id as string, edit as string);
 			} else {
+				participants.current.nof1Physician = userContext.user; // in case of a page refresh
 				setLoading(false);
 			}
 		}
