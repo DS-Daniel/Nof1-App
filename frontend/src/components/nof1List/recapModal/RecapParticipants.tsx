@@ -1,83 +1,88 @@
-import Grid from '@mui/material/Grid';
-import ReadOnlyForm from '../../common/ReadOnlyForm';
 import useTranslation from 'next-translate/useTranslation';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { Patient, Pharmacy, Physician } from '../../../entities/people';
+import ReadOnlyForm from '../../common/ReadOnlyForm';
+import { IParticipants } from '../../../entities/nof1Test';
+import { Physician } from '../../../entities/people';
 
 interface RecapParticipantsProps {
-	patient: Patient;
-	physician: Physician;
-	pharmacy: Pharmacy;
+	participants: IParticipants;
 }
 
 /**
  * Component rendering the information of the test's participants.
  */
 export default function RecapParticipants({
-	patient,
-	physician,
-	pharmacy,
+	participants,
 }: RecapParticipantsProps) {
 	const { t } = useTranslation('common');
 
 	const patientInputs = [
 		{
 			name: 'firstname',
-			value: patient.firstname,
+			value: participants.patient.firstname,
 			label: t('form.firstname'),
 			size: 6,
 		},
 		{
 			name: 'lastname',
-			value: patient.lastname,
+			value: participants.patient.lastname,
 			label: t('form.lastname'),
 			size: 6,
 		},
-		{ name: 'phone', value: patient.phone, label: t('form.phone') },
-		{ name: 'email', value: patient.email, label: t('form.email') },
+		{
+			name: 'phone',
+			value: participants.patient.phone,
+			label: t('form.phone'),
+		},
+		{
+			name: 'email',
+			value: participants.patient.email,
+			label: t('form.email'),
+		},
 		{
 			name: 'birthYear',
-			value: patient.birthYear,
+			value: participants.patient.birthYear,
 			label: t('form.birth-year'),
 			size: 5,
 		},
 		{
 			name: 'country',
-			value: patient.address.country,
+			value: participants.patient.address.country,
 			label: t('form.country'),
 			size: 7,
 		},
 		{
 			name: 'street',
-			value: patient.address.street,
+			value: participants.patient.address.street,
 			label: t('form.street'),
 		},
 		{
 			name: 'zip',
-			value: patient.address.zip,
+			value: participants.patient.address.zip,
 			label: t('form.zip'),
 			size: 5,
 		},
 		{
 			name: 'city',
-			value: patient.address.city,
+			value: participants.patient.address.city,
 			label: t('form.city'),
 			size: 7,
 		},
 		{
 			name: 'insurance',
-			value: patient.insurance,
+			value: participants.patient.insurance,
 			label: t('form.insurance'),
 		},
 		{
 			name: 'insuranceNb',
-			value: patient.insuranceNb,
+			value: participants.patient.insuranceNb,
 			label: t('form.insuranceNb'),
 		},
 	];
 
-	const physicianInputs = [
+	const physicianInputs = (physician: Physician) => [
 		{
 			name: 'firstname',
 			value: physician.firstname,
@@ -90,8 +95,16 @@ export default function RecapParticipants({
 			label: t('form.lastname'),
 			size: 6,
 		},
-		{ name: 'phone', value: physician.phone, label: t('form.phone') },
-		{ name: 'email', value: physician.email, label: t('form.email') },
+		{
+			name: 'phone',
+			value: physician.phone,
+			label: t('form.phone'),
+		},
+		{
+			name: 'email',
+			value: physician.email,
+			label: t('form.email'),
+		},
 		{
 			name: 'country',
 			value: physician.address.country,
@@ -122,20 +135,42 @@ export default function RecapParticipants({
 	];
 
 	const pharmaInputs = [
-		{ name: 'name', value: pharmacy.name, label: t('form.lastname') },
-		{ name: 'email', value: pharmacy.email, label: t('form.email') },
-		{ name: 'phone', value: pharmacy.phone, label: t('form.phone'), size: 6 },
+		{
+			name: 'name',
+			value: participants.pharmacy.name,
+			label: t('form.lastname'),
+		},
+		{
+			name: 'email',
+			value: participants.pharmacy.email,
+			label: t('form.email'),
+		},
+		{
+			name: 'phone',
+			value: participants.pharmacy.phone,
+			label: t('form.phone'),
+			size: 6,
+		},
 		{
 			name: 'country',
-			value: pharmacy.address.country,
+			value: participants.pharmacy.address.country,
 			label: t('form.country'),
 			size: 6,
 		},
-		{ name: 'street', value: pharmacy.address.street, label: t('form.street') },
-		{ name: 'zip', value: pharmacy.address.zip, label: t('form.zip'), size: 5 },
+		{
+			name: 'street',
+			value: participants.pharmacy.address.street,
+			label: t('form.street'),
+		},
+		{
+			name: 'zip',
+			value: participants.pharmacy.address.zip,
+			label: t('form.zip'),
+			size: 5,
+		},
 		{
 			name: 'city',
-			value: pharmacy.address.city,
+			value: participants.pharmacy.address.city,
 			label: t('form.city'),
 			size: 7,
 		},
@@ -149,7 +184,7 @@ export default function RecapParticipants({
 				</Typography>
 			</Grid>
 			<Grid item xs={12} sm={4}>
-				<Paper sx={{ p: 2, width: '100%' }}>
+				<Paper sx={{ p: 2 }}>
 					<Typography variant="h6">
 						{t('createTest:participants.patient')}
 					</Typography>
@@ -157,21 +192,35 @@ export default function RecapParticipants({
 				</Paper>
 			</Grid>
 			<Grid item xs={12} sm={4}>
-				<Paper sx={{ p: 2, width: '100%' }}>
+				<Paper sx={{ p: 2 }}>
 					<Typography variant="h6">
-						{t('createTest:participants.physician')}
+						{t('createTest:participants.requestingPhysician')}
 					</Typography>
-					<ReadOnlyForm inputs={physicianInputs} />
+					<ReadOnlyForm
+						inputs={physicianInputs(participants.requestingPhysician)}
+					/>
 				</Paper>
 			</Grid>
 			<Grid item xs={12} sm={4}>
-				<Paper sx={{ p: 2, width: '100%' }}>
+				<Paper sx={{ p: 2 }}>
 					<Typography variant="h6">
 						{t('createTest:participants.pharmacy')}
 					</Typography>
 					<ReadOnlyForm inputs={pharmaInputs} />
 				</Paper>
 			</Grid>
+			{participants.attendingPhysician && (
+				<Grid item xs={12} sm={4}>
+					<Paper sx={{ p: 2 }}>
+						<Typography variant="h6">
+							{t('createTest:participants.attendingPhysician')}
+						</Typography>
+						<ReadOnlyForm
+							inputs={physicianInputs(participants.attendingPhysician)}
+						/>
+					</Paper>
+				</Grid>
+			)}
 		</Grid>
 	);
 }

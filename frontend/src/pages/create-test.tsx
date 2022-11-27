@@ -6,11 +6,8 @@ import {
 	defaultPatient,
 	defaultPharmacy,
 	defaultPhysician,
-	Patient,
-	Pharmacy,
-	Physician,
 } from '../entities/people';
-import { Nof1Test, TestStatus } from '../entities/nof1Test';
+import { Nof1Test, IParticipants, TestStatus } from '../entities/nof1Test';
 import { Variable } from '../entities/variable';
 import { SubstancePosologies } from '../entities/posology';
 import { Substance, emptySubstance } from '../entities/substance';
@@ -48,9 +45,12 @@ export default function CreateTest() {
 	const [draftError, setDraftError] = useState(false);
 
 	// Test data. Using Ref to avoid countless re-renders.
-	const patient = useRef<Patient>(defaultPatient());
-	const physician = useRef<Physician>(defaultPhysician());
-	const pharmacy = useRef<Pharmacy>(defaultPharmacy());
+	const participants = useRef<IParticipants>({
+		patient: defaultPatient(),
+		requestingPhysician: defaultPhysician(),
+		nof1Physician: userContext.user!,
+		pharmacy: defaultPharmacy(),
+	});
 	const [substances, setSubstances] = useState<Substance[]>([
 		{ ...emptySubstance },
 		{ ...emptySubstance },
@@ -74,9 +74,10 @@ export default function CreateTest() {
 				userContext.access_token,
 				id,
 			);
-			pharmacy.current = test.pharmacy;
-			physician.current = test.physician;
-			patient.current = test.patient;
+			participants.current = {
+				...test.participants,
+				nof1Physician: userContext.user!,
+			};
 			setClinicalInfo(test.clinicalInfo);
 			setSubstances(test.substances);
 			setNbPeriods(test.nbPeriods);
@@ -89,11 +90,12 @@ export default function CreateTest() {
 			setLoading(false);
 		}
 
-		if (router.isReady && userContext.access_token) {
+		if (router.isReady && userContext.access_token && userContext.user) {
 			const { id, edit } = router.query;
 			if (id) {
 				fetchData(id as string, edit as string);
 			} else {
+				participants.current.nof1Physician = userContext.user; // in case of a page refresh
 				setLoading(false);
 			}
 		}
@@ -138,10 +140,7 @@ export default function CreateTest() {
 	 */
 	const generateNof1TestData = () => {
 		const tmp: Omit<Nof1Test, 'status'> = {
-			patient: patient.current,
-			physician: physician.current,
-			nof1Physician: userContext.user!,
-			pharmacy: pharmacy.current,
+			participants: participants.current,
 			clinicalInfo,
 			nbPeriods,
 			periodLen,
@@ -193,9 +192,9 @@ export default function CreateTest() {
 	 * Checks if participants are filled in.
 	 */
 	const participantsNotFilledIn = () =>
-		isEqual(patient.current, defaultPatient()) ||
-		isEqual(pharmacy.current, defaultPharmacy()) ||
-		isEqual(physician.current, defaultPhysician());
+		isEqual(participants.current.patient, defaultPatient()) ||
+		isEqual(participants.current.pharmacy, defaultPharmacy()) ||
+		isEqual(participants.current.requestingPhysician, defaultPhysician());
 	// mutable values doesn't trigger a render, thus as
 	// a function call and without useMemo.
 
@@ -304,16 +303,12 @@ export default function CreateTest() {
 					)}
 				</Stack>
 
-				<Participants
-					pharmacy={pharmacy}
-					patient={patient}
-					physician={physician}
-				/>
+				<Participants participants={participants} />
 
 				<ClinicalInfo
 					clinicalInfo={clinicalInfo}
 					setClinicalInfo={setClinicalInfo}
-					patient={patient}
+					participants={participants}
 				/>
 
 				<TestParameters

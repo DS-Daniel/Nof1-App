@@ -259,18 +259,28 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
    </Study>
 
    <AdminData>
-      <User OID="${test.nof1Physician.email}" UserType="Investigator">
-         <FirstName>${test.nof1Physician.firstname}</FirstName>
-         <LastName>${test.nof1Physician.lastname}</LastName>
-         <Organization>${test.nof1Physician.institution}</Organization>
+      <User OID="${
+        test.participants.nof1Physician.email
+      }" UserType="Investigator">
+         <FirstName>${test.participants.nof1Physician.firstname}</FirstName>
+         <LastName>${test.participants.nof1Physician.lastname}</LastName>
+         <Organization>${
+           test.participants.nof1Physician.institution
+         }</Organization>
          <Address>
-            <StreetName>${test.nof1Physician.address.street}</StreetName>
-            <City>${test.nof1Physician.address.city}</City>
-            <Country>${test.nof1Physician.address.country}</Country>
-            <PostalCode>${test.nof1Physician.address.zip}</PostalCode>
+            <StreetName>${
+              test.participants.nof1Physician.address.street
+            }</StreetName>
+            <City>${test.participants.nof1Physician.address.city}</City>
+            <Country>${
+              test.participants.nof1Physician.address.country
+            }</Country>
+            <PostalCode>${
+              test.participants.nof1Physician.address.zip
+            }</PostalCode>
          </Address>
-         <Email>${test.nof1Physician.email}</Email>
-         <Phone>${test.nof1Physician.phone}</Phone>
+         <Email>${test.participants.nof1Physician.email}</Email>
+         <Phone>${test.participants.nof1Physician.phone}</Phone>
       </User>
    </AdminData>
 
@@ -281,94 +291,145 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
             <FormData FormOID="Form.participant-patient">
                <ItemGroupData ItemGroupOID="ItemGroup.participant-common-info">
                   <ItemDataString ItemOID="Item.lastname">
-                     <![CDATA[${test.patient.lastname}]]>
+                     <![CDATA[${test.participants.patient.lastname}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.firstname">
-                     <![CDATA[${test.patient.firstname}]]>
+                     <![CDATA[${test.participants.patient.firstname}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.phone">
-                     <![CDATA[${test.patient.phone}]]>
+                     <![CDATA[${test.participants.patient.phone}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.email">
-                     <![CDATA[${test.patient.email}]]>
+                     <![CDATA[${test.participants.patient.email}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.street">
-                     <![CDATA[${test.patient.address.street}]]>
+                     <![CDATA[${test.participants.patient.address.street}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.zip">
-                     <![CDATA[${test.patient.address.zip}]]>
+                     <![CDATA[${test.participants.patient.address.zip}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.city">
-                     <![CDATA[${test.patient.address.city}]]>
+                     <![CDATA[${test.participants.patient.address.city}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.country">
-                     <![CDATA[${test.patient.address.country}]]>
+                     <![CDATA[${test.participants.patient.address.country}]]>
                   </ItemDataString>
                </ItemGroupData>
                <ItemGroupData ItemGroupOID="ItemGroup.participant-patient">
                   <ItemDataString ItemOID="Item.insurance">
-                     <![CDATA[${test.patient.insurance}]]>
+                     <![CDATA[${test.participants.patient.insurance}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.insurance-nb">
-                     <![CDATA[${test.patient.insuranceNb}]]>
+                     <![CDATA[${test.participants.patient.insuranceNb}]]>
                   </ItemDataString>
                </ItemGroupData>
             </FormData>
             <FormData FormOID="Form.participant-physician">
                <ItemGroupData ItemGroupOID="ItemGroup.participant-common-info">
                   <ItemDataString ItemOID="Item.lastname">
-                     <![CDATA[${test.physician.lastname}]]>
+                     <![CDATA[${
+                       test.participants.requestingPhysician.lastname
+                     }]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.firstname">
-                     <![CDATA[${test.physician.firstname}]]>
+                     <![CDATA[${
+                       test.participants.requestingPhysician.firstname
+                     }]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.phone">
-                     <![CDATA[${test.physician.phone}]]>
+                     <![CDATA[${test.participants.requestingPhysician.phone}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.email">
-                     <![CDATA[${test.physician.email}]]>
+                     <![CDATA[${test.participants.requestingPhysician.email}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.street">
-                     <![CDATA[${test.physician.address.street}]]>
+                     <![CDATA[${
+                       test.participants.requestingPhysician.address.street
+                     }]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.zip">
-                     <![CDATA[${test.physician.address.zip}]]>
+                     <![CDATA[${
+                       test.participants.requestingPhysician.address.zip
+                     }]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.city">
-                     <![CDATA[${test.physician.address.city}]]>
+                     <![CDATA[${
+                       test.participants.requestingPhysician.address.city
+                     }]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.country">
-                     <![CDATA[${test.physician.address.country}]]>
+                     <![CDATA[${
+                       test.participants.requestingPhysician.address.country
+                     }]]>
                   </ItemDataString>
                </ItemGroupData>
                <ItemGroupData ItemGroupOID="ItemGroup.participant-physician">
                   <ItemDataString ItemOID="Item.institution">
-                     <![CDATA[${test.physician.institution}]]>
+                     <![CDATA[${
+                       test.participants.requestingPhysician.institution
+                     }]]>
                   </ItemDataString>
                </ItemGroupData>
-            </FormData>
+            </FormData>${
+              test.participants.attendingPhysician
+                ? `
+            <FormData FormOID="Form.participant-physician">
+               <ItemGroupData ItemGroupOID="ItemGroup.participant-common-info">
+                  <ItemDataString ItemOID="Item.lastname">
+                     <![CDATA[${test.participants.attendingPhysician.lastname}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.firstname">
+                     <![CDATA[${test.participants.attendingPhysician.firstname}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.phone">
+                     <![CDATA[${test.participants.attendingPhysician.phone}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.email">
+                     <![CDATA[${test.participants.attendingPhysician.email}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.street">
+                     <![CDATA[${test.participants.attendingPhysician.address.street}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.zip">
+                     <![CDATA[${test.participants.attendingPhysician.address.zip}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.city">
+                     <![CDATA[${test.participants.attendingPhysician.address.city}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.country">
+                     <![CDATA[${test.participants.attendingPhysician.address.country}]]>
+                  </ItemDataString>
+               </ItemGroupData>
+               <ItemGroupData ItemGroupOID="ItemGroup.participant-physician">
+                  <ItemDataString ItemOID="Item.institution">
+                     <![CDATA[${test.participants.attendingPhysician.institution}]]>
+                  </ItemDataString>
+               </ItemGroupData>
+            </FormData>`
+                : ''
+            }
             <FormData FormOID="Form.participant-pharmacy">
                <ItemGroupData ItemGroupOID="ItemGroup.participant-pharmacy">
                   <ItemDataString ItemOID="Item.name">
-                     <![CDATA[${test.pharmacy.name}]]>
+                     <![CDATA[${test.participants.pharmacy.name}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.phone">
-                     <![CDATA[${test.pharmacy.phone}]]>
+                     <![CDATA[${test.participants.pharmacy.phone}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.email">
-                     <![CDATA[${test.pharmacy.email}]]>
+                     <![CDATA[${test.participants.pharmacy.email}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.street">
-                     <![CDATA[${test.pharmacy.address.street}]]>
+                     <![CDATA[${test.participants.pharmacy.address.street}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.zip">
-                     <![CDATA[${test.pharmacy.address.zip}]]>
+                     <![CDATA[${test.participants.pharmacy.address.zip}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.city">
-                     <![CDATA[${test.pharmacy.address.city}]]>
+                     <![CDATA[${test.participants.pharmacy.address.city}]]>
                   </ItemDataString>
                   <ItemDataString ItemOID="Item.country">
-                     <![CDATA[${test.pharmacy.address.country}]]>
+                     <![CDATA[${test.participants.pharmacy.address.country}]]>
                   </ItemDataString>
                </ItemGroupData>
             </FormData>
@@ -592,31 +653,33 @@ const hashPerson = async (
  */
 export const anonymousXML = async (test: Nof1Test, data: TestData) => {
   const patient: Patient = {
-    ...(await hashPerson(test.patient, hash)),
-    birthYear: await hash(test.patient.birthYear),
-    insurance: await hash(test.patient.insurance),
-    insuranceNb: await hash(test.patient.insuranceNb),
+    ...(await hashPerson(test.participants.patient, hash)),
+    birthYear: await hash(test.participants.patient.birthYear),
+    insurance: await hash(test.participants.patient.insurance),
+    insuranceNb: await hash(test.participants.patient.insuranceNb),
   };
-  const physician: Physician = {
-    ...(await hashPerson(test.physician, hash)),
-    institution: test.physician.institution,
+  const requestingPhysician: Physician = {
+    ...(await hashPerson(test.participants.requestingPhysician, hash)),
+    institution: test.participants.requestingPhysician.institution,
     tests: [],
   };
   const nof1Physician: Physician = {
-    ...(await hashPerson(test.nof1Physician, hash)),
-    institution: test.nof1Physician.institution,
+    ...(await hashPerson(test.participants.nof1Physician, hash)),
+    institution: test.participants.nof1Physician.institution,
     tests: [],
   };
   const pharmacy: Pharmacy = {
-    name: await hash(test.pharmacy.name),
-    ...(await hashCommon(test.pharmacy, hash)),
+    name: await hash(test.participants.pharmacy.name),
+    ...(await hashCommon(test.participants.pharmacy, hash)),
   };
   const anonymousTest: Nof1Test = {
     ...test,
-    patient,
-    physician,
-    nof1Physician,
-    pharmacy,
+    participants: {
+      patient,
+      requestingPhysician,
+      nof1Physician,
+      pharmacy,
+    },
   };
   return generateOdmXML(anonymousTest, data);
 };
@@ -638,31 +701,33 @@ const encryptAsync = (val: string) => Promise.resolve(encrypt(val));
  */
 export const encryptedXML = async (test: Nof1Test, data: TestData) => {
   const patient: Patient = {
-    ...(await hashPerson(test.patient, encryptAsync)),
-    birthYear: await encryptAsync(test.patient.birthYear),
-    insurance: await encryptAsync(test.patient.insurance),
-    insuranceNb: await encryptAsync(test.patient.insuranceNb),
+    ...(await hashPerson(test.participants.patient, encryptAsync)),
+    birthYear: await encryptAsync(test.participants.patient.birthYear),
+    insurance: await encryptAsync(test.participants.patient.insurance),
+    insuranceNb: await encryptAsync(test.participants.patient.insuranceNb),
   };
-  const physician: Physician = {
-    ...(await hashPerson(test.physician, encryptAsync)),
-    institution: test.physician.institution,
+  const requestingPhysician: Physician = {
+    ...(await hashPerson(test.participants.requestingPhysician, encryptAsync)),
+    institution: test.participants.requestingPhysician.institution,
     tests: [],
   };
   const nof1Physician: Physician = {
-    ...(await hashPerson(test.nof1Physician, encryptAsync)),
-    institution: test.nof1Physician.institution,
+    ...(await hashPerson(test.participants.nof1Physician, encryptAsync)),
+    institution: test.participants.nof1Physician.institution,
     tests: [],
   };
   const pharmacy: Pharmacy = {
-    name: await encryptAsync(test.pharmacy.name),
-    ...(await hashCommon(test.pharmacy, encryptAsync)),
+    name: await encryptAsync(test.participants.pharmacy.name),
+    ...(await hashCommon(test.participants.pharmacy, encryptAsync)),
   };
   const encryptedTest: Nof1Test = {
     ...test,
-    patient,
-    physician,
-    nof1Physician,
-    pharmacy,
+    participants: {
+      patient,
+      requestingPhysician,
+      nof1Physician,
+      pharmacy,
+    },
   };
   return generateOdmXML(encryptedTest, data);
 };

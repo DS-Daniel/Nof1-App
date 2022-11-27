@@ -1,4 +1,4 @@
-interface PersonCommon {
+export interface PersonCommon {
 	_id?: string;
 	lastname: string;
 	firstname: string;

@@ -8,20 +8,20 @@ import {
 import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
 import { MutableRefObject, useState } from 'react';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
-import { Pharmacy } from '../../../entities/people';
 import {
 	formatPharmacyData,
 	formatPharmacyDataToForm,
 } from '../../../utils/dataFormConvertor';
+import { IParticipants } from '../../../entities/nof1Test';
 
 type PharmaFormProps = {
-	pharmacy: MutableRefObject<Pharmacy>;
+	participants: MutableRefObject<IParticipants>;
 };
 
 /**
  * Component that manages and renders the pharmacy form.
  */
-export default function PharmaForm({ pharmacy }: PharmaFormProps) {
+export default function PharmaForm({ participants }: PharmaFormProps) {
 	const { t } = useTranslation('common');
 	const schema = usePharmacySchema();
 	const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -38,13 +38,13 @@ export default function PharmaForm({ pharmacy }: PharmaFormProps) {
 	];
 
 	const handleSubmit = async (data: PharmacyFormData) => {
-		pharmacy.current = formatPharmacyData(data);
+		participants.current.pharmacy = formatPharmacyData(data);
 		setOpenSnackbar(true);
 	};
 
 	return (
 		<Paper sx={{ p: 2, width: '100%' }}>
-			<Typography variant="h6">
+			<Typography variant="h6" align="center">
 				{t('createTest:participants.pharmacy')}
 			</Typography>
 			<FormWithValidation<PharmacyFormData>
@@ -53,7 +53,7 @@ export default function PharmaForm({ pharmacy }: PharmaFormProps) {
 				btnLabel={t('button.saveDataBtn')}
 				errorMsg={t('formErrors.errorMsg')}
 				onSubmit={handleSubmit}
-				defaultValues={formatPharmacyDataToForm(pharmacy.current)}
+				defaultValues={formatPharmacyDataToForm(participants.current.pharmacy)}
 			/>
 			<SuccessSnackbar
 				open={openSnackbar}

@@ -1,36 +1,35 @@
+import { MutableRefObject, useState } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import useTranslation from 'next-translate/useTranslation';
 import {
 	usePatientSchema,
 	PatientFormData,
 } from '../../../utils/zodValidationHook';
-import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
-import { Patient } from '../../../entities/people';
-import { MutableRefObject, useState } from 'react';
-import { formatPatientData } from '../../../utils/dataFormConvertor';
+import {
+	formatPatientData,
+	formatPatientDataToForm,
+} from '../../../utils/dataFormConvertor';
 import {
 	createPatient,
 	findPatient,
 	updatePatient,
 } from '../../../utils/apiCalls';
-import isEqual from 'lodash.isequal';
+import { isPatientInfoEqual } from '../../../utils/nof1-lib/lib';
+import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import FailSnackbar from '../../common/FailSnackbar';
 import { useUserContext } from '../../../context/UserContext';
+import { IParticipants } from '../../../entities/nof1Test';
 
 type PatientFormProps = {
-	patient: MutableRefObject<Patient>;
-	defaultValues: PatientFormData;
+	participants: MutableRefObject<IParticipants>;
 };
 
 /**
  * Component that manages and renders the patient form.
  */
-export default function PatientForm({
-	patient,
-	defaultValues,
-}: PatientFormProps) {
+export default function PatientForm({ participants }: PatientFormProps) {
 	const { t } = useTranslation('common');
 	const { userContext } = useUserContext();
 	const schema = usePatientSchema();
@@ -62,19 +61,20 @@ export default function PatientForm({
 		const newPatient = formatPatientData(data);
 		let creationError = false;
 		let updateError = false;
-		if (!isEqual(patient.current, newPatient)) {
-			if (data._id) {
-				delete newPatient._id;
-				// remove _id to avoid duplicate key in DB collection.
-				// In case the email is changed for an existing patient and
-				// a new patient creation is triggered below.
-			}
+		if (!isPatientInfoEqual(participants.current.patient, newPatient)) {
+			// check existence to determine an update or a creation.
 			const patientInDB = await findPatient(
 				userContext.access_token,
 				newPatient.email,
 			);
 			if (!patientInDB) {
 				// new patient
+				if (data._id) {
+					delete newPatient._id;
+					// remove _id to avoid duplicate key in DB collection.
+					// In case the email was changed for an existing patient
+					// and a new patient creation is triggered.
+				}
 				const { response, statusCode } = await createPatient(
 					userContext.access_token,
 					newPatient,
@@ -83,11 +83,11 @@ export default function PatientForm({
 				newPatient._id = response._id; // undefined if not present
 			} else {
 				newPatient._id = patientInDB._id;
-				if (!isEqual(patientInDB, newPatient)) {
+				if (!isPatientInfoEqual(patientInDB, newPatient)) {
 					// update information in DB if needed
 					const { statusCode } = await updatePatient(
 						userContext.access_token,
-						patientInDB._id!,
+						newPatient._id!,
 						newPatient,
 					);
 					updateError = statusCode !== 200;
@@ -97,14 +97,14 @@ export default function PatientForm({
 		if (creationError || updateError) {
 			setOpenFailSnackbar(true);
 		} else {
-			patient.current = newPatient;
+			participants.current.patient = newPatient;
 			setOpenSuccessSnackbar(true);
 		}
 	};
 
 	return (
 		<Paper sx={{ p: 2, width: '100%' }}>
-			<Typography variant="h6">
+			<Typography variant="h6" align="center">
 				{t('createTest:participants.patient')}
 			</Typography>
 			<FormWithValidation<PatientFormData>
@@ -113,7 +113,7 @@ export default function PatientForm({
 				btnLabel={t('button.saveDataBtn')}
 				errorMsg={t('formErrors.errorMsg')}
 				onSubmit={handleSubmit}
-				defaultValues={defaultValues}
+				defaultValues={formatPatientDataToForm(participants.current.patient)}
 			/>
 			<SuccessSnackbar
 				open={openSuccessSnackbar}

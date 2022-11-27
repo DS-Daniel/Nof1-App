@@ -44,11 +44,13 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 		return (
 			<div ref={ref} className={styles.printContainer}>
 				<header>
-					{test.patient.lastname} {test.patient.firstname}
+					{test.participants.patient.lastname}{' '}
+					{test.participants.patient.firstname}
 					<br />
-					{test.patient.address.street}
+					{test.participants.patient.address.street}
 					<br />
-					{test.patient.address.zip} {test.patient.address.city}
+					{test.participants.patient.address.zip}{' '}
+					{test.participants.patient.address.city}
 				</header>
 				<h3 className={styles.title}>{t('logbookTitle')}</h3>
 				<main>

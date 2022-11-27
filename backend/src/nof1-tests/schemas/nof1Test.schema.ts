@@ -1,13 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import {
-  Patient,
-  PatientSchema,
-} from '../../persons/patients/schemas/patient.schema';
-import {
-  Physician,
-  PhysicianSchema,
-} from '../../persons/physicians/schemas/physician.schema';
+import mongooseLeanGetters from 'mongoose-lean-getters';
 import {
   AdministrationSchema,
   ClinicalInfo,
@@ -18,11 +11,10 @@ import {
   Variable,
 } from '../@types/types';
 import { TestStatus } from '../../utils/constants';
-import mongooseLeanGetters from 'mongoose-lean-getters';
 import {
-  Pharmacy,
-  PharmacySchema,
-} from '../../persons/schemas/pharmacy.schema';
+  Participants,
+  ParticipantsSchema,
+} from '../../persons/schemas/participants.schema';
 
 type Nof1TestDoc = Nof1Test & Document;
 
@@ -39,17 +31,8 @@ class Nof1Test {
   @Prop()
   uid: string;
 
-  @Prop({ type: PatientSchema, required: true })
-  patient: Patient;
-
-  @Prop({ type: PhysicianSchema, required: true })
-  physician: Physician;
-
-  @Prop({ type: PhysicianSchema, required: true })
-  nof1Physician: Physician;
-
-  @Prop({ type: PharmacySchema, required: true })
-  pharmacy: Pharmacy;
+  @Prop({ type: ParticipantsSchema, required: true })
+  participants: Participants;
 
   @Prop({ type: Object })
   clinicalInfo: ClinicalInfo;

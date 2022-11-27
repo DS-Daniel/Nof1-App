@@ -7,7 +7,9 @@
 		"title": "Participants information",
 		"pharmacy": "Partner pharmacy",
 		"patient": "Patient",
-		"physician": "Attending physician",
+		"requestingPhysician": "Physician requesting the N-of-1 test",
+		"attendingPhysician": "Attending physician",
+		"btn-add-attendingPhysician": "Add an attending physician",
 		"nof1-physician": "Physician responsible of the N-of-1 test",
 		"findPatient": "Find a patient by ID",
 		"findPhysician": "Find a physician by ID"

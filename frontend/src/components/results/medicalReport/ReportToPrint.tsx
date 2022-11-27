@@ -37,7 +37,7 @@ const generateRows = (test: Nof1Test) => {
 };
 
 interface EditableProps {
-	children: ReactNode;
+	children?: ReactNode;
 	// defaultValue: string | JSX.Element;
 	style?: string;
 }
@@ -164,29 +164,33 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 						}
 					/> */}
 					<EditableTextarea style={styles.sender}>
-						{test.nof1Physician.institution}
+						{test.participants.nof1Physician.institution}
 						<br />
-						{test.nof1Physician.lastname} {test.nof1Physician.firstname}
+						{test.participants.nof1Physician.lastname}{' '}
+						{test.participants.nof1Physician.firstname}
 						<br />
-						{test.nof1Physician.address.street}
+						{test.participants.nof1Physician.address.street}
 						<br />
-						{test.nof1Physician.address.zip} {test.nof1Physician.address.city}
+						{test.participants.nof1Physician.address.zip}{' '}
+						{test.participants.nof1Physician.address.city}
 					</EditableTextarea>
 					<EditableTextarea style={styles.recipient}>
-						{test.nof1Physician.institution}
+						{test.participants.nof1Physician.institution}
 						<br />
-						{test.physician.lastname} {test.physician.firstname}
+						{test.participants.requestingPhysician.lastname}{' '}
+						{test.participants.requestingPhysician.firstname}
 						<br />
-						{test.physician.address.street}
+						{test.participants.requestingPhysician.address.street}
 						<br />
-						{test.physician.address.zip} {test.physician.address.city}
+						{test.participants.requestingPhysician.address.zip}{' '}
+						{test.participants.requestingPhysician.address.city}
 					</EditableTextarea>
 				</header>
 				<main>
 					{/* <Editable
 						style={styles.today}
 						defaultValue={t('report.today', {
-							city: test.nof1Physician.address.city,
+							city: test.participants.nof1Physician.address.city,
 							date: dayjs().locale(lang).format('LL'),
 						})}
 					/>
@@ -198,14 +202,14 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 					/> */}
 					<Editable style={styles.today}>
 						{t('report.today', {
-							city: test.nof1Physician.address.city,
+							city: test.participants.nof1Physician.address.city,
 							date: dayjs().locale(lang).format('LL'),
 						})}
 					</Editable>
 					<EditableSubtitle>
 						{t('report.object', {
-							patient: `${test.patient.lastname} ${test.patient.firstname}`,
-							year: test.patient.birthYear,
+							patient: `${test.participants.patient.lastname} ${test.participants.patient.firstname}`,
+							year: test.participants.patient.birthYear,
 						})}
 					</EditableSubtitle>
 					<section>
@@ -293,7 +297,7 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 							<Editable style={styles.signature} defaultValue={''} />
 							<Editable
 								style={styles.signature}
-								defaultValue={`Dr. ${test.nof1Physician.firstname[0]}. ${test.nof1Physician.lastname}`}
+								defaultValue={`Dr. ${test.participants.nof1Physician.firstname[0]}. ${test.participants.nof1Physician.lastname}`}
 							/>
 						</div> */}
 						<EditableSubtitle>{t('report.conclusion')}</EditableSubtitle>
@@ -306,8 +310,8 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 							<Editable style={styles.signature}> </Editable>
 							<Editable style={styles.signature}> </Editable>
 							<Editable style={styles.signature}>
-								Dr. {test.nof1Physician.firstname[0]}.{' '}
-								{test.nof1Physician.lastname}
+								Dr. {test.participants.nof1Physician.firstname[0]}.{' '}
+								{test.participants.nof1Physician.lastname}
 							</Editable>
 						</div>
 						{/* <textarea className={styles.textareaInput} /> */}

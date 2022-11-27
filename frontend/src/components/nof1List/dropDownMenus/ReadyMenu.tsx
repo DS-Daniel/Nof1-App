@@ -32,7 +32,11 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 		recapTxt,
 		comments,
 		emailSubject,
-	} = usePharmaEmailInfos(item.patient, item.physician, item.nof1Physician);
+	} = usePharmaEmailInfos(
+		item.participants.patient,
+		item.participants.requestingPhysician,
+		item.participants.nof1Physician,
+	);
 
 	const menuItems = [
 		{
@@ -50,9 +54,15 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 	 */
 	const sendPharmaEmailCB = async (email: string) => {
 		// update email if different
-		if (email !== item.pharmacy.email) {
+		if (email !== item.participants.pharmacy.email) {
 			updateNof1Test(userContext.access_token, item.uid!, {
-				pharmacy: { ...item.pharmacy, email: email },
+				participants: {
+					...item.participants,
+					pharmacy: {
+						...item.participants.pharmacy,
+						email: email,
+					},
+				},
 			});
 		}
 
@@ -84,7 +94,7 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 				open={openPharmaEmailDialog}
 				handleClose={() => setOpenPharmaEmailDialog(false)}
 				handleDialogSubmit={(email) => sendPharmaEmailCB(email)}
-				email={item.pharmacy.email}
+				email={item.participants.pharmacy.email}
 			/>
 			<SuccessSnackbar
 				open={openEmailSuccessSB}

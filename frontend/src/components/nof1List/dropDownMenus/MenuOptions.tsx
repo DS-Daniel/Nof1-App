@@ -33,7 +33,11 @@ export default function MenuOptions({
 		nof1PhysicianInfos,
 		recapTxt,
 		comments,
-	} = usePharmaEmailInfos(test.patient, test.physician, test.nof1Physician);
+	} = usePharmaEmailInfos(
+		test.participants.patient,
+		test.participants.requestingPhysician,
+		test.participants.nof1Physician,
+	);
 
 	const menuItems = [
 		{
