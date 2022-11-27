@@ -175,7 +175,16 @@ export default function Results() {
 				<Button variant="contained" onClick={() => setOpenRecapModal(true)}>
 					{t('btn.recap-modal')}
 				</Button>
-				<Button variant="contained" onClick={() => setOpenReportModal(true)}>
+				<Button
+					variant="contained"
+					onClick={() => {
+						if (test && testData) {
+							setOpenReportModal(true);
+						} else {
+              setOpenFailSB(true);
+            }
+					}}
+				>
 					{t('btn.report')}
 				</Button>
 				<MenuContainer name={t('btn.xml')} items={xmlBtnOptions} />
