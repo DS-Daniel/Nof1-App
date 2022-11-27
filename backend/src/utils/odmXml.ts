@@ -370,7 +370,44 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
                      }]]>
                   </ItemDataString>
                </ItemGroupData>
-            </FormData>
+            </FormData>${
+              test.participants.attendingPhysician
+                ? `
+            <FormData FormOID="Form.participant-physician">
+               <ItemGroupData ItemGroupOID="ItemGroup.participant-common-info">
+                  <ItemDataString ItemOID="Item.lastname">
+                     <![CDATA[${test.participants.attendingPhysician.lastname}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.firstname">
+                     <![CDATA[${test.participants.attendingPhysician.firstname}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.phone">
+                     <![CDATA[${test.participants.attendingPhysician.phone}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.email">
+                     <![CDATA[${test.participants.attendingPhysician.email}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.street">
+                     <![CDATA[${test.participants.attendingPhysician.address.street}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.zip">
+                     <![CDATA[${test.participants.attendingPhysician.address.zip}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.city">
+                     <![CDATA[${test.participants.attendingPhysician.address.city}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.country">
+                     <![CDATA[${test.participants.attendingPhysician.address.country}]]>
+                  </ItemDataString>
+               </ItemGroupData>
+               <ItemGroupData ItemGroupOID="ItemGroup.participant-physician">
+                  <ItemDataString ItemOID="Item.institution">
+                     <![CDATA[${test.participants.attendingPhysician.institution}]]>
+                  </ItemDataString>
+               </ItemGroupData>
+            </FormData>`
+                : ''
+            }
             <FormData FormOID="Form.participant-pharmacy">
                <ItemGroupData ItemGroupOID="ItemGroup.participant-pharmacy">
                   <ItemDataString ItemOID="Item.name">

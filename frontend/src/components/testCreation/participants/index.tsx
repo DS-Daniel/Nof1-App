@@ -57,6 +57,7 @@ export default function Participants({ participants }: ParticipantsProps) {
 						/>
 					) : (
 						<Button
+              variant="outlined"
 							onClick={() => {
 								participants.current.attendingPhysician = defaultPhysician();
 								setShowAttendingPhysician(true);

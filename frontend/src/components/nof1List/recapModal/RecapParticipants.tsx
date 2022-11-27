@@ -1,9 +1,10 @@
-import Grid from '@mui/material/Grid';
-import ReadOnlyForm from '../../common/ReadOnlyForm';
 import useTranslation from 'next-translate/useTranslation';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import ReadOnlyForm from '../../common/ReadOnlyForm';
 import { IParticipants } from '../../../entities/nof1Test';
+import { Physician } from '../../../entities/people';
 
 interface RecapParticipantsProps {
 	participants: IParticipants;
@@ -81,54 +82,54 @@ export default function RecapParticipants({
 		},
 	];
 
-	const physicianInputs = [
+	const physicianInputs = (physician: Physician) => [
 		{
 			name: 'firstname',
-			value: participants.requestingPhysician.firstname,
+			value: physician.firstname,
 			label: t('form.firstname'),
 			size: 6,
 		},
 		{
 			name: 'lastname',
-			value: participants.requestingPhysician.lastname,
+			value: physician.lastname,
 			label: t('form.lastname'),
 			size: 6,
 		},
 		{
 			name: 'phone',
-			value: participants.requestingPhysician.phone,
+			value: physician.phone,
 			label: t('form.phone'),
 		},
 		{
 			name: 'email',
-			value: participants.requestingPhysician.email,
+			value: physician.email,
 			label: t('form.email'),
 		},
 		{
 			name: 'country',
-			value: participants.requestingPhysician.address.country,
+			value: physician.address.country,
 			label: t('form.country'),
 		},
 		{
 			name: 'street',
-			value: participants.requestingPhysician.address.street,
+			value: physician.address.street,
 			label: t('form.street'),
 		},
 		{
 			name: 'zip',
-			value: participants.requestingPhysician.address.zip,
+			value: physician.address.zip,
 			label: t('form.zip'),
 			size: 5,
 		},
 		{
 			name: 'city',
-			value: participants.requestingPhysician.address.city,
+			value: physician.address.city,
 			label: t('form.city'),
 			size: 7,
 		},
 		{
 			name: 'institution',
-			value: participants.requestingPhysician.institution,
+			value: physician.institution,
 			label: t('form.institution'),
 		},
 	];
@@ -183,7 +184,7 @@ export default function RecapParticipants({
 				</Typography>
 			</Grid>
 			<Grid item xs={12} sm={4}>
-				<Paper sx={{ p: 2, width: '100%' }}>
+				<Paper sx={{ p: 2 }}>
 					<Typography variant="h6">
 						{t('createTest:participants.patient')}
 					</Typography>
@@ -191,21 +192,35 @@ export default function RecapParticipants({
 				</Paper>
 			</Grid>
 			<Grid item xs={12} sm={4}>
-				<Paper sx={{ p: 2, width: '100%' }}>
+				<Paper sx={{ p: 2 }}>
 					<Typography variant="h6">
 						{t('createTest:participants.requestingPhysician')}
 					</Typography>
-					<ReadOnlyForm inputs={physicianInputs} />
+					<ReadOnlyForm
+						inputs={physicianInputs(participants.requestingPhysician)}
+					/>
 				</Paper>
 			</Grid>
 			<Grid item xs={12} sm={4}>
-				<Paper sx={{ p: 2, width: '100%' }}>
+				<Paper sx={{ p: 2 }}>
 					<Typography variant="h6">
 						{t('createTest:participants.pharmacy')}
 					</Typography>
 					<ReadOnlyForm inputs={pharmaInputs} />
 				</Paper>
 			</Grid>
+			{participants.attendingPhysician && (
+				<Grid item xs={12} sm={4}>
+					<Paper sx={{ p: 2 }}>
+						<Typography variant="h6">
+							{t('createTest:participants.attendingPhysician')}
+						</Typography>
+						<ReadOnlyForm
+							inputs={physicianInputs(participants.attendingPhysician)}
+						/>
+					</Paper>
+				</Grid>
+			)}
 		</Grid>
 	);
 }
