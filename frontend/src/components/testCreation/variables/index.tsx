@@ -31,13 +31,18 @@ const notEditing = -1;
 interface VariablesProps {
 	variables: Variable[];
 	setVariables: Dispatch<SetStateAction<Variable[]>>;
+	periodLen: number;
 }
 
 /**
  * Component managing the monitored health variables section.
  * Manages and displays variables in a table.
  */
-export default function Variables({ variables, setVariables }: VariablesProps) {
+export default function Variables({
+	variables,
+	setVariables,
+	periodLen,
+}: VariablesProps) {
 	const { t } = useTranslation('createTest');
 	const predefinedHealthVariables = usePredefinedHealthVariables();
 	// determine the default checkboxes states.
@@ -152,13 +157,13 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 	};
 
 	/**
-	 * Allows the same variable name only when editing a variable,
-	 * but not when creating a new one.
-	 * @param name Name enter into the input.
+	 * Checks for the uniqueness of a variable name.
+	 * @param name Name entered.
 	 * @returns True if name is allowed, otherwise false.
 	 */
 	const validateVarName = (name: string) =>
-		isEditing || !variables.some((v) => v.name === name);
+		(isEditing && variables.findIndex((v) => v.name === name) === editing) ||
+		!variables.some((v) => v.name === name);
 
 	return (
 		<Paper sx={{ p: 3, width: '100%' }}>
@@ -219,6 +224,7 @@ export default function Variables({ variables, setVariables }: VariablesProps) {
 					isEditing && setEditing(notEditing);
 					setOpenDialog(false);
 				}}
+				periodLen={periodLen}
 			/>
 		</Paper>
 	);

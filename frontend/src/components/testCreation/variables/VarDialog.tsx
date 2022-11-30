@@ -25,6 +25,7 @@ interface VarDialogProps {
 	validate: (name: string) => boolean;
 	handleDialogSubmit: (variable: Variable) => void;
 	handleClose: () => void;
+	periodLen: number;
 }
 
 /**
@@ -37,6 +38,7 @@ export default function VarDialog({
 	validate,
 	handleDialogSubmit,
 	handleClose,
+	periodLen,
 }: VarDialogProps) {
 	const { t } = useTranslation('createTest');
 	const {
@@ -96,6 +98,7 @@ export default function VarDialog({
 						register={register}
 						t={t}
 						validation={{ validate, errors }}
+						periodLen={periodLen}
 					/>
 				);
 			case VariableType.Numeric:
@@ -104,6 +107,7 @@ export default function VarDialog({
 						register={register}
 						t={t}
 						validation={{ validate, errors }}
+						periodLen={periodLen}
 					/>
 				);
 			case VariableType.Qualitative:
@@ -162,7 +166,7 @@ export default function VarDialog({
 										select
 										autoFocus
 										id="type"
-										label={t('variables.header-type')}
+										label={t('variables.header.type')}
 										{...field}
 									>
 										{Object.values(VariableType).map((t) => (

@@ -329,7 +329,11 @@ export default function CreateTest() {
 					setAllPosologies={setAllPosologies}
 				/>
 
-				<Variables variables={variables} setVariables={setVariables} />
+				<Variables
+					variables={variables}
+					setVariables={setVariables}
+					periodLen={periodLen}
+				/>
 			</Stack>
 		</AuthenticatedPage>
 	);

@@ -49,15 +49,18 @@
 	},
 	"variables": {
 		"title": "Variables to monitor",
-		"header-name": "Name",
-		"header-type": "Type",
-		"header-desc": "Description / question",
-		"header-unit": "Unit",
-		"header-min": "Min",
-		"header-max": "Max",
-		"header-0": "Negative label (0)",
-		"header-1": "Positive label (1)",
-		"header-values": "Values (qualitative)",
+		"header": {
+			"name": "Name",
+			"type": "Type",
+			"desc": "Description / question",
+			"unit": "Unit",
+			"min": "Min",
+			"max": "Max",
+			"0": "Negative label (0)",
+			"1": "Positive label (1)",
+			"values": "Values (qualitative)",
+			"skip": "Skipped run-in days for analysis"
+		},
 		"types": {
 			"txt": "Textual",
 			"vas": "VAS",
@@ -84,7 +87,9 @@
 			"remarks-desc": "General remarks :"
 		},
 		"modal-title": "Parameters of the variable to monitor",
-		"error-already-exist": "This variable already exists"
+		"error-already-exist": "This variable already exists",
+		"error-min0": "Minimum 0",
+		"error-max": "Cannot exceed the period's length"
 	},
 	"clinicalInfo": {
 		"title": "Clinical information",
