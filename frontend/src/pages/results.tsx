@@ -25,6 +25,7 @@ import AdministrationTable from '../components/results/AdministrationTable';
 import PatientDataTable from '../components/results/PatientDataTable';
 import SelectedPosologies from '../components/results/SelectedPosologies';
 import MedicalReportModal from '../components/results/medicalReport';
+import Statistics from '../components/results/statistics';
 import FailSnackbar from '../components/common/FailSnackbar';
 import MenuContainer from '../components/common/MenuContainer';
 import Skeleton from '@mui/material/Skeleton';
@@ -181,8 +182,8 @@ export default function Results() {
 						if (test && testData) {
 							setOpenReportModal(true);
 						} else {
-              setOpenFailSB(true);
-            }
+							setOpenFailSB(true);
+						}
 					}}
 				>
 					{t('btn.report')}
@@ -277,6 +278,13 @@ export default function Results() {
 											substancesColors={substancesColors}
 										/>
 									))
+							) : (
+								<Typography>{t('no-data')}</Typography>
+							)}
+
+							<Typography variant="h5">{t('title.statistics')}</Typography>
+							{testData ? (
+								<Statistics test={test} testData={testData} />
 							) : (
 								<Typography>{t('no-data')}</Typography>
 							)}

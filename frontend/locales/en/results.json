@@ -15,7 +15,8 @@
 		"selected-posologies": "Selected posologies",
 		"admin-schema": "Administration schema",
 		"patient-data": "Records of patient's health variables",
-		"graph": "Quantitative variables charts"
+		"graph": "Quantitative variables charts",
+		"statistics": "Statistics"
 	},
 	"interrupted": "Test interrupted",
 	"period-duration": "Period duration :",
@@ -51,5 +52,13 @@
 		"supposition": "Treatment supposition",
 		"optimal": "Optimal treatment",
 		"remark": "Remarks (supposition & optimal)"
+	},
+	"statistics": {
+		"var-analyse": "Analyse of variable : {{variable}}",
+		"treatment": "Treatment",
+		"treat-effect": "Treatment effect (mean)",
+		"residual": "Residual",
+		"total": "Total",
+		"total-mean": "Total mean"
 	}
 }

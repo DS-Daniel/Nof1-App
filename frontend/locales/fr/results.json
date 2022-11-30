@@ -3,9 +3,9 @@
 		"dataImport": "Importer les données du patient",
 		"report": "Générer le rapport médical",
 		"xml": "Exporter les données du test N-of-1 au format ODM-XML",
-    "xml-clear": "Données identifiantes en clair",
-    "xml-anonymous": "Données identifiantes anonymisées",
-    "xml-encrypted": "Données identifiantes chiffrées",
+		"xml-clear": "Données identifiantes en clair",
+		"xml-anonymous": "Données identifiantes anonymisées",
+		"xml-encrypted": "Données identifiantes chiffrées",
 		"recap-modal": "Consulter les paramètres du test"
 	},
 	"title": {
@@ -15,7 +15,8 @@
 		"selected-posologies": "Posologies sélectionnées",
 		"admin-schema": "Schéma d'administration",
 		"patient-data": "Relevés des variables de santé du patient",
-		"graph": "Graphiques des variables quantitatives"
+		"graph": "Graphiques des variables quantitatives",
+		"statistics": "Statistiques"
 	},
 	"interrupted": "Test interrompu",
 	"period-duration": "Durée d'une période :",
@@ -50,6 +51,14 @@
 	"data-table": {
 		"supposition": "Supposition du traitement",
 		"optimal": "Traitement optimal",
-    "remark": "Remarques (supposition & optimal)"
+		"remark": "Remarques (supposition & optimal)"
+	},
+	"statistics": {
+		"var-analyse": "Analyse de la variable : {{variable}}",
+		"treatment": "Traitement",
+		"treat-effect": "Effect traitement (moyenne)",
+		"residual": "Résidus",
+		"total": "Total",
+		"total-mean": "Moyenne générale"
 	}
 }
