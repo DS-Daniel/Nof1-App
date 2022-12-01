@@ -144,6 +144,7 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
          <ItemGroupDef OID="ItemGroup.nof1-parameters" Name="Nof1 parameters" Repeating="No">
             <ItemRef ItemOID="Item.nbPeriods" Mandatory="Yes" />
             <ItemRef ItemOID="Item.periodLen" Mandatory="Yes" />
+            <ItemRef ItemOID="Item.statisticalAnalysis" Mandatory="Yes" />
             <ItemRef ItemOID="Item.randomizationStrategy" Mandatory="Yes" />
             <ItemRef ItemOID="Item.administrationSequence" Mandatory="Yes" />
          </ItemGroupDef>
@@ -240,6 +241,7 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
          <!-- Nof1 parameters -->
          <ItemDef OID="Item.nbPeriods" Name="Number of periods" DataType="integer"></ItemDef>
          <ItemDef OID="Item.periodLen" Name="Period Length" DataType="integer"></ItemDef>
+         <ItemDef OID="Item.statisticalAnalysis" Name="Selected statistical analysis method" DataType="string" Length="64"></ItemDef>
          <ItemDef OID="Item.randomizationStrategy" Name="Randomization strategy" DataType="string" Length="64"></ItemDef>
          <ItemDef OID="Item.administrationSequence" Name="Substances administration sequence" DataType="string" Length="64"></ItemDef>
          <ItemDef OID="Item.substance" Name="Substance" DataType="string" Length="64"></ItemDef>
@@ -491,6 +493,9 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
                   }</ItemDataInteger>
                   <ItemDataInteger ItemOID="Item.periodLen">${
                     test.periodLen
+                  }</ItemDataInteger>
+                  <ItemDataInteger ItemOID="Item.statisticalAnalysis">${
+                    test.statistics.analysisToPerform
                   }</ItemDataInteger>
                   <ItemDataString ItemOID="Item.randomizationStrategy">${
                     test.randomization.strategy
