@@ -94,3 +94,9 @@ export class ClinicalInfo {
     other: boolean;
   };
 }
+
+export enum AnalyseType {
+  NaiveANOVA = 'NaiveANOVA',
+  CycleANOVA = 'CycleANOVA',
+  ANCOVAautoregr = 'ANCOVAautoregr',
+}

@@ -6,7 +6,7 @@ const { jStat } = require('jstat');
 
 export enum AnalyseType {
 	NaiveANOVA = 'NaiveANOVA',
-	CycleANOVA = 'Cycle',
+	CycleANOVA = 'CycleANOVA',
 	ANCOVAautoregr = 'ANCOVAautoregr',
 }
 
@@ -47,8 +47,7 @@ const helper = (
 	const subIdx = substances.findIndex((s) => s.name === d.substance);
 	const varToAnalyze = d.data.find((v) => v.variableName === variable.name)!;
 	const obs = varToAnalyze.value === '' ? NaN : Number(varToAnalyze.value);
-	const include =
-		(d.day - 1) % periodLen < variable.skippedRunInDays! ? false : true;
+	const include = (d.day - 1) % periodLen >= variable.skippedRunInDays!;
 	return { subIdx, obs, include };
 };
 

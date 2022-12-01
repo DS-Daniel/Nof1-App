@@ -21,6 +21,7 @@ const formatter = (decimal: number = 3) =>
 /**
  * Helper method to render a TableCell component.
  * @param val Cell content.
+ * @param format Number of decimal for the value.
  * @returns The TableCell component.
  */
 export const renderTableCell = (val: number, format = 3) => {

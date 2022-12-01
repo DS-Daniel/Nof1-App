@@ -3,12 +3,11 @@ import useTranslation from 'next-translate/useTranslation';
 import CycleANOVA from './CycleANOVA';
 import StatsTable from './StatsTable';
 import ANCOVAautoregr from './ANCOVAautoregr';
+import SelectAnalysisType from '../../common/inputs/SelectAnalysisType';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { TestData } from '../../../entities/nof1Data';
 import { VariableType } from '../../../entities/variable';
 import { AnalyseType, anova, isAnalyseValid } from '../../../utils/statistics';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
@@ -22,10 +21,8 @@ interface StatisticsProps {
  */
 export default function Statistics({ test, testData }: StatisticsProps) {
 	const { t } = useTranslation('results');
-	// TODO
-	// const [statsType, setStatsType] = useState<AnalyseType>(test.statistics);
 	const [statsType, setStatsType] = useState<AnalyseType>(
-		AnalyseType.NaiveANOVA,
+		test.statistics.analysisToPerform,
 	);
 	const substances = test.substances.map((s) => s.name);
 
@@ -42,7 +39,11 @@ export default function Statistics({ test, testData }: StatisticsProps) {
 		// if statistics contain NaN values due to incomplete patient's data,
 		// an error message is displayed.
 		if (!isAnalyseValid(stats))
-			return <Typography>{t('statistics.error')}</Typography>;
+			return (
+				<Typography fontWeight="bold" fontStyle="italic" color="error">
+					{t('statistics.error')}
+				</Typography>
+			);
 
 		switch (statsType) {
 			case AnalyseType.NaiveANOVA:
@@ -55,22 +56,6 @@ export default function Statistics({ test, testData }: StatisticsProps) {
 	};
 
 	/**
-	 * Selects a traduction according to the type of analysis.
-	 * @param type Analysis type
-	 * @returns The traduction string.
-	 */
-	const selectTrad = (type: AnalyseType) => {
-		switch (type) {
-			case AnalyseType.NaiveANOVA:
-				return t('statistics.NaiveANOVA');
-			case AnalyseType.CycleANOVA:
-				return t('statistics.CycleANOVA');
-			case AnalyseType.ANCOVAautoregr:
-				return t('statistics.ANCOVAautoregr');
-		}
-	};
-
-	/**
 	 * Renders an analysis description according to the type of analysis.
 	 * @param type Analysis type
 	 * @returns The description component.
@@ -79,16 +64,16 @@ export default function Statistics({ test, testData }: StatisticsProps) {
 		let subtitle: string, desc: string;
 		switch (type) {
 			case AnalyseType.NaiveANOVA:
-				subtitle = t('statistics.NaiveANOVA-long');
-				desc = t('statistics.NaiveANOVA-desc');
+				subtitle = t('common:statistics.NaiveANOVA-long');
+				desc = t('common:statistics.NaiveANOVA-desc');
 				break;
 			case AnalyseType.CycleANOVA:
-				subtitle = t('statistics.CycleANOVA-long');
-				desc = t('statistics.CycleANOVA-desc');
+				subtitle = t('common:statistics.CycleANOVA-long');
+				desc = t('common:statistics.CycleANOVA-desc');
 				break;
 			case AnalyseType.ANCOVAautoregr:
-				subtitle = t('statistics.ANCOVAautoregr-long');
-				desc = t('statistics.ANCOVAautoregr-desc');
+				subtitle = t('common:statistics.ANCOVAautoregr-long');
+				desc = t('common:statistics.ANCOVAautoregr-desc');
 				break;
 		}
 		return (
@@ -101,20 +86,31 @@ export default function Statistics({ test, testData }: StatisticsProps) {
 		);
 	};
 
+	/**
+	 * Checks if patient data is complete, if not issues a warning.
+	 * @param varName Variable's name.
+	 * @returns A warning message if data is not complete.
+	 */
+	const renderWarning = (varName: string) => {
+		const notComplete = testData.some((d) => {
+			const v = d.data.find((v) => v.variableName === varName);
+			return v?.value === '';
+		});
+		return (
+			notComplete && (
+				<Typography fontWeight="bold" fontStyle="italic" color="error">
+					{t('statistics.warning')}
+				</Typography>
+			)
+		);
+	};
+
 	return (
 		<div>
-			<Select
-				id="statistic-type"
-				size="small"
+			<SelectAnalysisType
 				value={statsType}
 				onChange={(e) => setStatsType(e.target.value as AnalyseType)}
-			>
-				{Object.values(AnalyseType).map((t) => (
-					<MenuItem key={t} value={t}>
-						{selectTrad(t)}
-					</MenuItem>
-				))}
-			</Select>
+			/>
 			{renderDesc(statsType)}
 			{/* statistical analysis only on quantitative variables */}
 			{test.monitoredVariables
@@ -123,17 +119,14 @@ export default function Statistics({ test, testData }: StatisticsProps) {
 				)
 				.map((v) => (
 					<Stack key={v.name} spacing={1} my={2}>
-						<Typography
-							variant="subtitle1"
-							fontStyle="italic"
-							fontWeight="bold"
-						>
+						<Typography variant="subtitle1" fontWeight="bold">
 							{t('statistics.var-analyse', { variable: v.name })}
 						</Typography>
 						<Typography>
 							{t('createTest:variables.header.skip')} :{' '}
 							{v.skippedRunInDays ?? 0}
 						</Typography>
+						{renderWarning(v.name)}
 						{renderStatisticTable({
 							name: v.name,
 							skippedRunInDays: v.skippedRunInDays ?? 0,

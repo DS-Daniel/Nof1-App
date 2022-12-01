@@ -45,7 +45,8 @@
 			"title": "Decreasing posology",
 			"desc": "Add a decreasing dosage during the next period if the treatment changes, in order to avoid a withdrawal syndrome of the current substance when changing periods ?\n(It will be continued the next period with another substance)",
 			"btn": "Add a decreasing posology"
-		}
+		},
+		"analysisToPerform": "Statistical analysis to perform"
 	},
 	"variables": {
 		"title": "Variables to monitor",
