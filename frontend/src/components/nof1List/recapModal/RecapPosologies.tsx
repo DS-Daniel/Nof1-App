@@ -1,6 +1,7 @@
 import useTranslation from 'next-translate/useTranslation';
 import PosologyTable from '../../common/table/posologyTable';
 import { SubstancePosologies } from '../../../entities/posology';
+import { Substance } from '../../../entities/substance';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Accordion from '@mui/material/Accordion';
@@ -12,6 +13,7 @@ import Radio from '@mui/material/Radio';
 
 interface RecapPosologiesProps {
 	allPosologies: SubstancePosologies[];
+	substances: Substance[];
 }
 
 /**
@@ -19,8 +21,29 @@ interface RecapPosologiesProps {
  */
 export default function RecapPosologies({
 	allPosologies,
+	substances,
 }: RecapPosologiesProps) {
 	const { t } = useTranslation('createTest');
+
+	/**
+	 * Renders the decreasing posology table, if any.
+	 * @param subIndex Substance index.
+	 * @param unit Substance unit.
+	 * @returns The decreasing posology table.
+	 */
+	const renderDecreasingDosage = (subIndex: number, unit: string) => {
+		const dd = substances[subIndex].decreasingDosage;
+		return (
+			dd && (
+				<>
+					<Typography fontStyle="italic" mt={1}>
+						{t('parameters.decreasing-posology.title')} :
+					</Typography>
+					<PosologyTable posology={dd} substanceUnit={unit} />
+				</>
+			)
+		);
+	};
 
 	return (
 		<Accordion disableGutters TransitionProps={{ unmountOnExit: true }}>
@@ -50,6 +73,7 @@ export default function RecapPosologies({
 								</Stack>
 							</Box>
 						))}
+						{renderDecreasingDosage(index, unit)}
 					</Stack>
 				))}
 			</AccordionDetails>

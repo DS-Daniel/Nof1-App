@@ -95,7 +95,10 @@ export default function RecapModal({ open, setOpen, item }: RecapModalProps) {
 						</Grid>
 
 						<Grid item xs={12}>
-							<RecapPosologies allPosologies={item.posologies} />
+							<RecapPosologies
+								allPosologies={item.posologies}
+								substances={item.substances}
+							/>
 						</Grid>
 
 						<Grid item xs={12}>
