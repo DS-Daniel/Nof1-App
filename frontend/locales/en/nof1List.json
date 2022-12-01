@@ -7,6 +7,7 @@
 		"edit": "Edit test",
 		"delete": "Delete test"
 	},
+	"creation-warning": "You can only create one test per 15-minute interval",
 	"delete-warning": "Are you sure you want to delete the test ?",
 	"create-fromID-dialog-title": "Choose the test ID that will be used as a template",
 	"header": {

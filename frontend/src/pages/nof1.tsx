@@ -17,7 +17,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import Link from 'next/link';
+import dayjs from 'dayjs';
+import FailSnackbar from '../components/common/FailSnackbar';
 
+/**
+ * Context method to remove a test from the user.
+ */
 export const RemoveTestCB = createContext<
 	(
 		testId: string,
@@ -41,6 +46,7 @@ export default function Nof1() {
 	const { userContext } = useUserContext();
 	const [data, setData] = useState<Nof1Test[]>([]);
 	const [openDialogBtn, setOpenDialogBtn] = useState(false);
+	const [openFailSB, setOpenFailSB] = useState(false);
 
 	// fetch N-of-1 tests.
 	useEffect(() => {
@@ -121,7 +127,35 @@ export default function Nof1() {
 	 * Handles the click on the create new test button.
 	 */
 	const handleCreateBtn = () => {
-		router.push('/create-test');
+		if (creationLimitExceeded()) {
+			setOpenFailSB(true);
+		} else {
+			router.push('/create-test');
+		}
+	};
+
+	/**
+	 * Handles the click on the button to create new test from another one.
+	 */
+	const handleCreateFromBtn = () => {
+		if (creationLimitExceeded()) {
+			setOpenFailSB(true);
+		} else {
+			setOpenDialogBtn(true);
+		}
+	};
+
+	/**
+	 * Limits the creation of a test to one every 15min.
+	 * @returns True if limit exceeded, false otherwise.
+	 */
+	const creationLimitExceeded = () => {
+		return (
+			dayjs().diff(
+				dayjs(data[data.length - 1].meta_info?.creationDate),
+				'minute',
+			) < 15
+		);
 	};
 
 	return (
@@ -131,7 +165,7 @@ export default function Nof1() {
 					<Button variant="contained" onClick={handleCreateBtn}>
 						{t('btn.create')}
 					</Button>
-					<Button variant="contained" onClick={() => setOpenDialogBtn(true)}>
+					<Button variant="contained" onClick={handleCreateFromBtn}>
 						{t('btn.create-fromID')}
 					</Button>
 					<Dialog open={openDialogBtn} onClose={() => setOpenDialogBtn(false)}>
@@ -164,6 +198,11 @@ export default function Nof1() {
 					/>
 				</RemoveTestCB.Provider>
 			</Stack>
+			<FailSnackbar
+				open={openFailSB}
+				setOpen={setOpenFailSB}
+				msg={t('creation-warning')}
+			/>
 		</AuthenticatedPage>
 	);
 }
