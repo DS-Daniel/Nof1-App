@@ -8,15 +8,36 @@ export enum AnalyseType {
 	NaiveANOVA = 'NaiveANOVA',
 	CycleANOVA = 'Cycle',
 	ANCOVAautoregr = 'ANCOVAautoregr',
-	// Detrended = 'Detrended',
 }
 
+/**
+ * Creates an array of n length, filled with 0.
+ * @param n Length.
+ * @returns An array of n length, filled with 0.
+ */
 const zeroArray = (n: number) => Array<number>(n).fill(0);
+
+/**
+ * Creates a matrix of row x col dimension, filled with 0.
+ * @param row Number of rows.
+ * @param col Number of columns.
+ * @returns A matrix of row x col dimension, filled with 0.
+ */
 const zeroMatrix = (row: number, col: number) =>
 	Array<number>(row)
 		.fill(0)
 		.map((_) => Array<number>(col).fill(0));
 
+/**
+ * Helper method to calculate several common variables for
+ * the different statistical analysis.
+ * @param substances Array of substances.
+ * @param d Variables data of the N-of-1 test.
+ * @param variable Variable to analyse.
+ * @param periodLen Period duration.
+ * @returns The substance index, the variable's value and a boolean
+ * indicating if the value should be considered for the analysis.
+ */
 const helper = (
 	substances: Substance[],
 	d: TestData[number],
@@ -31,6 +52,13 @@ const helper = (
 	return { subIdx, obs, include };
 };
 
+/**
+ * Calculates the statistical p-value of a F value.
+ * @param F F value.
+ * @param df1 Degree of freedom 1.
+ * @param df2 Degree of freedom 2.
+ * @returns The statistical p-value of a F value.
+ */
 const Fdistrib = (F: number, df1: number, df2: number) => {
 	return 1 - jStat.centralF.cdf(F, df1, df2);
 };
@@ -81,13 +109,22 @@ export interface Stats {
 	};
 }
 
+/**
+ * Performs the appropriate statistical analysis according to
+ * the given type of analysis.
+ * @param typeOfAnalysis Type of analysis to perform.
+ * @param variable Variable to analyse.
+ * @param test N-of-1 test.
+ * @param testData N-of-1 test's data.
+ * @returns The statistical analysis.
+ */
 export const anova = (
-	typeOfANOVA: AnalyseType,
+	typeOfAnalysis: AnalyseType,
 	variable: { name: string; skippedRunInDays: number },
 	test: Nof1Test,
 	testData: TestData,
 ): Stats => {
-	switch (typeOfANOVA) {
+	switch (typeOfAnalysis) {
 		case AnalyseType.NaiveANOVA:
 			return naiveANOVA(test.substances, test.periodLen, testData, variable);
 		case AnalyseType.CycleANOVA:
@@ -107,16 +144,17 @@ export const anova = (
 				testData,
 				variable,
 			);
-		// case AnalyseType.Detrended:
-		// 	return autoregrANCOVA(
-		// 		test.substances,
-		// 		test.periodLen,
-		// 		testData,
-		// 		variable,
-		// 	);
 	}
 };
 
+/**
+ * Performs a naive ANOVA analysis.
+ * @param substances Array of substances.
+ * @param periodLen Period duration.
+ * @param data N-of-1 test's data.
+ * @param variable Variable to analyse.
+ * @returns The statistical analysis values.
+ */
 const naiveANOVA = (
 	substances: Substance[],
 	periodLen: number,
@@ -135,14 +173,9 @@ const naiveANOVA = (
 		treatM = zeroArray(nbSub);
 
 	data.forEach((d) => {
-		// const subIdx = substances.findIndex((s) => s.name === d.substance);
-		// const varToAnalyze = d.data.find((v) => v.variableName === variable.name)!;
-		// const obs = varToAnalyze.value === '' ? NaN : Number(varToAnalyze.value);
-		// const include =
-		// 	(d.day - 1) % periodLen < variable.skippedRunInDays! ? 0 : 1;
 		const { subIdx, obs, include } = helper(substances, d, variable, periodLen);
 
-		if (include && obs !== NaN) {
+		if (include && !isNaN(obs)) {
 			n += 1;
 			sum += obs;
 			ss += obs ** 2;
@@ -192,10 +225,14 @@ const naiveANOVA = (
 };
 
 /**
- * ANOVA with Cycle effect.
- * This test contrasts treatment effects among cycles, thus, getting rid of the repetition issue.
+ * Performs a ANOVA with Cycle effect.
+ * @param substances Array of substances.
+ * @param periodLen Period duration.
+ * @param nbPeriods Number of periods.
+ * @param data N-of-1 test's data.
+ * @param variable Variable to analyse.
+ * @returns The statistical analysis values.
  */
-
 const cycleANOVA = (
 	substances: Substance[],
 	periodLen: number,
@@ -227,15 +264,10 @@ const cycleANOVA = (
 		treatCycM = zeroMatrix(nbSub, nbCycles);
 
 	data.forEach((d) => {
-		// const subIdx = substances.findIndex((s) => s.name === d.substance);
-		// const varToAnalyze = d.data.find((v) => v.variableName === variable.name)!;
-		// const obs = varToAnalyze.value === '' ? NaN : Number(varToAnalyze.value);
-		// const include =
-		// 	(d.day - 1) % periodLen < variable.skippedRunInDays! ? false : true;
 		const { subIdx, obs, include } = helper(substances, d, variable, periodLen);
 		const cycle = Math.trunc((d.day - 1) / cycleDuration);
 
-		if (include && obs !== NaN) {
+		if (include && !isNaN(obs)) {
 			n += 1;
 			sum += obs;
 			ss += obs ** 2;
@@ -284,7 +316,6 @@ const cycleANOVA = (
 	const treatmentCycleDf = (nbSub - 1) * (nbCycles - 1);
 	const treatmentCycleMS = treatmentCycleSS / treatmentCycleDf;
 	const residualDf = totalDf - treatmentDf - cycleDf - treatmentCycleDf;
-	// const ResidMS = residualSS / residualDf;
 	const FTreatment = treatmentMS / treatmentCycleMS;
 	const FCycle = cycleMS / treatmentCycleMS;
 
@@ -323,6 +354,14 @@ const cycleANOVA = (
 	};
 };
 
+/**
+ * Performs an ANCOVA Auto-regression.
+ * @param substances Array of substances.
+ * @param periodLen Period duration.
+ * @param data N-of-1 test's data.
+ * @param variable Variable to analyse.
+ * @returns The statistical analysis values.
+ */
 const autoregrANCOVA = (
 	substances: Substance[],
 	periodLen: number,
@@ -357,7 +396,7 @@ const autoregrANCOVA = (
 	data.forEach((d) => {
 		const { subIdx, obs, include } = helper(substances, d, variable, periodLen);
 
-		if (include && obs !== NaN && isPrev && prev !== NaN) {
+		if (include && !isNaN(obs) && isPrev && !isNaN(prev)) {
 			n += 1;
 			sumX += prev;
 			sumX2 += prev ** 2;
@@ -459,6 +498,21 @@ const autoregrANCOVA = (
 			MS: totalSSY / totalDf,
 		},
 	};
+};
+
+/**
+ * Checks if the statistical analysis is valid
+ * (does not contains any NaN value due to missing data).
+ * @param stats Statistical analysis values.
+ * @returns True if valid, false otherwise.
+ */
+export const isAnalyseValid = (stats: Stats) => {
+	const { effect, ...wOutEffect } = stats.treatment;
+	const s = { ...stats, treatment: wOutEffect };
+	const allValues = Object.values(s).flatMap((o) => Object.values(o));
+	return (
+		allValues.every((v: number) => !isNaN(v)) && effect.every((v) => !isNaN(v))
+	);
 };
 
 // const extractDataToAnalyze = (

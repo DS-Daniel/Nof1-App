@@ -54,11 +54,27 @@
 		"remark": "Remarques (supposition & optimal)"
 	},
 	"statistics": {
+		"NaiveANOVA": "ANOVA naive",
+		"NaiveANOVA-long": "ANOVA naïve pour l'effet du traitement",
+		"NaiveANOVA-desc": "Ce test considère chaque observation comme indépendante.",
+		"CycleANOVA": "ANOVA avec effet de cycle",
+		"CycleANOVA-long": "ANOVA pour l'effet du traitement par cycle",
+		"CycleANOVA-desc": "Ce test permet de contraster les effets du traitement entre les cycles, éliminant ainsi le problème de la répétition.",
+		"ANCOVAautoregr": "ANCOVA Auto-régression",
+		"ANCOVAautoregr-long": "ANCOVA pour l'effet du traitement en tenant compte de l'auto-corrélation",
+		"ANCOVAautoregr-desc": "Ce test compare les réponses au traitement en tenant compte de l'auto-corrélation des observations (composante auto-régressive AR(1)).",
 		"var-analyse": "Analyse de la variable : {{variable}}",
+		"error": "Les données du patient ne sont pas complètes. Par conséquent, l'analyse ne peut pas être effectuée.",
 		"treatment": "Traitement",
 		"treat-effect": "Effect traitement (moyenne)",
 		"residual": "Résidus",
 		"total": "Total",
-		"total-mean": "Moyenne générale"
+		"total-mean": "Moyenne générale",
+		"cycle": "Cycle",
+		"treatXcycle": "Traitement x cycle",
+		"autoregression": "Auto-régression",
+		"slope": "Pente",
+		"intercept": "Intercept",
+		"correlation": "Corrélation"
 	}
 }
