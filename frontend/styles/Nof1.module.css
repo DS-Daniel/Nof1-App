@@ -3,6 +3,12 @@
 	margin: 18mm;
 }
 
+.recipient {
+  margin: 0;
+	max-height: calc(8 * 1.5rem);
+	overflow: auto;
+}
+
 .title {
 	text-align: center;
 	margin-top: 4rem;
