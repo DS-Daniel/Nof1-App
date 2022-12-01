@@ -1,5 +1,6 @@
 import {
   AdministrationSchema,
+  AnalyseType,
   ClinicalInfo,
   RandomizationStrategy,
   Substance,
@@ -43,6 +44,10 @@ export class CreateNof1TestDto {
   @IsNotEmpty()
   @IsNumber()
   periodLen: number;
+
+  @IsObject()
+  @IsNotEmptyObject()
+  statistics: { analysisToPerform: AnalyseType };
 
   @IsObject()
   @IsNotEmptyObject()

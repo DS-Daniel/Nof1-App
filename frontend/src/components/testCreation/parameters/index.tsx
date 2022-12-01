@@ -1,17 +1,20 @@
-import useTranslation from 'next-translate/useTranslation';
 import { Dispatch, SetStateAction } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { RandomizationStrategy as IRandomizationStrategy } from '../../../utils/nof1-lib/randomizationStrategy';
-import Substances from './Substances';
-import RandomizationStrategy from './RandomizationStrategy';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
+import Substances from './Substances';
+import Posologies from './Posologies';
+import RandomizationStrategy from './RandomizationStrategy';
+import SelectAnalysisType from '../../common/inputs/SelectAnalysisType';
 import { Substance } from '../../../entities/substance';
 import { SubstancePosologies } from '../../../entities/posology';
-import Posologies from './Posologies';
 import { maxValue } from '../../../utils/constants';
+import { RandomizationStrategy as IRandomizationStrategy } from '../../../utils/nof1-lib/randomizationStrategy';
+import { AnalyseType } from '../../../utils/statistics';
+import Box from '@mui/material/Box';
 
 export interface SubstancesProps {
 	substances: Substance[];
@@ -40,6 +43,8 @@ interface TestParametersProps
 	nbPeriods: number;
 	setNbPeriods: Dispatch<SetStateAction<number>>;
 	setPeriodLen: Dispatch<SetStateAction<number>>;
+	analysisToPerform: AnalyseType;
+	setAnalysisToPerform: Dispatch<SetStateAction<AnalyseType>>;
 }
 
 /**
@@ -56,6 +61,8 @@ export default function TestParameters({
 	setPeriodLen,
 	allPosologies,
 	setAllPosologies,
+	analysisToPerform,
+	setAnalysisToPerform,
 }: TestParametersProps) {
 	const { t } = useTranslation('createTest');
 	const nbPeriodsError = nbPeriods > maxValue;
@@ -92,7 +99,7 @@ export default function TestParameters({
 							}
 						/>
 					</Stack>
-					<Stack direction="row" alignItems="center" spacing={3}>
+					<Stack direction="row" alignItems="center" spacing={3} my={1}>
 						<Typography variant="body1">
 							{t('parameters.period-duration')}
 						</Typography>
@@ -111,6 +118,32 @@ export default function TestParameters({
 							}
 						/>
 					</Stack>
+					<Stack direction="row" alignItems="center" spacing={3} my={1}>
+						<Typography variant="body1">
+							{t('parameters.analysisToPerform')} :
+						</Typography>
+						<SelectAnalysisType
+							value={analysisToPerform}
+							onChange={(e) =>
+								setAnalysisToPerform(e.target.value as AnalyseType)
+							}
+						/>
+					</Stack>
+					<Box sx={{ paddingX: 3 }}>
+						<Typography>{t('common:statistics.type')}</Typography>
+						<Typography>
+							<b>{t('common:statistics.NaiveANOVA-long')}</b> :{' '}
+							{t('common:statistics.NaiveANOVA-desc')}
+						</Typography>
+						<Typography>
+							<b>{t('common:statistics.CycleANOVA-long')}</b> :{' '}
+							{t('common:statistics.CycleANOVA-desc')}
+						</Typography>
+						<Typography>
+							<b>{t('common:statistics.ANCOVAautoregr-long')}</b> :{' '}
+							{t('common:statistics.ANCOVAautoregr-desc')}
+						</Typography>
+					</Box>
 				</Grid>
 
 				<Grid item xs={12}>

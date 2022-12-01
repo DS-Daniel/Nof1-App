@@ -9,6 +9,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import { SubstancesProps } from '.';
 import { emptySubstance, Substance } from '../../../entities/substance';
+import { maxNbSubstances } from '../../../utils/constants';
 
 /**
  * Substances component. Renders the substances inputs.
@@ -113,7 +114,7 @@ export default function Substances({
 				variant="contained"
 				startIcon={<AddIcon />}
 				onClick={addSubstance}
-				disabled={!editable}
+				disabled={!editable || substances.length === maxNbSubstances}
 			>
 				{t('common:button.add')}
 			</Button>

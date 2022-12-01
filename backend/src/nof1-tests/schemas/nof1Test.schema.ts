@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import mongooseLeanGetters from 'mongoose-lean-getters';
 import {
   AdministrationSchema,
+  AnalyseType,
   ClinicalInfo,
   RandomizationStrategy,
   Substance,
@@ -44,6 +45,9 @@ class Nof1Test {
 
   @Prop({ required: true })
   periodLen: number;
+
+  @Prop({ type: Object, required: true })
+  statistics: { analysisToPerform: AnalyseType };
 
   @Prop({ type: Object, required: true })
   randomization: RandomizationStrategy;

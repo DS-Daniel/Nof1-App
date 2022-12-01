@@ -55,6 +55,7 @@ export class Variable {
   min?: string | number;
   max?: string | number;
   values?: string;
+  skippedRunInDays?: number;
 }
 
 export enum VariableType {
@@ -92,4 +93,10 @@ export class ClinicalInfo {
     genericSubstitutions: boolean;
     other: boolean;
   };
+}
+
+export enum AnalyseType {
+  NaiveANOVA = 'NaiveANOVA',
+  CycleANOVA = 'CycleANOVA',
+  ANCOVAautoregr = 'ANCOVAautoregr',
 }

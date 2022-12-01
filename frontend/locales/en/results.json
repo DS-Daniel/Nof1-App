@@ -15,7 +15,8 @@
 		"selected-posologies": "Selected posologies",
 		"admin-schema": "Administration schema",
 		"patient-data": "Records of patient's health variables",
-		"graph": "Quantitative variables charts"
+		"graph": "Quantitative variables charts",
+		"statistics": "Statistics"
 	},
 	"interrupted": "Test interrupted",
 	"period-duration": "Period duration :",
@@ -42,7 +43,14 @@
 		"sequence": "Medication schedule (after unblinding) :",
 		"method": "Method :",
 		"method-desc": "A statistical analysis compares symptoms, plotted in mm on 100 mm Visual Analog Scales (VAS, see graphs below) during each period, according to the treatment received.",
+		"method-choice": "Statistical analysis performed : {{analysis}}",
+		"method-choice2": "Initially planned statistical analysis : {{analysis}}",
 		"results": "Results :",
+		"result-table": {
+			"criterion": "Judging criterion",
+			"mean-sub": "Moyenne {{substance}} ({{unit}})",
+			"p-value": "P-value"
+		},
 		"conclusion": "Conclusion",
 		"conclusion-placeholder": "Write your conclusion here...",
 		"results-details": "Detailed results :"
@@ -51,5 +59,21 @@
 		"supposition": "Treatment supposition",
 		"optimal": "Optimal treatment",
 		"remark": "Remarks (supposition & optimal)"
+	},
+	"statistics": {
+		"var-analyse": "Analysis of variable : {{variable}}",
+		"warning": "Warning: patient data is not complete for this variable !",
+		"error": "The analysis cannot be performed",
+		"treatment": "Treatment",
+		"treat-effect": "Treatment effect (mean)",
+		"residual": "Residual",
+		"total": "Total",
+		"total-mean": "Total mean",
+		"cycle": "Cycle",
+		"treatXcycle": "Treatment x Cycle",
+		"autoregression": "Auto-regression",
+		"slope": "Slope",
+		"intercept": "Intercept",
+		"correlation": "Correlation"
 	}
 }

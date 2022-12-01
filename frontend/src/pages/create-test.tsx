@@ -23,6 +23,7 @@ import {
 	updateNof1Test,
 	updatePhysician,
 } from '../utils/apiCalls';
+import { AnalyseType } from '../utils/statistics';
 import TestParameters from '../components/testCreation/parameters';
 import Variables from '../components/testCreation/variables';
 import ClinicalInfo from '../components/testCreation/clinicalInfo';
@@ -66,6 +67,9 @@ export default function CreateTest() {
 	const [clinicalInfo, setClinicalInfo] = useState<IClinicalInfo>(
 		defaultClinicalInfo(),
 	);
+	const [analysisToPerform, setAnalysisToPerform] = useState(
+		AnalyseType.CycleANOVA,
+	);
 
 	// fills parameters in case of test edit or "new from template"
 	useEffect(() => {
@@ -88,6 +92,7 @@ export default function CreateTest() {
 			setNbPeriods(test.nbPeriods);
 			setPeriodLen(test.periodLen);
 			setStrategy(test.randomization);
+			setAnalysisToPerform(test.statistics.analysisToPerform);
 			setVariables(test.monitoredVariables);
 			if (edit === 'true') {
 				setAllPosologies(test.posologies);
@@ -153,6 +158,7 @@ export default function CreateTest() {
 			substances,
 			posologies: allPosologies,
 			monitoredVariables: variables,
+			statistics: { analysisToPerform },
 		};
 		return tmp;
 	};
@@ -327,9 +333,15 @@ export default function CreateTest() {
 					setPeriodLen={setPeriodLen}
 					allPosologies={allPosologies}
 					setAllPosologies={setAllPosologies}
+					analysisToPerform={analysisToPerform}
+					setAnalysisToPerform={setAnalysisToPerform}
 				/>
 
-				<Variables variables={variables} setVariables={setVariables} />
+				<Variables
+					variables={variables}
+					setVariables={setVariables}
+					periodLen={periodLen}
+				/>
 			</Stack>
 		</AuthenticatedPage>
 	);

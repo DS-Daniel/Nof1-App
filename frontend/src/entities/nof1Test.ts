@@ -1,4 +1,5 @@
 import { RandomizationStrategy } from '../utils/nof1-lib/randomizationStrategy';
+import { AnalyseType } from '../utils/statistics';
 import { IClinicalInfo } from './clinicalInfo';
 import { Patient, Pharmacy, Physician } from './people';
 import { PosologyDay, SubstancePosologies } from './posology';
@@ -32,6 +33,7 @@ export interface Nof1Test {
 	substances: Substance[];
 	posologies: SubstancePosologies[];
 	monitoredVariables: Variable[];
+	statistics: { analysisToPerform: AnalyseType };
 	meta_info?: {
 		creationDate: Date;
 		emailSendingDate?: Date;

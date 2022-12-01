@@ -4,6 +4,7 @@ import { Nof1Test } from '../../../entities/nof1Test';
 import { TestData } from '../../../entities/nof1Data';
 import { VariableType } from '../../../entities/variable';
 import { randomHexColor } from '../../../utils/charts';
+import { AnalyseType, anova } from '../../../utils/statistics';
 import CustomLineChart from '../lineChart/LineChart';
 import styles from './ReportToPrint.module.css';
 import dayjs from 'dayjs';
@@ -17,28 +18,45 @@ dayjs.extend(LocalizedFormat);
  * @param test N-of-1 test.
  * @returns An array of table row.
  */
-const generateRows = (test: Nof1Test) => {
+const generateRows = (
+	test: Nof1Test,
+	testData: TestData,
+	analysisType: AnalyseType,
+) => {
 	return test.monitoredVariables
 		.filter(
 			(variable) =>
 				variable.type === VariableType.Numeric ||
 				variable.type === VariableType.VAS,
 		)
-		.map((variable, idx) => [
-			<td key={`${variable.name}${idx++}`}>{variable.name}</td>,
-			[
-				...test.substances.flatMap(() => [
-					<td key={`${variable.name}${idx++}`}>{Math.random().toFixed(2)}</td>,
-					<td key={`${variable.name}${idx++}`}>{Math.random().toFixed(2)}</td>,
-				]),
-			],
-			<td key={`${variable.name}${idx++}`}>{Math.random().toFixed(2)}</td>,
-		]);
+		.map((variable, idx) => {
+			const stats = anova(
+				analysisType,
+				{
+					name: variable.name,
+					skippedRunInDays: variable.skippedRunInDays ?? 0,
+				},
+				test,
+				testData,
+			);
+			return [
+				<td key={`${variable.name}${idx++}`}>{variable.name}</td>,
+				[
+					...test.substances.map((_, idx) => (
+						<td key={`${variable.name}${idx++}`}>
+							{stats.treatment.effect[idx].toFixed(3)}
+						</td>
+					)),
+				],
+				<td key={`${variable.name}${idx++}`}>
+					{stats.treatment.P.toFixed(8)}
+				</td>,
+			];
+		});
 };
 
 interface EditableProps {
 	children?: ReactNode;
-	// defaultValue: string | JSX.Element;
 	style?: string;
 }
 
@@ -69,42 +87,10 @@ const EditableTextarea = ({ children, style }: EditableProps) => {
 	);
 };
 
-// const Editable = ({ defaultValue, style }: EditableProps) => {
-// 	return (
-// 		<p
-// 			className={`${styles.editable} ${style}`}
-// 			contentEditable={true}
-// 			suppressContentEditableWarning={true}
-// 			// only using children to set the default value and
-// 			// content only used when printing. Thus not a problem to
-// 			// loose/not track the changes (React independent).
-// 		>
-// 			{defaultValue}
-// 		</p>
-// 	);
-// };
-
-// const EditableSubtitle = ({ defaultValue, style }: EditableProps) => {
-// 	return (
-// 		<Editable
-// 			style={`${styles.subtitle} ${style}`}
-// 			defaultValue={defaultValue}
-// 		/>
-// 	);
-// };
-
-// const EditableTextarea = ({ defaultValue, style }: EditableProps) => {
-// 	return (
-// 		<Editable
-// 			style={`${styles.editableTextarea} ${style}`}
-// 			defaultValue={defaultValue}
-// 		/>
-// 	);
-// };
-
 interface ReportToPrintProps {
 	test: Nof1Test;
 	testData: TestData;
+	analysisType: AnalyseType;
 	logo: string | undefined;
 }
 
@@ -112,18 +98,36 @@ interface ReportToPrintProps {
  * Component that render the medical report to be printed.
  */
 const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
-	({ test, testData, logo }, ref) => {
+	({ test, testData, analysisType, logo }, ref) => {
 		const { t, lang } = useTranslation('results');
 		const substancesNames = test.substances.map((sub) => sub.name);
 		const headers = [
-			'Critère de jugement',
+			t('report.result-table.criterion'),
 			...test.substances.flatMap((sub) => [
-				`Moyenne ${sub.name}`,
-				'Intervalle',
+				t('report.result-table.mean-sub', {
+					substance: sub.name,
+					unit: sub.unit,
+				}),
 			]),
-			'Difference',
+			t('report.result-table.p-value'),
 		];
-		const rows = generateRows(test);
+		const rows = generateRows(test, testData, analysisType);
+
+		/**
+		 * Selects a traduction according to the type of analysis.
+		 * @param type Analysis type
+		 * @returns The traduction string.
+		 */
+		const selectTrad = (type: AnalyseType) => {
+			switch (type) {
+				case AnalyseType.NaiveANOVA:
+					return t('common:statistics.NaiveANOVA');
+				case AnalyseType.CycleANOVA:
+					return t('common:statistics.CycleANOVA');
+				case AnalyseType.ANCOVAautoregr:
+					return t('common:statistics.ANCOVAautoregr');
+			}
+		};
 
 		return (
 			<div ref={ref} className={styles.printContainer}>
@@ -134,35 +138,6 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 					)}
 				</div>
 				<header className={styles.head}>
-					{/* <EditableTextarea
-						style={styles.sender}
-						defaultValue={
-							<>
-								{test.nof1Physician.institution}
-								<br />
-								{test.nof1Physician.lastname} {test.nof1Physician.firstname}
-								<br />
-								{test.nof1Physician.address.street}
-								<br />
-								{test.nof1Physician.address.zip}{' '}
-								{test.nof1Physician.address.city}
-							</>
-						}
-					/>
-					<EditableTextarea
-						style={styles.recipient}
-						defaultValue={
-							<>
-								{test.nof1Physician.institution}
-								<br />
-								{test.physician.lastname} {test.physician.firstname}
-								<br />
-								{test.physician.address.street}
-								<br />
-								{test.physician.address.zip} {test.physician.address.city}
-							</>
-						}
-					/> */}
 					<EditableTextarea style={styles.sender}>
 						{test.participants.nof1Physician.institution}
 						<br />
@@ -187,19 +162,6 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 					</EditableTextarea>
 				</header>
 				<main>
-					{/* <Editable
-						style={styles.today}
-						defaultValue={t('report.today', {
-							city: test.participants.nof1Physician.address.city,
-							date: dayjs().locale(lang).format('LL'),
-						})}
-					/>
-					<EditableSubtitle
-						defaultValue={t('report.object', {
-							patient: `${test.patient.lastname} ${test.patient.firstname}`,
-							year: test.patient.birthYear,
-						})}
-					/> */}
 					<Editable style={styles.today}>
 						{t('report.today', {
 							city: test.participants.nof1Physician.address.city,
@@ -223,20 +185,9 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 								periodLen: test.periodLen,
 							})}
 						</EditableTextarea>
-						{/* <Editable defaultValue={t('report.dear')} />
-						<EditableTextarea
-							defaultValue={t('report.intro', {
-								startDate: dayjs(test.beginningDate).locale(lang).format('LL'),
-								endDate: dayjs(test.endingDate).locale(lang).format('LL'),
-								substances: `[${substancesNames.join(', ')}]`,
-								nbPeriods: test.nbPeriods,
-								periodLen: test.periodLen,
-							})}
-						/> */}
 					</section>
 
 					<section>
-						{/* <EditableSubtitle defaultValue={t('report.sequence')} /> */}
 						<EditableSubtitle>{t('report.sequence')}</EditableSubtitle>
 						<p>
 							{t('period-duration')} {test.periodLen} {t('common:days')}.
@@ -259,14 +210,23 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 					</section>
 
 					<section>
-						{/* <EditableSubtitle defaultValue={t('report.method')} />
-						<EditableTextarea defaultValue={t('report.method-desc')} /> */}
 						<EditableSubtitle>{t('report.method')}</EditableSubtitle>
 						<EditableTextarea>{t('report.method-desc')}</EditableTextarea>
+						{analysisType !== test.statistics.analysisToPerform && (
+							<p>
+								{t('report.method-choice2', {
+									analysis: selectTrad(test.statistics.analysisToPerform),
+								})}
+							</p>
+						)}
+						<p>
+							{t('report.method-choice', {
+								analysis: selectTrad(analysisType),
+							})}
+						</p>
 					</section>
 
 					<section className={styles.avoidBreak}>
-						{/* <EditableSubtitle defaultValue={t('report.results')} /> */}
 						<EditableSubtitle>{t('report.results')}</EditableSubtitle>
 						<table className={styles.resultTable}>
 							<thead>
@@ -285,21 +245,6 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 					</section>
 
 					<section className={styles.avoidBreak}>
-						{/* <EditableSubtitle defaultValue={t('report.conclusion')} />
-						<EditableTextarea
-							style={styles.conclusion}
-							defaultValue={t('report.conclusion-placeholder')}
-						/>
-						<div className={styles.signatures}>
-							<Editable style={styles.signature} defaultValue={''} />
-							<Editable style={styles.signature} defaultValue={''} />
-							<Editable style={styles.signature} defaultValue={''} />
-							<Editable style={styles.signature} defaultValue={''} />
-							<Editable
-								style={styles.signature}
-								defaultValue={`Dr. ${test.participants.nof1Physician.firstname[0]}. ${test.participants.nof1Physician.lastname}`}
-							/>
-						</div> */}
 						<EditableSubtitle>{t('report.conclusion')}</EditableSubtitle>
 						<EditableTextarea style={styles.conclusion}>
 							{t('report.conclusion-placeholder')}
@@ -314,12 +259,9 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 								{test.participants.nof1Physician.lastname}
 							</Editable>
 						</div>
-						{/* <textarea className={styles.textareaInput} /> */}
 					</section>
 
 					<section>
-						{/* <EditableSubtitle defaultValue={t('report.results-details')} />
-						<Editable defaultValue={t('graph-title') + ' :'} /> */}
 						<EditableSubtitle>{t('report.results-details')}</EditableSubtitle>
 						<Editable>{t('title.graph')} :</Editable>
 						{testData ? (
@@ -350,10 +292,6 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 					</section>
 				</main>
 				<div>
-					{/* <EditableTextarea
-						style={styles.conclusion}
-						defaultValue={'copie à / annexe'}
-					/> */}
 					<EditableTextarea style={styles.conclusion}>
 						{' '}
 						copie à / annexe

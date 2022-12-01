@@ -29,7 +29,7 @@ export default function QualitativeFormInputs({
 				<TextField
 					autoFocus
 					id="values"
-					label={t('variables.header-values')}
+					label={t('variables.header.values')}
 					type="text"
 					fullWidth
 					inputRef={inputRef}
