@@ -14,12 +14,14 @@ import { Nof1Test } from '../../../entities/nof1Test';
 import { TestData } from '../../../entities/nof1Data';
 import { useReactToPrint } from 'react-to-print';
 import ReportToPrint from './ReportToPrint';
+import { AnalyseType } from '../../../utils/statistics';
 
 interface MedicalReportModalProps {
 	open: boolean;
 	handleClose: () => void;
 	item: Nof1Test;
 	testData: TestData;
+  analysisType: AnalyseType;
 }
 
 /**
@@ -30,6 +32,7 @@ export default function MedicalReportModal({
 	handleClose,
 	item,
 	testData,
+	analysisType,
 }: MedicalReportModalProps) {
 	const { t } = useTranslation('results');
 	const componentRef = useRef(null);
@@ -120,6 +123,7 @@ export default function MedicalReportModal({
 						ref={componentRef}
 						test={item}
 						testData={testData}
+						analysisType={analysisType}
 						logo={file}
 					/>
 				</Paper>

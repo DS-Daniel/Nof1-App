@@ -43,7 +43,14 @@
 		"sequence": "Medication schedule (after unblinding) :",
 		"method": "Method :",
 		"method-desc": "A statistical analysis compares symptoms, plotted in mm on 100 mm Visual Analog Scales (VAS, see graphs below) during each period, according to the treatment received.",
+		"method-choice": "Statistical analysis performed : {{analysis}}",
+		"method-choice2": "Initially planned statistical analysis : {{analysis}}",
 		"results": "Results :",
+		"result-table": {
+			"criterion": "Judging criterion",
+			"mean-sub": "Moyenne {{substance}} ({{unit}})",
+			"p-value": "P-value"
+		},
 		"conclusion": "Conclusion",
 		"conclusion-placeholder": "Write your conclusion here...",
 		"results-details": "Detailed results :"

@@ -24,7 +24,6 @@ import AuthenticatedPage from '../components/layout/AuthenticatedPage';
 import AdministrationTable from '../components/results/AdministrationTable';
 import PatientDataTable from '../components/results/PatientDataTable';
 import SelectedPosologies from '../components/results/SelectedPosologies';
-import MedicalReportModal from '../components/results/medicalReport';
 import Statistics from '../components/results/statistics';
 import FailSnackbar from '../components/common/FailSnackbar';
 import MenuContainer from '../components/common/MenuContainer';
@@ -284,7 +283,12 @@ export default function Results() {
 
 							<Typography variant="h5">{t('title.statistics')}</Typography>
 							{testData ? (
-								<Statistics test={test} testData={testData} />
+								<Statistics
+									test={test}
+									testData={testData}
+									openReport={openReportModal}
+									closeReport={() => setOpenReportModal(false)}
+								/>
 							) : (
 								<Typography>{t('no-data')}</Typography>
 							)}
@@ -306,14 +310,6 @@ export default function Results() {
 						setOpen={setOpenRecapModal}
 						item={test}
 					/>
-					{testData && (
-						<MedicalReportModal
-							open={openReportModal}
-							handleClose={() => setOpenReportModal(false)}
-							item={test}
-							testData={testData}
-						/>
-					)}
 				</>
 			)}
 			<FailSnackbar

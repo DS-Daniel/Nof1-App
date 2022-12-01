@@ -43,7 +43,14 @@
 		"sequence": "Agenda des médications (après levée de l'insu) :",
 		"method": "Méthode :",
 		"method-desc": "Une analyse statistique compare les symptômes, reportés en mm sur des Visual Analog Scales de 100 mm (VAS, cf. graphiques ci-dessous) durant chaque période, en fonction du traitement reçu.",
+		"method-choice": "Analyse statistique effectuée : {{analysis}}",
+		"method-choice2": "Analyse statistique initialement planifiée : {{analysis}}",
 		"results": "Résultats :",
+    "result-table": {
+      "criterion" : "Critère de jugement",
+      "mean-sub": "Moyenne {{substance}} ({{unit}})",
+      "p-value": "Valeur P"
+    },
 		"conclusion": "Conclusion",
 		"conclusion-placeholder": "Écrivez votre conclusion ici...",
 		"results-details": "Résultats détaillés:"

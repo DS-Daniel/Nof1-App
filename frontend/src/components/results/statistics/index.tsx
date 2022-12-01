@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation';
 import CycleANOVA from './CycleANOVA';
 import StatsTable from './StatsTable';
 import ANCOVAautoregr from './ANCOVAautoregr';
+import MedicalReportModal from '../medicalReport';
 import SelectAnalysisType from '../../common/inputs/SelectAnalysisType';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { TestData } from '../../../entities/nof1Data';
@@ -14,12 +15,19 @@ import Typography from '@mui/material/Typography';
 interface StatisticsProps {
 	test: Nof1Test;
 	testData: TestData;
+	openReport: boolean;
+	closeReport: () => void;
 }
 
 /**
  * Component rendering the statistical analysis on the N-of-1 data.
  */
-export default function Statistics({ test, testData }: StatisticsProps) {
+export default function Statistics({
+	test,
+	testData,
+	openReport,
+	closeReport,
+}: StatisticsProps) {
 	const { t } = useTranslation('results');
 	const [statsType, setStatsType] = useState<AnalyseType>(
 		test.statistics.analysisToPerform,
@@ -133,6 +141,13 @@ export default function Statistics({ test, testData }: StatisticsProps) {
 						})}
 					</Stack>
 				))}
+			<MedicalReportModal
+				open={openReport}
+				handleClose={closeReport}
+				item={test}
+				testData={testData}
+				analysisType={statsType}
+			/>
 		</div>
 	);
 }
