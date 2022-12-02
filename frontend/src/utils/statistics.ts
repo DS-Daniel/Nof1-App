@@ -116,6 +116,9 @@ export interface Stats {
  * @param test N-of-1 test.
  * @param testData N-of-1 test's data.
  * @returns The statistical analysis.
+ * @throws An Error when selecting the cycle ANOVA and the randomization strategy
+ * chosen is not the permutation strategy or the custom strategy (which should
+ * be consistent with the permutation strategy).
  */
 export const anova = (
 	typeOfAnalysis: AnalyseType,
@@ -127,7 +130,10 @@ export const anova = (
 		case AnalyseType.NaiveANOVA:
 			return naiveANOVA(test.substances, test.periodLen, testData, variable);
 		case AnalyseType.CycleANOVA:
-			if (test.randomization.strategy !== RandomStrategy.Permutations)
+			if (
+				test.randomization.strategy !== RandomStrategy.Permutations &&
+				test.randomization.strategy !== RandomStrategy.Custom
+			)
 				throw Error('Not allowed with the randomization strategy chosen');
 			return cycleANOVA(
 				test.substances,

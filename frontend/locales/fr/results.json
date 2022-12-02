@@ -62,8 +62,10 @@
 	},
 	"statistics": {
 		"var-analyse": "Analyse de la variable : {{variable}}",
-    "warning": "Attention : les données du  patient ne sont pas complètes pour cette variable !",
+		"warning": "Attention : les données du  patient ne sont pas complètes pour cette variable !",
 		"error": "L'analyse ne peut pas être effectuée.",
+		"warning-custom-strategy": "Cette analyse n'est valable que si votre séquence d'administration des substances prédéfinie est conforme à la stratégie de permutation (qui est définie lors de la création du test, à savoir, une alternance des séquences de permutation des substances) !",
+		"error-strategy": "Cette analyse n'est pas autorisée avec la stratégie de randomisation choisie !",
 		"treatment": "Traitement",
 		"treat-effect": "Effect traitement (moyenne)",
 		"residual": "Résidus",

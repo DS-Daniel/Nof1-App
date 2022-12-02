@@ -64,6 +64,8 @@
 		"var-analyse": "Analysis of variable : {{variable}}",
 		"warning": "Warning: patient data is not complete for this variable !",
 		"error": "The analysis cannot be performed",
+		"warning-custom-strategy": "This analysis is only valid if your predefined substance administration sequence complies with the permutation strategy (which is defined when creating the test, i.e. alternating substance permutation sequences) !",
+		"error-strategy": "This analysis is not allowed with the chosen randomization strategy !",
 		"treatment": "Treatment",
 		"treat-effect": "Treatment effect (mean)",
 		"residual": "Residual",
