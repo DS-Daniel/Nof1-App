@@ -8,12 +8,9 @@ dayjs.extend(localizedFormat);
 
 describe('Nof1 lib - administrationSchema function', () => {
 	const substances = [
-		{ name: 'Placebo', abbreviation: 'P', unit: 'ml' },
-		{ name: 'Aspirine', abbreviation: 'A', unit: 'g' },
-	];
-	const posologies = [
 		{
-			substance: 'Placebo',
+			name: 'Placebo',
+			abbreviation: 'P',
 			unit: 'ml',
 			posology: {
 				posology: [
@@ -55,7 +52,8 @@ describe('Nof1 lib - administrationSchema function', () => {
 			},
 		},
 		{
-			substance: 'Aspirine',
+			name: 'Aspirine',
+			abbreviation: 'A',
 			unit: 'g',
 			posology: {
 				posology: [
@@ -97,15 +95,10 @@ describe('Nof1 lib - administrationSchema function', () => {
 			},
 		},
 	];
+
 	it('should generate an administration schema correctly, without repetition', () => {
 		const seq = ['P', 'A', 'P'];
-		const schema = generateAdministrationSchema(
-			substances,
-			seq,
-			posologies,
-			3,
-			3,
-		);
+		const schema = generateAdministrationSchema(substances, seq, 3, 3);
 		let day = 0;
 		const res: AdministrationSchema = [
 			{
@@ -232,13 +225,7 @@ describe('Nof1 lib - administrationSchema function', () => {
 
 	it('should generate an administration schema correctly, with repetition', () => {
 		const seq = ['P', 'A', 'A'];
-		const schema = generateAdministrationSchema(
-			substances,
-			seq,
-			posologies,
-			3,
-			3,
-		);
+		const schema = generateAdministrationSchema(substances, seq, 3, 3);
 		let day = 0;
 		const res: AdministrationSchema = [
 			{

@@ -16,7 +16,7 @@ import {
  * @param name Cell content.
  * @returns The TableCell component.
  */
-const renderTableCell = (name: string | number | VariableType | undefined) => {
+const renderTableCell = (name: string | number | undefined) => {
 	return (
 		<TableCell align="center">
 			<Typography variant="body2">{name}</Typography>
@@ -35,14 +35,35 @@ export default function RecapVariables({ variables }: RecapVariablesProps) {
 	const { t } = useTranslation('createTest');
 
 	const varTableHeaders = [
-		t('variables.header-name'),
-		t('variables.header-type'),
-		t('variables.header-desc'),
-		t('variables.header-unit'),
-		t('variables.header-min'),
-		t('variables.header-max'),
-		t('variables.header-values'),
+		t('variables.header.name'),
+		t('variables.header.type'),
+		t('variables.header.desc'),
+		t('variables.header.unit'),
+		t('variables.header.min'),
+		t('variables.header.max'),
+		t('variables.header.values'),
+		t('variables.header.skip'),
 	];
+
+	/**
+	 * Selects a traduction according to the variable's type.
+	 * @param type Variable's type
+	 * @returns The traduction string.
+	 */
+	const selectTrad = (type: VariableType) => {
+		switch (type) {
+			case VariableType.Text:
+				return t('variables.types.txt');
+			case VariableType.VAS:
+				return t('variables.types.vas');
+			case VariableType.Binary:
+				return t('variables.types.binary');
+			case VariableType.Numeric:
+				return t('variables.types.numeric');
+			case VariableType.Qualitative:
+				return t('variables.types.qualitative');
+		}
+	};
 
 	return (
 		<Stack spacing={3}>
@@ -65,12 +86,13 @@ export default function RecapVariables({ variables }: RecapVariablesProps) {
 							// iterate over object properties does not guarantee right ordering
 							<TableRow key={variable.name}>
 								{renderTableCell(variable.name)}
-								{renderTableCell(variable.type)}
+								{renderTableCell(selectTrad(variable.type))}
 								{renderTableCell(variable.desc)}
 								{renderTableCell(variable.unit)}
 								{renderTableCell(variable.min)}
 								{renderTableCell(variable.max)}
 								{renderTableCell(variable.values)}
+								{renderTableCell(variable.skippedRunInDays)}
 							</TableRow>
 						))}
 					</TableBody>

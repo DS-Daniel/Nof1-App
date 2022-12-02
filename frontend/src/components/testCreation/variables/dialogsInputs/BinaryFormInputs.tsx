@@ -29,7 +29,7 @@ export default function BinaryFormInputs({
 				<TextField
 					autoFocus
 					id="min"
-					label={t('variables.header-0')}
+					label={t('variables.header.0')}
 					type="text"
 					fullWidth
 					inputRef={inputRefMin}
@@ -40,7 +40,7 @@ export default function BinaryFormInputs({
 				<TextField
 					autoFocus
 					id="max"
-					label={t('variables.header-1')}
+					label={t('variables.header.1')}
 					type="text"
 					fullWidth
 					inputRef={inputRefMax}

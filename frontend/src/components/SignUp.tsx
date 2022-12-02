@@ -5,15 +5,15 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Alert from '@mui/material/Alert';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { formatRegisterData } from '../utils/dataFormConvertor';
+import useTranslation from 'next-translate/useTranslation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRegisterSchema, RegisterForm } from '../utils/zodValidationHook';
-import Alert from '@mui/material/Alert';
+import { formatRegisterData } from '../utils/dataFormConvertor';
 import { authenticate } from '../utils/apiCalls';
-import useTranslation from 'next-translate/useTranslation';
 import { UserContextType } from '../context/UserContext';
 import Captcha from '../components/common/Captcha';
 import CaptchaSS from './common/CaptchaSS';
@@ -55,7 +55,7 @@ export default function SignUp({ login }: SignUpProps) {
 	};
 
 	/**
-	 * Handles submit of the form. It call the API to register the user.
+	 * Handles submit of the form. It calls the API to register the user.
 	 * @param data Data from the form.
 	 */
 	const onSubmitHandler: SubmitHandler<RegisterForm> = async (data) => {

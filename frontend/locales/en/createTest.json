@@ -7,7 +7,9 @@
 		"title": "Participants information",
 		"pharmacy": "Partner pharmacy",
 		"patient": "Patient",
-		"physician": "Attending physician",
+		"requestingPhysician": "Physician requesting the N-of-1 test",
+		"attendingPhysician": "Attending physician",
+		"btn-add-attendingPhysician": "Add an attending physician",
 		"nof1-physician": "Physician responsible of the N-of-1 test",
 		"findPatient": "Find a patient by ID",
 		"findPhysician": "Find a physician by ID"
@@ -24,11 +26,11 @@
 		"period-duration": "Period duration (in days)",
 		"subtitle-randomStrategy": "Randomization strategy of the administration scheme",
 		"randomStrategy-desc": "Choose the strategy that will be used to alternate the administration of the different substances selected.",
-		"RS-permutation": "Random repetition of sequence of permutations of all substances",
-		"RS-permutation-helper": "For example with 2 selected substances, A and B. It will be a repetition of the permutation sequences AB or BA. Example : AB AB BA ...\nWith 3 substances: A, B and C. It will be a repetition of the permutation sequences ABC, ACB, BCA, etc...\nAnd so on.",
+		"RS-permutation": "Random repetition of the permutation sequences of all substances",
+		"RS-permutation-helper": "For example with 2 selected substances, A and B. It will be a repetition of the permutation sequences AB or BA.\nExample : AB AB BA ...\nWith 3 substances: A, B and C. It will be a repetition of the permutation sequences ABC, ACB, BCA, etc...\nAnd so on.",
 		"RS-random-max-rep": "Random, but with a maximum number of consecutive repetitions of the same substance",
 		"RS-random-max-rep-N": "Max number of repetitions",
-		"RS-random": "Totally random",
+		"RS-custom": "Predefined sequence. Please use the abbreviations of the substances and separate them by \";\"\nPlease note that the abbreviations and the number of periods must be respected!",
 		"subtitle-posology": "Dosage schedules",
 		"posology-desc": "Indicate the total expected morning, noon, evening and night doses for the selected substances.\nThe \"Fraction(s)*\" columns are used to indicate how many parts (capsules, tablets, etc) the dose should be divided into, in order to allow for spontaneous adaptation when taking the medication. Example: if the morning dose = 100mg and fraction(s) = 2, then the system will provide for a preparation of 2 doses of 50mg.",
 		"substance-x": "Substance: {{substance}}",
@@ -43,19 +45,23 @@
 			"title": "Decreasing posology",
 			"desc": "Add a decreasing dosage during the next period if the treatment changes, in order to avoid a withdrawal syndrome of the current substance when changing periods ?\n(It will be continued the next period with another substance)",
 			"btn": "Add a decreasing posology"
-		}
+		},
+		"analysisToPerform": "Statistical analysis to perform"
 	},
 	"variables": {
 		"title": "Variables to monitor",
-		"header-name": "Name",
-		"header-type": "Type",
-		"header-desc": "Description / question",
-		"header-unit": "Unit",
-		"header-min": "Min",
-		"header-max": "Max",
-		"header-0": "Negative label (0)",
-		"header-1": "Positive label (1)",
-		"header-values": "Values (qualitative)",
+		"header": {
+			"name": "Name",
+			"type": "Type",
+			"desc": "Description / question",
+			"unit": "Unit",
+			"min": "Min",
+			"max": "Max",
+			"0": "Negative label (0)",
+			"1": "Positive label (1)",
+			"values": "Values (qualitative)",
+			"skip": "Skipped run-in days for analysis"
+		},
 		"types": {
 			"txt": "Textual",
 			"vas": "VAS",
@@ -82,7 +88,9 @@
 			"remarks-desc": "General remarks :"
 		},
 		"modal-title": "Parameters of the variable to monitor",
-		"error-already-exist": "This variable already exists"
+		"error-already-exist": "This variable already exists",
+		"error-min0": "Minimum 0",
+		"error-max": "Cannot exceed the period's length"
 	},
 	"clinicalInfo": {
 		"title": "Clinical information",

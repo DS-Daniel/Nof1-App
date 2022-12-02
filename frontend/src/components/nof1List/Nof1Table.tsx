@@ -6,14 +6,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { getComparator, Order } from '../../utils/tableSorting';
-import EnhancedTableHead, { HeadCell } from '../common/table/EnhancedTableHead';
-import { useState } from 'react';
+import Skeleton from '@mui/material/Skeleton';
+import { useState, MouseEvent, ChangeEvent } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 import Nof1TableItem from './Nof1TableItem';
+import EnhancedTableHead, { HeadCell } from '../common/table/EnhancedTableHead';
+import { getComparator, Order } from '../../utils/tableSorting';
 import { Nof1Test } from '../../entities/nof1Test';
 import { Nof1TableInterface } from '../../pages/nof1';
-import useTranslation from 'next-translate/useTranslation';
-import Skeleton from '@mui/material/Skeleton';
+import { useUserContext } from '../../context/UserContext';
 
 const rowsPerPageOptions = [5, 10, 15];
 
@@ -39,6 +40,7 @@ export default function Nof1Table({
 		useState<keyof Nof1TableInterface>('creationDate');
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
+	const { userContext } = useUserContext();
 
 	/**
 	 * Sorts the table according to the property clicked.
@@ -46,7 +48,7 @@ export default function Nof1Table({
 	 * @param property Property which define the order.
 	 */
 	const handleRequestSort = (
-		event: React.MouseEvent<unknown>,
+		event: MouseEvent<unknown>,
 		property: keyof Nof1TableInterface,
 	) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -67,9 +69,7 @@ export default function Nof1Table({
 	 * Changes the number of rows displayed by the table.
 	 * @param event HTML event containing the number of rows.
 	 */
-	const handleChangeRowsPerPage = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
+	const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
 	};
@@ -104,43 +104,53 @@ export default function Nof1Table({
 							onRequestSort={handleRequestSort}
 						/>
 						<TableBody>
-							{rows
-								.slice()
-								.sort(getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
-									const labelId = `enhanced-table-${index}`;
-									return (
-										<Nof1TableItem
-											item={getItemData(row.id)}
-											labelId={labelId}
-											key={row.id}
-										/>
-									);
-								})}
-							{
-								/* row padding to keep table aspect ratio */
-								emptyRows > 0 && (
-									<TableRow
-										style={{
-											height: 125 * emptyRows,
-										}}
-									>
-										<TableCell colSpan={6} />
+							{loading ? (
+								Array.from({
+									length: Math.min(
+										rowsPerPageOptions[0],
+										userContext.user?.tests?.length ?? 1,
+									),
+								}).map((_, idx) => (
+									<TableRow key={idx} style={{ height: 125 }}>
+										<TableCell colSpan={3} height="100%">
+											<Skeleton
+												variant="rectangular"
+												animation="wave"
+												height={90}
+                        width="100%"
+											/>
+										</TableCell>
 									</TableRow>
-								)
-							}
-							{loading && (
-								<TableRow style={{ height: 125 }}>
-									<TableCell colSpan={6} height="100%">
-										<Skeleton
-											variant="rectangular"
-											animation="wave"
-											width={'100%'}
-											height={'100%'}
-										/>
-									</TableCell>
-								</TableRow>
+								))
+							) : (
+								<>
+									{rows
+										.slice()
+										.sort(getComparator(order, orderBy))
+										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										.map((row, index) => {
+											const labelId = `enhanced-table-${index}`;
+											return (
+												<Nof1TableItem
+													item={getItemData(row.id)}
+													labelId={labelId}
+													key={row.id}
+												/>
+											);
+										})}
+									{
+										/* row padding to keep table aspect ratio */
+										emptyRows > 0 && (
+											<TableRow
+												style={{
+													height: 125 * emptyRows,
+												}}
+											>
+												<TableCell colSpan={6} />
+											</TableRow>
+										)
+									}
+								</>
 							)}
 						</TableBody>
 					</Table>

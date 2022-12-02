@@ -103,5 +103,17 @@
 		"warning2": "Préférez une impression direct si ces paramètres ne sont pas modifiables lors de l'enregistrement en PDF (c'est par exemple le cas pour Chrome. FireFox et Edge permettent une impression en PDF qui respectent les dimensions)."
 	},
 	"yes": "Oui",
-	"no": "Non"
+	"no": "Non",
+  "statistics": {
+    "type": "Analyses possible :",
+		"NaiveANOVA": "ANOVA naive",
+		"NaiveANOVA-long": "ANOVA naïve pour l'effet du traitement",
+		"NaiveANOVA-desc": "Ce test considère chaque observation comme indépendante.",
+		"CycleANOVA": "ANOVA avec effet de cycle",
+		"CycleANOVA-long": "ANOVA pour l'effet du traitement par cycle",
+		"CycleANOVA-desc": "Ce test permet de contraster les effets du traitement entre les cycles, éliminant ainsi le problème de la répétition.",
+		"ANCOVAautoregr": "ANCOVA Auto-régression",
+		"ANCOVAautoregr-long": "ANCOVA pour l'effet du traitement en tenant compte de l'auto-corrélation",
+		"ANCOVAautoregr-desc": "Ce test compare les réponses au traitement en tenant compte de l'auto-corrélation des observations (composante auto-régressive AR(1))."
+	}
 }

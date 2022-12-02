@@ -29,10 +29,9 @@ export const generateXLSX = async (
 	});
 
 	// use last header row to determine column widths.
-	const colsWidth = headers[headers.length - 1].map((h) => ({
+	worksheet['!cols'] = headers[headers.length - 1].map((h) => ({
 		wch: Math.max(h.length, defaultCellWidth),
 	}));
-	worksheet['!cols'] = colsWidth;
 
 	utils.book_append_sheet(workbook, worksheet, filename);
 
@@ -196,10 +195,9 @@ const wsParticipants = (
 	];
 	const wsParticipants = utils.aoa_to_sheet(participants);
 	// determine column cell width
-	const wsColsWidth = patientInfos[1].map((e) => ({
+	wsParticipants['!cols'] = patientInfos[1].map((e) => ({
 		wch: Math.max(e.length, defaultCellWidth),
 	}));
-	wsParticipants['!cols'] = wsColsWidth;
 
 	return wsParticipants;
 };
@@ -228,10 +226,9 @@ const wsAdministrationSchema = (
 		{ s: { c: 12, r: 0 }, e: { c: 14, r: 0 } }, // M1:O1
 	];
 	// determine column widths using last header row
-	const wsColsW = lastHeader.map((h) => ({
+	wsSchema['!cols'] = lastHeader.map((h) => ({
 		wch: Math.max(h.length, defaultCellWidth),
 	}));
-	wsSchema['!cols'] = wsColsW;
 
 	// data
 	utils.sheet_add_json(wsSchema, schema, {

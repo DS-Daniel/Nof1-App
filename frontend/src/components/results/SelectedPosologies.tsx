@@ -10,7 +10,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExportToolbar from './ExportToolbar';
 import CustomTooltip from '../common/CustomTooltip';
 import PosologyTable from '../common/table/posologyTable';
-import { PosologyDay, SubstancePosology } from '../../entities/posology';
+import { PosologyDay } from '../../entities/posology';
+import { Substance } from '../../entities/substance';
 
 /**
  * Formate the posologies array for the xlsx export.
@@ -32,14 +33,14 @@ const formateRows = (posology: PosologyDay[]) => {
 };
 
 interface SelectedPosologiesProps {
-	posologies: SubstancePosology[];
+	substances: Substance[];
 }
 
 /**
  * Component to display the posologies tables for all substances.
  */
 export default function SelectedPosologies({
-	posologies,
+	substances,
 }: SelectedPosologiesProps) {
 	const { t } = useTranslation('common');
 
@@ -64,16 +65,18 @@ export default function SelectedPosologies({
 			</AccordionSummary>
 			<AccordionDetails sx={{ padding: 0 }}>
 				<Stack spacing={2}>
-					{posologies.map(({ substance, unit, posology }, index) => (
+					{substances.map(({ name, unit, posology }, index) => (
 						<div key={`substance-posology-${index}`}>
 							<Typography fontStyle="italic" fontWeight="bold" mb={1} pl={1}>
-								{substance} :
+								{name} :
 							</Typography>
 							<Paper variant="outlined">
 								<ExportToolbar
 									data={{
-										filename: t('results:xlsx.file-posology-x', { substance }), // filename max length = 31 chars
-										rows: formateRows(posology.posology),
+										filename: t('results:xlsx.file-posology-x', {
+											substance: name,
+										}), // filename max length = 31 chars
+										rows: formateRows(posology!.posology),
 										headers: [xlsxHeaders(unit)],
 									}}
 									info={
@@ -85,11 +88,11 @@ export default function SelectedPosologies({
 									}
 								/>
 								<PosologyTable
-									posology={posology.posology}
+									posology={posology!.posology}
 									substanceUnit={unit}
 								/>
 								<Stack direction="row" alignItems="center" spacing={2}>
-									<Radio checked={posology.repeatLast} />
+									<Radio checked={posology!.repeatLast} />
 									<Typography>{t('results:posology-repeat')}</Typography>
 								</Stack>
 							</Paper>

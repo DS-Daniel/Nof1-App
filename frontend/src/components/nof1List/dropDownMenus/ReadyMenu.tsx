@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
 import useTranslation from 'next-translate/useTranslation';
-import MenuContainer from './MenuContainer';
+import MenuOptions from './MenuOptions';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { usePharmaEmailInfos } from '../../../utils/customHooks';
@@ -32,7 +32,11 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 		recapTxt,
 		comments,
 		emailSubject,
-	} = usePharmaEmailInfos(item.patient, item.physician, item.nof1Physician);
+	} = usePharmaEmailInfos(
+		item.participants.patient,
+		item.participants.requestingPhysician,
+		item.participants.nof1Physician,
+	);
 
 	const menuItems = [
 		{
@@ -50,9 +54,15 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 	 */
 	const sendPharmaEmailCB = async (email: string) => {
 		// update email if different
-		if (email !== item.pharmacy.email) {
+		if (email !== item.participants.pharmacy.email) {
 			updateNof1Test(userContext.access_token, item.uid!, {
-				pharmacy: { ...item.pharmacy, email: email },
+				participants: {
+					...item.participants,
+					pharmacy: {
+						...item.participants.pharmacy,
+						email: email,
+					},
+				},
 			});
 		}
 
@@ -79,12 +89,12 @@ export default function ReadyMenu({ item }: ReadyMenuProps) {
 
 	return (
 		<>
-			<MenuContainer name={t('optionsMenu')} items={menuItems} test={item} />
+			<MenuOptions name={t('optionsMenu')} items={menuItems} test={item} />
 			<EmailConfirmDialog
 				open={openPharmaEmailDialog}
 				handleClose={() => setOpenPharmaEmailDialog(false)}
 				handleDialogSubmit={(email) => sendPharmaEmailCB(email)}
-				email={item.pharmacy.email}
+				email={item.participants.pharmacy.email}
 			/>
 			<SuccessSnackbar
 				open={openEmailSuccessSB}

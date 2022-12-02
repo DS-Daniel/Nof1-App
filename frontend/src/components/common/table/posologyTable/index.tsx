@@ -12,6 +12,7 @@ import {
 /**
  * Helper method to render a TableCell component.
  * @param value Cell content.
+ * @param borderRight Display a right border.
  * @returns The TableCell component.
  */
 const renderTableCell = (value: number, borderRight: boolean = false) => {

@@ -10,7 +10,10 @@ interface OptionBtnProps extends ButtonProps {
 }
 
 /**
- * Custom button for the options.
+ * Custom Button component for the options button.
+ * @param children ReactElement.
+ * @param tooltipText Text for the tooltip component.
+ * @param width Button width.
  * @param props Button props.
  * @returns A Button component.
  */

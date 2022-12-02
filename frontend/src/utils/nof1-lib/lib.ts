@@ -1,8 +1,5 @@
 import dayjs from 'dayjs';
-import {
-	SubstancePosologies,
-	SubstancePosology,
-} from '../../entities/posology';
+import { SubstancePosologies } from '../../entities/posology';
 import { Substance } from '../../entities/substance';
 import {
 	AdministrationSchema,
@@ -10,7 +7,9 @@ import {
 	TestStatus,
 } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
+import { Patient, PersonCommon, Physician } from '../../entities/people';
 import {
+	CustomSequence,
 	getRandomElemFromArray,
 	MaxRep,
 	Permutation,
@@ -22,21 +21,19 @@ import { pharmaXlsx, formatSchema, substancesRecap } from '../xlsx';
 import { sendPharmaEmail } from '../apiCalls';
 
 /**
- * For each substance in the passed array, selects a random posology from all
- * of the posologies of the substance.
+ * Selects a random posology from all the substance's posologies.
  * @param allPosologies Array of substances and their posologies.
- * @returns An array of objects containing the substance and its selected posology.
+ * @param substance Substance's name.
+ * @returns An array containing the selected posology.
  */
-export const selectRandomPosology = (allPosologies: SubstancePosologies[]) => {
-	const selectedPosology: SubstancePosology[] = [];
-	allPosologies.forEach(({ substance, unit, posologies }) => {
-		selectedPosology.push({
-			substance,
-			unit,
-			posology: getRandomElemFromArray(posologies),
-		});
-	});
-	return selectedPosology;
+export const selectRandomPosology = (
+	allPosologies: SubstancePosologies[],
+	substance: string,
+) => {
+	const posologies = allPosologies.find(
+		(p) => p.substance === substance,
+	)!.posologies;
+	return getRandomElemFromArray(posologies);
 };
 
 /**
@@ -56,12 +53,15 @@ export const generateSequence = (
 	const substancesAbbrev = substances.map((s) => s.abbreviation);
 	let r: Randomization;
 	switch (randomization.strategy) {
-		case RandomStrategy.Permutations:
-			r = new Permutation();
-			break;
 		case RandomStrategy.MaxRep:
 			r = new MaxRep(randomization.maxRep!);
 			break;
+		case RandomStrategy.Custom:
+			r = new CustomSequence(randomization.predefinedSeq!);
+			break;
+		case RandomStrategy.Permutations:
+		default:
+			r = new Permutation();
 	}
 	return r.randomize(substancesAbbrev, nbPeriods);
 };
@@ -72,7 +72,6 @@ export const generateSequence = (
  * substances administration sequence.
  * @param substances Substances of the test.
  * @param seq Substances administration sequence.
- * @param posologies Posologies for substances.
  * @param periodLen Period Length.
  * @param nbPeriods Number of periods.
  * @returns An array containing the administration schema for every day of
@@ -81,7 +80,6 @@ export const generateSequence = (
 export const generateAdministrationSchema = (
 	substances: Substance[],
 	seq: string[],
-	posologies: SubstancePosology[],
 	periodLen: number,
 	nbPeriods: number,
 ): AdministrationSchema => {
@@ -89,16 +87,15 @@ export const generateAdministrationSchema = (
 	let dateCounter = 0;
 	for (let i = 0; i < nbPeriods; i++) {
 		const abbrev = seq[i];
-		const substance = substances.find((s) => s.abbreviation === abbrev)!;
-		const posology = posologies.find(
-			(e) => e.substance === substance.name,
-		)!.posology;
+		const { name, unit, posology } = substances.find(
+			(s) => s.abbreviation === abbrev,
+		)!;
 		// if a substance is repeated and repeatLast option is true,
 		// we repeat the last posology.
 		if (
 			i > 0 &&
-			result.slice().pop()?.substance === substance.name &&
-			posology.repeatLast
+			result.slice().pop()?.substance === name &&
+			posology!.repeatLast
 		) {
 			const prev = result.slice().pop()!;
 			for (let j = 0; j < periodLen; j++) {
@@ -111,16 +108,16 @@ export const generateAdministrationSchema = (
 			for (let j = 0; j < periodLen; j++) {
 				result.push({
 					day: dateCounter++,
-					substance: substance.name,
-					morning: posology.posology[j].morning,
-					morningFraction: posology.posology[j].morningFraction,
-					noon: posology.posology[j].noon,
-					noonFraction: posology.posology[j].noonFraction,
-					evening: posology.posology[j].evening,
-					eveningFraction: posology.posology[j].eveningFraction,
-					night: posology.posology[j].night,
-					nightFraction: posology.posology[j].nightFraction,
-					unit: substance.unit,
+					substance: name,
+					morning: posology!.posology[j].morning,
+					morningFraction: posology!.posology[j].morningFraction,
+					noon: posology!.posology[j].noon,
+					noonFraction: posology!.posology[j].noonFraction,
+					evening: posology!.posology[j].evening,
+					eveningFraction: posology!.posology[j].eveningFraction,
+					night: posology!.posology[j].night,
+					nightFraction: posology!.posology[j].nightFraction,
+					unit: unit,
 				});
 			}
 		}
@@ -191,16 +188,18 @@ export const generateXlsxSchemaExample = (
 		decreasingSchemaInfo: string[];
 	},
 ) => {
-	const selectedPosologies = selectRandomPosology(test.posologies);
+	const substances = test.substances.map((s) => {
+		s.posology = selectRandomPosology(test.posologies, s.name);
+		return s;
+	});
 	const substancesSequence = generateSequence(
-		test.substances,
+		substances,
 		test.randomization,
 		test.nbPeriods,
 	);
 	const administrationSchema = generateAdministrationSchema(
-		test.substances,
+		substances,
 		substancesSequence,
-		selectedPosologies,
 		test.periodLen,
 		test.nbPeriods,
 	);
@@ -208,12 +207,12 @@ export const generateXlsxSchemaExample = (
 		test.periodLen,
 		test.nbPeriods,
 		administrationSchema,
-		test.substances,
+		substances,
 	);
 	const xlsSchema = formatSchema(administrationSchema);
 	const xlsDecreasingSchema = formatSchema(decreasingSchema);
 	const recap = substancesRecap(
-		test.substances,
+		substances,
 		xlsSchema,
 		xlsDecreasingSchema,
 		xlsxData.recapTxt,
@@ -235,8 +234,7 @@ export const generateXlsxSchemaExample = (
 /**
  * Format the patient's health variables data, to render it into a table.
  * @param data Patient health variables data.
- * @returns The formatted data (as an array of objects containing the
- * variables data for a date and substance (flat object).
+ * @returns The formatted data (as an array of string).
  */
 export const formatPatientDataToTable = (data: TestData): string[][] => {
 	return data.map((d) => {
@@ -279,7 +277,7 @@ export const defaultData = (test: Nof1Test): TestData => {
 };
 
 /**
- * Wrapper to send an email to the pharmacy with all the information.
+ * Wrapper to email the pharmacy with all the information.
  * @param test Nof1 test.
  * @param accessToken User access token for API call.
  * @param patientInfos Patient information.
@@ -338,7 +336,50 @@ export const sendPharmaEmailWrapper = (
 			},
 		},
 		msg,
-		test.pharmacy.email,
+		test.participants.pharmacy.email,
 		emailSubject,
+	);
+};
+
+/**
+ * Checks equality of two person's information.
+ * @param p1 Person 1.
+ * @param p2 Person 2.
+ * @returns True if equal, false otherwise.
+ */
+const isPersonEqual = (p1: PersonCommon, p2: PersonCommon) => {
+	return (
+		p1.lastname === p2.lastname &&
+		p1.firstname === p2.firstname &&
+		p1.email === p2.email &&
+		p1.phone === p2.phone &&
+		p1.address.street === p2.address.street &&
+		p1.address.city === p2.address.city &&
+		p1.address.zip === p2.address.zip &&
+		p1.address.country === p2.address.country
+	);
+};
+
+/**
+ * Checks equality of two physician's information.
+ * @param p1 Person 1.
+ * @param p2 Person 2.
+ * @returns True if equal, false otherwise.
+ */
+export const isPhysicianInfoEqual = (p1: Physician, p2: Physician) => {
+	return isPersonEqual(p1, p2) && p1.institution === p2.institution;
+};
+
+/**
+ * Checks equality of two patient's information.
+ * @param p1 Person 1.
+ * @param p2 Person 2.
+ * @returns True if equal, false otherwise.
+ */
+export const isPatientInfoEqual = (p1: Patient, p2: Patient) => {
+	return (
+		isPersonEqual(p1, p2) &&
+		p1.insurance === p2.insurance &&
+		p1.insuranceNb === p2.insuranceNb
 	);
 };

@@ -1,7 +1,8 @@
 import { RandomizationStrategy } from '../utils/nof1-lib/randomizationStrategy';
+import { AnalyseType } from '../utils/statistics';
 import { IClinicalInfo } from './clinicalInfo';
 import { Patient, Pharmacy, Physician } from './people';
-import { PosologyDay, SubstancePosologies, SubstancePosology } from './posology';
+import { PosologyDay, SubstancePosologies } from './posology';
 import { Substance } from './substance';
 import { Variable } from './variable';
 
@@ -19,10 +20,7 @@ export enum TestStatus {
 // or physicians collections in DB. To ensure traceability.
 export interface Nof1Test {
 	uid?: string;
-	patient: Patient;
-	physician: Physician;
-	nof1Physician: Physician;
-	pharmacy: Pharmacy;
+	participants: IParticipants;
 	clinicalInfo: IClinicalInfo;
 	status: TestStatus;
 	nbPeriods: number;
@@ -34,18 +32,23 @@ export interface Nof1Test {
 	administrationSchema?: AdministrationSchema;
 	substances: Substance[];
 	posologies: SubstancePosologies[];
-	selectedPosologies?: SubstancePosology[];
 	monitoredVariables: Variable[];
+	statistics: { analysisToPerform: AnalyseType };
 	meta_info?: {
 		creationDate: Date;
 		emailSendingDate?: Date;
 	};
 }
 
+export interface IParticipants {
+	patient: Patient;
+	requestingPhysician: Physician;
+	attendingPhysician?: Physician;
+	nof1Physician: Physician;
+	pharmacy: Pharmacy;
+}
+
 export type AdministrationSchema = ({
-	// date: string;
-	// day: number;
 	substance: string;
 	unit: string;
 } & PosologyDay)[];
-// } & Omit<PosologyDay, 'day'>)[];

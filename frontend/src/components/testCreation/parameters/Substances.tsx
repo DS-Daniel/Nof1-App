@@ -8,7 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import { SubstancesProps } from '.';
-import { Substance } from '../../../entities/substance';
+import { emptySubstance, Substance } from '../../../entities/substance';
+import { maxNbSubstances } from '../../../utils/constants';
 
 /**
  * Substances component. Renders the substances inputs.
@@ -26,11 +27,7 @@ export default function Substances({
 	const addSubstance = () => {
 		setSubstances((prevSubstances) => [
 			...prevSubstances,
-			{
-				name: '',
-				abbreviation: '',
-				unit: '',
-			},
+			{ ...emptySubstance },
 		]);
 	};
 
@@ -62,7 +59,7 @@ export default function Substances({
 	};
 
 	return (
-		<Stack spacing={2} alignItems="flex-start">
+		<Stack spacing={2} alignItems="flex-start" mb={1}>
 			<Typography variant="h6" fontWeight="bold">
 				{t('parameters.subtitle-substances')}
 			</Typography>
@@ -117,7 +114,7 @@ export default function Substances({
 				variant="contained"
 				startIcon={<AddIcon />}
 				onClick={addSubstance}
-				disabled={!editable}
+				disabled={!editable || substances.length === maxNbSubstances}
 			>
 				{t('common:button.add')}
 			</Button>

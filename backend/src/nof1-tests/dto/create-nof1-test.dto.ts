@@ -1,10 +1,10 @@
 import {
   AdministrationSchema,
+  AnalyseType,
   ClinicalInfo,
   RandomizationStrategy,
   Substance,
   SubstancePosologies,
-  SubstancePosology,
   Variable,
 } from '../@types/types';
 import {
@@ -20,9 +20,7 @@ import {
   IsString,
 } from 'class-validator';
 import { TestStatus } from '../../utils/constants';
-import { Patient } from '../../persons/patients/schemas/patient.schema';
-import { Physician } from '../../persons/physicians/schemas/physician.schema';
-import { Pharmacy } from '../../persons/schemas/pharmacy.schema';
+import { Participants } from '../../persons/schemas/participants.schema';
 
 /**
  * Representation of the N-of-1 test information.
@@ -30,19 +28,7 @@ import { Pharmacy } from '../../persons/schemas/pharmacy.schema';
 export class CreateNof1TestDto {
   @IsObject()
   @ValidateNested()
-  patient: Patient;
-
-  @IsObject()
-  @ValidateNested()
-  physician: Physician;
-
-  @IsObject()
-  @ValidateNested()
-  nof1Physician: Physician;
-
-  @IsObject()
-  @ValidateNested()
-  pharmacy: Pharmacy;
+  participants: Participants;
 
   @IsObject()
   @ValidateNested()
@@ -58,6 +44,10 @@ export class CreateNof1TestDto {
   @IsNotEmpty()
   @IsNumber()
   periodLen: number;
+
+  @IsObject()
+  @IsNotEmptyObject()
+  statistics: { analysisToPerform: AnalyseType };
 
   @IsObject()
   @IsNotEmptyObject()
@@ -85,10 +75,6 @@ export class CreateNof1TestDto {
 
   @IsArray()
   posologies: SubstancePosologies[];
-
-  @IsOptional()
-  @IsArray()
-  selectedPosologies: SubstancePosology[];
 
   @IsArray()
   monitoredVariables: Variable[];

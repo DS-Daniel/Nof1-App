@@ -17,7 +17,7 @@ export default function Page({ children }: PageProps) {
 				component="main"
 				maxWidth="lg"
 				sx={{
-					my: 5,
+					my: 4,
 				}}
 			>
 				{children}

@@ -1,32 +1,27 @@
+import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
-import { MutableRefObject } from 'react';
-import { Patient, Pharmacy, Physician } from '../../../entities/people';
-import {
-	formatPatientDataToForm,
-	formatPhysicianDataToForm,
-} from '../../../utils/dataFormConvertor';
+import { MutableRefObject, useState } from 'react';
+import { IParticipants } from '../../../entities/nof1Test';
+import { defaultPhysician } from '../../../entities/people';
 import PatientForm from './PatientForm';
 import PharmaForm from './PharmaForm';
 import PhysicianForm from './PhysicianForm';
 
 interface ParticipantsProps {
-	pharmacy: MutableRefObject<Pharmacy>;
-	patient: MutableRefObject<Patient>;
-	physician: MutableRefObject<Physician>;
+	participants: MutableRefObject<IParticipants>;
 }
 
 /**
- * Participants section component. Renders forms for each participant.
+ * Participants section component. Render forms for each participant.
  */
-export default function Participants({
-	pharmacy,
-	patient,
-	physician,
-}: ParticipantsProps) {
+export default function Participants({ participants }: ParticipantsProps) {
 	const { t } = useTranslation('createTest');
+	const [showAttendingPhysician, setShowAttendingPhysician] = useState(
+		participants.current.attendingPhysician !== undefined,
+	);
 
 	return (
 		<Paper sx={{ p: 3, width: '100%' }}>
@@ -37,19 +32,40 @@ export default function Participants({
 					</Typography>
 				</Grid>
 				<Grid item xs={12} sm={6} md={4}>
-					<PatientForm
-						patient={patient}
-						defaultValues={formatPatientDataToForm(patient.current)}
-					/>
+					<PatientForm participants={participants} />
 				</Grid>
 				<Grid item xs={12} sm={6} md={4}>
 					<PhysicianForm
-						physician={physician}
-						defaultValues={formatPhysicianDataToForm(physician.current)}
+						header={t('participants.requestingPhysician')}
+						physician={() => participants.current.requestingPhysician}
+						setPhysician={(physician) => {
+							participants.current.requestingPhysician = physician;
+						}}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6} md={4}>
-					<PharmaForm pharmacy={pharmacy} />
+					<PharmaForm participants={participants} />
+				</Grid>
+				<Grid item xs={12} sm={6} md={4}>
+					{showAttendingPhysician ? (
+						<PhysicianForm
+							header={t('participants.attendingPhysician')}
+							physician={() => participants.current.attendingPhysician!}
+							setPhysician={(physician) => {
+								participants.current.attendingPhysician = physician;
+							}}
+						/>
+					) : (
+						<Button
+              variant="outlined"
+							onClick={() => {
+								participants.current.attendingPhysician = defaultPhysician();
+								setShowAttendingPhysician(true);
+							}}
+						>
+							{t('participants.btn-add-attendingPhysician')}
+						</Button>
+					)}
 				</Grid>
 			</Grid>
 		</Paper>

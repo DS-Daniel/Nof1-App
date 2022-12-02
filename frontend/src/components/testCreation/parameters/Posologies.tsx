@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import ClearIcon from '@mui/icons-material/Clear';
 import { PosologiesProps } from '.';
 import PosologyTable from './PosologyTable';
+import PosologyTableWithState from './PosologyTableWithState';
 import {
 	initialPosology,
 	Posology,
@@ -14,7 +15,6 @@ import {
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import FailSnackbar from '../../common/FailSnackbar';
 import { maxValue } from '../../../utils/constants';
-import SimplePosologyTable from './SimplePosologyTable';
 
 /**
  * Posologies component. Renders the posologies form tables for each substance.
@@ -86,6 +86,7 @@ export default function Posologies({
 	/**
 	 * Removes a new posology table form for a substance.
 	 * @param substanceIndex Substance index.
+	 * @param posologyIndex Posology index.
 	 */
 	const removePosologyTable = (
 		substanceIndex: number,
@@ -195,7 +196,7 @@ export default function Posologies({
 						{t('common:button.delete')}
 					</Button>
 				</Stack>
-				<SimplePosologyTable
+				<PosologyTableWithState
 					rows={table}
 					onChange={(posologyRow, property, value) =>
 						updateDecreasingDosage(subIdx, posologyRow, property, value)
@@ -212,7 +213,7 @@ export default function Posologies({
 
 	return (
 		<>
-			{/* ----- display a button to setup posologies if not done yet ----- */}
+			{/* ----- display a button to set up posologies if not done yet ----- */}
 			{allPosologies.length === 0 ? (
 				<Stack alignItems="center" spacing={1}>
 					<Button variant="outlined" onClick={handlePosologiesSetUp}>

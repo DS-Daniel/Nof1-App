@@ -2,12 +2,14 @@
 	"createBtn": "Valider et créer le test",
 	"create-error": "Veuillez compléter toutes les parties du formulaire avant de valider la création du test et/ou vérifier les champs incorrects",
 	"draftBtn": "Sauvegarder le brouillon",
-	"draft-error": "Veuillez au moins renseigner les participants",
+	"draft-error": "Veuillez au minimum renseigner les participants",
 	"participants": {
 		"title": "Informations des participants",
 		"pharmacy": "Pharmacie partenaire",
 		"patient": "Patient",
-		"physician": "Médecin traitant",
+		"requestingPhysician": "Médecin demandeur du test N-of-1",
+		"attendingPhysician": "Médecin traitant",
+		"btn-add-attendingPhysician": "Ajouter un médecin traitant",
 		"nof1-physician": "Médecin responsable du test N-of-1",
 		"findPatient": "Trouver un patient par ID",
 		"findPhysician": "Trouver un médecin par ID"
@@ -24,11 +26,11 @@
 		"period-duration": "Durée d'une période (en jours)",
 		"subtitle-randomStrategy": "Stratégie de randomisation du schéma d'administration",
 		"randomStrategy-desc": "Choisissez la stratégie qui sera utilisée pour alterner l'administration des différentes substances choisies.",
-		"RS-permutation": "Répétition aléatoire de séquence de permutations de toutes les substances",
-		"RS-permutation-helper": "Par exemple avec 2 substances choisies, A et B. Il s’agira d’une répétition des séquences de permutation AB ou BA. Exemple : AB AB BA ...\nAvec 3 substances : A, B et C. iI s’agira d’une répétition des séquences de permutation ABC, ACB, BCA, etc...\nEt ainsi de suite.",
+		"RS-permutation": "Répétition aléatoire des séquences de permutations de toutes les substances",
+		"RS-permutation-helper": "Par exemple avec 2 substances choisies, A et B. Il s’agira d’une répétition des séquences de permutation AB ou BA.\nExemple : AB AB BA ...\nAvec 3 substances : A, B et C. iI s’agira d’une répétition des séquences de permutation ABC, ACB, BCA, etc...\nEt ainsi de suite.",
 		"RS-random-max-rep": "Aléatoire, mais avec un nombre maximum de répétitions consécutives d'une même substance",
 		"RS-random-max-rep-N": "Nombre de répétitions max",
-		"RS-random": "Totalement aléatoire",
+		"RS-custom": "Séquence prédéfinie. Veuillez utiliser les abréviations des substances et les séparer par \";\"\nAttention, veuillez vous conformer au nommage des abréviations et au nombre de périodes défini!",
 		"subtitle-posology": "Schémas posologiques",
 		"posology-desc": "Indiquez les doses totales prévues le matin, à midi, le soir et la nuit pour les substances choisies.\nLes colonnes \"Fraction(s)*\" permettent d'indiquer en combien de parts (gélules, comprimés, etc) la dose totale doit être divisée, afin de laisser une possibilité d'adaptation spontanée lors de la prise du médicament. Exemple: si la dose du matin = 100mg et fraction(s) = 2, alors le système prévoira une préparation de 2 doses de 50mg.",
 		"substance-x": "Substance: {{substance}}",
@@ -42,27 +44,31 @@
 		"decreasing-posology": {
 			"title": "Posologie décroissante",
 			"desc": "Rajouter une posologie décroissante lors de la période suivante si le traitement change, afin d'éviter un syndrome de sevrage de la substance courante lors du changement de période ?\n(Celle-ci se poursuivra la période suivante en même temps qu'une autre substance)",
-      "btn": "Ajouter une posologie décroissante"
-		}
+			"btn": "Ajouter une posologie décroissante"
+		},
+    "analysisToPerform": "Analyse statistique à effectuer"
 	},
 	"variables": {
 		"title": "Variables à monitorer",
-		"header-name": "Nom",
-		"header-type": "Type",
-		"header-desc": "Description / question",
-		"header-unit": "Unité de mesure",
-		"header-min": "Borne min.",
-		"header-max": "Borne max.",
-		"header-0": "Label négatif (0)",
-		"header-1": "Label positif (1)",
-		"header-values": "Valeurs (qualitative)",
-    "types": {
-      "txt": "Textuelle",
-      "vas": "VAS",
-      "numeric": "Numérique",
-      "qualitative": "Qualitative",
-      "binary": "Binaire"
-    },
+		"header": {
+			"name": "Nom",
+			"type": "Type",
+			"desc": "Description / question",
+			"unit": "Unité de mesure",
+			"min": "Borne min.",
+			"max": "Borne max.",
+			"0": "Label négatif (0)",
+			"1": "Label positif (1)",
+			"values": "Valeurs (qualitative)",
+			"skip": "Jours de rodage sautées pour l'analyse"
+		},
+		"types": {
+			"txt": "Textuelle",
+			"vas": "VAS",
+			"numeric": "Numérique",
+			"qualitative": "Qualitative",
+			"binary": "Binaire"
+		},
 		"quantitative-helper-txt": "Valeurs (veuillez les séparer par \";\" et les ordonner si de type ordinal)",
 		"add-new-btn": "Ajouter nouvelle variable",
 		"add-existing-btn": "Ajouter variable prédéfinie",
@@ -82,7 +88,9 @@
 			"remarks-desc": "Remarques générales :"
 		},
 		"modal-title": "Paramètres de la variable à monitorer",
-    "error-already-exist": "Cette variable existe déjà"
+		"error-already-exist": "Cette variable existe déjà",
+		"error-min0": "Minimum 0",
+		"error-max": "Ne peut pas dépasser la longueur d'une période"
 	},
 	"clinicalInfo": {
 		"title": "Informations cliniques",

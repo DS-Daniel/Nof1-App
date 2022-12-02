@@ -13,7 +13,7 @@ export default function ReadOnlyForm({ inputs }: ReadOnlyFormProps) {
 		<Grid
 			mt={1}
 			container
-			spacing={2}
+			spacing={1.5}
 			alignItems="center"
 			justifyContent="center"
 		>

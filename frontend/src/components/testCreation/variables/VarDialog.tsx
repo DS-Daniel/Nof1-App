@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { Controller, useForm } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
@@ -25,6 +25,7 @@ interface VarDialogProps {
 	validate: (name: string) => boolean;
 	handleDialogSubmit: (variable: Variable) => void;
 	handleClose: () => void;
+	periodLen: number;
 }
 
 /**
@@ -37,6 +38,7 @@ export default function VarDialog({
 	validate,
 	handleDialogSubmit,
 	handleClose,
+	periodLen,
 }: VarDialogProps) {
 	const { t } = useTranslation('createTest');
 	const {
@@ -53,11 +55,9 @@ export default function VarDialog({
 	// resets fields when successfully submitted or
 	// loads variable's information when editing.
 	useEffect(() => {
-		console.log('running useEffect');
 		if (editing) {
 			reset(defaultValue); // load variable's values
 		} else if (isSubmitSuccessful) {
-			console.log('reset after submit');
 			reset(defaultVariable);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,6 +98,7 @@ export default function VarDialog({
 						register={register}
 						t={t}
 						validation={{ validate, errors }}
+						periodLen={periodLen}
 					/>
 				);
 			case VariableType.Numeric:
@@ -106,6 +107,7 @@ export default function VarDialog({
 						register={register}
 						t={t}
 						validation={{ validate, errors }}
+						periodLen={periodLen}
 					/>
 				);
 			case VariableType.Qualitative:
@@ -164,7 +166,7 @@ export default function VarDialog({
 										select
 										autoFocus
 										id="type"
-										label={t('variables.header-type')}
+										label={t('variables.header.type')}
 										{...field}
 									>
 										{Object.values(VariableType).map((t) => (

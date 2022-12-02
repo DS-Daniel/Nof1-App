@@ -5,14 +5,18 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import { RandomStrategy } from '../../../utils/nof1-lib/randomizationStrategy';
+import {
+	RandomStrategy,
+	RandomizationStrategy as IRandomizationStrategy,
+} from '../../../utils/nof1-lib/randomizationStrategy';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { RandomStrategyProps } from '.';
 import { maxRepOptions } from '../../../utils/constants';
-import { useState, useEffect } from 'react';
+import { ChangeEvent, useState } from 'react';
+import TextField from '@mui/material/TextField';
 
 /**
  * Randomization strategy component. Renders the radio group for all strategies.
@@ -20,28 +24,26 @@ import { useState, useEffect } from 'react';
 export default function RandomizationStrategy({
 	strategy,
 	setStrategy,
-	maxRep,
-	setMaxRep,
+	isSequenceError,
 }: RandomStrategyProps) {
 	const { t } = useTranslation('createTest');
-	const [disabledInput, setDisabledInput] = useState(true);
-
-	// disable maxRep input if strategy not selected.
-	useEffect(() => {
-		setDisabledInput(strategy != RandomStrategy.MaxRep);
-	}, [strategy]);
+	const [sequence, setSequence] = useState<string | undefined>(
+		strategy.predefinedSeq?.join(';'),
+	);
+	const sequenceError =
+		sequence !== undefined && isSequenceError(sequence.split(';'));
 
 	/**
-	 * Render the appropriate strategy label component.
-	 * @param strategy Strategy.
+	 * Renders the appropriate strategy label component.
+	 * @param randomStrategy Strategy.
 	 * @returns The appropriate strategy label component.
 	 */
-	const strategyLabels = (strategy: RandomStrategy) => {
-		switch (strategy) {
+	const strategyLabels = (randomStrategy: RandomStrategy) => {
+		switch (randomStrategy) {
 			case RandomStrategy.Permutations:
 				return (
-					<Stack direction="row" alignItems="center" pt={'9px'}>
-						{t('parameters.RS-permutation')}
+					<Stack direction="row" alignItems="center" spacing={1} pt={'9px'}>
+						<Typography>{t('parameters.RS-permutation')}</Typography>
 						<Tooltip
 							title={
 								<Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
@@ -68,9 +70,14 @@ export default function RandomizationStrategy({
 							<Select
 								id="maxRep-select"
 								size="small"
-								disabled={disabledInput}
-								value={maxRep}
-								onChange={(e) => setMaxRep(Number(e.target.value))}
+								disabled={strategy.strategy != RandomStrategy.MaxRep}
+								value={strategy.maxRep || 1}
+								onChange={(e) =>
+									setStrategy((prevState) => ({
+										...prevState,
+										maxRep: Number(e.target.value),
+									}))
+								}
 							>
 								{maxRepOptions.map((rep) => {
 									return (
@@ -83,20 +90,68 @@ export default function RandomizationStrategy({
 						</Stack>
 					</>
 				);
+			case RandomStrategy.Custom:
+				return (
+					<>
+						<Typography
+							variant="body1"
+							pt={'9px'}
+							sx={{ whiteSpace: 'pre-line' }}
+						>
+							{t('parameters.RS-custom')}
+						</Typography>
+						<TextField
+							size="small"
+							disabled={strategy.strategy != RandomStrategy.Custom}
+							name="predefinedSeq"
+							type="text"
+							value={sequence || ''}
+							onChange={(e) => {
+								const seq = e.target.value;
+								setSequence(seq);
+								setStrategy((prevState) => ({
+									...prevState,
+									predefinedSeq: seq.split(';'),
+								}));
+							}}
+							error={sequenceError}
+						/>
+					</>
+				);
 		}
+	};
+
+	/**
+	 * Handles changes of strategy choices.
+	 * @param e HTML event.
+	 */
+	const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const strategy = e.target.value as RandomStrategy;
+		const rStrategy: IRandomizationStrategy = { strategy };
+		// if (strategy === RandomStrategy.MaxRep) rStrategy.maxRep = 1;
+		// if (strategy !== RandomStrategy.Custom) setSequence('');
+		switch (strategy) {
+			case RandomStrategy.MaxRep:
+				rStrategy.maxRep = 1;
+				break;
+			case RandomStrategy.Custom:
+				rStrategy.predefinedSeq = sequence?.split(';');
+				break;
+		}
+		setStrategy(rStrategy);
 	};
 
 	return (
 		<>
-			<Typography variant="h6" fontWeight="bold">
+			<Typography variant="h6" fontWeight="bold" mb={2}>
 				{t('parameters.subtitle-randomStrategy')}
 			</Typography>
 			<Typography>{t('parameters.randomStrategy-desc')}</Typography>
 			<FormControl>
 				<RadioGroup
 					name="strategy-group"
-					value={strategy}
-					onChange={(e) => setStrategy(e.target.value as RandomStrategy)}
+					value={strategy.strategy}
+					onChange={handleRadioChange}
 				>
 					{Object.values(RandomStrategy).map((strategy) => {
 						return (

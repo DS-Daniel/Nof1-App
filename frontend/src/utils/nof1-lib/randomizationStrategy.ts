@@ -1,12 +1,14 @@
 export enum RandomStrategy {
 	Permutations = 'Permutations',
 	MaxRep = 'MaxRep',
+	Custom = 'Custom',
 }
 
 export interface RandomizationStrategy {
 	strategy: RandomStrategy;
 	// optional options according to the strategy
 	maxRep?: number;
+	predefinedSeq?: string[];
 }
 
 /**
@@ -68,7 +70,7 @@ export function getRandomElemFromArray<T>(arr: T[]): T {
 
 /**
  * Abstract class defining a randomize method that randomize the elements of an array.
- * In this context, it is used to determine the randomized substances administration sequence. 
+ * In this context, it is used to determine the randomized substances administration sequence.
  */
 export abstract class Randomization {
 	/**
@@ -94,7 +96,6 @@ export class Permutation extends Randomization {
 		return selectedPerm.slice(0, nbPeriods);
 	}
 }
-
 
 /**
  * Implements the randomize method with a maximum repetition of element algorithm.
@@ -129,5 +130,21 @@ export class MaxRep extends Randomization {
 			}
 		}
 		return res;
+	}
+}
+
+/**
+ * Implements the randomize method for a custom strategy (custom predefined sequence).
+ */
+export class CustomSequence extends Randomization {
+	predefinedSeq: string[]; // the predefined administration sequence.
+
+	constructor(predefinedSeq: string[]) {
+		super();
+		this.predefinedSeq = predefinedSeq;
+	}
+
+	randomize(abbrevSeq: string[], nbPeriods: number): string[] {
+		return this.predefinedSeq;
 	}
 }

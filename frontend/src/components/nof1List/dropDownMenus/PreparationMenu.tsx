@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import MenuContainer from './MenuContainer';
+import MenuOptions from './MenuOptions';
 import HealthLogbookModal from '../HealthLogbookModal';
 import { Nof1Test } from '../../../entities/nof1Test';
 
@@ -27,7 +27,7 @@ export default function PreparationMenu({ item }: PreparationMenuProps) {
 
 	return (
 		<>
-			<MenuContainer name={t('optionsMenu')} items={menuItems} test={item} />
+			<MenuOptions name={t('optionsMenu')} items={menuItems} test={item} />
 			<HealthLogbookModal
 				open={openLogbookModal}
 				handleClose={() => setOpenLogbookModal(false)}

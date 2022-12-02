@@ -45,7 +45,11 @@ export default function PreparationOptions({
 		recapTxt,
 		comments,
 		emailSubject,
-	} = usePharmaEmailInfos(item.patient, item.physician, item.nof1Physician);
+	} = usePharmaEmailInfos(
+		item.participants.patient,
+		item.participants.requestingPhysician,
+		item.participants.nof1Physician,
+	);
 
 	/**
 	 * Triggers the generation of the randomized parameters of the test.
@@ -54,7 +58,9 @@ export default function PreparationOptions({
 	 */
 	const updateTest = (email: string) => {
 		const test = { ...item };
-		test.selectedPosologies = selectRandomPosology(test.posologies);
+		test.substances.forEach(
+			(s) => (s.posology = selectRandomPosology(test.posologies, s.name)),
+		);
 		test.substancesSequence = generateSequence(
 			test.substances,
 			test.randomization,
@@ -63,11 +69,10 @@ export default function PreparationOptions({
 		test.administrationSchema = generateAdministrationSchema(
 			test.substances,
 			test.substancesSequence,
-			test.selectedPosologies,
 			test.periodLen,
 			test.nbPeriods,
 		);
-		test.pharmacy.email = email;
+		test.participants.pharmacy.email = email;
 		return test;
 	};
 
@@ -152,7 +157,7 @@ export default function PreparationOptions({
 				open={openEmailDialog}
 				handleClose={() => setOpenEmailDialog(false)}
 				handleDialogSubmit={(email) => handleEmailDialogSubmit(email)}
-				email={item.pharmacy.email}
+				email={item.participants.pharmacy.email}
 			/>
 			<FailSnackbar
 				open={openEmailFailSB}

@@ -3,16 +3,15 @@ import { Translate } from 'next-translate';
 import { FormState, UseFormRegister } from 'react-hook-form';
 import { Variable } from '../../../../entities/variable';
 
-export interface InputsProps {
+export type InputsProps = {
 	register: UseFormRegister<Variable>;
 	t: Translate;
-	validation: {
+	validation?: {
 		validate: (name: string) => boolean;
 		errors: FormState<Variable>['errors'];
 	};
-}
-
-interface InputProps extends Omit<InputsProps, 'validation'> {}
+	periodLen?: number;
+};
 
 export const Name = ({ register, t, validation }: InputsProps) => {
 	const { ref: inputRef, ...registerProps } = register('name', {
@@ -22,30 +21,30 @@ export const Name = ({ register, t, validation }: InputsProps) => {
 			message: t('common:formErrors.maxLen-n', { n: 64 }),
 		},
 		validate: (val) =>
-			validation.validate(val) || t('variables.error-already-exist'),
+			validation?.validate(val) || t('variables.error-already-exist'),
 	});
 	return (
 		<TextField
 			autoFocus
 			id="name"
-			label={t('variables.header-name')}
+			label={t('variables.header.name')}
 			type="text"
 			fullWidth
-			error={!!validation.errors.name}
-			helperText={validation.errors.name?.message}
+			error={!!validation?.errors.name}
+			helperText={validation?.errors.name?.message}
 			inputRef={inputRef}
 			{...registerProps}
 		/>
 	);
 };
 
-export const Description = ({ register, t }: InputProps) => {
+export const Description = ({ register, t }: InputsProps) => {
 	const { ref: inputRef, ...registerProps } = register('desc');
 	return (
 		<TextField
 			autoFocus
 			id="desc"
-			label={t('variables.header-desc')}
+			label={t('variables.header.desc')}
 			type="text"
 			multiline
 			maxRows={3}
@@ -56,7 +55,7 @@ export const Description = ({ register, t }: InputProps) => {
 	);
 };
 
-export const Unit = ({ register, t }: InputProps) => {
+export const Unit = ({ register, t }: InputsProps) => {
 	const { ref: inputRef, ...registerProps } = register('unit', {
 		shouldUnregister: true,
 	});
@@ -64,7 +63,7 @@ export const Unit = ({ register, t }: InputProps) => {
 		<TextField
 			autoFocus
 			id="unit"
-			label={t('variables.header-unit')}
+			label={t('variables.header.unit')}
 			type="text"
 			fullWidth
 			inputRef={inputRef}
@@ -73,7 +72,7 @@ export const Unit = ({ register, t }: InputProps) => {
 	);
 };
 
-export const Min = ({ register, t }: InputProps) => {
+export const Min = ({ register, t }: InputsProps) => {
 	const { ref: inputRef, ...registerProps } = register('min', {
 		shouldUnregister: true,
 	});
@@ -81,7 +80,7 @@ export const Min = ({ register, t }: InputProps) => {
 		<TextField
 			autoFocus
 			id="min"
-			label={t('variables.header-min')}
+			label={t('variables.header.min')}
 			type="text"
 			fullWidth
 			inputRef={inputRef}
@@ -90,7 +89,7 @@ export const Min = ({ register, t }: InputProps) => {
 	);
 };
 
-export const Max = ({ register, t }: InputProps) => {
+export const Max = ({ register, t }: InputsProps) => {
 	const { ref: inputRef, ...registerProps } = register('max', {
 		shouldUnregister: true,
 	});
@@ -98,9 +97,41 @@ export const Max = ({ register, t }: InputProps) => {
 		<TextField
 			autoFocus
 			id="max"
-			label={t('variables.header-max')}
+			label={t('variables.header.max')}
 			type="text"
 			fullWidth
+			inputRef={inputRef}
+			{...registerProps}
+		/>
+	);
+};
+
+export const SkippedRunInDays = ({
+	register,
+	t,
+	validation,
+	periodLen,
+}: InputsProps) => {
+	const { ref: inputRef, ...registerProps } = register('skippedRunInDays', {
+		shouldUnregister: true,
+		required: t('common:formErrors.requiredField'),
+		min: { value: 0, message: t('variables.error-min0') },
+		max: {
+			value: periodLen!,
+			message: t('variables.error-max'),
+		},
+		valueAsNumber: true,
+	});
+	return (
+		<TextField
+			autoFocus
+			id="skippedRunInDays"
+			label={t('variables.header.skip')}
+			type="number"
+			fullWidth
+			defaultValue={0}
+			error={!!validation?.errors.skippedRunInDays}
+			helperText={validation?.errors.skippedRunInDays?.message}
 			inputRef={inputRef}
 			{...registerProps}
 		/>

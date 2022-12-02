@@ -6,6 +6,7 @@ export interface Variable {
 	min?: string | number;
 	max?: string | number;
 	values?: string;
+  skippedRunInDays?: number;
 }
 
 export enum VariableType {

@@ -1,43 +1,26 @@
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import useTranslation from 'next-translate/useTranslation';
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import { useState } from 'react';
 import Typography from '@mui/material/Typography';
-import { Posology, PosologyDay } from '../../../entities/posology';
-import { useForm } from 'react-hook-form';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
+import { Posology, PosologyDay } from '../../../entities/posology';
 import {
 	numericInputPattern,
 	numericInputRegex,
 } from '../../../utils/constants';
-import PosologyHead from '../../common/table/posologyTable/PosologyHead';
-import {
-	StyledTableCell,
-	StyledTableContainer,
-	StyledTableRow,
-} from '../../common/table/customTableComponents';
-
-type RegisterType =
-	| `${number}`
-	| `${number}.day`
-	| `${number}.morning`
-	| `${number}.morningFraction`
-	| `${number}.noon`
-	| `${number}.noonFraction`
-	| `${number}.evening`
-	| `${number}.eveningFraction`
-	| `${number}.night`
-	| `${number}.nightFraction`;
+import { StyledTableCell } from '../../common/table/customTableComponents';
+import EditablePosologyTable, {
+	RegisterType,
+} from '../../common/table/posologyTable/EditablePosologyTable';
 
 interface PosologyTableProps {
 	rows: PosologyDay[];
 	repeatLast: boolean;
 	onSave: (posology: Posology) => void;
-	// onChange: (posologyRow: number, property: string, value: number) => void;
 	substanceUnit: string;
 }
 
@@ -48,7 +31,6 @@ export default function PosologyTable({
 	rows,
 	repeatLast,
 	onSave,
-	// onChange,
 	substanceUnit,
 }: PosologyTableProps) {
 	const [checked, setChecked] = useState(repeatLast);
@@ -78,7 +60,6 @@ export default function PosologyTable({
 		defaultValue: number,
 		borderRight: boolean = false,
 	) => {
-		// const [row, property] = name.split('.');
 		return (
 			<StyledTableCell align="center" borderR={borderRight}>
 				<Input
@@ -94,10 +75,6 @@ export default function PosologyTable({
 						title: t('common:formErrors.number'),
 					}}
 					defaultValue={defaultValue}
-					// value={defaultValue}
-					// onChange={(e) =>
-					// 	onChange(Number(row), property, Number(e.target.value))
-					// }
 					{...register(name, {
 						valueAsNumber: true,
 						pattern: {
@@ -113,51 +90,11 @@ export default function PosologyTable({
 	return (
 		<>
 			<Box component="form" id="" onSubmit={handleSubmit(onSubmit)}>
-				<StyledTableContainer>
-					<Table size="small">
-						<PosologyHead substanceUnit={substanceUnit} />
-						<TableBody>
-							{rows.map((posology, index) => (
-								// iterate over object properties does not guarantee right ordering
-								<StyledTableRow key={`table-row-${index}`}>
-									<StyledTableCell align="center">
-										<Input
-											size="small"
-											id={`${index}.day`}
-											inputProps={{ style: { textAlign: 'center' } }}
-											value={posology.day}
-											disableUnderline
-											readOnly
-										/>
-									</StyledTableCell>
-									{renderTableCell(`${index}.morning`, posology.morning)}
-									{renderTableCell(
-										`${index}.morningFraction`,
-										posology.morningFraction,
-										true,
-									)}
-									{renderTableCell(`${index}.noon`, posology.noon)}
-									{renderTableCell(
-										`${index}.noonFraction`,
-										posology.noonFraction,
-										true,
-									)}
-									{renderTableCell(`${index}.evening`, posology.evening)}
-									{renderTableCell(
-										`${index}.eveningFraction`,
-										posology.eveningFraction,
-										true,
-									)}
-									{renderTableCell(`${index}.night`, posology.night)}
-									{renderTableCell(
-										`${index}.nightFraction`,
-										posology.nightFraction,
-									)}
-								</StyledTableRow>
-							))}
-						</TableBody>
-					</Table>
-				</StyledTableContainer>
+				<EditablePosologyTable
+					rows={rows}
+					substanceUnit={substanceUnit}
+					renderTableCell={renderTableCell}
+				/>
 				<Stack direction="row" alignItems="center" spacing={2} mt={1}>
 					<Checkbox
 						checked={checked}

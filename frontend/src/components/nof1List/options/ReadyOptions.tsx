@@ -39,7 +39,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 		`${
 			process.env.NEXT_PUBLIC_APP_URL
 		}${lang}/import-data/patient?id=${item.uid!}&token=TOKEN`,
-		item.nof1Physician,
+		item.participants.nof1Physician,
 		dayjs(beginningDate).toDate().toLocaleDateString(),
 		dayjs(endingDate).add(tokenExpMargin, 'day').toDate().toLocaleDateString(),
 	);
@@ -54,7 +54,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 		test.beginningDate = beginningDate!.toDate();
 		test.endingDate = endingDate;
 		test.status = TestStatus.Ongoing;
-		test.patient.email = email;
+		test.participants.patient.email = email;
 		return test;
 	};
 
@@ -71,7 +71,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 		const response = await sendPatientEmail(
 			userContext.access_token,
 			patientEmailMsg,
-			test.patient.email,
+			test.participants.patient.email,
 			t('mail:patient.subject'),
 			tokenExp,
 			notBefore,
@@ -141,7 +141,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 				open={openEmailDialog}
 				handleClose={() => setOpenEmailDialog(false)}
 				handleDialogSubmit={(email) => handleDialogSubmit(email)}
-				email={item.patient.email}
+				email={item.participants.patient.email}
 			/>
 			<FailSnackbar
 				open={openDateSnackbar}

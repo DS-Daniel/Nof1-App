@@ -2,8 +2,9 @@ import TableHead from '@mui/material/TableHead';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import { Order } from '../../../utils/tableSorting';
 import Typography from '@mui/material/Typography';
+import { MouseEvent } from 'react';
+import { Order } from '../../../utils/tableSorting';
 
 export type HeadCell<T> = {
 	disablePadding: boolean;
@@ -14,7 +15,7 @@ export type HeadCell<T> = {
 
 export interface EnhancedTableHeadProps<T> {
 	headCells: readonly HeadCell<T>[];
-	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof T) => void;
+	onRequestSort: (event: MouseEvent<unknown>, property: keyof T) => void;
 	order: Order;
 	orderBy: keyof T;
 }
@@ -29,7 +30,7 @@ export default function EnhancedTableHead<T>({
 	onRequestSort,
 }: EnhancedTableHeadProps<T>) {
 	const createSortHandler =
-		(property: keyof T) => (event: React.MouseEvent<unknown>) => {
+		(property: keyof T) => (event: MouseEvent<unknown>) => {
 			onRequestSort(event, property);
 		};
 

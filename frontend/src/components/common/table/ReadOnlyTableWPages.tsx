@@ -5,9 +5,13 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import TablePagination from '@mui/material/TablePagination';
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { StyledTableCell, ThemedTableHead } from './customTableComponents';
+import {
+	StyledTableCell,
+	StyledTableRow,
+	ThemedTableHead,
+} from './customTableComponents';
 
 const rowsPerPageOptions = [10, 20, 30];
 
@@ -36,7 +40,7 @@ export default function ReadOnlyTableWPages({
 	const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
 
 	/**
-	 * Handle table page change.
+	 * Handles table page change.
 	 * @param event Not used
 	 * @param newPage New page number.
 	 */
@@ -45,11 +49,11 @@ export default function ReadOnlyTableWPages({
 	};
 
 	/**
-	 * Change the number of rows displayed by the table.
+	 * Changes the number of rows displayed by the table.
 	 * @param event HTML event containing the number of rows.
 	 */
 	const handleChangeRowsPerPage = (
-		event: React.ChangeEvent<HTMLInputElement>,
+		event: ChangeEvent<HTMLInputElement>,
 	) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
@@ -95,7 +99,7 @@ export default function ReadOnlyTableWPages({
 						{rows
 							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 							.map((row, index) => (
-								<TableRow key={index}>
+								<StyledTableRow key={index}>
 									{row.map((value, idx) => (
 										<TableCell
 											key={idx}
@@ -105,7 +109,7 @@ export default function ReadOnlyTableWPages({
 											<Typography variant="body2">{value}</Typography>
 										</TableCell>
 									))}
-								</TableRow>
+								</StyledTableRow>
 							))}
 						{
 							/* row padding to keep table aspect ratio */
