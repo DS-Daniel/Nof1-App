@@ -205,7 +205,8 @@ export default function CreateTest() {
 	const participantsNotFilledIn = () =>
 		isEqual(participants.current.patient, defaultPatient()) ||
 		isEqual(participants.current.pharmacy, defaultPharmacy()) ||
-		isEqual(participants.current.requestingPhysician, defaultPhysician());
+		isEqual(participants.current.requestingPhysician, defaultPhysician()) ||
+		isEqual(participants.current.attendingPhysician, defaultPhysician());
 	// mutable values doesn't trigger a render, thus as
 	// a function call and without useMemo.
 

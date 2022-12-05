@@ -13,10 +13,6 @@ import {
 	encryptedXML,
 } from '../utils/apiCalls';
 import { randomHexColor } from '../utils/charts';
-import {
-	RandomizationStrategy,
-	RandomStrategy,
-} from '../utils/nof1-lib/randomizationStrategy';
 import { formatPatientDataToTable } from '../utils/nof1-lib/lib';
 import ExtendedLineChart from '../components/results/lineChart';
 import RecapModal from '../components/nof1List/recapModal';
@@ -27,6 +23,7 @@ import SelectedPosologies from '../components/results/SelectedPosologies';
 import Statistics from '../components/results/statistics';
 import FailSnackbar from '../components/common/FailSnackbar';
 import MenuContainer from '../components/common/MenuContainer';
+import { useRenderStrategy } from '../hooks/randomStrategy';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -55,6 +52,7 @@ export default function Results() {
 	const [openRecapModal, setOpenRecapModal] = useState(false);
 	const [openReportModal, setOpenReportModal] = useState(false);
 	const [openFailSB, setOpenFailSB] = useState(false);
+	const renderStrategy = useRenderStrategy();
 
 	// fetch N-of-1 test and patient's health variables data.
 	useEffect(() => {
@@ -138,22 +136,6 @@ export default function Results() {
 		return test.administrationSchema!;
 	};
 
-	/**
-	 * Helper to render the appropriate text.
-	 * @param randomization Randomization strategy.
-	 * @returns The strategy text description.
-	 */
-	const renderStrategy = (randomization: RandomizationStrategy) => {
-		switch (randomization.strategy) {
-			case RandomStrategy.Permutations:
-				return t('createTest:parameters.RS-permutation');
-			case RandomStrategy.MaxRep:
-				return `${t('createTest:parameters.RS-random-max-rep')}. ${t(
-					'createTest:parameters.RS-random-max-rep-N',
-				)} : ${randomization.maxRep}.`;
-		}
-	};
-
 	return (
 		<AuthenticatedPage>
 			<Stack
@@ -232,7 +214,7 @@ export default function Results() {
 									{t('period-duration')} {test.periodLen} {t('common:days')}.
 								</Typography>
 								<Typography>
-									{t('randomStrategy')} {renderStrategy(test.randomization)}.
+									{t('randomStrategy')} {renderStrategy(test.randomization)}
 								</Typography>
 							</div>
 

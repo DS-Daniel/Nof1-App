@@ -98,7 +98,7 @@ export default function RandomizationStrategy({
 							pt={'9px'}
 							sx={{ whiteSpace: 'pre-line' }}
 						>
-							{t('parameters.RS-custom')}
+							{t('parameters.RS-custom')} {t('parameters.RS-custom-warning')}
 						</Typography>
 						<TextField
 							size="small"
