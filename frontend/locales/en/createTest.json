@@ -63,6 +63,7 @@
 			"values": "Values (qualitative)",
 			"skip": "Skipped run-in days for analysis"
 		},
+    "skipped-run-in-desc": "Determines the number of days (of the period) that should be omitted from the statistical analysis.\nFor example when the dosage is increasing. In order to take into account only the days when the concentration of the substance is significant for the analysis.",
 		"types": {
 			"txt": "Textual",
 			"vas": "VAS",
@@ -89,9 +90,11 @@
 			"remarks-desc": "General remarks :"
 		},
 		"modal-title": "Parameters of the variable to monitor",
-		"error-already-exist": "This variable already exists",
-		"error-min0": "Minimum 0",
-		"error-max": "Cannot exceed the period's length"
+		"error": {
+			"already-exist": "This variable already exists",
+			"min0": "Minimum 0",
+			"max": "Cannot exceed the period's length"
+		}
 	},
 	"clinicalInfo": {
 		"title": "Clinical information",

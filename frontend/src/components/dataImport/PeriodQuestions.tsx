@@ -2,7 +2,7 @@ import { MutableRefObject, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { TestData } from '../../entities/nof1Data';
 import { Substance } from '../../entities/substance';
-import TextareaWithCustomValidation from '../common/TextareaWithCustomValidation';
+import TextareaWithCustomValidation from '../common/inputs/TextareaWithCustomValidation';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';

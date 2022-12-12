@@ -1,6 +1,6 @@
 import TextField from '@mui/material/TextField';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { textareaRegex } from '../../utils/constants';
+import { textareaRegex } from '../../../utils/constants';
 import useTranslation from 'next-translate/useTranslation';
 
 interface TextareaWithCustomValidationProps {

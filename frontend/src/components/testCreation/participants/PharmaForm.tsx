@@ -5,7 +5,7 @@ import {
 	PharmacyFormData,
 	usePharmacySchema,
 } from '../../../utils/zodValidationHook';
-import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
+import FormWithValidation, { FormInput } from '../../common/forms/FormWithValidation';
 import { MutableRefObject, useState } from 'react';
 import SuccessSnackbar from '../../common/SuccessSnackbar';
 import {

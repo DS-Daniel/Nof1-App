@@ -47,7 +47,7 @@
 			"desc": "Rajouter une posologie décroissante lors de la période suivante si le traitement change, afin d'éviter un syndrome de sevrage de la substance courante lors du changement de période ?\n(Celle-ci se poursuivra la période suivante en même temps qu'une autre substance)",
 			"btn": "Ajouter une posologie décroissante"
 		},
-    "analysisToPerform": "Analyse statistique à effectuer"
+		"analysisToPerform": "Analyse statistique à effectuer"
 	},
 	"variables": {
 		"title": "Variables à monitorer",
@@ -63,6 +63,7 @@
 			"values": "Valeurs (qualitative)",
 			"skip": "Jours de rodage sautées pour l'analyse"
 		},
+    "skipped-run-in-desc": "Détermine le nombre de jour (de la période) qui doivent être omis de l'analyse statistique.\nPar exemple lors d'une posologie croissante. Afin de ne prendre en compte que les jours où la concentration de la substance est significative pour l'analyse.",
 		"types": {
 			"txt": "Textuelle",
 			"vas": "VAS",
@@ -89,9 +90,11 @@
 			"remarks-desc": "Remarques générales :"
 		},
 		"modal-title": "Paramètres de la variable à monitorer",
-		"error-already-exist": "Cette variable existe déjà",
-		"error-min0": "Minimum 0",
-		"error-max": "Ne peut pas dépasser la longueur d'une période"
+		"error": {
+			"already-exist": "Cette variable existe déjà",
+			"min0": "Minimum 0",
+			"max": "Ne peut pas dépasser la longueur d'une période"
+		}
 	},
 	"clinicalInfo": {
 		"title": "Informations cliniques",

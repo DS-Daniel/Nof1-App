@@ -2,7 +2,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import ReadOnlyForm from '../../common/ReadOnlyForm';
+import ReadOnlyForm from '../../common/forms/ReadOnlyForm';
 import { IParticipants } from '../../../entities/nof1Test';
 import { Physician } from '../../../entities/people';
 

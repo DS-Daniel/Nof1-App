@@ -1,7 +1,11 @@
-import TextField from '@mui/material/TextField';
 import { Translate } from 'next-translate';
 import { FormState, UseFormRegister } from 'react-hook-form';
 import { Variable } from '../../../../entities/variable';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 
 export type InputsProps = {
 	register: UseFormRegister<Variable>;
@@ -21,7 +25,7 @@ export const Name = ({ register, t, validation }: InputsProps) => {
 			message: t('common:formErrors.maxLen-n', { n: 64 }),
 		},
 		validate: (val) =>
-			validation?.validate(val) || t('variables.error-already-exist'),
+			validation?.validate(val) || t('variables.error.already-exist'),
 	});
 	return (
 		<TextField
@@ -115,25 +119,37 @@ export const SkippedRunInDays = ({
 	const { ref: inputRef, ...registerProps } = register('skippedRunInDays', {
 		shouldUnregister: true,
 		required: t('common:formErrors.requiredField'),
-		min: { value: 0, message: t('variables.error-min0') },
+		min: { value: 0, message: t('variables.error.min0') },
 		max: {
 			value: periodLen!,
-			message: t('variables.error-max'),
+			message: t('variables.error.max'),
 		},
 		valueAsNumber: true,
 	});
 	return (
-		<TextField
-			autoFocus
-			id="skippedRunInDays"
-			label={t('variables.header.skip')}
-			type="number"
-			fullWidth
-			defaultValue={0}
-			error={!!validation?.errors.skippedRunInDays}
-			helperText={validation?.errors.skippedRunInDays?.message}
-			inputRef={inputRef}
-			{...registerProps}
-		/>
+		<Stack direction="row" alignItems="center" spacing={2}>
+			<TextField
+				autoFocus
+				id="skippedRunInDays"
+				label={t('variables.header.skip')}
+				type="number"
+				fullWidth
+				defaultValue={0}
+				error={!!validation?.errors.skippedRunInDays}
+				helperText={validation?.errors.skippedRunInDays?.message}
+				inputRef={inputRef}
+				{...registerProps}
+			/>
+			<Tooltip
+				title={
+					<Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+						{t('variables.skipped-run-in-desc')}
+					</Typography>
+				}
+				arrow
+			>
+				<InfoOutlinedIcon color="primary" />
+			</Tooltip>
+		</Stack>
 	);
 };

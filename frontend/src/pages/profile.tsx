@@ -2,7 +2,7 @@ import AuthenticatedPage from '../components/layout/AuthenticatedPage';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import FormWithValidation, { FormInput } from '../components/common/FormWithValidation';
+import FormWithValidation, { FormInput } from '../components/common/forms/FormWithValidation';
 import { useUserContext } from '../context/UserContext';
 import {
 	usePhysicianSchema,
