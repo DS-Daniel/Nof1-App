@@ -47,12 +47,14 @@ export default function Nof1() {
 	const [data, setData] = useState<Nof1Test[]>([]);
 	const [openDialogBtn, setOpenDialogBtn] = useState(false);
 	const [openFailSB, setOpenFailSB] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	// fetch N-of-1 tests.
 	useEffect(() => {
 		async function fetchTests(ids: string[]) {
 			const { response } = await listOfTests(userContext.access_token, { ids });
 			setData(response);
+      setLoading(false);
 		}
 		const testsIds = userContext.user?.tests;
 		// fetch only on page switch and page refresh (this fetch takes times)
@@ -162,10 +164,18 @@ export default function Nof1() {
 		<AuthenticatedPage>
 			<Stack justifyContent="center" alignItems="center">
 				<Stack direction="row" spacing={4}>
-					<Button variant="contained" onClick={handleCreateBtn}>
+					<Button
+						variant="contained"
+						onClick={handleCreateBtn}
+						disabled={loading}
+					>
 						{t('btn.create')}
 					</Button>
-					<Button variant="contained" onClick={handleCreateFromBtn}>
+					<Button
+						variant="contained"
+						onClick={handleCreateFromBtn}
+						disabled={loading}
+					>
 						{t('btn.create-fromID')}
 					</Button>
 					<Dialog open={openDialogBtn} onClose={() => setOpenDialogBtn(false)}>
