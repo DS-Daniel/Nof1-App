@@ -17,6 +17,7 @@ import VASFormInputs from './dialogsInputs/VASFormInputs';
 import NumericFormInputs from './dialogsInputs/NumericFormInputs';
 import QualitativeFormInputs from './dialogsInputs/QualitativeFormInputs';
 import { defaultVariable } from '.';
+import { useRenderVariableType } from '../../../hooks/variables';
 
 interface VarDialogProps {
 	open: boolean;
@@ -41,6 +42,7 @@ export default function VarDialog({
 	periodLen,
 }: VarDialogProps) {
 	const { t } = useTranslation('createTest');
+	const selectTrad = useRenderVariableType();
 	const {
 		register,
 		handleSubmit,
@@ -118,26 +120,6 @@ export default function VarDialog({
 						validation={{ validate, errors }}
 					/>
 				);
-		}
-	};
-
-	/**
-	 * Selects a traduction according to the variable's type.
-	 * @param type Variable's type
-	 * @returns The traduction string.
-	 */
-	const selectTrad = (type: VariableType) => {
-		switch (type) {
-			case VariableType.Text:
-				return t('variables.types.txt');
-			case VariableType.VAS:
-				return t('variables.types.vas');
-			case VariableType.Binary:
-				return t('variables.types.binary');
-			case VariableType.Numeric:
-				return t('variables.types.numeric');
-			case VariableType.Qualitative:
-				return t('variables.types.qualitative');
 		}
 	};
 

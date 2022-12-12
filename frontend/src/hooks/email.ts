@@ -1,46 +1,5 @@
 import useTranslation from 'next-translate/useTranslation';
-import { Variable, VariableType } from '../entities/variable';
 import { Patient, Physician } from '../entities/people';
-
-/**
- * Returns the default available common health variables with the right translation.
- * @returns The default available common health variables.
- */
-export const usePredefinedHealthVariables: () => Variable[] = () => {
-	const { t } = useTranslation('createTest');
-	return [
-		{
-			name: t('variables.predefined.side-effect'),
-			type: VariableType.Text,
-			desc: t('variables.predefined.side-effect-desc'),
-		},
-		{
-			name: t('variables.predefined.problem'),
-			type: VariableType.Text,
-			desc: t('variables.predefined.problem-desc'),
-		},
-		{
-			name: t('variables.predefined.backup-medic'),
-			type: VariableType.Text,
-			desc: t('variables.predefined.backup-medic-desc'),
-		},
-		{
-			name: t('variables.predefined.fraction'),
-			type: VariableType.Text,
-			desc: t('variables.predefined.fraction-desc'),
-		},
-		{
-			name: t('variables.predefined.interruption'),
-			type: VariableType.Text,
-			desc: t('variables.predefined.interruption-desc'),
-		},
-		{
-			name: t('variables.predefined.remarks'),
-			type: VariableType.Text,
-			desc: t('variables.predefined.remarks-desc'),
-		},
-	];
-};
 
 /**
  * Format et returns all necessary information to send by email to the pharmacy.

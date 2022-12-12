@@ -3,7 +3,7 @@ import { useUserContext } from '../../../context/UserContext';
 import useTranslation from 'next-translate/useTranslation';
 import { tokenExpMargin } from '../../../utils/constants';
 import { sendPatientEmail, updateNof1Test } from '../../../utils/apiCalls';
-import { usePatientEmailMsg } from '../../../utils/customHooks';
+import { usePatientEmailMsg } from '../../../hooks/email';
 import { Nof1Test, TestStatus } from '../../../entities/nof1Test';
 import { OptionsProps } from '../Nof1TableItem';
 import OptionBtn from './OptionBtn';

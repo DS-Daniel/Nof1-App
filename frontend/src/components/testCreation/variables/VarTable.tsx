@@ -8,11 +8,12 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import { Variable, VariableType } from '../../../entities/variable';
+import { Variable } from '../../../entities/variable';
 import {
 	ThemedTableHead,
 	StyledTableContainer,
 } from '../../common/table/customTableComponents';
+import { useRenderVariableType } from '../../../hooks/variables';
 
 /**
  * Helper method to render a TableCell component.
@@ -38,6 +39,7 @@ type VarTableProps = {
  */
 export default function VarTable({ rows, removeRow, edit }: VarTableProps) {
 	const { t } = useTranslation('createTest');
+	const selectTrad = useRenderVariableType();
 	const headers = [
 		t('variables.header.name'),
 		t('variables.header.type'),
@@ -49,26 +51,6 @@ export default function VarTable({ rows, removeRow, edit }: VarTableProps) {
 		t('variables.header.skip'),
 		'',
 	];
-
-	/**
-	 * Selects a traduction according to the variable's type.
-	 * @param type Variable's type
-	 * @returns The traduction string.
-	 */
-	const selectTrad = (type: VariableType) => {
-		switch (type) {
-			case VariableType.Text:
-				return t('variables.types.txt');
-			case VariableType.VAS:
-				return t('variables.types.vas');
-			case VariableType.Binary:
-				return t('variables.types.binary');
-			case VariableType.Numeric:
-				return t('variables.types.numeric');
-			case VariableType.Qualitative:
-				return t('variables.types.qualitative');
-		}
-	};
 
 	return (
 		<Box sx={{ width: '100%', my: '2rem' }}>

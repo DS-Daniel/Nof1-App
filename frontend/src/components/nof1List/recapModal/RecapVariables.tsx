@@ -4,12 +4,13 @@ import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
-import { Variable, VariableType } from '../../../entities/variable';
+import { Variable } from '../../../entities/variable';
 import useTranslation from 'next-translate/useTranslation';
 import {
 	ThemedTableHead,
 	StyledTableContainer,
 } from '../../common/table/customTableComponents';
+import { useRenderVariableType } from '../../../hooks/variables';
 
 /**
  * Helper method to render a TableCell component.
@@ -33,7 +34,7 @@ interface RecapVariablesProps {
  */
 export default function RecapVariables({ variables }: RecapVariablesProps) {
 	const { t } = useTranslation('createTest');
-
+	const selectTrad = useRenderVariableType();
 	const varTableHeaders = [
 		t('variables.header.name'),
 		t('variables.header.type'),
@@ -44,26 +45,6 @@ export default function RecapVariables({ variables }: RecapVariablesProps) {
 		t('variables.header.values'),
 		t('variables.header.skip'),
 	];
-
-	/**
-	 * Selects a traduction according to the variable's type.
-	 * @param type Variable's type
-	 * @returns The traduction string.
-	 */
-	const selectTrad = (type: VariableType) => {
-		switch (type) {
-			case VariableType.Text:
-				return t('variables.types.txt');
-			case VariableType.VAS:
-				return t('variables.types.vas');
-			case VariableType.Binary:
-				return t('variables.types.binary');
-			case VariableType.Numeric:
-				return t('variables.types.numeric');
-			case VariableType.Qualitative:
-				return t('variables.types.qualitative');
-		}
-	};
 
 	return (
 		<Stack spacing={3}>

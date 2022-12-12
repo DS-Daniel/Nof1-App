@@ -10,7 +10,7 @@ import {
 	selectRandomPosology,
 	sendPharmaEmailWrapper,
 } from '../../../utils/nof1-lib/lib';
-import { usePharmaEmailInfos } from '../../../utils/customHooks';
+import { usePharmaEmailInfos } from '../../../hooks/email';
 import OptionBtn from './OptionBtn';
 import { OptionsProps } from '../Nof1TableItem';
 import EmailConfirmDialog from '../EmailConfirmDialog';

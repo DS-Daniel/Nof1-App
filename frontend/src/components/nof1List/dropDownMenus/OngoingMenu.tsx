@@ -10,7 +10,7 @@ import { Nof1Test } from '../../../entities/nof1Test';
 import {
 	usePharmaEmailInfos,
 	usePatientEmailMsg,
-} from '../../../utils/customHooks';
+} from '../../../hooks/email';
 import { sendPatientEmail, updateNof1Test } from '../../../utils/apiCalls';
 import { sendPharmaEmailWrapper } from '../../../utils/nof1-lib/lib';
 import { tokenExpMargin } from '../../../utils/constants';

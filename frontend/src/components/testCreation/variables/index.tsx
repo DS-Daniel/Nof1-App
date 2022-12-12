@@ -15,10 +15,10 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
-import { Variable, VariableType } from '../../../entities/variable';
-import { usePredefinedHealthVariables } from '../../../utils/customHooks';
 import VarTable from './VarTable';
 import VarDialog from './VarDialog';
+import { Variable, VariableType } from '../../../entities/variable';
+import { usePredefinedHealthVariables } from '../../../hooks/variables';
 
 export const defaultVariable = {
 	type: VariableType.VAS,
