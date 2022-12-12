@@ -127,7 +127,7 @@ export const SkippedRunInDays = ({
 		valueAsNumber: true,
 	});
 	return (
-		<Stack direction="row" alignItems="center" spacing={2}>
+		<Stack direction="row" alignItems="center" spacing={2} mr={2}>
 			<TextField
 				autoFocus
 				id="skippedRunInDays"

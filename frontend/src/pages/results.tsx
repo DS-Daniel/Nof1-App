@@ -61,17 +61,22 @@ export default function Results() {
 				userContext.access_token,
 				id,
 			);
-			const { response } = await findNof1Data(userContext.access_token, id);
-			setTest(test);
-			setSubstancesColors(test.substances.map(() => randomHexColor()));
-			if (response) setTestData(response.data);
+			// check if user can access result page
+			if (dayjs() < dayjs(test.endingDate)) {
+				await router.replace('/nof1');
+			} else {
+				const { response } = await findNof1Data(userContext.access_token, id);
+				setTest(test);
+				setSubstancesColors(test.substances.map(() => randomHexColor()));
+				if (response) setTestData(response.data);
+			}
 		}
 
 		const { id } = router.query;
 		if (id && userContext.access_token) {
 			init(id as string);
 		}
-	}, [router.query, userContext]);
+	}, [router, userContext]);
 
 	const xmlBtnOptions = [
 		{
