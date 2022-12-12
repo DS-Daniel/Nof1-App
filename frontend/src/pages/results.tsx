@@ -12,7 +12,6 @@ import {
 	clearXML,
 	encryptedXML,
 } from '../utils/apiCalls';
-import { randomHexColor } from '../utils/charts';
 import { formatPatientDataToTable } from '../utils/nof1-lib/lib';
 import ExtendedLineChart from '../components/results/lineChart';
 import RecapModal from '../components/nof1List/recapModal';
@@ -48,7 +47,6 @@ export default function Results() {
 	const { userContext } = useUserContext();
 	const [test, setTest] = useState<Nof1Test | null>(null);
 	const [testData, setTestData] = useState<TestData | null>(null);
-	const [substancesColors, setSubstancesColors] = useState<string[]>([]);
 	const [openRecapModal, setOpenRecapModal] = useState(false);
 	const [openReportModal, setOpenReportModal] = useState(false);
 	const [openFailSB, setOpenFailSB] = useState(false);
@@ -67,7 +65,6 @@ export default function Results() {
 			} else {
 				const { response } = await findNof1Data(userContext.access_token, id);
 				setTest(test);
-				setSubstancesColors(test.substances.map(() => randomHexColor()));
 				if (response) setTestData(response.data);
 			}
 		}
@@ -261,7 +258,6 @@ export default function Results() {
 											periodLen={test.periodLen}
 											substances={test.substances}
 											substancesSeq={test.substancesSequence!}
-											substancesColors={substancesColors}
 										/>
 									))
 							) : (

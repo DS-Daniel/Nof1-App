@@ -3,7 +3,6 @@ import useTranslation from 'next-translate/useTranslation';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { TestData } from '../../../entities/nof1Data';
 import { VariableType } from '../../../entities/variable';
-import { randomHexColor } from '../../../utils/charts';
 import { AnalyseType, anova } from '../../../utils/statistics';
 import CustomLineChart from '../lineChart/LineChart';
 import styles from './ReportToPrint.module.css';
@@ -280,9 +279,6 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 											variable={v}
 											periodLen={test.periodLen}
 											substancesNames={substancesNames}
-											substancesColors={test.substances.map(() =>
-												randomHexColor(),
-											)}
 										/>
 									</div>
 								))
@@ -294,10 +290,9 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 				<div>
 					<EditableTextarea style={styles.conclusion}>
 						{' '}
-						copie à / annexe
+						copie à / annexes
 					</EditableTextarea>
 				</div>
-				<footer>Footer?</footer>
 			</div>
 		);
 	},

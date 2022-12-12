@@ -17,6 +17,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { TestData } from '../../../entities/nof1Data';
 import { Variable } from '../../../entities/variable';
 import { formatGraphData } from '../../../utils/charts';
+import { chartsColors } from '../../../utils/constants';
 
 interface Props {
 	width?: string | number;
@@ -26,7 +27,6 @@ interface Props {
 	variable: Variable;
 	periodLen: number;
 	substancesNames: string[];
-	substancesColors: string[];
 }
 
 /**
@@ -42,7 +42,6 @@ const CustomLineChart = forwardRef<any, Props>(
 			variable,
 			periodLen,
 			substancesNames,
-			substancesColors,
 		},
 		ref,
 	) => {
@@ -59,9 +58,9 @@ const CustomLineChart = forwardRef<any, Props>(
 					{substancesNames.map((s, idx) => (
 						<Line
 							key={s}
-							type="monotone"
+							type="linear"
 							dataKey={s}
-							stroke={substancesColors[idx]}
+							stroke={chartsColors[idx]}
 							dot={false}
 						/>
 					))}

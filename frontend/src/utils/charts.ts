@@ -43,18 +43,6 @@ export const formatGraphData = (
 };
 
 /**
- * Generate a random hex color.
- */
-export const randomHexColor = () => {
-	const letters = '0123456789ABCDEF';
-	let color = '#';
-	for (let i = 0; i < 6; i += 1) {
-		color += letters[Math.floor(Math.random() * 16)];
-	}
-	return color;
-}
-
-/**
  * Retrieve the current substance of the current period.
  * @param day Day number.
  * @param periodLen Period length.

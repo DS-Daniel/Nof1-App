@@ -19,7 +19,6 @@ interface Props {
 	periodLen: number;
 	substances: Substance[];
 	substancesSeq: string[];
-	substancesColors: string[];
 }
 
 /**
@@ -31,7 +30,6 @@ export default function ExtendedLineChart({
 	periodLen,
 	substances,
 	substancesSeq,
-	substancesColors,
 }: Props) {
 	const { t } = useTranslation('common');
 	const [getPng, { ref }] = useCurrentPng();
@@ -95,7 +93,6 @@ export default function ExtendedLineChart({
 				variable={variable}
 				periodLen={periodLen}
 				substancesNames={substancesNames}
-				substancesColors={substancesColors}
 			/>
 		</Stack>
 	);
