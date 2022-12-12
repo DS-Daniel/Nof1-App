@@ -86,6 +86,9 @@ export default function CreateTest() {
 			setSubstances(
 				test.substances.map((s) => {
 					const { posology, decreasingDosage, ...rest } = s;
+          if (edit === 'true') {
+						return { ...rest, decreasingDosage };
+					}
 					return rest;
 				}),
 			);

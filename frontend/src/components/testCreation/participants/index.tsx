@@ -48,16 +48,29 @@ export default function Participants({ participants }: ParticipantsProps) {
 				</Grid>
 				<Grid item xs={12} sm={6} md={4}>
 					{showAttendingPhysician ? (
-						<PhysicianForm
-							header={t('participants.attendingPhysician')}
-							physician={() => participants.current.attendingPhysician!}
-							setPhysician={(physician) => {
-								participants.current.attendingPhysician = physician;
-							}}
-						/>
+						<>
+							<PhysicianForm
+								header={t('participants.attendingPhysician')}
+								physician={() => participants.current.attendingPhysician!}
+								setPhysician={(physician) => {
+									participants.current.attendingPhysician = physician;
+								}}
+							/>
+							<Button
+								variant="outlined"
+								color="error"
+								onClick={() => {
+									delete participants.current.attendingPhysician;
+									setShowAttendingPhysician(false);
+								}}
+								sx={{ mt: 1 }}
+							>
+								{t('common:button.delete')}
+							</Button>
+						</>
 					) : (
 						<Button
-              variant="outlined"
+							variant="outlined"
 							onClick={() => {
 								participants.current.attendingPhysician = defaultPhysician();
 								setShowAttendingPhysician(true);
