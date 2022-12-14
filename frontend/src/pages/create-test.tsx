@@ -86,7 +86,7 @@ export default function CreateTest() {
 			setSubstances(
 				test.substances.map((s) => {
 					const { posology, decreasingDosage, ...rest } = s;
-          if (edit === 'true') {
+					if (edit === 'true') {
 						return { ...rest, decreasingDosage };
 					}
 					return rest;
@@ -151,8 +151,8 @@ export default function CreateTest() {
 	 * Generates a N-of-1 test from the component data.
 	 * @returns A N-of-1 test object, without the status field.
 	 */
-	const generateNof1TestData = () => {
-		const tmp: Omit<Nof1Test, 'status'> = {
+	const generateNof1TestData = (): Omit<Nof1Test, 'status'> => {
+		return {
 			participants: participants.current,
 			clinicalInfo,
 			nbPeriods,
@@ -163,7 +163,6 @@ export default function CreateTest() {
 			monitoredVariables: variables,
 			statistics: { analysisToPerform },
 		};
-		return tmp;
 	};
 
 	/**

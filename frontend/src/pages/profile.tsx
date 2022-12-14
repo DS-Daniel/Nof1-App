@@ -1,25 +1,27 @@
-import AuthenticatedPage from '../components/layout/AuthenticatedPage';
+import { useEffect, useState } from 'react';
+import { useUserContext } from '../context/UserContext';
+import useTranslation from 'next-translate/useTranslation';
+import { SubmitHandler } from 'react-hook-form';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import FormWithValidation, { FormInput } from '../components/common/forms/FormWithValidation';
-import { useUserContext } from '../context/UserContext';
+import Alert from '@mui/material/Alert';
+import Skeleton from '@mui/material/Skeleton';
 import {
 	usePhysicianSchema,
 	PhysicianFormData,
 } from '../utils/zodValidationHook';
-import useTranslation from 'next-translate/useTranslation';
 import {
 	formatPhysicianData,
 	formatPhysicianDataToForm,
 } from '../utils/dataFormConvertor';
-import { SubmitHandler } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import Alert from '@mui/material/Alert';
 import { updatePhysician, updateUser, userExists } from '../utils/apiCalls';
-import Skeleton from '@mui/material/Skeleton';
-import SuccessSnackbar from '../components/common/SuccessSnackbar';
-import FailSnackbar from '../components/common/FailSnackbar';
+import AuthenticatedPage from '../components/layout/AuthenticatedPage';
+import FormWithValidation, {
+	FormInput,
+} from '../components/common/forms/FormWithValidation';
+import SuccessSnackbar from '../components/common/ui/SuccessSnackbar';
+import FailSnackbar from '../components/common/ui/FailSnackbar';
 
 /**
  * Profile page.
@@ -44,7 +46,7 @@ export default function Profile() {
 			setDefaultValues(formatPhysicianDataToForm(userContext.user));
 			setLoading(false);
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [userContext]);
 
 	/**

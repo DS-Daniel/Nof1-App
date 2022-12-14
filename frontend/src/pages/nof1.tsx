@@ -1,24 +1,24 @@
-import AuthenticatedPage from '../components/layout/AuthenticatedPage';
-import { useRouter } from 'next/router';
-import Nof1Table from '../components/nof1List/Nof1Table';
-import { UserContextType, useUserContext } from '../context/UserContext';
-import { HeadCell } from '../components/common/table/EnhancedTableHead';
-import Button from '@mui/material/Button';
-import useTranslation from 'next-translate/useTranslation';
-import Stack from '@mui/material/Stack';
 import { createContext, useCallback, useEffect, useState } from 'react';
-import { Nof1Test } from '../entities/nof1Test';
+import { useRouter } from 'next/router';
+import { UserContextType, useUserContext } from '../context/UserContext';
+import useTranslation from 'next-translate/useTranslation';
+import Link from 'next/link';
 import {
 	deleteNof1Test,
 	listOfTests,
 	updatePhysician,
 } from '../utils/apiCalls';
+import { Nof1Test } from '../entities/nof1Test';
+import AuthenticatedPage from '../components/layout/AuthenticatedPage';
+import Nof1Table from '../components/nof1List/Nof1Table';
+import { HeadCell } from '../components/common/table/EnhancedTableHead';
+import FailSnackbar from '../components/common/ui/FailSnackbar';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import Link from 'next/link';
 import dayjs from 'dayjs';
-import FailSnackbar from '../components/common/FailSnackbar';
 
 /**
  * Context method to remove a test from the user.
@@ -54,11 +54,10 @@ export default function Nof1() {
 		async function fetchTests(ids: string[]) {
 			const { response } = await listOfTests(userContext.access_token, { ids });
 			setData(response);
-      setLoading(false);
+			setLoading(false);
 		}
 		const testsIds = userContext.user?.tests;
-		// fetch only on page switch and page refresh (this fetch takes times)
-		if (testsIds && testsIds.length > 0 && data.length === 0) {
+		if (testsIds && testsIds.length > 0) {
 			fetchTests(testsIds);
 		}
 	}, [data, userContext]);
@@ -151,14 +150,12 @@ export default function Nof1() {
 	 * Limits the creation of a test to one every 15min.
 	 * @returns True if limit exceeded, false otherwise.
 	 */
-	const creationLimitExceeded = () => {
-		return (
-			dayjs().diff(
-				dayjs(data[data.length - 1].meta_info?.creationDate),
-				'minute',
-			) < 15
-		);
-	};
+	const creationLimitExceeded = () =>
+		data.length > 0 &&
+		dayjs().diff(
+			dayjs(data[data.length - 1].meta_info?.creationDate),
+			'minute',
+		) < 15;
 
 	return (
 		<AuthenticatedPage>

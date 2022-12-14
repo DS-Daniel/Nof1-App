@@ -8,7 +8,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExportToolbar from './ExportToolbar';
-import CustomTooltip from '../common/CustomTooltip';
+import CustomTooltip from '../common/ui/CustomTooltip';
 import PosologyTable from '../common/table/posologyTable';
 import { PosologyDay } from '../../entities/posology';
 import { Substance } from '../../entities/substance';

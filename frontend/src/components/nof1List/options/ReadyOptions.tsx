@@ -10,7 +10,7 @@ import OptionBtn from './OptionBtn';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import ReadyMenu from '../dropDownMenus/ReadyMenu';
 import DatePicker from '../../common/DatePicker';
-import FailSnackbar from '../../common/FailSnackbar';
+import FailSnackbar from '../../common/ui/FailSnackbar';
 import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import dayjs from 'dayjs';

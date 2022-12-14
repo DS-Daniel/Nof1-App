@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import ClearIcon from '@mui/icons-material/Clear';
+import Divider from '@mui/material/Divider';
 import { PosologiesProps } from '.';
 import PosologyTable from './PosologyTable';
 import PosologyTableWithState from './PosologyTableWithState';
@@ -12,8 +13,9 @@ import {
 	Posology,
 	PosologyDay,
 } from '../../../entities/posology';
-import SuccessSnackbar from '../../common/SuccessSnackbar';
-import FailSnackbar from '../../common/FailSnackbar';
+import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
+import FailSnackbar from '../../common/ui/FailSnackbar';
+import { MiddleDivider } from '../../common/ui';
 import { maxValue } from '../../../utils/constants';
 
 /**
@@ -233,16 +235,19 @@ export default function Posologies({
 					{/* ----- stack for each substance ----- */}
 					{allPosologies.map(({ substance, unit, posologies }, subIdx) => (
 						<Stack key={`substance-posology-${subIdx}`}>
-							<Typography fontWeight="bold">
-								{t('parameters.substance-x', { substance })}
-							</Typography>
+							<Divider>
+								<Typography variant="subtitle1" fontWeight="bold">
+									{t('parameters.substance-x', { substance })}
+								</Typography>
+							</Divider>
 
 							{/* ----- all posologies of a substance ----- */}
 							<Stack alignItems="center" spacing={2} mt={1} mb={4}>
 								{posologies.map(({ posology, repeatLast }, posoIdx) => (
 									<Stack key={`substance-posology-data-${posoIdx}`} spacing={1}>
+										{posoIdx > 0 && <MiddleDivider />}
 										<Stack direction="row" alignItems="center" spacing={2}>
-											<Typography>
+											<Typography fontStyle="italic">
 												{t('parameters.posology-x', { x: posoIdx + 1 })}
 											</Typography>
 											{posoIdx > 0 && (
@@ -284,6 +289,7 @@ export default function Posologies({
 								</Button>
 							</Stack>
 
+							<MiddleDivider mb={2} mt={0} />
 							{/* ----- decreasing posology option for a substance ----- */}
 							<Stack alignItems="start" spacing={1}>
 								<Typography sx={{ whiteSpace: 'pre-line' }}>

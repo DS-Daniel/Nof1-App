@@ -17,8 +17,8 @@ import {
 } from '../../../utils/apiCalls';
 import { isPhysicianInfoEqual } from '../../../utils/nof1-lib/lib';
 import FormWithValidation, { FormInput } from '../../common/forms/FormWithValidation';
-import SuccessSnackbar from '../../common/SuccessSnackbar';
-import FailSnackbar from '../../common/FailSnackbar';
+import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
+import FailSnackbar from '../../common/ui/FailSnackbar';
 import { useUserContext } from '../../../context/UserContext';
 import { Physician } from '../../../entities/people';
 

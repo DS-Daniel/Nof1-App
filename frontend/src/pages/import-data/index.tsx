@@ -13,8 +13,8 @@ import {
 	findNof1TestById,
 	updateNof1Data,
 } from '../../utils/apiCalls';
-import FailSnackbar from '../../components/common/FailSnackbar';
-import SuccessSnackbar from '../../components/common/SuccessSnackbar';
+import FailSnackbar from '../../components/common/ui/FailSnackbar';
+import SuccessSnackbar from '../../components/common/ui/SuccessSnackbar';
 import { defaultData } from '../../utils/nof1-lib/lib';
 import Logbook from '../../components/dataImport/Logbook';
 import dayjs from 'dayjs';

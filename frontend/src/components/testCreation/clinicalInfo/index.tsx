@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useClinicalInfoSchema } from '../../../utils/zodValidationHook';
 import { IClinicalInfo } from '../../../entities/clinicalInfo';
 import { IParticipants } from '../../../entities/nof1Test';
-import SuccessSnackbar from '../../common/SuccessSnackbar';
+import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import TextField, { TextFieldProps } from '@mui/material/TextField';

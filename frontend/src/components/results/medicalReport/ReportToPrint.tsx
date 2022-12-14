@@ -290,7 +290,7 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 				<div>
 					<EditableTextarea style={styles.conclusion}>
 						{' '}
-						copie à / annexes
+						<i>copie à / annexes</i>
 					</EditableTextarea>
 				</div>
 			</div>

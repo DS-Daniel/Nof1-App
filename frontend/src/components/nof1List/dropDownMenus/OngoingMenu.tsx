@@ -4,8 +4,8 @@ import useTranslation from 'next-translate/useTranslation';
 import MenuOptions from './MenuOptions';
 import HealthLogbookModal from '../HealthLogbookModal';
 import EmailConfirmDialog from '../EmailConfirmDialog';
-import SuccessSnackbar from '../../common/SuccessSnackbar';
-import FailSnackbar from '../../common/FailSnackbar';
+import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
+import FailSnackbar from '../../common/ui/FailSnackbar';
 import { Nof1Test } from '../../../entities/nof1Test';
 import {
 	usePharmaEmailInfos,

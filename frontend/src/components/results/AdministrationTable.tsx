@@ -2,7 +2,7 @@ import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
 import { AdministrationSchema } from '../../entities/nof1Test';
 import ReadOnlyTableWPages from '../common/table/ReadOnlyTableWPages';
-import CustomTooltip from '../common/CustomTooltip';
+import CustomTooltip from '../common/ui/CustomTooltip';
 import ExportToolbar from '../../components/results/ExportToolbar';
 import dayjs from 'dayjs';
 

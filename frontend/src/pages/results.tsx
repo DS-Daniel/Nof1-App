@@ -20,7 +20,7 @@ import AdministrationTable from '../components/results/AdministrationTable';
 import PatientDataTable from '../components/results/PatientDataTable';
 import SelectedPosologies from '../components/results/SelectedPosologies';
 import Statistics from '../components/results/statistics';
-import FailSnackbar from '../components/common/FailSnackbar';
+import FailSnackbar from '../components/common/ui/FailSnackbar';
 import MenuContainer from '../components/common/MenuContainer';
 import { useRenderStrategy } from '../hooks/randomStrategy';
 import Skeleton from '@mui/material/Skeleton';

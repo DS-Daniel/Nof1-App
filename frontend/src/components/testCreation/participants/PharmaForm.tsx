@@ -7,7 +7,7 @@ import {
 } from '../../../utils/zodValidationHook';
 import FormWithValidation, { FormInput } from '../../common/forms/FormWithValidation';
 import { MutableRefObject, useState } from 'react';
-import SuccessSnackbar from '../../common/SuccessSnackbar';
+import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
 import {
 	formatPharmacyData,
 	formatPharmacyDataToForm,

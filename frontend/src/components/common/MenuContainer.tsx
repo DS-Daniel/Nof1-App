@@ -4,7 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Typography from '@mui/material/Typography';
-import CustomTooltip from './CustomTooltip';
+import CustomTooltip from './ui/CustomTooltip';
 
 export interface IMenuItem {
 	name: string;
