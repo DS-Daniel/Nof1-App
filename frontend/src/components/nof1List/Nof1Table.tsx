@@ -92,11 +92,7 @@ export default function Nof1Table({
 		<Box sx={{ width: '100%', my: '2rem' }}>
 			<Paper sx={{ width: '100%' }}>
 				<TableContainer>
-					<Table
-						sx={{ minWidth: 600 }}
-						aria-labelledby="tableTitle"
-						size="medium"
-					>
+					<Table aria-labelledby="tableTitle" size="medium">
 						<EnhancedTableHead
 							headCells={headCells}
 							order={order}
@@ -117,7 +113,7 @@ export default function Nof1Table({
 												variant="rectangular"
 												animation="wave"
 												height={90}
-                        width="100%"
+												width="100%"
 											/>
 										</TableCell>
 									</TableRow>

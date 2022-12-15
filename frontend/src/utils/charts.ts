@@ -14,29 +14,29 @@ export const formatGraphData = (
 	variable: Variable,
 	periodLen: number,
 ) => {
-	const graphData: { [key: string]: string | number }[] = [];
+	const graphData: { [key: string]: string | number }[] = [{ day: 0 }];
 	// to avoid a line break in the graph, when changing substance at the end of a period,
 	// the previous substance is added again (links the line to the next point).
 	// We use a counter and a stored value to achieve that.
-	let cpt = periodLen;
-	let prevSubstance: string;
+	// let cpt = periodLen;
+	// let prevSubstance: string;
 	testData.map((d) => {
 		const v = d.data.find((v) => v.variableName === variable.name);
 		const entry: { [key: string]: string | number } = {};
 
 		// add both entries when changing periods.
-		if (cpt === 1) {
-			prevSubstance = d.substance;
-		}
-		if (cpt === 0) {
-			entry[prevSubstance] = v!.value;
-			cpt = periodLen - 1;
-		} else {
-			cpt--;
-		}
+		// if (cpt === 1) {
+		// 	prevSubstance = d.substance;
+		// }
+		// if (cpt === 0) {
+		// 	entry[prevSubstance] = v!.value;
+		// 	cpt = periodLen - 1;
+		// } else {
+		// 	cpt--;
+		// }
 
 		entry['day'] = d.day;
-		entry[`${d.substance}`] = v!.value;
+		entry[d.substance] = v!.value;
 		graphData.push(entry);
 	});
 	return graphData;
@@ -50,8 +50,13 @@ export const formatGraphData = (
  * @param substances Array of substances of the N-of-1 test.
  * @returns The current substance of the current period.
  */
-export const currentSubstance = (day: number, periodLen: number, substancesSeq: string[], substances: Substance[]) => {
+export const currentSubstance = (
+	day: number,
+	periodLen: number,
+	substancesSeq: string[],
+	substances: Substance[],
+) => {
 	const abbrev = substancesSeq[(day - 1) / periodLen];
-	const sub = substances.find(s => s.abbreviation === abbrev)
+	const sub = substances.find((s) => s.abbreviation === abbrev);
 	return sub?.name;
-}
+};

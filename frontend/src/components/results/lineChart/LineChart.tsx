@@ -58,10 +58,10 @@ const CustomLineChart = forwardRef<any, Props>(
 					{substancesNames.map((s, idx) => (
 						<Line
 							key={s}
+							isAnimationActive={false}
 							type="linear"
 							dataKey={s}
 							stroke={chartsColors[idx]}
-							dot={false}
 						/>
 					))}
 					<XAxis
