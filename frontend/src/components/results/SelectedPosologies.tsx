@@ -63,7 +63,7 @@ export default function SelectedPosologies({
 					{t('results:title.selected-posologies')}
 				</Typography>
 			</AccordionSummary>
-			<AccordionDetails sx={{ padding: 0 }}>
+			<AccordionDetails sx={{ paddingTop: 0 }}>
 				<Stack spacing={2}>
 					{substances.map(({ name, unit, posology }, index) => (
 						<div key={`substance-posology-${index}`}>

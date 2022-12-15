@@ -119,7 +119,7 @@ export default function Nof1() {
 	const generateRows = (): Nof1TableInterface[] => {
 		return data.map((test) => ({
 			id: test.uid!,
-			creationDate: new Date(test.meta_info!.creationDate),
+			creationDate: new Date(test.meta_info.creationDate),
 			status: test.status,
 		}));
 	};
@@ -153,7 +153,7 @@ export default function Nof1() {
 	const creationLimitExceeded = () =>
 		data.length > 0 &&
 		dayjs().diff(
-			dayjs(data[data.length - 1].meta_info?.creationDate),
+			dayjs(data[data.length - 1].meta_info.creationDate),
 			'minute',
 		) < 15;
 

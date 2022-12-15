@@ -234,8 +234,12 @@ export default function Results() {
 							{testData ? (
 								<Paper>
 									<PatientDataTable
-										data={formatPatientDataToTable(testData)}
+										data={formatPatientDataToTable(
+											testData,
+											test.meta_info.showPeriodQuestions,
+										)}
 										variables={test.monitoredVariables}
+										showPeriodQuestions={test.meta_info.showPeriodQuestions}
 									/>
 								</Paper>
 							) : (

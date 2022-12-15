@@ -77,6 +77,7 @@ class Nof1Test {
   meta_info: {
     creationDate: Date;
     emailSendingDate?: Date;
+    showPeriodQuestions: boolean;
   };
 }
 

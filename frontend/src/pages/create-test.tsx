@@ -70,6 +70,8 @@ export default function CreateTest() {
 	const [analysisToPerform, setAnalysisToPerform] = useState(
 		AnalyseType.CycleANOVA,
 	);
+	const [showPeriodQuestions, setShowPeriodQuestions] = useState(true);
+	const [creationDate, setCreationDate] = useState(new Date());
 
 	// fills parameters in case of test edit or "new from template"
 	useEffect(() => {
@@ -97,8 +99,10 @@ export default function CreateTest() {
 			setStrategy(test.randomization);
 			setAnalysisToPerform(test.statistics.analysisToPerform);
 			setVariables(test.monitoredVariables);
+			setShowPeriodQuestions(test.meta_info.showPeriodQuestions);
 			if (edit === 'true') {
 				setAllPosologies(test.posologies);
+				setCreationDate(test.meta_info.creationDate);
 			}
 			setLoading(false);
 		}
@@ -162,6 +166,7 @@ export default function CreateTest() {
 			posologies: allPosologies,
 			monitoredVariables: variables,
 			statistics: { analysisToPerform },
+			meta_info: { creationDate, showPeriodQuestions },
 		};
 	};
 
@@ -174,7 +179,6 @@ export default function CreateTest() {
 		if (edit && edit === 'true') {
 			updateNof1Test(userContext.access_token, id! as string, testData);
 		} else {
-			testData.meta_info = { creationDate: new Date() };
 			const { statusCode, response } = await createNof1Test(
 				userContext.access_token,
 				testData,
@@ -344,6 +348,8 @@ export default function CreateTest() {
 					variables={variables}
 					setVariables={setVariables}
 					periodLen={periodLen}
+					showPeriodQuestions={showPeriodQuestions}
+					setShowPeriodQuestions={setShowPeriodQuestions}
 				/>
 			</Stack>
 		</AuthenticatedPage>

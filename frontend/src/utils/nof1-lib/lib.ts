@@ -236,16 +236,15 @@ export const generateXlsxSchemaExample = (
  * @param data Patient health variables data.
  * @returns The formatted data (as an array of string).
  */
-export const formatPatientDataToTable = (data: TestData): string[][] => {
+export const formatPatientDataToTable = (
+	data: TestData,
+	showPeriodQuestions: boolean,
+): string[][] => {
 	return data.map((d) => {
-		const row = [
-			new Date(d.date).toLocaleDateString(),
-			d.substance,
-			d.supposition ?? '',
-			d.optimal ?? '',
-			d.endPeriodRemark ?? '',
-		];
+		const row = [new Date(d.date).toLocaleDateString(), d.substance];
 		d.data.forEach((v) => row.push(v.value));
+		if (showPeriodQuestions)
+			row.push(d.supposition ?? '', d.optimal ?? '', d.endPeriodRemark ?? '');
 		return row;
 	});
 };

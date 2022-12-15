@@ -94,7 +94,12 @@
 			"already-exist": "Cette variable existe déjà",
 			"min0": "Minimum 0",
 			"max": "Ne peut pas dépasser la longueur d'une période"
-		}
+		},
+    "end-period-Q": {
+      "title": "Questions de fin de période",
+      "Q": "Inclure les questions relatives aux fins de périodes et le compteur de période dans le carnet/formulaire de relevés des variables de santé du patient ?",
+      "info": "Voici les questions qui seront ajoutées :\n- Quel traitement pensez-vous avoir pris cette dernière période ?\n- Pensez-vous que le traitement de cette période soit optimal pour vous ?\n- Remarques concernant les deux questions précédentes.\nCes questions apparaîtront au dernier jour d'une période."
+    }
 	},
 	"clinicalInfo": {
 		"title": "Informations cliniques",

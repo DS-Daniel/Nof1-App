@@ -15,8 +15,10 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
+import Switch from '@mui/material/Switch';
 import VarTable from './VarTable';
 import VarDialog from './VarDialog';
+import CustomTooltip from '../../common/ui/CustomTooltip';
 import { Variable, VariableType } from '../../../entities/variable';
 import { usePredefinedHealthVariables } from '../../../hooks/variables';
 
@@ -32,6 +34,8 @@ interface VariablesProps {
 	variables: Variable[];
 	setVariables: Dispatch<SetStateAction<Variable[]>>;
 	periodLen: number;
+	showPeriodQuestions: boolean;
+	setShowPeriodQuestions: Dispatch<SetStateAction<boolean>>;
 }
 
 /**
@@ -42,6 +46,8 @@ export default function Variables({
 	variables,
 	setVariables,
 	periodLen,
+	showPeriodQuestions,
+	setShowPeriodQuestions,
 }: VariablesProps) {
 	const { t } = useTranslation('createTest');
 	const predefinedHealthVariables = usePredefinedHealthVariables();
@@ -184,7 +190,7 @@ export default function Variables({
 					</Button>
 				</Stack>
 
-				<Typography variant="h6" mb={2}>
+				<Typography variant="h6">
 					{t('variables.additional-var-subtitle')}
 				</Typography>
 
@@ -212,6 +218,27 @@ export default function Variables({
 							);
 						})}
 					</Grid>
+				</FormGroup>
+
+				<Typography variant="h6">
+					{t('variables.end-period-Q.title')}
+				</Typography>
+				<FormGroup>
+					<FormControlLabel
+						control={
+							<Switch
+								checked={showPeriodQuestions}
+								onChange={() =>
+									setShowPeriodQuestions((prevState) => !prevState)
+								}
+							/>
+						}
+						label={
+							<CustomTooltip infoText={t('variables.end-period-Q.info')}>
+								{t('variables.end-period-Q.Q')}
+							</CustomTooltip>
+						}
+					/>
 				</FormGroup>
 			</Stack>
 			<VarDialog

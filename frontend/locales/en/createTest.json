@@ -63,7 +63,7 @@
 			"values": "Values (qualitative)",
 			"skip": "Skipped run-in days for analysis"
 		},
-    "skipped-run-in-desc": "Determines the number of days (of the period) that should be omitted from the statistical analysis.\nFor example when the dosage is increasing. In order to take into account only the days when the concentration of the substance is significant for the analysis.",
+		"skipped-run-in-desc": "Determines the number of days (of the period) that should be omitted from the statistical analysis.\nFor example when the dosage is increasing. In order to take into account only the days when the concentration of the substance is significant for the analysis.",
 		"types": {
 			"txt": "Textual",
 			"vas": "VAS",
@@ -94,6 +94,11 @@
 			"already-exist": "This variable already exists",
 			"min0": "Minimum 0",
 			"max": "Cannot exceed the period's length"
+		},
+		"end-period-Q": {
+      "title": "End of period questions",
+			"Q": "Include end of period questions and period counter in the patient's health variable record book/form ?",
+			"info": "The following questions will be added:\n- Which treatment do you think you took this last period?\n- Do you think the treatment of this period is optimal for you?\n- Remarks regarding the two previous questions.\nThese questions will appear on the last day of a period."
 		}
 	},
 	"clinicalInfo": {

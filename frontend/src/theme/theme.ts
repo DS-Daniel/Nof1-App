@@ -1,5 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
+// module extension to add a new color
 declare module '@mui/material/styles' {
   interface Palette {
     invert: Palette['primary'];

@@ -96,7 +96,7 @@ export default function PreparationOptions({
 		);
 
 		if (response.success) {
-			test.meta_info!.emailSendingDate = new Date();
+			test.meta_info.emailSendingDate = new Date();
 			test.status = TestStatus.Ready;
 			updateNof1Test(userContext.access_token, test.uid!, test);
 			setItem(test); // update display

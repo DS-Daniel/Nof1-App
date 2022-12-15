@@ -49,7 +49,7 @@ export default function Nof1TableItem({ item, labelId }: TableItemProps) {
 				{test.uid}
 			</TableCell>
 			<TableCell id={`${labelId}-date`} scope="row" align="center">
-				{new Date(test.meta_info!.creationDate).toLocaleDateString()}
+				{new Date(test.meta_info.creationDate).toLocaleDateString()}
 			</TableCell>
 			<TableCell align="right">
 				<Stack justifyContent="center" alignItems="flex-end" spacing={2}>

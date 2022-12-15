@@ -114,9 +114,10 @@ export default function Logbook({
 				testData.current.map((dayData, dayIdx) => (
 					<LogbookCard
 						key={dayIdx}
-						startDate={test.beginningDate!}
 						idx={dayIdx}
+						startDate={test.beginningDate!}
 						periodLen={test.periodLen}
+						showPeriodQuestions={test.meta_info.showPeriodQuestions}
 					>
 						{test.monitoredVariables.map((v, varIdx) => {
 							const defaultValue = dayData.data[varIdx].value;
@@ -127,13 +128,14 @@ export default function Logbook({
 								updateTestData(dayIdx, varIdx),
 							);
 						})}
-						{(dayIdx + 1) % test.periodLen === 0 && (
-							<PeriodQuestions
-								dayIdx={dayIdx}
-								testData={testData}
-								substances={test.substances}
-							/>
-						)}
+						{test.meta_info.showPeriodQuestions &&
+							(dayIdx + 1) % test.periodLen === 0 && (
+								<PeriodQuestions
+									dayIdx={dayIdx}
+									testData={testData}
+									substances={test.substances}
+								/>
+							)}
 					</LogbookCard>
 				))
 			) : (

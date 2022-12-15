@@ -84,5 +84,6 @@ export class CreateNof1TestDto {
   meta_info: {
     creationDate: Date;
     emailSendingDate?: Date;
+    showPeriodQuestions: boolean;
   };
 }
