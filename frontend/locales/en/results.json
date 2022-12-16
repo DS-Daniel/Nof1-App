@@ -42,7 +42,7 @@
 		"intro": "Thank you for referring your patient, whom we have seen on several occasions, for a \"N-of-1\" test performed from {{startDate}} to {{endDate}} in our department. This test consisted of the administration of {{substances}} in alternating periods in a randomized, double-blind sequence. The patient was asked to report his or her health parameters during the {{nbPeriods}} periods of {{periodLen}} days that the test lasted. The results are summarized below.",
 		"sequence": "Medication schedule (after unblinding) :",
 		"method": "Method :",
-		"method-desc": "A statistical analysis compares symptoms, plotted in mm on 100 mm Visual Analog Scales (VAS, see graphs below) during each period, according to the treatment received.",
+		"method-desc": "A statistical analysis compares the quantitative health variables monitored according to the treatment received. These variables are reported during each period either in mm on 100 mm Visual Analog Scales or in numerical values (see graphs below).",
 		"method-choice": "Statistical analysis performed : {{analysis}}",
 		"method-choice2": "Initially planned statistical analysis : {{analysis}}",
 		"results": "Results :",
@@ -53,7 +53,8 @@
 		},
 		"conclusion": "Conclusion",
 		"conclusion-placeholder": "Write your conclusion here...",
-		"results-details": "Detailed results :"
+		"results-details": "Detailed results :",
+    "free-textarea": "Free text area..."
 	},
 	"data-table": {
 		"supposition": "Treatment supposition",

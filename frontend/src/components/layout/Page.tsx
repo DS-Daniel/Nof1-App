@@ -1,6 +1,7 @@
 import Container from '@mui/material/Container';
 import { ReactNode } from 'react';
 import NavBar from './NavBar';
+import Footer from './Footer';
 
 type PageProps = {
 	children: ReactNode;
@@ -22,6 +23,7 @@ export default function Page({ children }: PageProps) {
 			>
 				{children}
 			</Container>
+			<Footer />
 		</>
 	);
 }

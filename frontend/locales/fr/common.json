@@ -5,6 +5,11 @@
 		"profile": "Mon profil",
 		"logout": "Déconnexion"
 	},
+  "footer": {
+    "title": "Cet outil vous est proposé par le ",
+    "pcl": "Service de Pharmacologie clinique du Centre Hospitalier Universitaire Vaudois (PCL - CHUV, Suisse)",
+    "report": "Ce test N-of-1 a été réalisé à l'aide de l'outil \"N-of-1 Companion\", disponible en ligne et proposé par le Service de Pharmacologie clinique du Centre Hospitalier Universitaire Vaudois (PCL-CHUV, Suisse)."
+  },
 	"form": {
 		"signIn": "Connexion",
 		"signUp": "Créer un compte",

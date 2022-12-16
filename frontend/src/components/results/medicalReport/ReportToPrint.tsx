@@ -1,11 +1,12 @@
 import { forwardRef, ReactNode } from 'react';
 import useTranslation from 'next-translate/useTranslation';
+import styles from '../../../../styles/ReportToPrint.module.css';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { TestData } from '../../../entities/nof1Data';
 import { VariableType } from '../../../entities/variable';
 import { AnalyseType, anova } from '../../../utils/statistics';
+import { useAnalysisSelect } from '../../../hooks/analysisSelect';
 import CustomLineChart from '../lineChart/LineChart';
-import styles from './ReportToPrint.module.css';
 import dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/locale/fr';
@@ -111,188 +112,215 @@ const ReportToPrint = forwardRef<HTMLDivElement, ReportToPrintProps>(
 			t('report.result-table.p-value'),
 		];
 		const rows = generateRows(test, testData, analysisType);
-
-		/**
-		 * Selects a traduction according to the type of analysis.
-		 * @param type Analysis type
-		 * @returns The traduction string.
-		 */
-		const selectTrad = (type: AnalyseType) => {
-			switch (type) {
-				case AnalyseType.NaiveANOVA:
-					return t('common:statistics.NaiveANOVA');
-				case AnalyseType.CycleANOVA:
-					return t('common:statistics.CycleANOVA');
-				case AnalyseType.ANCOVAautoregr:
-					return t('common:statistics.ANCOVAautoregr');
-			}
-		};
+		const selectAnalysisTrad = useAnalysisSelect();
 
 		return (
 			<div ref={ref} className={styles.printContainer}>
-				<div>
-					{logo && (
-						// eslint-disable-next-line @next/next/no-img-element
-						<img src={logo} alt="institution_logo" className={styles.image} />
-					)}
-				</div>
-				<header className={styles.head}>
-					<EditableTextarea style={styles.sender}>
-						{test.participants.nof1Physician.institution}
-						<br />
-						{test.participants.nof1Physician.lastname}{' '}
-						{test.participants.nof1Physician.firstname}
-						<br />
-						{test.participants.nof1Physician.address.street}
-						<br />
-						{test.participants.nof1Physician.address.zip}{' '}
-						{test.participants.nof1Physician.address.city}
-					</EditableTextarea>
-					<EditableTextarea style={styles.recipient}>
-						{test.participants.nof1Physician.institution}
-						<br />
-						{test.participants.requestingPhysician.lastname}{' '}
-						{test.participants.requestingPhysician.firstname}
-						<br />
-						{test.participants.requestingPhysician.address.street}
-						<br />
-						{test.participants.requestingPhysician.address.zip}{' '}
-						{test.participants.requestingPhysician.address.city}
-					</EditableTextarea>
-				</header>
-				<main>
-					<Editable style={styles.today}>
-						{t('report.today', {
-							city: test.participants.nof1Physician.address.city,
-							date: dayjs().locale(lang).format('LL'),
-						})}
-					</Editable>
-					<EditableSubtitle>
-						{t('report.object', {
-							patient: `${test.participants.patient.lastname} ${test.participants.patient.firstname}`,
-							year: test.participants.patient.birthYear,
-						})}
-					</EditableSubtitle>
-					<section>
-						<Editable>{t('report.dear')}</Editable>
-						<EditableTextarea>
-							{t('report.intro', {
-								startDate: dayjs(test.beginningDate).locale(lang).format('LL'),
-								endDate: dayjs(test.endingDate).locale(lang).format('LL'),
-								substances: `[${substancesNames.join(', ')}]`,
-								nbPeriods: test.nbPeriods,
-								periodLen: test.periodLen,
-							})}
-						</EditableTextarea>
-					</section>
-
-					<section>
-						<EditableSubtitle>{t('report.sequence')}</EditableSubtitle>
-						<p>
-							{t('period-duration')} {test.periodLen} {t('common:days')}.
-						</p>
-						<div className={styles.periods}>
-							{test.substancesSequence!.map((abbrev, idx) => (
-								<div key={idx} className={styles.flexItem}>
-									<div className={`${styles.boxedText} ${styles.subtitle}`}>
-										{t('common:period')} {idx + 1}
-									</div>
-									<div className={styles.boxedText}>
-										{
-											test.substances.find((s) => s.abbreviation === abbrev)
-												?.name
-										}
-									</div>
-								</div>
-							))}
-						</div>
-					</section>
-
-					<section>
-						<EditableSubtitle>{t('report.method')}</EditableSubtitle>
-						<EditableTextarea>{t('report.method-desc')}</EditableTextarea>
-						{analysisType !== test.statistics.analysisToPerform && (
-							<p>
-								{t('report.method-choice2', {
-									analysis: selectTrad(test.statistics.analysisToPerform),
-								})}
-							</p>
-						)}
-						<p>
-							{t('report.method-choice', {
-								analysis: selectTrad(analysisType),
-							})}
-						</p>
-					</section>
-
-					<section className={styles.avoidBreak}>
-						<EditableSubtitle>{t('report.results')}</EditableSubtitle>
-						<table className={styles.resultTable}>
-							<thead>
-								<tr>
-									{headers.map((header, index) => (
-										<th key={`var-header-${index}`}>{header}</th>
-									))}
-								</tr>
-							</thead>
-							<tbody>
-								{rows.map((row, index) => (
-									<tr key={index}>{row}</tr>
-								))}
-							</tbody>
-						</table>
-					</section>
-
-					<section className={styles.avoidBreak}>
-						<EditableSubtitle>{t('report.conclusion')}</EditableSubtitle>
-						<EditableTextarea style={styles.conclusion}>
-							{t('report.conclusion-placeholder')}
-						</EditableTextarea>
-						<div className={styles.signatures}>
-							<Editable style={styles.signature}> </Editable>
-							<Editable style={styles.signature}> </Editable>
-							<Editable style={styles.signature}> </Editable>
-							<Editable style={styles.signature}> </Editable>
-							<Editable style={styles.signature}>
-								Dr. {test.participants.nof1Physician.firstname[0]}.{' '}
-								{test.participants.nof1Physician.lastname}
-							</Editable>
-						</div>
-					</section>
-
-					<section>
-						<EditableSubtitle>{t('report.results-details')}</EditableSubtitle>
-						<Editable>{t('title.graph')} :</Editable>
-						{testData ? (
-							test.monitoredVariables
-								.filter(
-									(v) =>
-										v.type === VariableType.Numeric ||
-										v.type === VariableType.VAS,
-								)
-								.map((v) => (
-									<div key={v.name} className={styles.avoidBreak}>
-										<div className={styles.graphTitle}>{v.name}</div>
-										<CustomLineChart
-											height={190}
-											testData={testData}
-											variable={v}
-											periodLen={test.periodLen}
-											substancesNames={substancesNames}
+				{/* using a table element to have the footer on each page and not overlapping the content */}
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<div>
+									{logo && (
+										// eslint-disable-next-line @next/next/no-img-element
+										<img
+											src={logo}
+											alt="institution_logo"
+											className={styles.image}
 										/>
+									)}
+								</div>
+								<header className={styles.head}>
+									<EditableTextarea style={styles.sender}>
+										{test.participants.nof1Physician.institution}
+										<br />
+										{test.participants.nof1Physician.lastname}{' '}
+										{test.participants.nof1Physician.firstname}
+										<br />
+										{test.participants.nof1Physician.address.street}
+										<br />
+										{test.participants.nof1Physician.address.zip}{' '}
+										{test.participants.nof1Physician.address.city}
+									</EditableTextarea>
+									<EditableTextarea style={styles.recipient}>
+										{test.participants.nof1Physician.institution}
+										<br />
+										{test.participants.requestingPhysician.lastname}{' '}
+										{test.participants.requestingPhysician.firstname}
+										<br />
+										{test.participants.requestingPhysician.address.street}
+										<br />
+										{test.participants.requestingPhysician.address.zip}{' '}
+										{test.participants.requestingPhysician.address.city}
+									</EditableTextarea>
+								</header>
+
+								<main>
+									<Editable style={styles.today}>
+										{t('report.today', {
+											city: test.participants.nof1Physician.address.city,
+											date: dayjs().locale(lang).format('LL'),
+										})}
+									</Editable>
+									<EditableSubtitle>
+										{t('report.object', {
+											patient: `${test.participants.patient.lastname} ${test.participants.patient.firstname}`,
+											year: test.participants.patient.birthYear,
+										})}
+									</EditableSubtitle>
+									<section>
+										<Editable>{t('report.dear')}</Editable>
+										<EditableTextarea>
+											{t('report.intro', {
+												startDate: dayjs(test.beginningDate)
+													.locale(lang)
+													.format('LL'),
+												endDate: dayjs(test.endingDate)
+													.locale(lang)
+													.format('LL'),
+												substances: `[${substancesNames.join(', ')}]`,
+												nbPeriods: test.nbPeriods,
+												periodLen: test.periodLen,
+											})}
+										</EditableTextarea>
+									</section>
+
+									<section className={styles.avoidBreak}>
+										<EditableSubtitle>{t('report.sequence')}</EditableSubtitle>
+										<p>
+											{t('period-duration')} {test.periodLen} {t('common:days')}
+											.
+										</p>
+										<div className={styles.periods}>
+											{test.substancesSequence!.map((abbrev, idx) => (
+												<div key={idx} className={styles.flexItem}>
+													<div
+														className={`${styles.boxedText} ${styles.subtitle}`}
+													>
+														{t('common:period')} {idx + 1}
+													</div>
+													<div className={styles.boxedText}>
+														{
+															test.substances.find(
+																(s) => s.abbreviation === abbrev,
+															)?.name
+														}
+													</div>
+												</div>
+											))}
+										</div>
+									</section>
+
+									<section>
+										<EditableSubtitle>{t('report.method')}</EditableSubtitle>
+										<EditableTextarea>
+											{t('report.method-desc')}
+										</EditableTextarea>
+										{analysisType !== test.statistics.analysisToPerform && (
+											<p>
+												{t('report.method-choice2', {
+													analysis: selectAnalysisTrad(
+														test.statistics.analysisToPerform,
+													),
+												})}
+											</p>
+										)}
+										<p>
+											{t('report.method-choice', {
+												analysis: selectAnalysisTrad(analysisType),
+											})}
+										</p>
+									</section>
+
+									<section className={styles.avoidBreak}>
+										<EditableSubtitle>{t('report.results')}</EditableSubtitle>
+										<table className={styles.resultTable}>
+											<thead>
+												<tr>
+													{headers.map((header, index) => (
+														<th key={`var-header-${index}`}>{header}</th>
+													))}
+												</tr>
+											</thead>
+											<tbody>
+												{rows.map((row, index) => (
+													<tr key={index}>{row}</tr>
+												))}
+											</tbody>
+										</table>
+									</section>
+
+									<section>
+										<EditableSubtitle>
+											{t('report.conclusion')}
+										</EditableSubtitle>
+										<EditableTextarea style={styles.conclusion}>
+											{t('report.conclusion-placeholder')}
+										</EditableTextarea>
+										<div className={styles.signatures}>
+											<Editable style={styles.signature}> </Editable>
+											<Editable style={styles.signature}> </Editable>
+											<Editable style={styles.signature}> </Editable>
+											<Editable style={styles.signature}> </Editable>
+											<Editable style={styles.signature}>
+												Dr. {test.participants.nof1Physician.firstname[0]}.{' '}
+												{test.participants.nof1Physician.lastname}
+											</Editable>
+										</div>
+									</section>
+
+									<section>
+										<div className={styles.avoidBreak}>
+											<EditableSubtitle>
+												{t('report.results-details')}
+											</EditableSubtitle>
+											<Editable>{t('title.graph')} :</Editable>
+										</div>
+										{testData ? (
+											test.monitoredVariables
+												.filter(
+													(v) =>
+														v.type === VariableType.Numeric ||
+														v.type === VariableType.VAS,
+												)
+												.map((v) => (
+													<div
+														key={v.name}
+														className={`${styles.graph} ${styles.avoidBreak}`}
+													>
+														<div className={styles.graphTitle}>{v.name}</div>
+														<CustomLineChart
+															height={190}
+															testData={testData}
+															variable={v}
+															periodLen={test.periodLen}
+															substancesNames={substancesNames}
+														/>
+													</div>
+												))
+										) : (
+											<p>{t('no-data')}</p>
+										)}
+									</section>
+									<div>
+										<EditableTextarea style={styles.conclusion}>
+											{t('report.free-textarea')}
+										</EditableTextarea>
 									</div>
-								))
-						) : (
-							<p>{t('no-data')}</p>
-						)}
-					</section>
-				</main>
-				<div>
-					<EditableTextarea style={styles.conclusion}>
-						{' '}
-						<i>copie à / annexes</i>
-					</EditableTextarea>
-				</div>
+								</main>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td>
+								<div className={styles.footerSpace}>&nbsp;</div>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				<footer className={styles.footer}>{t('common:footer.report')}</footer>
 			</div>
 		);
 	},

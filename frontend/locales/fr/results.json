@@ -42,7 +42,7 @@
 		"intro": "Nous vous remercions de nous avoir confié votre patient(e), que nous avons vu(e) à plusieurs reprises pour la réalisation d'un test \"N-of-1\" réalisé du {{startDate}} au {{endDate}} dans notre service. Ce test a consisté en l'administration de {{substances}} par périodes alternées réparties selon une séquence aléatoire, en double insu. Le patient devait renseigner ses paramètres de santé durant les {{nbPeriods}} périodes de {{periodLen}} jours que durait le test. Le dépouillement des résultats est résumé ci-après.",
 		"sequence": "Agenda des médications (après levée de l'insu) :",
 		"method": "Méthode :",
-		"method-desc": "Une analyse statistique compare les symptômes, reportés en mm sur des Visual Analog Scales de 100 mm (VAS, cf. graphiques ci-dessous) durant chaque période, en fonction du traitement reçu.",
+		"method-desc": "Une analyse statistique compare les variables de santé quantitatives monitorées en fonction du traitement reçu. Ces variables sont reportés durant chaque période soit en mm sur des Visual Analog Scales de 100 mm, soit en valeur numérique (cf. graphiques ci-dessous).",
 		"method-choice": "Analyse statistique effectuée : {{analysis}}",
 		"method-choice2": "Analyse statistique initialement planifiée : {{analysis}}",
 		"results": "Résultats :",
@@ -53,7 +53,8 @@
     },
 		"conclusion": "Conclusion",
 		"conclusion-placeholder": "Écrivez votre conclusion ici...",
-		"results-details": "Résultats détaillés:"
+		"results-details": "Résultats détaillés:",
+    "free-textarea": "Zone de texte libre..."
 	},
 	"data-table": {
 		"supposition": "Supposition du traitement",

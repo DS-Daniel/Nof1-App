@@ -21,7 +21,7 @@ interface MedicalReportModalProps {
 	handleClose: () => void;
 	item: Nof1Test;
 	testData: TestData;
-  analysisType: AnalyseType;
+	analysisType: AnalyseType;
 }
 
 /**
@@ -66,11 +66,22 @@ export default function MedicalReportModal({
 					>
 						<CloseIcon />
 					</IconButton>
-					<Typography variant="h6" component="div" ml={1} sx={{ flexGrow: 1 }}>
+					<Typography
+						variant="h6"
+						component="div"
+						ml={1}
+						mr={4}
+						sx={{ flexGrow: 1, maxWidth: '30%' }}
+					>
 						{t('common:button.close')}
 					</Typography>
-					<Stack direction="row" alignItems="center" spacing={2} paddingY={0}>
-						<Button variant="contained" color="invert" onClick={handlePrint}>
+					<Stack direction="row" alignItems="center" spacing={4} mx={'auto'}>
+						<Button
+							variant="contained"
+							color="invert"
+							onClick={handlePrint}
+							sx={{ minWidth: 260 }}
+						>
 							{t('common:print.btn')}
 						</Button>
 						<Typography
@@ -101,7 +112,8 @@ export default function MedicalReportModal({
 					sx={{
 						width: '210mm',
 						minHeight: '297mm',
-						padding: '18mm',
+						paddingX: '17mm',
+						paddingY: '10mm',
 						marginX: 'auto',
 					}}
 				>
