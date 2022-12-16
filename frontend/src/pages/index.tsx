@@ -1,5 +1,5 @@
-import SignIn from '../components/SignIn';
-import SignUp from '../components/SignUp';
+import SignIn from '../components/auth/SignIn';
+import SignUp from '../components/auth/SignUp';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useUserContext } from '../context/UserContext';

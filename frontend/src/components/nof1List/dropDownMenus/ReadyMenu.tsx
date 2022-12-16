@@ -6,7 +6,7 @@ import EmailConfirmDialog from '../EmailConfirmDialog';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { usePharmaEmailInfos } from '../../../hooks/email';
 import { sendPharmaEmailWrapper } from '../../../utils/nof1-lib/lib';
-import { updateNof1Test } from '../../../utils/apiCalls';
+import { updateNof1Test } from '../../../utils/nof1-lib/api-calls/apiNof1Tests';
 import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
 import FailSnackbar from '../../common/ui/FailSnackbar';
 

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import { useUserContext } from '../../context/UserContext';
-import { getUser } from '../../utils/apiCalls';
+import { getUser } from '../../utils/nof1-lib/api-calls/apiPhysicians';
 import { USER_CTX_KEY } from '../../utils/constants';
 import Page from './Page';
 
@@ -44,7 +44,7 @@ export default function AuthenticatedPage({ children }: PageProps) {
 			}
 		}
 		checkAuth();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return <Page>{children}</Page>;

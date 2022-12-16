@@ -80,11 +80,12 @@ export default function SelectedPosologies({
 										headers: [xlsxHeaders(unit)],
 									}}
 									info={
-										<CustomTooltip infoText={t('posology-table.fraction-desc')}>
-											<Typography fontStyle="italic">
-												{t('posology-table.fraction-info')}
-											</Typography>
-										</CustomTooltip>
+										<Typography fontStyle="italic">
+											{t('posology-table.fraction-info')}{' '}
+											<CustomTooltip
+												infoText={t('posology-table.fraction-desc')}
+											/>
+										</Typography>
 									}
 								/>
 								<PosologyTable

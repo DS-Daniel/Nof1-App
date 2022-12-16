@@ -14,9 +14,11 @@ import {
 	createPatient,
 	findPatient,
 	updatePatient,
-} from '../../../utils/apiCalls';
+} from '../../../utils/nof1-lib/api-calls/apiPatients';
 import { isPatientInfoEqual } from '../../../utils/nof1-lib/lib';
-import FormWithValidation, { FormInput } from '../../common/forms/FormWithValidation';
+import FormWithValidation, {
+	FormInput,
+} from '../../common/forms/FormWithValidation';
 import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
 import FailSnackbar from '../../common/ui/FailSnackbar';
 import { useUserContext } from '../../../context/UserContext';

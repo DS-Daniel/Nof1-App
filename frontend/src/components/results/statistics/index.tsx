@@ -8,7 +8,7 @@ import SelectAnalysisType from '../../common/inputs/SelectAnalysisType';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { TestData } from '../../../entities/nof1Data';
 import { VariableType } from '../../../entities/variable';
-import { AnalyseType, anova, isAnalyseValid } from '../../../utils/statistics';
+import { AnalyseType, anova, isAnalysisValid } from '../../../utils/statistics';
 import { RandomStrategy } from '../../../utils/nof1-lib/randomizationStrategy';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -49,7 +49,7 @@ export default function Statistics({
 			const stats = anova(statsType, variable, test, testData);
 			// if statistics contain NaN values due to incomplete patient's data,
 			// an error message is displayed.
-			if (!isAnalyseValid(stats))
+			if (!isAnalysisValid(stats))
 				return (
 					<Alert severity="error">
 						<Typography fontStyle="italic">{t('statistics.error')}</Typography>

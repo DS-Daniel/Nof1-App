@@ -89,9 +89,9 @@ export default function MenuContainer({
 							}}
 						>
 							{i.tooltipText ? (
-								<CustomTooltip infoText={i.tooltipText}>
-									<Typography color={i.color || 'black'}>{i.name}</Typography>
-								</CustomTooltip>
+								<Typography color={i.color || 'black'}>
+									{i.name} <CustomTooltip infoText={i.tooltipText} />
+								</Typography>
 							) : (
 								<Typography color={i.color || 'black'}>{i.name}</Typography>
 							)}

@@ -17,8 +17,8 @@ import {
 	RandomizationStrategy,
 	RandomStrategy,
 } from './randomizationStrategy';
+import { sendPharmaEmail } from './api-calls/apiEmail';
 import { pharmaXlsx, formatSchema, substancesRecap } from '../xlsx';
-import { sendPharmaEmail } from '../apiCalls';
 
 /**
  * Selects a random posology from all the substance's posologies.

@@ -5,13 +5,13 @@ import useTranslation from 'next-translate/useTranslation';
 import { Nof1Test, TestStatus } from '../entities/nof1Test';
 import { TestData } from '../entities/nof1Data';
 import { VariableType } from '../entities/variable';
+import { findNof1Data } from '../utils/nof1-lib/api-calls/apiNof1Data';
+import { findNof1TestById } from '../utils/nof1-lib/api-calls/apiNof1Tests';
 import {
-	findNof1Data,
-	findNof1TestById,
 	anonymousXML,
 	clearXML,
 	encryptedXML,
-} from '../utils/apiCalls';
+} from '../utils/nof1-lib/api-calls/apiXML';
 import { formatPatientDataToTable } from '../utils/nof1-lib/lib';
 import ExtendedLineChart from '../components/results/lineChart';
 import RecapModal from '../components/nof1List/recapModal';

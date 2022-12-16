@@ -15,7 +15,7 @@ import {
 	createNof1Data,
 	getPatientData,
 	patientDataUpdate,
-} from '../../utils/apiCalls';
+} from '../../utils/nof1-lib/api-calls/apiNof1Data';
 import { defaultData } from '../../utils/nof1-lib/lib';
 
 const dataFormId = 'patient-data-form';

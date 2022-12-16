@@ -6,8 +6,8 @@ import Link from 'next/link';
 import {
 	deleteNof1Test,
 	listOfTests,
-	updatePhysician,
-} from '../utils/apiCalls';
+} from '../utils/nof1-lib/api-calls/apiNof1Tests';
+import { updatePhysician } from '../utils/nof1-lib/api-calls/apiPhysicians';
 import { Nof1Test } from '../entities/nof1Test';
 import AuthenticatedPage from '../components/layout/AuthenticatedPage';
 import Nof1Table from '../components/nof1List/Nof1Table';

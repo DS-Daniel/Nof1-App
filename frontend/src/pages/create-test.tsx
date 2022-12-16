@@ -21,8 +21,8 @@ import {
 	createNof1Test,
 	findNof1TestById,
 	updateNof1Test,
-	updatePhysician,
-} from '../utils/apiCalls';
+} from '../utils/nof1-lib/api-calls/apiNof1Tests';
+import { updatePhysician } from '../utils/nof1-lib/api-calls/apiPhysicians';
 import { AnalyseType } from '../utils/statistics';
 import TestParameters from '../components/testCreation/parameters';
 import Variables from '../components/testCreation/variables';

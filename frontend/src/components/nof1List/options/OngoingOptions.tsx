@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { useUserContext } from '../../../context/UserContext';
-import { updateNof1Test } from '../../../utils/apiCalls';
+import { updateNof1Test } from '../../../utils/nof1-lib/api-calls/apiNof1Tests';
 import { Nof1Test, TestStatus } from '../../../entities/nof1Test';
 import OptionBtn from './OptionBtn';
 import { OptionsProps } from '../Nof1TableItem';

@@ -15,6 +15,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
 import VarTable from './VarTable';
 import VarDialog from './VarDialog';
@@ -223,23 +224,26 @@ export default function Variables({
 				<Typography variant="h6">
 					{t('variables.end-period-Q.title')}
 				</Typography>
-				<FormGroup>
-					<FormControlLabel
-						control={
-							<Switch
-								checked={showPeriodQuestions}
-								onChange={() =>
-									setShowPeriodQuestions((prevState) => !prevState)
-								}
-							/>
-						}
-						label={
-							<CustomTooltip infoText={t('variables.end-period-Q.info')}>
-								{t('variables.end-period-Q.Q')}
-							</CustomTooltip>
-						}
-					/>
-				</FormGroup>
+				<Box paddingLeft={2} width={'95%'}>
+					<FormGroup>
+						<FormControlLabel
+							control={
+								<Switch
+									checked={showPeriodQuestions}
+									onChange={() =>
+										setShowPeriodQuestions((prevState) => !prevState)
+									}
+								/>
+							}
+							label={
+								<Typography ml={1}>
+									{t('variables.end-period-Q.Q')}{' '}
+									<CustomTooltip infoText={t('variables.end-period-Q.info')} />
+								</Typography>
+							}
+						/>
+					</FormGroup>
+				</Box>
 			</Stack>
 			<VarDialog
 				open={openDialog}

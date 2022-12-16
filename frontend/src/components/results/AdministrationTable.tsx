@@ -88,11 +88,10 @@ export default function AdministrationTable({
 					headers: xlsxHeaders,
 				}}
 				info={
-					<CustomTooltip infoText={t('posology-table.fraction-desc')}>
-						<Typography fontStyle="italic">
-							{t('posology-table.fraction-info')}
-						</Typography>
-					</CustomTooltip>
+					<Typography fontStyle="italic">
+						{t('posology-table.fraction-info')}{' '}
+						<CustomTooltip infoText={t('posology-table.fraction-desc')} />
+					</Typography>
 				}
 			/>
 			<ReadOnlyTableWPages

@@ -7,12 +7,12 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { Nof1Test } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
+import { findNof1TestById } from '../../utils/nof1-lib/api-calls/apiNof1Tests';
 import {
 	createNof1Data,
 	findNof1Data,
-	findNof1TestById,
 	updateNof1Data,
-} from '../../utils/apiCalls';
+} from '../../utils/nof1-lib/api-calls/apiNof1Data';
 import FailSnackbar from '../../components/common/ui/FailSnackbar';
 import SuccessSnackbar from '../../components/common/ui/SuccessSnackbar';
 import { defaultData } from '../../utils/nof1-lib/lib';

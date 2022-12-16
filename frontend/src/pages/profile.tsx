@@ -15,7 +15,8 @@ import {
 	formatPhysicianData,
 	formatPhysicianDataToForm,
 } from '../utils/dataFormConvertor';
-import { updatePhysician, updateUser, userExists } from '../utils/apiCalls';
+import { updatePhysician } from '../utils/nof1-lib/api-calls/apiPhysicians';
+import { updateUser, userExists } from '../utils/nof1-lib/api-calls/apiUsers';
 import AuthenticatedPage from '../components/layout/AuthenticatedPage';
 import FormWithValidation, {
 	FormInput,

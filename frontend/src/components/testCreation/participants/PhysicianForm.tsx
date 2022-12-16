@@ -14,9 +14,11 @@ import {
 	createPhysician,
 	findPhysician,
 	updatePhysician,
-} from '../../../utils/apiCalls';
+} from '../../../utils/nof1-lib/api-calls/apiPhysicians';
 import { isPhysicianInfoEqual } from '../../../utils/nof1-lib/lib';
-import FormWithValidation, { FormInput } from '../../common/forms/FormWithValidation';
+import FormWithValidation, {
+	FormInput,
+} from '../../common/forms/FormWithValidation';
 import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
 import FailSnackbar from '../../common/ui/FailSnackbar';
 import { useUserContext } from '../../../context/UserContext';
