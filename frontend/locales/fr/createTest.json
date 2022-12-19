@@ -34,6 +34,7 @@
 		"RS-custom-warning": "Veuillez utiliser les abréviations des substances et les séparer par \";\"\nAttention, veuillez vous conformer au nommage des abréviations et au nombre de périodes défini!",
 		"subtitle-posology": "Schémas posologiques",
 		"posology-desc": "Indiquez les doses totales prévues le matin, à midi, le soir et la nuit pour les substances choisies.\nLes colonnes \"Fraction(s)*\" permettent d'indiquer en combien de parts (gélules, comprimés, etc) la dose totale doit être divisée, afin de laisser une possibilité d'adaptation spontanée lors de la prise du médicament. Exemple: si la dose du matin = 100mg et fraction(s) = 2, alors le système prévoira une préparation de 2 doses de 50mg.",
+		"posology-supp-desc": "Vous avez la possibilité d'entrer plusieurs posologies pour chaque substance. Le système en choisira aléatoirement une parmi celles que vous aurez entrées (s'il n'y en a qu'une, elle sera choisie par défaut).",
 		"substance-x": "Substance: {{substance}}",
 		"posology-x": "- Posologie {{x}}",
 		"posology-repeat-switch": "Répéter la posologie du dernier jour pour la période suivante, si deux périodes consécutives concernent la même substance.",
@@ -63,7 +64,7 @@
 			"values": "Valeurs (qualitative)",
 			"skip": "Jours de rodage sautées pour l'analyse"
 		},
-    "skipped-run-in-desc": "Détermine le nombre de jour (de la période) qui doivent être omis de l'analyse statistique.\nPar exemple lors d'une posologie croissante. Afin de ne prendre en compte que les jours où la concentration de la substance est significative pour l'analyse.",
+		"skipped-run-in-desc": "Détermine le nombre de jour (de la période) qui doivent être omis de l'analyse statistique.\nPar exemple lors d'une posologie croissante. Afin de ne prendre en compte que les jours où la concentration de la substance est significative pour l'analyse.",
 		"types": {
 			"txt": "Textuelle",
 			"vas": "VAS",
@@ -95,11 +96,11 @@
 			"min0": "Minimum 0",
 			"max": "Ne peut pas dépasser la longueur d'une période"
 		},
-    "end-period-Q": {
-      "title": "Questions de fin de période",
-      "Q": "Inclure les questions relatives aux fins de périodes et le compteur de période dans le carnet/formulaire de relevés des variables de santé du patient ?",
-      "info": "Voici les questions qui seront ajoutées :\n- Quel traitement pensez-vous avoir pris cette dernière période ?\n- Pensez-vous que le traitement de cette période soit optimal pour vous ?\n- Remarques concernant les deux questions précédentes.\nCes questions apparaîtront au dernier jour d'une période."
-    }
+		"end-period-Q": {
+			"title": "Questions de fin de période",
+			"Q": "Inclure les questions relatives aux fins de périodes et le compteur de période dans le carnet/formulaire de relevés des variables de santé du patient ?",
+			"info": "Voici les questions qui seront ajoutées :\n- Quel traitement pensez-vous avoir pris cette dernière période ?\n- Pensez-vous que le traitement de cette période soit optimal pour vous ?\n- Remarques concernant les deux questions précédentes.\nCes questions apparaîtront au dernier jour d'une période."
+		}
 	},
 	"clinicalInfo": {
 		"title": "Informations cliniques",

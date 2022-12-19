@@ -89,8 +89,8 @@ export default function Nof1Table({
 	};
 
 	return (
-		<Box sx={{ width: '100%', my: '2rem' }}>
-			<Paper sx={{ width: '100%' }}>
+		<Box width={'100%'} my={'2rem'}>
+			<Paper>
 				<TableContainer>
 					<Table aria-labelledby="tableTitle" size="medium">
 						<EnhancedTableHead

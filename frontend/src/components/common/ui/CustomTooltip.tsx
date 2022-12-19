@@ -1,7 +1,7 @@
-import Typography from '@mui/material/Typography';
 import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { SvgIconProps } from '@mui/material/SvgIcon';
+import { TypographyWLineBreak } from '.';
 
 type TooltipRightProps = {
 	infoText: string;
@@ -17,9 +17,7 @@ export default function CustomTooltip({
 	return (
 		<Tooltip
 			title={
-				<Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-					{infoText}
-				</Typography>
+				<TypographyWLineBreak variant="body2">{infoText}</TypographyWLineBreak>
 			}
 			placement={placement}
 			arrow

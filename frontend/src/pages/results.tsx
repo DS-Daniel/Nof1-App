@@ -20,6 +20,7 @@ import AdministrationTable from '../components/results/AdministrationTable';
 import PatientDataTable from '../components/results/PatientDataTable';
 import SelectedPosologies from '../components/results/SelectedPosologies';
 import Statistics from '../components/results/statistics';
+import { SectionCard } from '../components/common/ui';
 import FailSnackbar from '../components/common/ui/FailSnackbar';
 import MenuContainer from '../components/common/MenuContainer';
 import { useRenderStrategy } from '../hooks/randomStrategy';
@@ -144,6 +145,7 @@ export default function Results() {
 				direction={{ xs: 'column', sm: 'row' }}
 				justifyContent="center"
 				spacing={{ xs: 1, sm: 5 }}
+				mb={4}
 			>
 				<Button
 					variant="contained"
@@ -174,7 +176,7 @@ export default function Results() {
 				<MenuContainer name={t('btn.xml')} items={xmlBtnOptions} />
 			</Stack>
 
-			<Paper sx={{ p: 3, mt: 4 }}>
+			<SectionCard>
 				<Stack spacing={3}>
 					<Typography variant="h4" textAlign="center">
 						{t('title.main')}
@@ -285,11 +287,11 @@ export default function Results() {
 							variant="rectangular"
 							animation="wave"
 							width={'100%'}
-							height={'80vh'}
+							height={'42vh'}
 						/>
 					)}
 				</Stack>
-			</Paper>
+			</SectionCard>
 			{test && (
 				<>
 					<RecapModal

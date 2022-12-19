@@ -1,11 +1,11 @@
-import useTranslation from 'next-translate/useTranslation';
-import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import useTranslation from 'next-translate/useTranslation';
 import { useUserContext } from '../../context/UserContext';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import Page from '../../components/layout/Page';
+import { TypographyWLineBreak } from '../../components/common/ui';
 import FailSnackbar from '../../components/common/ui/FailSnackbar';
 import SuccessSnackbar from '../../components/common/ui/SuccessSnackbar';
 import Logbook from '../../components/dataImport/Logbook';
@@ -104,18 +104,18 @@ export default function PatientData() {
 	if (deadlineExceeded) {
 		return (
 			<Page>
-				<Typography variant="h5" align="center" sx={{ whiteSpace: 'pre-line' }}>
+				<TypographyWLineBreak variant="h5" align="center">
 					{t('patient.deadline-error')}
-				</Typography>
+				</TypographyWLineBreak>
 			</Page>
 		);
 	}
 
 	return (
 		<Page>
-			<Typography variant="h5" align="center" sx={{ whiteSpace: 'pre-line' }}>
+			<TypographyWLineBreak variant="h5" align="center">
 				{t('patient.welcome')}
-			</Typography>
+			</TypographyWLineBreak>
 			<form id={dataFormId}>
 				<Stack
 					alignItems="center"

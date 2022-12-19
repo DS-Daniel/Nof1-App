@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import Button, { ButtonProps } from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { TypographyWLineBreak } from '../../common/ui';
 
 interface OptionBtnProps extends ButtonProps {
 	width?: number;
@@ -32,9 +32,9 @@ const OptionBtn: FC<OptionBtnProps> = ({
 				tooltipText && (
 					<Tooltip
 						title={
-							<Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+							<TypographyWLineBreak variant="body2">
 								{tooltipText}
-							</Typography>
+							</TypographyWLineBreak>
 						}
 						arrow
 					>

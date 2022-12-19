@@ -36,7 +36,7 @@ export default function Numeric({
 
 	return (
 		<VarLayout name={variable.name} desc={variable.desc}>
-			<Box sx={{ width: '100%'}}>
+			<Box width={'100%'}>
 				<Slider
 					aria-label="vas"
 					step={1}

@@ -1,7 +1,7 @@
 import useTranslation from 'next-translate/useTranslation';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { FormCard } from '../../common/ui';
 import ReadOnlyForm from '../../common/forms/ReadOnlyForm';
 import { IParticipants } from '../../../entities/nof1Test';
 import { Physician } from '../../../entities/people';
@@ -184,41 +184,41 @@ export default function RecapParticipants({
 				</Typography>
 			</Grid>
 			<Grid item xs={12} sm={4}>
-				<Paper sx={{ p: 2 }}>
+				<FormCard>
 					<Typography variant="h6">
 						{t('createTest:participants.patient')}
 					</Typography>
 					<ReadOnlyForm inputs={patientInputs} />
-				</Paper>
+				</FormCard>
 			</Grid>
 			<Grid item xs={12} sm={4}>
-				<Paper sx={{ p: 2 }}>
+				<FormCard>
 					<Typography variant="h6">
 						{t('createTest:participants.requestingPhysician')}
 					</Typography>
 					<ReadOnlyForm
 						inputs={physicianInputs(participants.requestingPhysician)}
 					/>
-				</Paper>
+				</FormCard>
 			</Grid>
 			<Grid item xs={12} sm={4}>
-				<Paper sx={{ p: 2 }}>
+				<FormCard>
 					<Typography variant="h6">
 						{t('createTest:participants.pharmacy')}
 					</Typography>
 					<ReadOnlyForm inputs={pharmaInputs} />
-				</Paper>
+				</FormCard>
 			</Grid>
 			{participants.attendingPhysician && (
 				<Grid item xs={12} sm={4}>
-					<Paper sx={{ p: 2 }}>
+					<FormCard>
 						<Typography variant="h6">
 							{t('createTest:participants.attendingPhysician')}
 						</Typography>
 						<ReadOnlyForm
 							inputs={physicianInputs(participants.attendingPhysician)}
 						/>
-					</Paper>
+					</FormCard>
 				</Grid>
 			)}
 		</Grid>

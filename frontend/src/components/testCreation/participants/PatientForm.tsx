@@ -1,7 +1,14 @@
 import { MutableRefObject, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { useUserContext } from '../../../context/UserContext';
+import { IParticipants } from '../../../entities/nof1Test';
+import { FormCard } from '../../common/ui';
+import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
+import FailSnackbar from '../../common/ui/FailSnackbar';
+import FormWithValidation, {
+	FormInput,
+} from '../../common/forms/FormWithValidation';
 import {
 	usePatientSchema,
 	PatientFormData,
@@ -16,13 +23,6 @@ import {
 	updatePatient,
 } from '../../../utils/nof1-lib/api-calls/apiPatients';
 import { isPatientInfoEqual } from '../../../utils/nof1-lib/lib';
-import FormWithValidation, {
-	FormInput,
-} from '../../common/forms/FormWithValidation';
-import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
-import FailSnackbar from '../../common/ui/FailSnackbar';
-import { useUserContext } from '../../../context/UserContext';
-import { IParticipants } from '../../../entities/nof1Test';
 
 type PatientFormProps = {
 	participants: MutableRefObject<IParticipants>;
@@ -105,7 +105,7 @@ export default function PatientForm({ participants }: PatientFormProps) {
 	};
 
 	return (
-		<Paper sx={{ p: 2, width: '100%' }}>
+		<FormCard>
 			<Typography variant="h6" align="center">
 				{t('createTest:participants.patient')}
 			</Typography>
@@ -127,6 +127,6 @@ export default function PatientForm({ participants }: PatientFormProps) {
 				setOpen={setOpenFailSnackbar}
 				msg={t('formErrors.unexpectedErrorMsg')}
 			/>
-		</Paper>
+		</FormCard>
 	);
 }

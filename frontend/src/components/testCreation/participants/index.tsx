@@ -1,11 +1,11 @@
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import useTranslation from 'next-translate/useTranslation';
 import { MutableRefObject, useState } from 'react';
 import { IParticipants } from '../../../entities/nof1Test';
 import { defaultPhysician } from '../../../entities/people';
+import { SectionCard } from '../../common/ui';
 import PatientForm from './PatientForm';
 import PharmaForm from './PharmaForm';
 import PhysicianForm from './PhysicianForm';
@@ -24,7 +24,7 @@ export default function Participants({ participants }: ParticipantsProps) {
 	);
 
 	return (
-		<Paper sx={{ p: 3, width: '100%' }}>
+		<SectionCard>
 			<Grid container spacing={3}>
 				<Grid item xs={12}>
 					<Typography variant="h5" fontWeight="bold">
@@ -81,6 +81,6 @@ export default function Participants({ participants }: ParticipantsProps) {
 					)}
 				</Grid>
 			</Grid>
-		</Paper>
+		</SectionCard>
 	);
 }

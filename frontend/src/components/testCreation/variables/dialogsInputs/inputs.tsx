@@ -1,11 +1,10 @@
-import { Translate } from 'next-translate';
 import { FormState, UseFormRegister } from 'react-hook-form';
+import { Translate } from 'next-translate';
 import { Variable } from '../../../../entities/variable';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
+import { TypographyWLineBreak } from '../../../common/ui';
 
 export type InputsProps = {
 	register: UseFormRegister<Variable>;
@@ -127,29 +126,32 @@ export const SkippedRunInDays = ({
 		valueAsNumber: true,
 	});
 	return (
-		<Stack direction="row" alignItems="center" spacing={2} mr={2}>
-			<TextField
-				autoFocus
-				id="skippedRunInDays"
-				label={t('variables.header.skip')}
-				type="number"
-				fullWidth
-				defaultValue={0}
-				error={!!validation?.errors.skippedRunInDays}
-				helperText={validation?.errors.skippedRunInDays?.message}
-				inputRef={inputRef}
-				{...registerProps}
-			/>
-			<Tooltip
-				title={
-					<Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-						{t('variables.skipped-run-in-desc')}
-					</Typography>
-				}
-				arrow
-			>
-				<InfoOutlinedIcon color="primary" />
-			</Tooltip>
-		</Stack>
+		<TextField
+			autoFocus
+			id="skippedRunInDays"
+			label={t('variables.header.skip')}
+			type="number"
+			fullWidth
+			InputProps={{
+				endAdornment: (
+					<Tooltip
+						title={
+							<TypographyWLineBreak variant="body2">
+								{t('variables.skipped-run-in-desc')}
+							</TypographyWLineBreak>
+						}
+						arrow
+						sx={{ ml: 1 }}
+					>
+						<InfoOutlinedIcon color="primary" />
+					</Tooltip>
+				),
+			}}
+			defaultValue={0}
+			error={!!validation?.errors.skippedRunInDays}
+			helperText={validation?.errors.skippedRunInDays?.message}
+			inputRef={inputRef}
+			{...registerProps}
+		/>
 	);
 };

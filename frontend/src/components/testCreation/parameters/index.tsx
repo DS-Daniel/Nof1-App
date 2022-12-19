@@ -1,20 +1,20 @@
 import { Dispatch, SetStateAction } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Substances from './Substances';
 import Posologies from './Posologies';
 import RandomizationStrategy from './RandomizationStrategy';
 import SelectAnalysisType from '../../common/inputs/SelectAnalysisType';
+import { SectionCard, TypographyWLineBreak } from '../../common/ui';
 import { Substance } from '../../../entities/substance';
 import { SubstancePosologies } from '../../../entities/posology';
 import { maxValue } from '../../../utils/constants';
 import { RandomizationStrategy as IRandomizationStrategy } from '../../../utils/nof1-lib/randomizationStrategy';
 import { AnalyseType } from '../../../utils/statistics';
-import Box from '@mui/material/Box';
 
 export interface SubstancesProps {
 	substances: Substance[];
@@ -69,7 +69,7 @@ export default function TestParameters({
 	const periodLenError = periodLen > maxValue;
 
 	return (
-		<Paper sx={{ p: 3, width: '100%' }}>
+		<SectionCard>
 			<Grid container rowSpacing={2}>
 				<Grid item xs={12}>
 					<Typography variant="h5" fontWeight="bold">
@@ -129,7 +129,7 @@ export default function TestParameters({
 							}
 						/>
 					</Stack>
-					<Box sx={{ paddingX: 3 }}>
+					<Box paddingX={3}>
 						<Typography>{t('common:statistics.type')}</Typography>
 						<Typography>
 							<b>{t('common:statistics.NaiveANOVA-long')}</b> :{' '}
@@ -171,9 +171,10 @@ export default function TestParameters({
 					<Typography variant="h6" fontWeight="bold" mb={2}>
 						{t('parameters.subtitle-posology')}
 					</Typography>
-					<Typography sx={{ whiteSpace: 'pre-line' }}>
+					<TypographyWLineBreak>
 						{t('parameters.posology-desc')}
-					</Typography>
+					</TypographyWLineBreak>
+					<Typography>{t('parameters.posology-supp-desc')}</Typography>
 				</Grid>
 
 				<Grid item xs={12}>
@@ -186,6 +187,6 @@ export default function TestParameters({
 					/>
 				</Grid>
 			</Grid>
-		</Paper>
+		</SectionCard>
 	);
 }

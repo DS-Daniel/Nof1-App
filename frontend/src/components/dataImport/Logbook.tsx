@@ -143,7 +143,7 @@ export default function Logbook({
 					variant="rectangular"
 					animation="wave"
 					width={'80%'}
-					height={'80vh'}
+					height={'72vh'}
 				/>
 			)}
 		</Stack>

@@ -11,7 +11,6 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
@@ -19,6 +18,7 @@ import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
 import VarTable from './VarTable';
 import VarDialog from './VarDialog';
+import { SectionCard } from '../../common/ui';
 import CustomTooltip from '../../common/ui/CustomTooltip';
 import { Variable, VariableType } from '../../../entities/variable';
 import { usePredefinedHealthVariables } from '../../../hooks/variables';
@@ -173,7 +173,7 @@ export default function Variables({
 		!variables.some((v) => v.name === name);
 
 	return (
-		<Paper sx={{ p: 3, width: '100%' }}>
+		<SectionCard>
 			<Stack spacing={3}>
 				<Typography variant="h5" fontWeight="bold">
 					{t('variables.title')}
@@ -257,6 +257,6 @@ export default function Variables({
 				}}
 				periodLen={periodLen}
 			/>
-		</Paper>
+		</SectionCard>
 	);
 }

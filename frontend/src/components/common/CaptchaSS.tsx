@@ -80,7 +80,7 @@ export default function CaptchaSS({ onValidation }: CaptchaSSProps) {
 				<Stack alignItems="center">
 					<Stack direction="row" alignItems="center" spacing={1}>
 						<Box
-							sx={{ height: 50 }}
+              height={50}
 							dangerouslySetInnerHTML={{ __html: captchaImg }}
 						/>
 						<IconButton

@@ -117,12 +117,7 @@ export default function MedicalReportModal({
 						marginX: 'auto',
 					}}
 				>
-					<Button
-						// variant="contained"
-						component="label"
-						size="small"
-						// sx={{ mb: 1 }}
-					>
+					<Button component="label" size="small">
 						{t('report.upload-img')}
 						<input
 							hidden

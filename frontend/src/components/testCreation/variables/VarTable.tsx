@@ -53,7 +53,7 @@ export default function VarTable({ rows, removeRow, edit }: VarTableProps) {
 	];
 
 	return (
-		<Box sx={{ width: '100%', my: '2rem' }}>
+		<Box width={'100%'} my={'2rem'}>
 			<StyledTableContainer>
 				<Table>
 					<ThemedTableHead>

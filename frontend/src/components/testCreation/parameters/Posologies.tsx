@@ -15,7 +15,7 @@ import {
 } from '../../../entities/posology';
 import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
 import FailSnackbar from '../../common/ui/FailSnackbar';
-import { MiddleDivider } from '../../common/ui';
+import { MiddleDivider, TypographyWLineBreak } from '../../common/ui';
 import { maxValue } from '../../../utils/constants';
 
 /**
@@ -292,9 +292,9 @@ export default function Posologies({
 							<MiddleDivider mb={2} mt={0} />
 							{/* ----- decreasing posology option for a substance ----- */}
 							<Stack alignItems="start" spacing={1}>
-								<Typography sx={{ whiteSpace: 'pre-line' }}>
+								<TypographyWLineBreak>
 									{t('parameters.decreasing-posology.desc')}
-								</Typography>
+								</TypographyWLineBreak>
 								{renderDecreasingDosage(subIdx)}
 							</Stack>
 						</Stack>

@@ -13,8 +13,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useClinicalInfoSchema } from '../../../utils/zodValidationHook';
 import { IClinicalInfo } from '../../../entities/clinicalInfo';
 import { IParticipants } from '../../../entities/nof1Test';
+import { SectionCard } from '../../common/ui';
 import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -109,7 +109,7 @@ export default function ClinicalInfo({
 	];
 
 	return (
-		<Paper sx={{ p: 3, width: '100%' }}>
+		<SectionCard>
 			<Box component="form" noValidate onSubmit={handleSubmit(submitHandler)}>
 				<Grid
 					container
@@ -276,6 +276,6 @@ export default function ClinicalInfo({
 				setOpen={setOpenSuccessSB}
 				msg={t('common:formErrors.successMsg')}
 			/>
-		</Paper>
+		</SectionCard>
 	);
 }

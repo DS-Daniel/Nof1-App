@@ -1,18 +1,20 @@
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
+import { MutableRefObject, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
+import Typography from '@mui/material/Typography';
+import { IParticipants } from '../../../entities/nof1Test';
+import { FormCard } from '../../common/ui';
+import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
+import FormWithValidation, {
+	FormInput,
+} from '../../common/forms/FormWithValidation';
 import {
 	PharmacyFormData,
 	usePharmacySchema,
 } from '../../../utils/zodValidationHook';
-import FormWithValidation, { FormInput } from '../../common/forms/FormWithValidation';
-import { MutableRefObject, useState } from 'react';
-import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
 import {
 	formatPharmacyData,
 	formatPharmacyDataToForm,
 } from '../../../utils/dataFormConvertor';
-import { IParticipants } from '../../../entities/nof1Test';
 
 type PharmaFormProps = {
 	participants: MutableRefObject<IParticipants>;
@@ -43,7 +45,7 @@ export default function PharmaForm({ participants }: PharmaFormProps) {
 	};
 
 	return (
-		<Paper sx={{ p: 2, width: '100%' }}>
+		<FormCard>
 			<Typography variant="h6" align="center">
 				{t('createTest:participants.pharmacy')}
 			</Typography>
@@ -60,6 +62,6 @@ export default function PharmaForm({ participants }: PharmaFormProps) {
 				setOpen={setOpenSnackbar}
 				msg={t('formErrors.successMsg')}
 			/>
-		</Paper>
+		</FormCard>
 	);
 }
