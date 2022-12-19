@@ -60,7 +60,7 @@ export default function Nof1() {
 		if (testsIds && testsIds.length > 0) {
 			fetchTests(testsIds);
 		}
-	}, [data, userContext]);
+	}, [userContext]);
 
 	/**
 	 * Removes a test from the user tests array.
