@@ -6,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import Image from 'next/image';
 
 export default function Footer() {
 	const { t } = useTranslation('common');
@@ -21,24 +22,64 @@ export default function Footer() {
 				}
 			>
 				<Container maxWidth="lg">
-					<Box padding={1} pt={0}>
-						<Typography variant="subtitle1" fontWeight="bold">
-							{t('nav.title')}
-						</Typography>
-						<Typography variant="body2">
-							{t('footer.title')}
-							<Link
-								underline="hover"
-								color="inherit"
-								href="https://www.chuv.ch/fr/pcl/pcl-home/"
-								target="_blank"
-								rel={'noopener'}
-							>
-								{t('footer.pcl')}
-							</Link>
-						</Typography>
-					</Box>
+					<Stack
+						direction="row"
+						justifyContent="space-between"
+						alignItems="center"
+						spacing={2}
+					>
+						<Box padding={1} pt={0}>
+							<Typography variant="subtitle1" fontWeight="bold">
+								{t('nav.title')}
+							</Typography>
+							<Typography variant="body2">
+								{t('footer.title')}
+								<Link
+									underline="hover"
+									color="inherit"
+									href="https://www.chuv.ch/fr/pcl/pcl-home/"
+									target="_blank"
+									rel={'noopener'}
+								>
+									{t('footer.pcl')}
+								</Link>
+								<br />
+								{t('footer.subtitle')}
+								<Link
+									underline="hover"
+									color="inherit"
+									href="https://heig-vd.ch"
+									target="_blank"
+									rel={'noopener'}
+								>
+									{t('footer.heig')}
+								</Link>
+							</Typography>
+						</Box>
+						<Box minWidth={180}>
+							<a title="CHUV" href="https://www.chuv.ch/fr/pcl/pcl-home/">
+								<Image
+									width="102"
+									height="53"
+									alt="CHUV logo"
+									src="/CHUV.svg"
+								/>
+							</a>
+							<Box component="span" ml={1}>
+								<a title="CHUV" href="https://heig-vd.ch">
+									<Image
+										width="66"
+										height="50"
+										alt="HEIG-VD logo"
+										src="/HEIG-VD.svg"
+									/>
+								</a>
+							</Box>
+						</Box>
+					</Stack>
+
 					<Divider />
+
 					<Box padding={1} pb={0}>
 						<Stack
 							direction="row"

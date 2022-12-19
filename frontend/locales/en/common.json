@@ -8,6 +8,8 @@
 	"footer": {
 		"title": "This tool is offered by the ",
 		"pcl": "Clinical Pharmacology Department of the University Hospital of Vaud (PCL - CHUV, Switzerland)",
+		"subtitle": "With the collaboration of the ",
+		"heig": "School of Engineering and Management Vaud (HEIG-VD)",
 		"report": "This N-of-1 test was performed using the \"N-of-1 Companion\" tool, available online and offered by the Clinical Pharmacology Service of the Centre Hospitalier Universitaire Vaudois (PCL-CHUV, Switzerland)."
 	},
 	"form": {
@@ -50,6 +52,7 @@
 		"userAlreadyExists2": "An user with the same email address already exists !",
 		"invalidCredentials": "Invalid credentials",
 		"errorMsg": "Please check incorrect fields",
+		"errorField": "Incorrect field",
 		"unexpectedErrorMsg": "An error occurred, please try again",
 		"successMsg": "Data have been saved",
 		"integerRange": "Must be an integer between 0 and 299 (or empty)",

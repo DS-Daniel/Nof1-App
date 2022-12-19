@@ -112,6 +112,7 @@ export default function RandomizationStrategy({
 								}));
 							}}
 							error={sequenceError}
+							helperText={sequenceError && t('common:formErrors.errorField')}
 						/>
 					</>
 				);
@@ -125,8 +126,6 @@ export default function RandomizationStrategy({
 	const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const strategy = e.target.value as RandomStrategy;
 		const rStrategy: IRandomizationStrategy = { strategy };
-		// if (strategy === RandomStrategy.MaxRep) rStrategy.maxRep = 1;
-		// if (strategy !== RandomStrategy.Custom) setSequence('');
 		switch (strategy) {
 			case RandomStrategy.MaxRep:
 				rStrategy.maxRep = 1;

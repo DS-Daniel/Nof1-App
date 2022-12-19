@@ -31,7 +31,7 @@
 		"RS-random-max-rep": "Random, but with a maximum number of consecutive repetitions of the same substance.",
 		"RS-random-max-rep-N": "Max number of repetitions",
 		"RS-custom": "Predefined sequence.",
-		"RS-custom-warning": "Please use the abbreviations of the substances and separate them by \";\"\nPlease note that the abbreviations and the number of periods must be respected!",
+		"RS-custom-warning": "Please use the abbreviations of the substances and separate them by \";\"\nPlease note that the abbreviations and the number of periods must be respected !",
 		"subtitle-posology": "Dosage schedules",
 		"posology-desc": "Indicate the total expected morning, noon, evening and night doses for the selected substances.\nThe \"Fraction(s)*\" columns are used to indicate how many parts (capsules, tablets, etc) the dose should be divided into, in order to allow for spontaneous adaptation when taking the medication. Example: if the morning dose = 100mg and fraction(s) = 2, then the system will provide for a preparation of 2 doses of 50mg.",
 		"posology-supp-desc": "You have the possibility to enter several dosages for each substance. The system will randomly choose one of the ones you have entered (if there is only one, it will be chosen by default).",

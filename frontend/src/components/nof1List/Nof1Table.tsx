@@ -89,7 +89,7 @@ export default function Nof1Table({
 	};
 
 	return (
-		<Box width={'100%'} my={'2rem'}>
+		<Box width={'100%'}>
 			<Paper>
 				<TableContainer>
 					<Table aria-labelledby="tableTitle" size="medium">

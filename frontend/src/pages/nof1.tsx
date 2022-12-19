@@ -160,7 +160,7 @@ export default function Nof1() {
 	return (
 		<AuthenticatedPage>
 			<Stack justifyContent="center" alignItems="center">
-				<Stack direction="row" spacing={4}>
+				<Stack direction="row" spacing={4} mb={4}>
 					<Button
 						variant="contained"
 						onClick={handleCreateBtn}
