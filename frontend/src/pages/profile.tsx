@@ -1,25 +1,28 @@
-import AuthenticatedPage from '../components/layout/AuthenticatedPage';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import FormWithValidation, { FormInput } from '../components/common/FormWithValidation';
+import { useEffect, useState } from 'react';
 import { useUserContext } from '../context/UserContext';
+import useTranslation from 'next-translate/useTranslation';
+import { SubmitHandler } from 'react-hook-form';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
+import Skeleton from '@mui/material/Skeleton';
 import {
 	usePhysicianSchema,
 	PhysicianFormData,
 } from '../utils/zodValidationHook';
-import useTranslation from 'next-translate/useTranslation';
 import {
 	formatPhysicianData,
 	formatPhysicianDataToForm,
 } from '../utils/dataFormConvertor';
-import { SubmitHandler } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import Alert from '@mui/material/Alert';
-import { updatePhysician, updateUser, userExists } from '../utils/apiCalls';
-import Skeleton from '@mui/material/Skeleton';
-import SuccessSnackbar from '../components/common/SuccessSnackbar';
-import FailSnackbar from '../components/common/FailSnackbar';
+import { updatePhysician } from '../utils/nof1-lib/api-calls/apiPhysicians';
+import { updateUser, userExists } from '../utils/nof1-lib/api-calls/apiUsers';
+import AuthenticatedPage from '../components/layout/AuthenticatedPage';
+import { FormCard } from '../components/common/ui';
+import FormWithValidation, {
+	FormInput,
+} from '../components/common/forms/FormWithValidation';
+import SuccessSnackbar from '../components/common/ui/SuccessSnackbar';
+import FailSnackbar from '../components/common/ui/FailSnackbar';
 
 /**
  * Profile page.
@@ -44,7 +47,7 @@ export default function Profile() {
 			setDefaultValues(formatPhysicianDataToForm(userContext.user));
 			setLoading(false);
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [userContext]);
 
 	/**
@@ -100,44 +103,54 @@ export default function Profile() {
 
 	return (
 		<AuthenticatedPage>
-			<Stack justifyContent="center" alignItems="center" spacing={3}>
-				<Typography variant="h5">{t('profile:title')}</Typography>
-				<Typography variant="h6">{t('profile:welcome')}</Typography>
-				{loading ? (
-					<Skeleton
-						variant="rectangular"
-						animation="wave"
-						width={691}
-						height={372}
-					/>
-				) : (
-					<Paper sx={{ p: 2, width: '60%' }}>
-						{error && (
-							<Alert severity="error">
-								{t('formErrors.userAlreadyExists2')}
-							</Alert>
-						)}
-						<FormWithValidation<PhysicianFormData>
-							schema={schema}
-							inputs={inputs}
-							btnLabel={t('button.saveDataBtn')}
-							errorMsg={t('formErrors.errorMsg')}
-							onSubmit={handleSubmit}
-							defaultValues={defaultValues}
-						/>
-						<SuccessSnackbar
-							open={openSuccessSnackbar}
-							setOpen={setOpenSuccessSnackbar}
-							msg={t('formErrors.successMsg')}
-						/>
-						<FailSnackbar
-							open={openFailSnackbar}
-							setOpen={setOpenFailSnackbar}
-							msg={t('formErrors.unexpectedErrorMsg')}
-						/>
-					</Paper>
-				)}
-			</Stack>
+			<Grid
+				container
+				rowSpacing={3}
+				justifyContent="center"
+				alignItems="center"
+			>
+				<Grid item xs={12}>
+					<Typography variant="h5" textAlign="center">
+						{t('profile:title')}
+					</Typography>
+				</Grid>
+				<Grid item xs={12}>
+					<Typography variant="h6" textAlign="center">
+						{t('profile:welcome')}
+					</Typography>
+				</Grid>
+				<Grid item xs={12} sm={9} md={7}>
+					{loading ? (
+						<Skeleton variant="rectangular" animation="wave" height={'50vh'} />
+					) : (
+						<FormCard>
+							{error && (
+								<Alert severity="error">
+									{t('formErrors.userAlreadyExists2')}
+								</Alert>
+							)}
+							<FormWithValidation<PhysicianFormData>
+								schema={schema}
+								inputs={inputs}
+								btnLabel={t('button.saveDataBtn')}
+								errorMsg={t('formErrors.errorMsg')}
+								onSubmit={handleSubmit}
+								defaultValues={defaultValues}
+							/>
+						</FormCard>
+					)}
+				</Grid>
+			</Grid>
+			<SuccessSnackbar
+				open={openSuccessSnackbar}
+				setOpen={setOpenSuccessSnackbar}
+				msg={t('formErrors.successMsg')}
+			/>
+			<FailSnackbar
+				open={openFailSnackbar}
+				setOpen={setOpenFailSnackbar}
+				msg={t('formErrors.unexpectedErrorMsg')}
+			/>
 		</AuthenticatedPage>
 	);
 }

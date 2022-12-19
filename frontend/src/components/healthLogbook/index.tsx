@@ -44,13 +44,19 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 		return (
 			<div ref={ref} className={styles.printContainer}>
 				<header>
-					{test.participants.patient.lastname}{' '}
-					{test.participants.patient.firstname}
-					<br />
-					{test.participants.patient.address.street}
-					<br />
-					{test.participants.patient.address.zip}{' '}
-					{test.participants.patient.address.city}
+					<p
+						className={styles.recipient}
+						contentEditable={true}
+						suppressContentEditableWarning={true}
+					>
+						{test.participants.patient.lastname}{' '}
+						{test.participants.patient.firstname}
+						<br />
+						{test.participants.patient.address.street}
+						<br />
+						{test.participants.patient.address.zip}{' '}
+						{test.participants.patient.address.city}
+					</p>
 				</header>
 				<h3 className={styles.title}>{t('logbookTitle')}</h3>
 				<main>
@@ -67,8 +73,11 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 											.toLocaleDateString()}
 									</span>
 									<span>
-										{t('common:day')} {idx + 1} | {t('period')}{' '}
-										{Math.floor(idx / test.periodLen) + 1}
+										{t('common:day')} {idx + 1}{' '}
+										{test.meta_info.showPeriodQuestions &&
+											`| ${t('period')} ${
+												Math.floor(idx / test.periodLen) + 1
+											}`}
 									</span>
 								</div>
 								<div className={styles.variables}>
@@ -80,22 +89,23 @@ export const HealthLogbook = forwardRef<HTMLDivElement, HealthLogbookProps>(
 											{renderVariable(v)}
 										</div>
 									))}
-									{(idx + 1) % test.periodLen === 0 && (
-										<>
-											<div className={styles.periodQuestion}>
-												<span>{t('supposition')}</span>
-												<div className={styles.periodAnswer} />
+									{test.meta_info.showPeriodQuestions &&
+										(idx + 1) % test.periodLen === 0 && (
+											<div>
+												<div className={styles.periodQuestion}>
+													<span>{t('supposition')}</span>
+													<div className={styles.periodAnswer} />
+												</div>
+												<div className={styles.periodQuestion}>
+													<span>{t('optimal')}</span>
+													<div className={styles.periodAnswer} />
+												</div>
+												<div className={styles.periodQuestion}>
+													{t('period-Q-remark')} :
+												</div>
+												<div className={styles.textarea} />
 											</div>
-											<div className={styles.periodQuestion}>
-												<span>{t('optimal')}</span>
-												<div className={styles.periodAnswer} />
-											</div>
-											<div className={styles.periodQuestion}>
-												{t('period-Q-remark')} :
-											</div>
-											<div className={styles.textarea} />
-										</>
-									)}
+										)}
 								</div>
 							</div>
 						),

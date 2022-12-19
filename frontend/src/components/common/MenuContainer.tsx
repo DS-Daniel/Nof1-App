@@ -4,7 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Typography from '@mui/material/Typography';
-import CustomTooltip from './CustomTooltip';
+import CustomTooltip from './ui/CustomTooltip';
 
 export interface IMenuItem {
 	name: string;
@@ -89,9 +89,9 @@ export default function MenuContainer({
 							}}
 						>
 							{i.tooltipText ? (
-								<CustomTooltip infoText={i.tooltipText}>
-									<Typography color={i.color || 'black'}>{i.name}</Typography>
-								</CustomTooltip>
+								<Typography color={i.color || 'black'}>
+									{i.name} <CustomTooltip infoText={i.tooltipText} />
+								</Typography>
 							) : (
 								<Typography color={i.color || 'black'}>{i.name}</Typography>
 							)}

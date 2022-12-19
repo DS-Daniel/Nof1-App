@@ -5,6 +5,13 @@
 		"profile": "Mon profil",
 		"logout": "Déconnexion"
 	},
+  "footer": {
+    "title": "Cet outil vous est proposé par le ",
+    "pcl": "Service de Pharmacologie clinique du Centre Hospitalier Universitaire Vaudois (PCL - CHUV, Suisse)",
+    "subtitle": "Avec la collaboration de la ",
+    "heig": "Haute École d'Ingénierie et de Gestion du Canton de Vaud (HEIG-VD)",
+    "report": "Ce test N-of-1 a été réalisé à l'aide de l'outil \"N-of-1 Companion\", disponible en ligne et proposé par le Service de Pharmacologie clinique du Centre Hospitalier Universitaire Vaudois (PCL-CHUV, Suisse)."
+  },
 	"form": {
 		"signIn": "Connexion",
 		"signUp": "Créer un compte",
@@ -45,6 +52,7 @@
 		"userAlreadyExists2": "Un utilisateur avec cette adresse e-mail existe déjà !",
 		"invalidCredentials": "Identifiants de connexion non valides",
 		"errorMsg": "Veuillez vérifier les champs incorrects",
+		"errorField": "Champ incorrect",
 		"unexpectedErrorMsg": "Une erreur s'est produite, veuillez réessayer",
 		"successMsg": "Les données ont été enregistrées",
 		"integerRange": "Doit être un entier entre 0 et 299 (ou vide)",

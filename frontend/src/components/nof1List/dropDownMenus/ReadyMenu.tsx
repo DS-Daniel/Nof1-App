@@ -4,11 +4,11 @@ import useTranslation from 'next-translate/useTranslation';
 import MenuOptions from './MenuOptions';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import { Nof1Test } from '../../../entities/nof1Test';
-import { usePharmaEmailInfos } from '../../../utils/customHooks';
+import { usePharmaEmailInfos } from '../../../hooks/email';
 import { sendPharmaEmailWrapper } from '../../../utils/nof1-lib/lib';
-import { updateNof1Test } from '../../../utils/apiCalls';
-import SuccessSnackbar from '../../common/SuccessSnackbar';
-import FailSnackbar from '../../common/FailSnackbar';
+import { updateNof1Test } from '../../../utils/nof1-lib/api-calls/apiNof1Tests';
+import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
+import FailSnackbar from '../../common/ui/FailSnackbar';
 
 interface ReadyMenuProps {
 	item: Nof1Test;

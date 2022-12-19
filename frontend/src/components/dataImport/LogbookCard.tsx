@@ -8,9 +8,10 @@ import { ReactNode } from 'react';
 
 interface LogbookCardProps {
 	children: ReactNode;
-	startDate: Date | string;
 	idx: number;
+	startDate: Date | string;
 	periodLen: number;
+	showPeriodQuestions: boolean;
 }
 
 /**
@@ -18,9 +19,10 @@ interface LogbookCardProps {
  */
 export default function LogbookCard({
 	children,
-	startDate,
 	idx,
+	startDate,
 	periodLen,
+	showPeriodQuestions,
 }: LogbookCardProps) {
 	const { t } = useTranslation('common');
 
@@ -33,8 +35,9 @@ export default function LogbookCard({
 					{dayjs(startDate).add(idx, 'day').toDate().toLocaleDateString()}
 				</Typography>
 				<Typography>
-					{t('day')} {idx + 1} | {t('importData:period')}{' '}
-					{Math.floor(idx / periodLen) + 1}
+					{t('day')} {idx + 1}{' '}
+					{showPeriodQuestions &&
+						`| ${t('importData:period')} ${Math.floor(idx / periodLen) + 1}`}
 				</Typography>
 			</Stack>
 			{/* content */}

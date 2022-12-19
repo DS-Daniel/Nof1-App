@@ -7,16 +7,17 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { Nof1Test } from '../../entities/nof1Test';
 import { TestData } from '../../entities/nof1Data';
+import { findNof1TestById } from '../../utils/nof1-lib/api-calls/apiNof1Tests';
 import {
 	createNof1Data,
 	findNof1Data,
-	findNof1TestById,
 	updateNof1Data,
-} from '../../utils/apiCalls';
-import FailSnackbar from '../../components/common/FailSnackbar';
-import SuccessSnackbar from '../../components/common/SuccessSnackbar';
+} from '../../utils/nof1-lib/api-calls/apiNof1Data';
+import FailSnackbar from '../../components/common/ui/FailSnackbar';
+import SuccessSnackbar from '../../components/common/ui/SuccessSnackbar';
 import { defaultData } from '../../utils/nof1-lib/lib';
 import Logbook from '../../components/dataImport/Logbook';
+import dayjs from 'dayjs';
 
 const dataFormId = 'data-form';
 
@@ -30,8 +31,6 @@ export default function ImportData() {
 	const [test, setTest] = useState<Nof1Test | undefined>(undefined);
 	const testData = useRef<TestData | undefined>(undefined);
 	const [dataFound, setDataFound] = useState(false);
-	const [fileError, setFileError] = useState(false);
-	const [fileSuccess, setFileSuccess] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [dbError, setDbError] = useState(false);
 	const [validityError, setValidityError] = useState(false);
@@ -124,6 +123,7 @@ export default function ImportData() {
 							query: { id: router.query.id },
 						});
 					}}
+					disabled={!test || dayjs() < dayjs(test.endingDate)}
 				>
 					{t('go-to-result-btn')}
 				</Button>
@@ -131,16 +131,6 @@ export default function ImportData() {
 			<form id={dataFormId}>
 				<Logbook test={test} testData={testData} />
 			</form>
-			<SuccessSnackbar
-				open={fileSuccess}
-				setOpen={setFileSuccess}
-				msg={t('import-alert-success')}
-			/>
-			<FailSnackbar
-				open={fileError}
-				setOpen={setFileError}
-				msg={t('import-alert-fail')}
-			/>
 			<SuccessSnackbar
 				open={success}
 				setOpen={setSuccess}

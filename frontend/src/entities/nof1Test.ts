@@ -34,9 +34,10 @@ export interface Nof1Test {
 	posologies: SubstancePosologies[];
 	monitoredVariables: Variable[];
 	statistics: { analysisToPerform: AnalyseType };
-	meta_info?: {
+	meta_info: {
 		creationDate: Date;
 		emailSendingDate?: Date;
+		showPeriodQuestions: boolean;
 	};
 }
 

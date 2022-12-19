@@ -7,6 +7,7 @@
 		"edit": "Modifier le test",
 		"delete": "Supprimer le test"
 	},
+	"creation-warning": "Vous ne pouvez créer qu'un test par intervalle de 15 minutes",
 	"delete-warning": "Êtes-vous sûr de vouloir supprimer le test ?",
 	"create-fromID-dialog-title": "Choisissez l'ID du test qui servira comme modèle",
 	"header": {

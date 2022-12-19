@@ -3,19 +3,19 @@ import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { useUserContext } from '../../../context/UserContext';
 import { Nof1Test, TestStatus } from '../../../entities/nof1Test';
-import { updateNof1Test } from '../../../utils/apiCalls';
+import { updateNof1Test } from '../../../utils/nof1-lib/api-calls/apiNof1Tests';
 import {
 	generateAdministrationSchema,
 	generateSequence,
 	selectRandomPosology,
 	sendPharmaEmailWrapper,
 } from '../../../utils/nof1-lib/lib';
-import { usePharmaEmailInfos } from '../../../utils/customHooks';
+import { usePharmaEmailInfos } from '../../../hooks/email';
 import OptionBtn from './OptionBtn';
 import { OptionsProps } from '../Nof1TableItem';
 import EmailConfirmDialog from '../EmailConfirmDialog';
 import PreparationMenu from '../dropDownMenus/PreparationMenu';
-import FailSnackbar from '../../common/FailSnackbar';
+import FailSnackbar from '../../common/ui/FailSnackbar';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack from '@mui/material/Stack';
 
@@ -96,7 +96,7 @@ export default function PreparationOptions({
 		);
 
 		if (response.success) {
-			test.meta_info!.emailSendingDate = new Date();
+			test.meta_info.emailSendingDate = new Date();
 			test.status = TestStatus.Ready;
 			updateNof1Test(userContext.access_token, test.uid!, test);
 			setItem(test); // update display

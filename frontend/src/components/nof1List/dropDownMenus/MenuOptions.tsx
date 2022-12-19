@@ -4,7 +4,7 @@ import RecapModal from '../recapModal';
 import DeleteDialog from './DeleteDialog';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { generateXlsxSchemaExample } from '../../../utils/nof1-lib/lib';
-import { usePharmaEmailInfos } from '../../../utils/customHooks';
+import { usePharmaEmailInfos } from '../../../hooks/email';
 import MenuContainer, { IMenuItem } from '../../common/MenuContainer';
 
 interface MenuOptionsProps {

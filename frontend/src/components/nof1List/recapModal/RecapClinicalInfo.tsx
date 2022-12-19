@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import { IClinicalInfo } from '../../../entities/clinicalInfo';
-import ReadOnlyForm from '../../common/ReadOnlyForm';
+import ReadOnlyForm from '../../common/forms/ReadOnlyForm';
 import Stack from '@mui/material/Stack';
 
 interface RecapClinicalInfoProps {

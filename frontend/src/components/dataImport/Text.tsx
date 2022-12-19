@@ -1,7 +1,7 @@
 import VarLayout from './VarLayout';
 import useTranslation from 'next-translate/useTranslation';
 import { VarProps } from './varCommon';
-import TextareaWithCustomValidation from '../common/TextareaWithCustomValidation';
+import TextareaWithCustomValidation from '../common/inputs/TextareaWithCustomValidation';
 
 /**
  * Component that renders an input for a text type variable.

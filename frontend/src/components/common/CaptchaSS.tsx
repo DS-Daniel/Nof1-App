@@ -7,7 +7,10 @@ import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import useTranslation from 'next-translate/useTranslation';
 import Typography from '@mui/material/Typography';
-import { getCaptcha, verifyCaptcha } from '../../utils/apiCalls';
+import {
+	getCaptcha,
+	verifyCaptcha,
+} from '../../utils/nof1-lib/api-calls/apiAuth';
 import Box from '@mui/material/Box';
 
 interface CaptchaSSProps {
@@ -77,7 +80,7 @@ export default function CaptchaSS({ onValidation }: CaptchaSSProps) {
 				<Stack alignItems="center">
 					<Stack direction="row" alignItems="center" spacing={1}>
 						<Box
-							sx={{ height: 50 }}
+              height={50}
 							dangerouslySetInnerHTML={{ __html: captchaImg }}
 						/>
 						<IconButton

@@ -1,7 +1,10 @@
-import TextField from '@mui/material/TextField';
-import { Translate } from 'next-translate';
 import { FormState, UseFormRegister } from 'react-hook-form';
+import { Translate } from 'next-translate';
 import { Variable } from '../../../../entities/variable';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { TypographyWLineBreak } from '../../../common/ui';
 
 export type InputsProps = {
 	register: UseFormRegister<Variable>;
@@ -21,7 +24,7 @@ export const Name = ({ register, t, validation }: InputsProps) => {
 			message: t('common:formErrors.maxLen-n', { n: 64 }),
 		},
 		validate: (val) =>
-			validation?.validate(val) || t('variables.error-already-exist'),
+			validation?.validate(val) || t('variables.error.already-exist'),
 	});
 	return (
 		<TextField
@@ -115,10 +118,10 @@ export const SkippedRunInDays = ({
 	const { ref: inputRef, ...registerProps } = register('skippedRunInDays', {
 		shouldUnregister: true,
 		required: t('common:formErrors.requiredField'),
-		min: { value: 0, message: t('variables.error-min0') },
+		min: { value: 0, message: t('variables.error.min0') },
 		max: {
 			value: periodLen!,
-			message: t('variables.error-max'),
+			message: t('variables.error.max'),
 		},
 		valueAsNumber: true,
 	});
@@ -129,6 +132,21 @@ export const SkippedRunInDays = ({
 			label={t('variables.header.skip')}
 			type="number"
 			fullWidth
+			InputProps={{
+				endAdornment: (
+					<Tooltip
+						title={
+							<TypographyWLineBreak variant="body2">
+								{t('variables.skipped-run-in-desc')}
+							</TypographyWLineBreak>
+						}
+						arrow
+						sx={{ ml: 1 }}
+					>
+						<InfoOutlinedIcon color="primary" />
+					</Tooltip>
+				),
+			}}
 			defaultValue={0}
 			error={!!validation?.errors.skippedRunInDays}
 			helperText={validation?.errors.skippedRunInDays?.message}

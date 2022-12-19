@@ -11,12 +11,12 @@ import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRegisterSchema, RegisterForm } from '../utils/zodValidationHook';
-import { formatRegisterData } from '../utils/dataFormConvertor';
-import { authenticate } from '../utils/apiCalls';
-import { UserContextType } from '../context/UserContext';
-import Captcha from '../components/common/Captcha';
-import CaptchaSS from './common/CaptchaSS';
+import { useRegisterSchema, RegisterForm } from '../../utils/zodValidationHook';
+import { formatRegisterData } from '../../utils/dataFormConvertor';
+import { authenticate } from '../../utils/nof1-lib/api-calls/apiAuth';
+import { UserContextType } from '../../context/UserContext';
+import CaptchaSS from '../common/CaptchaSS';
+import { TypographyWLineBreak } from '../common/ui';
 
 type SignUpProps = {
 	login: (u: UserContextType) => void;
@@ -214,19 +214,15 @@ export default function SignUp({ login }: SignUpProps) {
 						</Grid>
 						<Grid item xs={12}>
 							<Alert variant="outlined" severity="warning">
-								<Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+								<TypographyWLineBreak variant="body2">
 									{t('form.pwd-instructions')}
-								</Typography>
+								</TypographyWLineBreak>
 							</Alert>
 						</Grid>
 						<Grid item xs={12}>
 							<CaptchaSS
 								onValidation={(valid: boolean) => setIsCaptchaValid(valid)}
 							/>
-							{/* <Captcha
-								captchaNumbers={5}
-								onValidation={(valid: boolean) => setIsCaptchaValid(valid)}
-							/> */}
 						</Grid>
 						{userExists && (
 							<Grid item xs={12}>

@@ -9,9 +9,9 @@ import Alert from '@mui/material/Alert';
 import { useRouter } from 'next/router';
 import { useState, FormEvent } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import { authenticate } from '../utils/apiCalls';
-import { emailRegex } from '../utils/constants';
-import { UserContextType } from '../context/UserContext';
+import { authenticate } from '../../utils/nof1-lib/api-calls/apiAuth';
+import { emailRegex } from '../../utils/constants';
+import { UserContextType } from '../../context/UserContext';
 
 type SignInProps = {
 	login: (u: UserContextType) => void;

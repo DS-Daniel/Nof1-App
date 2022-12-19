@@ -11,14 +11,17 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
-import { Variable, VariableType } from '../../../entities/variable';
-import { usePredefinedHealthVariables } from '../../../utils/customHooks';
+import Box from '@mui/material/Box';
+import Switch from '@mui/material/Switch';
 import VarTable from './VarTable';
 import VarDialog from './VarDialog';
+import { SectionCard } from '../../common/ui';
+import CustomTooltip from '../../common/ui/CustomTooltip';
+import { Variable, VariableType } from '../../../entities/variable';
+import { usePredefinedHealthVariables } from '../../../hooks/variables';
 
 export const defaultVariable = {
 	type: VariableType.VAS,
@@ -32,6 +35,8 @@ interface VariablesProps {
 	variables: Variable[];
 	setVariables: Dispatch<SetStateAction<Variable[]>>;
 	periodLen: number;
+	showPeriodQuestions: boolean;
+	setShowPeriodQuestions: Dispatch<SetStateAction<boolean>>;
 }
 
 /**
@@ -42,6 +47,8 @@ export default function Variables({
 	variables,
 	setVariables,
 	periodLen,
+	showPeriodQuestions,
+	setShowPeriodQuestions,
 }: VariablesProps) {
 	const { t } = useTranslation('createTest');
 	const predefinedHealthVariables = usePredefinedHealthVariables();
@@ -166,7 +173,7 @@ export default function Variables({
 		!variables.some((v) => v.name === name);
 
 	return (
-		<Paper sx={{ p: 3, width: '100%' }}>
+		<SectionCard>
 			<Stack spacing={3}>
 				<Typography variant="h5" fontWeight="bold">
 					{t('variables.title')}
@@ -184,7 +191,7 @@ export default function Variables({
 					</Button>
 				</Stack>
 
-				<Typography variant="h6" mb={2}>
+				<Typography variant="h6">
 					{t('variables.additional-var-subtitle')}
 				</Typography>
 
@@ -213,6 +220,30 @@ export default function Variables({
 						})}
 					</Grid>
 				</FormGroup>
+
+				<Typography variant="h6">
+					{t('variables.end-period-Q.title')}
+				</Typography>
+				<Box paddingLeft={2} width={'95%'}>
+					<FormGroup>
+						<FormControlLabel
+							control={
+								<Switch
+									checked={showPeriodQuestions}
+									onChange={() =>
+										setShowPeriodQuestions((prevState) => !prevState)
+									}
+								/>
+							}
+							label={
+								<Typography ml={1}>
+									{t('variables.end-period-Q.Q')}{' '}
+									<CustomTooltip infoText={t('variables.end-period-Q.info')} />
+								</Typography>
+							}
+						/>
+					</FormGroup>
+				</Box>
 			</Stack>
 			<VarDialog
 				open={openDialog}
@@ -226,6 +257,6 @@ export default function Variables({
 				}}
 				periodLen={periodLen}
 			/>
-		</Paper>
+		</SectionCard>
 	);
 }

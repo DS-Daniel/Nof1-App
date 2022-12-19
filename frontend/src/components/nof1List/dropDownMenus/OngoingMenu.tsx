@@ -4,14 +4,12 @@ import useTranslation from 'next-translate/useTranslation';
 import MenuOptions from './MenuOptions';
 import HealthLogbookModal from '../HealthLogbookModal';
 import EmailConfirmDialog from '../EmailConfirmDialog';
-import SuccessSnackbar from '../../common/SuccessSnackbar';
-import FailSnackbar from '../../common/FailSnackbar';
+import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
+import FailSnackbar from '../../common/ui/FailSnackbar';
 import { Nof1Test } from '../../../entities/nof1Test';
-import {
-	usePharmaEmailInfos,
-	usePatientEmailMsg,
-} from '../../../utils/customHooks';
-import { sendPatientEmail, updateNof1Test } from '../../../utils/apiCalls';
+import { usePharmaEmailInfos, usePatientEmailMsg } from '../../../hooks/email';
+import { updateNof1Test } from '../../../utils/nof1-lib/api-calls/apiNof1Tests';
+import { sendPatientEmail } from '../../../utils/nof1-lib/api-calls/apiEmail';
 import { sendPharmaEmailWrapper } from '../../../utils/nof1-lib/lib';
 import { tokenExpMargin } from '../../../utils/constants';
 import dayjs from 'dayjs';

@@ -8,9 +8,11 @@ import SelectAnalysisType from '../../common/inputs/SelectAnalysisType';
 import { Nof1Test } from '../../../entities/nof1Test';
 import { TestData } from '../../../entities/nof1Data';
 import { VariableType } from '../../../entities/variable';
-import { AnalyseType, anova, isAnalyseValid } from '../../../utils/statistics';
+import { AnalyseType, anova, isAnalysisValid } from '../../../utils/statistics';
+import { RandomStrategy } from '../../../utils/nof1-lib/randomizationStrategy';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
 
 interface StatisticsProps {
 	test: Nof1Test;
@@ -43,23 +45,44 @@ export default function Statistics({
 		name: string;
 		skippedRunInDays: number;
 	}) => {
-		const stats = anova(statsType, variable, test, testData);
-		// if statistics contain NaN values due to incomplete patient's data,
-		// an error message is displayed.
-		if (!isAnalyseValid(stats))
-			return (
-				<Typography fontWeight="bold" fontStyle="italic" color="error">
-					{t('statistics.error')}
-				</Typography>
-			);
+		try {
+			const stats = anova(statsType, variable, test, testData);
+			// if statistics contain NaN values due to incomplete patient's data,
+			// an error message is displayed.
+			if (!isAnalysisValid(stats))
+				return (
+					<Alert severity="error">
+						<Typography fontStyle="italic">{t('statistics.error')}</Typography>
+					</Alert>
+				);
 
-		switch (statsType) {
-			case AnalyseType.NaiveANOVA:
-				return <StatsTable substances={substances} stats={stats} />;
-			case AnalyseType.CycleANOVA:
-				return <CycleANOVA substances={substances} stats={stats} />;
-			case AnalyseType.ANCOVAautoregr:
-				return <ANCOVAautoregr substances={substances} stats={stats} />;
+			switch (statsType) {
+				case AnalyseType.NaiveANOVA:
+					return <StatsTable substances={substances} stats={stats} />;
+				case AnalyseType.CycleANOVA:
+					return (
+						<>
+							{test.randomization.strategy === RandomStrategy.Custom && (
+								<Alert severity="warning">
+									<Typography fontStyle="italic">
+										{t('statistics.warning-custom-strategy')}
+									</Typography>
+								</Alert>
+							)}
+							<CycleANOVA substances={substances} stats={stats} />
+						</>
+					);
+				case AnalyseType.ANCOVAautoregr:
+					return <ANCOVAautoregr substances={substances} stats={stats} />;
+			}
+		} catch {
+			return (
+				<Alert severity="error">
+					<Typography fontStyle="italic">
+						{t('statistics.error-strategy')}
+					</Typography>
+				</Alert>
+			);
 		}
 	};
 
@@ -99,16 +122,16 @@ export default function Statistics({
 	 * @param varName Variable's name.
 	 * @returns A warning message if data is not complete.
 	 */
-	const renderWarning = (varName: string) => {
+	const renderDataWarning = (varName: string) => {
 		const notComplete = testData.some((d) => {
 			const v = d.data.find((v) => v.variableName === varName);
 			return v?.value === '';
 		});
 		return (
 			notComplete && (
-				<Typography fontWeight="bold" fontStyle="italic" color="error">
-					{t('statistics.warning')}
-				</Typography>
+				<Alert severity="warning">
+					<Typography fontStyle="italic">{t('statistics.warning')}</Typography>
+				</Alert>
 			)
 		);
 	};
@@ -134,7 +157,7 @@ export default function Statistics({
 							{t('createTest:variables.header.skip')} :{' '}
 							{v.skippedRunInDays ?? 0}
 						</Typography>
-						{renderWarning(v.name)}
+						{renderDataWarning(v.name)}
 						{renderStatisticTable({
 							name: v.name,
 							skippedRunInDays: v.skippedRunInDays ?? 0,

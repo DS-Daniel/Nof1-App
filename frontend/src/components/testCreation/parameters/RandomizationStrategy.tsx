@@ -1,22 +1,23 @@
-import useTranslation from 'next-translate/useTranslation';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import {
-	RandomStrategy,
-	RandomizationStrategy as IRandomizationStrategy,
-} from '../../../utils/nof1-lib/randomizationStrategy';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { RandomStrategyProps } from '.';
-import { maxRepOptions } from '../../../utils/constants';
-import { ChangeEvent, useState } from 'react';
 import TextField from '@mui/material/TextField';
+import { ChangeEvent, useState } from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import { RandomStrategyProps } from '.';
+import { TypographyWLineBreak } from '../../common/ui';
+import { maxRepOptions } from '../../../utils/constants';
+import {
+	RandomStrategy,
+	RandomizationStrategy as IRandomizationStrategy,
+} from '../../../utils/nof1-lib/randomizationStrategy';
 
 /**
  * Randomization strategy component. Renders the radio group for all strategies.
@@ -46,9 +47,9 @@ export default function RandomizationStrategy({
 						<Typography>{t('parameters.RS-permutation')}</Typography>
 						<Tooltip
 							title={
-								<Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+								<TypographyWLineBreak>
 									{t('parameters.RS-permutation-helper')}
-								</Typography>
+								</TypographyWLineBreak>
 							}
 							placement="right"
 							arrow
@@ -93,13 +94,9 @@ export default function RandomizationStrategy({
 			case RandomStrategy.Custom:
 				return (
 					<>
-						<Typography
-							variant="body1"
-							pt={'9px'}
-							sx={{ whiteSpace: 'pre-line' }}
-						>
-							{t('parameters.RS-custom')}
-						</Typography>
+						<TypographyWLineBreak pt={'9px'}>
+							{t('parameters.RS-custom')} {t('parameters.RS-custom-warning')}
+						</TypographyWLineBreak>
 						<TextField
 							size="small"
 							disabled={strategy.strategy != RandomStrategy.Custom}
@@ -115,6 +112,7 @@ export default function RandomizationStrategy({
 								}));
 							}}
 							error={sequenceError}
+							helperText={sequenceError && t('common:formErrors.errorField')}
 						/>
 					</>
 				);
@@ -128,8 +126,6 @@ export default function RandomizationStrategy({
 	const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const strategy = e.target.value as RandomStrategy;
 		const rStrategy: IRandomizationStrategy = { strategy };
-		// if (strategy === RandomStrategy.MaxRep) rStrategy.maxRep = 1;
-		// if (strategy !== RandomStrategy.Custom) setSequence('');
 		switch (strategy) {
 			case RandomStrategy.MaxRep:
 				rStrategy.maxRep = 1;

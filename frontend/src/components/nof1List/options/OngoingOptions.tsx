@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { useUserContext } from '../../../context/UserContext';
-import { updateNof1Test } from '../../../utils/apiCalls';
+import { updateNof1Test } from '../../../utils/nof1-lib/api-calls/apiNof1Tests';
 import { Nof1Test, TestStatus } from '../../../entities/nof1Test';
 import OptionBtn from './OptionBtn';
 import { OptionsProps } from '../Nof1TableItem';
@@ -19,6 +20,7 @@ interface OngoingOptionsProps extends OptionsProps {
 export default function OngoingOptions({ item, setItem }: OngoingOptionsProps) {
 	const { t } = useTranslation('nof1List');
 	const { userContext } = useUserContext();
+	const router = useRouter();
 
 	// check on rendering if the date deadline is exceeded.
 	useEffect(() => {
@@ -64,7 +66,26 @@ export default function OngoingOptions({ item, setItem }: OngoingOptionsProps) {
 				</OptionBtn>
 				<OptionBtn disabled>{t('btnStatus.ongoing')}</OptionBtn>
 			</Stack>
-			<OngoingMenu item={item} />
+			<Stack
+				direction="row"
+				justifyContent="flex-end"
+				alignItems="center"
+				spacing={2}
+			>
+				<OptionBtn
+					variant="outlined"
+					width={310}
+					onClick={() => {
+						router.push({
+							pathname: '/import-data',
+							query: { id: item.uid },
+						});
+					}}
+				>
+					{t('menu.dataImport')}
+				</OptionBtn>
+				<OngoingMenu item={item} />
+			</Stack>
 		</>
 	);
 }

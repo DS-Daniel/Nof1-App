@@ -5,18 +5,13 @@ import useTranslation from 'next-translate/useTranslation';
 import { Nof1Test, TestStatus } from '../entities/nof1Test';
 import { TestData } from '../entities/nof1Data';
 import { VariableType } from '../entities/variable';
+import { findNof1Data } from '../utils/nof1-lib/api-calls/apiNof1Data';
+import { findNof1TestById } from '../utils/nof1-lib/api-calls/apiNof1Tests';
 import {
-	findNof1Data,
-	findNof1TestById,
 	anonymousXML,
 	clearXML,
 	encryptedXML,
-} from '../utils/apiCalls';
-import { randomHexColor } from '../utils/charts';
-import {
-	RandomizationStrategy,
-	RandomStrategy,
-} from '../utils/nof1-lib/randomizationStrategy';
+} from '../utils/nof1-lib/api-calls/apiXML';
 import { formatPatientDataToTable } from '../utils/nof1-lib/lib';
 import ExtendedLineChart from '../components/results/lineChart';
 import RecapModal from '../components/nof1List/recapModal';
@@ -25,8 +20,10 @@ import AdministrationTable from '../components/results/AdministrationTable';
 import PatientDataTable from '../components/results/PatientDataTable';
 import SelectedPosologies from '../components/results/SelectedPosologies';
 import Statistics from '../components/results/statistics';
-import FailSnackbar from '../components/common/FailSnackbar';
+import { SectionCard } from '../components/common/ui';
+import FailSnackbar from '../components/common/ui/FailSnackbar';
 import MenuContainer from '../components/common/MenuContainer';
+import { useRenderStrategy } from '../hooks/randomStrategy';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -51,10 +48,10 @@ export default function Results() {
 	const { userContext } = useUserContext();
 	const [test, setTest] = useState<Nof1Test | null>(null);
 	const [testData, setTestData] = useState<TestData | null>(null);
-	const [substancesColors, setSubstancesColors] = useState<string[]>([]);
 	const [openRecapModal, setOpenRecapModal] = useState(false);
 	const [openReportModal, setOpenReportModal] = useState(false);
 	const [openFailSB, setOpenFailSB] = useState(false);
+	const renderStrategy = useRenderStrategy();
 
 	// fetch N-of-1 test and patient's health variables data.
 	useEffect(() => {
@@ -63,17 +60,21 @@ export default function Results() {
 				userContext.access_token,
 				id,
 			);
-			const { response } = await findNof1Data(userContext.access_token, id);
-			setTest(test);
-			setSubstancesColors(test.substances.map(() => randomHexColor()));
-			if (response) setTestData(response.data);
+			// check if user can access result page
+			if (dayjs() < dayjs(test.endingDate)) {
+				await router.replace('/nof1');
+			} else {
+				const { response } = await findNof1Data(userContext.access_token, id);
+				setTest(test);
+				if (response) setTestData(response.data);
+			}
 		}
 
 		const { id } = router.query;
 		if (id && userContext.access_token) {
 			init(id as string);
 		}
-	}, [router.query, userContext]);
+	}, [router, userContext]);
 
 	const xmlBtnOptions = [
 		{
@@ -138,28 +139,13 @@ export default function Results() {
 		return test.administrationSchema!;
 	};
 
-	/**
-	 * Helper to render the appropriate text.
-	 * @param randomization Randomization strategy.
-	 * @returns The strategy text description.
-	 */
-	const renderStrategy = (randomization: RandomizationStrategy) => {
-		switch (randomization.strategy) {
-			case RandomStrategy.Permutations:
-				return t('createTest:parameters.RS-permutation');
-			case RandomStrategy.MaxRep:
-				return `${t('createTest:parameters.RS-random-max-rep')}. ${t(
-					'createTest:parameters.RS-random-max-rep-N',
-				)} : ${randomization.maxRep}.`;
-		}
-	};
-
 	return (
 		<AuthenticatedPage>
 			<Stack
 				direction={{ xs: 'column', sm: 'row' }}
 				justifyContent="center"
 				spacing={{ xs: 1, sm: 5 }}
+				mb={4}
 			>
 				<Button
 					variant="contained"
@@ -190,7 +176,7 @@ export default function Results() {
 				<MenuContainer name={t('btn.xml')} items={xmlBtnOptions} />
 			</Stack>
 
-			<Paper sx={{ p: 3, mt: 4 }}>
+			<SectionCard>
 				<Stack spacing={3}>
 					<Typography variant="h4" textAlign="center">
 						{t('title.main')}
@@ -232,7 +218,7 @@ export default function Results() {
 									{t('period-duration')} {test.periodLen} {t('common:days')}.
 								</Typography>
 								<Typography>
-									{t('randomStrategy')} {renderStrategy(test.randomization)}.
+									{t('randomStrategy')} {renderStrategy(test.randomization)}
 								</Typography>
 							</div>
 
@@ -250,8 +236,12 @@ export default function Results() {
 							{testData ? (
 								<Paper>
 									<PatientDataTable
-										data={formatPatientDataToTable(testData)}
+										data={formatPatientDataToTable(
+											testData,
+											test.meta_info.showPeriodQuestions,
+										)}
 										variables={test.monitoredVariables}
+										showPeriodQuestions={test.meta_info.showPeriodQuestions}
 									/>
 								</Paper>
 							) : (
@@ -274,7 +264,6 @@ export default function Results() {
 											periodLen={test.periodLen}
 											substances={test.substances}
 											substancesSeq={test.substancesSequence!}
-											substancesColors={substancesColors}
 										/>
 									))
 							) : (
@@ -298,11 +287,11 @@ export default function Results() {
 							variant="rectangular"
 							animation="wave"
 							width={'100%'}
-							height={'80vh'}
+							height={'42vh'}
 						/>
 					)}
 				</Stack>
-			</Paper>
+			</SectionCard>
 			{test && (
 				<>
 					<RecapModal

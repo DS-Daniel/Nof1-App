@@ -116,6 +116,9 @@ export interface Stats {
  * @param test N-of-1 test.
  * @param testData N-of-1 test's data.
  * @returns The statistical analysis.
+ * @throws An Error when selecting the cycle ANOVA and the randomization strategy
+ * chosen is not the permutation strategy or the custom strategy (which should
+ * be consistent with the permutation strategy).
  */
 export const anova = (
 	typeOfAnalysis: AnalyseType,
@@ -127,7 +130,10 @@ export const anova = (
 		case AnalyseType.NaiveANOVA:
 			return naiveANOVA(test.substances, test.periodLen, testData, variable);
 		case AnalyseType.CycleANOVA:
-			if (test.randomization.strategy !== RandomStrategy.Permutations)
+			if (
+				test.randomization.strategy !== RandomStrategy.Permutations &&
+				test.randomization.strategy !== RandomStrategy.Custom
+			)
 				throw Error('Not allowed with the randomization strategy chosen');
 			return cycleANOVA(
 				test.substances,
@@ -505,7 +511,7 @@ const autoregrANCOVA = (
  * @param stats Statistical analysis values.
  * @returns True if valid, false otherwise.
  */
-export const isAnalyseValid = (stats: Stats) => {
+export const isAnalysisValid = (stats: Stats) => {
 	const { effect, ...wOutEffect } = stats.treatment;
 	const s = { ...stats, treatment: wOutEffect };
 	const allValues = Object.values(s).flatMap((o) => Object.values(o));
@@ -513,266 +519,3 @@ export const isAnalyseValid = (stats: Stats) => {
 		allValues.every((v: number) => !isNaN(v)) && effect.every((v) => !isNaN(v))
 	);
 };
-
-// const extractDataToAnalyze = (
-// 	subName: string,
-// 	variableName: string,
-// 	test: Nof1Test,
-// 	testData: TestData,
-// ) => {
-// 	// const quantitativeVariables = test.monitoredVariables.filter(
-// 	// 	(v) => v.type === VariableType.Numeric || v.type === VariableType.VAS,
-// 	// );
-// 	const quantitativeVariables = test.monitoredVariables.reduce<string[]>(
-// 		(acc, v) => {
-// 			if (v.type === VariableType.Numeric || v.type === VariableType.VAS)
-// 				acc.push(v.name);
-// 			return acc;
-// 		},
-// 		[],
-// 	);
-// 	const varInfo = test.monitoredVariables.find((v) => v.name === variableName)!;
-
-// 	const treatments = test.substances.map((s) => s.name);
-
-// 	return testData.map((d, idx) => {
-// 		const x = d.data.find((v) => v.variableName === variableName)!;
-// 		return {
-// 			day: d.day, // ou idx ?
-// 			cycle:
-// 				test.randomization.strategy === RandomStrategy.Permutations
-// 					? Math.ceil(test.nbPeriods / test.substances.length)
-// 					: 0,
-// 			// period: ,
-// 			treatment: treatments.indexOf(d.substance),
-// 			include: (d.day - 1) % test.periodLen < varInfo.skippedRunInDays! ? 0 : 1,
-// 			obs: x.value,
-// 		};
-// 	});
-// };
-
-// interface ANOVAresult {
-// 	treatment: {
-// 		effect: number[];
-// 		SS: number;
-// 		DF: number;
-// 		MS: number;
-// 		F: number;
-// 		P: number;
-// 	};
-// 	residual: {
-// 		SS: number;
-// 		DF: number;
-// 		MS: number;
-// 	};
-// 	total: {
-// 		mean: number;
-// 		SS: number;
-// 		DF: number;
-// 		MS: number;
-// 	};
-// }
-
-// export abstract class AbstractANOVA {
-// 	protected nbSub;
-// 	protected n = 0;
-// 	protected sum = 0;
-// 	protected ss = 0;
-// 	protected treatmentSS = 0;
-// 	protected residualSS = 0;
-// 	protected treatN: number[];
-// 	protected treatSum: number[];
-// 	protected treatSS: number[];
-// 	protected treatM: number[];
-
-// 	constructor(nbSub: number) {
-// 		this.nbSub = nbSub;
-// 		this.treatN = Array(nbSub).fill(0);
-// 		this.treatSum = Array(nbSub).fill(0);
-// 		this.treatSS = Array(nbSub).fill(0);
-// 		this.treatM = Array(nbSub).fill(0);
-// 	}
-
-// 	abstract analyze(
-// 		substances: Substance[],
-// 		periodLen: number,
-// 		data: TestData,
-// 		variableName: string,
-// 		skippedRunInDays: number,
-// 	): ANOVAresult;
-// }
-
-// export class NaiveANOVA extends AbstractANOVA {
-// 	constructor(nbSub: number) {
-// 		super(nbSub);
-// 	}
-
-// 	analyze(
-// 		substances: Substance[],
-// 		periodLen: number,
-// 		data: TestData,
-// 		variableName: string,
-// 		skippedRunInDays: number,
-// 	): ANOVAresult {
-// 		data.forEach((d) => {
-// 			const subIdx = substances.findIndex((s) => s.name === d.substance);
-// 			const varToAnalyze = d.data.find((v) => v.variableName === variableName)!;
-// 			const obs = Number(varToAnalyze.value);
-// 			const include = (d.day - 1) % periodLen < skippedRunInDays ? 0 : 1;
-// 			if (include) {
-// 				this.n += 1;
-// 				this.sum += obs;
-// 				this.ss += obs ** 2;
-// 				this.treatN[subIdx] += 1;
-// 				this.treatSum[subIdx] += obs;
-// 				this.treatSS[subIdx] += obs ** 2;
-// 			}
-// 		});
-
-// 		const grandMean = this.sum / this.n;
-
-// 		for (let i = 0; i < this.nbSub; ++i) {
-// 			this.treatM[i] = this.treatSum[i] / this.treatN[i];
-// 			this.treatmentSS =
-// 				this.treatmentSS + this.treatN[i] * (this.treatM[i] - grandMean) ** 2;
-// 			this.residualSS =
-// 				this.residualSS +
-// 				this.treatSS[i] -
-// 				this.treatN[i] * this.treatM[i] ** 2;
-// 		}
-
-// 		const totalSS = this.ss - this.n * grandMean ** 2;
-// 		const totalDf = this.n - 1;
-// 		const treatmentDf = this.nbSub - 1;
-// 		const treatmentMS = this.treatmentSS / treatmentDf;
-// 		const residualDf = totalDf - treatmentDf;
-// 		const residualMS = this.residualSS / residualDf;
-// 		const F = treatmentMS / residualMS;
-
-// 		return {
-// 			treatment: {
-// 				effect: this.treatM,
-// 				SS: this.treatmentSS,
-// 				DF: treatmentDf,
-// 				MS: treatmentMS,
-// 				F: F,
-// 				P: Fdistrib(F, treatmentDf, residualDf),
-// 			},
-// 			residual: {
-// 				SS: this.residualSS,
-// 				DF: residualDf,
-// 				MS: residualMS,
-// 			},
-// 			total: {
-// 				mean: grandMean,
-// 				SS: totalSS,
-// 				DF: totalDf,
-// 				MS: totalSS / totalDf,
-// 			},
-// 		};
-// 	}
-// }
-
-// /**
-//  * ANOVA with Cycle effect.
-//  * This test contrasts treatment effects among cycles, thus, getting rid of the repetition issue.
-//  */
-// export class CycleANOVA extends AbstractANOVA {
-// 	protected nbPeriods: number;
-// 	protected nbCycles: number;
-// 	protected cycN: number[];
-// 	protected cycSum: number[];
-// 	protected cycSS: number[];
-// 	protected treatcycN: number[][];
-// 	protected treatcycSum: number[][];
-// 	protected treatCycSS: number[][];
-
-// 	constructor(nbSub: number, nbPeriods: number) {
-// 		super(nbSub);
-// 		this.nbPeriods = nbPeriods;
-// 		this.nbCycles = Math.ceil(nbPeriods / nbSub);
-// 		this.cycN = Array(this.nbCycles).fill(0);
-// 		this.cycSum = Array(this.nbCycles).fill(0);
-// 		this.cycSS = Array(this.nbCycles).fill(0);
-// 		this.treatcycN = Array(nbSub).fill(Array(this.nbCycles).fill(0));
-// 		this.treatcycSum = Array(nbSub).fill(Array(this.nbCycles).fill(0));
-// 		this.treatCycSS = Array(nbSub).fill(Array(this.nbCycles).fill(0));
-// 	}
-
-// 	analyze(
-// 		substances: Substance[],
-// 		periodLen: number,
-// 		data: TestData,
-// 		variableName: string,
-// 		skippedRunInDays: number,
-// 	): ANOVAresult {
-// 		// const nbCycles = Math.ceil(this.nbPeriods / this.nbSub);
-// 		const cycleDuration = this.nbSub * periodLen;
-// 		// const cycN = Array(nbCycles).fill(0);
-
-// 		data.forEach((d) => {
-// 			const subIdx = substances.findIndex((s) => s.name === d.substance);
-// 			const varToAnalyze = d.data.find((v) => v.variableName === variableName)!;
-// 			const obs = Number(varToAnalyze.value);
-// 			const include = (d.day - 1) % periodLen < skippedRunInDays ? 0 : 1;
-// 			const cycle = (d.day - 1) / cycleDuration + 1;
-
-// 			if (include) {
-// 				this.n += 1;
-// 				this.sum += obs;
-// 				this.ss += obs ** 2;
-// 				this.treatN[subIdx] += 1;
-// 				this.treatSum[subIdx] += obs;
-// 				this.treatSS[subIdx] += obs ** 2;
-// 				this.cycN[cycle] += 1;
-// 				this.cycSum[cycle] += obs;
-// 				this.cycSS[cycle] += obs ** 2;
-// 				this.treatcycN[subIdx][cycle] += 1;
-// 				this.treatcycSum[subIdx][cycle] += obs;
-// 				this.treatCycSS[subIdx][cycle] += obs ** 2;
-// 			}
-// 		});
-
-// 		const grandMean = this.sum / this.n;
-
-// 		for (let i = 0; i < this.nbSub; ++i) {
-// 			this.treatM[i] = this.treatSum[i] / this.treatN[i];
-// 			this.treatmentSS =
-// 				this.treatmentSS + this.treatN[i] * (this.treatM[i] - grandMean) ** 2;
-// 			this.residualSS =
-// 				this.residualSS +
-// 				this.treatSS[i] -
-// 				this.treatN[i] * this.treatM[i] ** 2;
-// 		}
-
-// 		const totalSS = this.ss - this.n * grandMean ** 2;
-// 		const totalDf = this.n - 1;
-// 		const treatmentDf = this.nbSub - 1;
-// 		const treatmentMS = this.treatmentSS / treatmentDf;
-// 		const residualDf = totalDf - treatmentDf;
-// 		const residualMS = this.residualSS / residualDf;
-// 		const F = treatmentMS / residualMS;
-
-// 		return {
-// 			treatment: {
-// 				effect: this.treatM,
-// 				SS: this.treatmentSS,
-// 				DF: treatmentDf,
-// 				MS: treatmentMS,
-// 				F: F,
-// 				P: Fdistrib(F, treatmentDf, residualDf),
-// 			},
-// 			residual: {
-// 				SS: this.residualSS,
-// 				DF: residualDf,
-// 				MS: residualMS,
-// 			},
-// 			total: {
-// 				mean: grandMean,
-// 				SS: totalSS,
-// 				DF: totalDf,
-// 				MS: totalSS / totalDf,
-// 			},
-// 		};
-// 	}
-// }

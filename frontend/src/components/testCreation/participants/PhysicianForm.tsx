@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { useUserContext } from '../../../context/UserContext';
+import { Physician } from '../../../entities/people';
+import { FormCard } from '../../common/ui';
+import SuccessSnackbar from '../../common/ui/SuccessSnackbar';
+import FailSnackbar from '../../common/ui/FailSnackbar';
+import FormWithValidation, {
+	FormInput,
+} from '../../common/forms/FormWithValidation';
 import {
 	usePhysicianSchema,
 	PhysicianFormData,
@@ -14,13 +21,8 @@ import {
 	createPhysician,
 	findPhysician,
 	updatePhysician,
-} from '../../../utils/apiCalls';
+} from '../../../utils/nof1-lib/api-calls/apiPhysicians';
 import { isPhysicianInfoEqual } from '../../../utils/nof1-lib/lib';
-import FormWithValidation, { FormInput } from '../../common/FormWithValidation';
-import SuccessSnackbar from '../../common/SuccessSnackbar';
-import FailSnackbar from '../../common/FailSnackbar';
-import { useUserContext } from '../../../context/UserContext';
-import { Physician } from '../../../entities/people';
 
 type PhysicianFormProps = {
 	header: string;
@@ -107,7 +109,7 @@ export default function PhysicianForm({
 	};
 
 	return (
-		<Paper sx={{ p: 2, width: '100%' }}>
+		<FormCard>
 			<Typography variant="h6" align="center">
 				{header}
 			</Typography>
@@ -129,6 +131,6 @@ export default function PhysicianForm({
 				setOpen={setOpenFailSnackbar}
 				msg={t('formErrors.unexpectedErrorMsg')}
 			/>
-		</Paper>
+		</FormCard>
 	);
 }
