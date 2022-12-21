@@ -29,8 +29,7 @@
 		"country": "Country",
 		"birth-year": "Birth Year",
 		"insurance": "Insurance",
-		"insuranceNb": "Insurance number",
-		"pwd-instructions": "Password requirements:\n- minimum 8 characters\n- minimum 1 upper and 1 lower case letter\n- minimum 1 digit or special character"
+		"insuranceNb": "Insurance number"
 	},
 	"formErrors": {
 		"requiredField": "Required Field",
@@ -39,9 +38,11 @@
 		"maxLen": "Must be less than 32 characters",
 		"maxLen-n": "Must be less than {{n}} characters",
 		"alpha": "Must be alphabetic letters",
-		"oneUpperLetter": "Has at least one uppercase letter",
-		"oneLowerLetter": "Has at least one lowercase letter",
-		"oneDigitOrSpecial": "Has at least one digit or one special character",
+		"noWhiteSpace": "No spaces, tabs or line breaks",
+		"oneUpperLetter": "At least one uppercase letter",
+		"oneLowerLetter": "At least one lowercase letter",
+		"oneDigitOrSpecial": "At least one digit or one special character",
+		"invalidPassword": "Your password does not meet the security criteria",
 		"passwordConfirm": "Please confirm your password",
 		"passwordConfirmNoMatch": "Passwords do not match",
 		"number": "Please enter a number (integer or decimal, without space)",
@@ -50,6 +51,7 @@
 		"digitsMax": "Must be less than 20 digits",
 		"userAlreadyExists": "User already exists !",
 		"userAlreadyExists2": "An user with the same email address already exists !",
+		"userNotFound": "No users found with this email address",
 		"invalidCredentials": "Invalid credentials",
 		"errorMsg": "Please check incorrect fields",
 		"errorField": "Incorrect field",
@@ -61,7 +63,7 @@
 	"button": {
 		"add": "Add",
 		"cancel": "Cancel",
-		"saveDataBtn": "Save",
+		"save": "Save",
 		"send": "Send",
 		"delete": "Delete",
 		"close": "Close",
@@ -83,7 +85,6 @@
 		"dose-unitary": "Unitary dose",
 		"unit": "Unit"
 	},
-	"loading": "Loading...",
 	"startingDate": "Test starting date",
 	"endingDate": "Test ending date",
 	"date": "Date",

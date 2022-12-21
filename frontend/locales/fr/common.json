@@ -5,13 +5,13 @@
 		"profile": "Mon profil",
 		"logout": "Déconnexion"
 	},
-  "footer": {
-    "title": "Cet outil vous est proposé par le ",
-    "pcl": "Service de Pharmacologie clinique du Centre Hospitalier Universitaire Vaudois (PCL - CHUV, Suisse)",
-    "subtitle": "Avec la collaboration de la ",
-    "heig": "Haute École d'Ingénierie et de Gestion du Canton de Vaud (HEIG-VD)",
-    "report": "Ce test N-of-1 a été réalisé à l'aide de l'outil \"N-of-1 Companion\", disponible en ligne et proposé par le Service de Pharmacologie clinique du Centre Hospitalier Universitaire Vaudois (PCL-CHUV, Suisse)."
-  },
+	"footer": {
+		"title": "Cet outil vous est proposé par le ",
+		"pcl": "Service de Pharmacologie clinique du Centre Hospitalier Universitaire Vaudois (PCL - CHUV, Suisse)",
+		"subtitle": "Avec la collaboration de la ",
+		"heig": "Haute École d'Ingénierie et de Gestion du Canton de Vaud (HEIG-VD)",
+		"report": "Ce test N-of-1 a été réalisé à l'aide de l'outil \"N-of-1 Companion\", disponible en ligne et proposé par le Service de Pharmacologie clinique du Centre Hospitalier Universitaire Vaudois (PCL-CHUV, Suisse)."
+	},
 	"form": {
 		"signIn": "Connexion",
 		"signUp": "Créer un compte",
@@ -29,8 +29,7 @@
 		"country": "Pays",
 		"birth-year": "Année de naissance",
 		"insurance": "Assurance",
-		"insuranceNb": "Numéro d'assuré",
-		"pwd-instructions": "Prérequis du mot de passe:\n- minimum 8 caractères\n- minimum 1 lettre majuscule et 1 lettre minuscule\n- minimum 1 chiffre ou caractère spécial"
+		"insuranceNb": "Numéro d'assuré"
 	},
 	"formErrors": {
 		"requiredField": "Champ requis",
@@ -39,9 +38,11 @@
 		"maxLen": "Maximum 32 caractères",
 		"maxLen-n": "Maximum {{n}} caractères",
 		"alpha": "Autorisé: lettres alphabétiques",
-		"oneUpperLetter": "Contient au moins une lettre majuscule",
-		"oneLowerLetter": "Contient au moins une lettre minuscule",
-		"oneDigitOrSpecial": "Contient au moins un chiffre ou un caractère spécial",
+		"noWhiteSpace": "Pas d'espace, de tabulation ou de retour de ligne",
+		"oneUpperLetter": "Au moins une lettre majuscule",
+		"oneLowerLetter": "Au moins une lettre minuscule",
+		"oneDigitOrSpecial": "Au moins un chiffre ou un caractère spécial",
+		"invalidPassword": "Votre mot de passe ne respecte pas les critères de sécurité",
 		"passwordConfirm": "Veuillez confirmer votre mot de passe",
 		"passwordConfirmNoMatch": "Le mot de passe ne correspond pas",
 		"number": "Veuillez entrer un nombre (entier ou décimal, sans espace)",
@@ -50,6 +51,7 @@
 		"digitsMax": "Maximum 20 numéros",
 		"userAlreadyExists": "L'utilisateur existe déjà !",
 		"userAlreadyExists2": "Un utilisateur avec cette adresse e-mail existe déjà !",
+		"userNotFound": "Aucun utilisateur trouvé avec cette adresse e-mail",
 		"invalidCredentials": "Identifiants de connexion non valides",
 		"errorMsg": "Veuillez vérifier les champs incorrects",
 		"errorField": "Champ incorrect",
@@ -61,7 +63,7 @@
 	"button": {
 		"add": "Ajouter",
 		"cancel": "Annuler",
-		"saveDataBtn": "Enregistrer",
+		"save": "Enregistrer",
 		"send": "Envoyer",
 		"delete": "Supprimer",
 		"close": "Fermer",
@@ -83,7 +85,6 @@
 		"dose-unitary": "Dose unitaire",
 		"unit": "Unité"
 	},
-	"loading": "Chargement...",
 	"startingDate": "Date de début du test",
 	"endingDate": "Date de fin du test",
 	"date": "Date",
@@ -112,8 +113,8 @@
 	},
 	"yes": "Oui",
 	"no": "Non",
-  "statistics": {
-    "type": "Analyses possible :",
+	"statistics": {
+		"type": "Analyses possible :",
 		"NaiveANOVA": "ANOVA naive",
 		"NaiveANOVA-long": "ANOVA naïve pour l'effet du traitement",
 		"NaiveANOVA-desc": "Ce test considère chaque observation comme indépendante.",

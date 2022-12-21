@@ -10,6 +10,7 @@ module.exports = {
     '/import-data': ['importData'],
     '/import-data/patient': ['importData'],
     '/results': ['results', 'createTest'],
+    '/reset-password': ['auth'],
   },
 };
 

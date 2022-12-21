@@ -6,6 +6,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/utils/customDecorators/publicEndpoint';
+import { MailDto } from './dto/mail.dto';
 import { PatientMailDto } from './dto/patientMail.dto';
 import { PharmaMailDto } from './dto/pharmaMail.dto';
 import { MailService } from './mail.service';
@@ -45,5 +47,18 @@ export class MailController {
   @UsePipes(new ValidationPipe({ transform: true }))
   patientEmail(@Body() mailDto: PatientMailDto) {
     return this.mailService.sendPatientEmail(mailDto);
+  }
+
+  /**
+   * Sends an email to reset the user's password.
+   * @param mailDto MailDto.
+   * @returns An object { success: boolean, msg: string } indicating
+   * email sending success or failure.
+   */
+  @Public()
+  @Post('/resetPwd')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  resetPassword(@Body() mailDto: MailDto) {
+    return this.mailService.sendResetPwdEmail(mailDto);
   }
 }

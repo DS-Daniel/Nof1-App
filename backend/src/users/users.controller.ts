@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Public } from 'src/utils/customDecorators/publicEndpoint';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 /**
@@ -22,10 +23,11 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   /**
-   * Retrieve a user by email.
-   * @param email User email.
-   * @returns The user id or null if not found.
+   * Check if a user with the provided email exists.
+   * @param email User's email.
+   * @returns An object { userExists: boolean } indicating existence.
    */
+  @Public()
   @Get(':email')
   exists(@Param('email') email: string) {
     return this.usersService.exists(email);
@@ -39,10 +41,20 @@ export class UsersController {
   @Patch()
   @UsePipes(new ValidationPipe({ transform: true }))
   update(@Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(
+    return this.usersService.updateEmail(
       updateUserDto.email,
       updateUserDto.newEmail,
     );
+  }
+
+  /**
+   * Changes a user's password.
+   * @param body User's id and new password.
+   * @returns A message indicating a successful update or a BadRequest exception.
+   */
+  @Patch('reset-password')
+  resetPassword(@Body() body: { id: string; newPwd: string }) {
+    return this.usersService.resetPassword(body.id, body.newPwd);
   }
 
   /**

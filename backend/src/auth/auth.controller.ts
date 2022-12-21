@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   Request,
   UseGuards,
@@ -48,5 +49,15 @@ export class AuthController {
   @UsePipes(new ValidationPipe({ transform: true }))
   async register(@Body() dto: CreateUserDto) {
     return this.authService.register(dto);
+  }
+
+  /**
+   * Endpoint only used to check a token validity. Returns a valid response if the token
+   * is not expired, otherwise an unauthorized response.
+   * @returns A object containing a message.
+   */
+  @Get('check-token')
+  check() {
+    return { msg: 'Token not expired' };
   }
 }

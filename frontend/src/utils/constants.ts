@@ -8,6 +8,9 @@ export const oneLowerRegex = new RegExp('(?=.*[a-z])');
 export const oneDigitOrSpecialRegex = new RegExp(
 	'((?=.*[0-9])|([^A-Za-z0-9]))',
 );
+export const noWhiteSpaceRegex = new RegExp(/(?!.*[\s])/);
+export const passwordRegex =
+	/^((?!.*[\s])(?=.*[a-z])(?=.*[A-Z])((?=.*[0-9])|(?=.*[^a-zA-Z0-9])).{8,32})$/;
 export const numericInputPattern = '^[0-9]$|^[1-9][0-9]*$|^[0-9]+\\.[0-9]+$';
 export const numericInputRegex = new RegExp(numericInputPattern);
 export const textareaRegex = /^[\w\s,.:;'"\/+?!#%\-()À-ÖØ-öø-ÿ]*$/;

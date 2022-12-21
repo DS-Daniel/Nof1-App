@@ -6,12 +6,14 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Alert from '@mui/material/Alert';
+import Link from '@mui/material/Link';
 import { useRouter } from 'next/router';
 import { useState, FormEvent } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { authenticate } from '../../utils/nof1-lib/api-calls/apiAuth';
 import { emailRegex } from '../../utils/constants';
 import { UserContextType } from '../../context/UserContext';
+import ResetPwdDialog from './ResetPwdDialog';
 
 type SignInProps = {
 	login: (u: UserContextType) => void;
@@ -25,6 +27,7 @@ export default function SignIn({ login }: SignInProps) {
 	const { t } = useTranslation('common');
 	const [invalidCredentials, setInvalidCredentials] = useState(false);
 	const [inputError, setInputError] = useState(false);
+	const [openResetPwdDialog, setOpenResetPwdDialog] = useState(false);
 
 	/**
 	 * Helper method called by the API call that handles the response.
@@ -58,20 +61,6 @@ export default function SignIn({ login }: SignInProps) {
 			authenticate('/auth/login', body, handleAuth);
 		} else {
 			setInputError(!validInput);
-		}
-	};
-
-	/**
-	 * Helper method to render an alert component in case of error.
-	 * @returns An alert component.
-	 */
-	const showAlert = () => {
-		if (invalidCredentials) {
-			return (
-				<Grid item xs={12}>
-					<Alert severity="error">{t('formErrors.invalidCredentials')}</Alert>
-				</Grid>
-			);
 		}
 	};
 
@@ -112,20 +101,40 @@ export default function SignIn({ login }: SignInProps) {
 								autoComplete="current-password"
 							/>
 						</Grid>
-						{showAlert()}
+						{invalidCredentials && (
+							<Grid item xs={12}>
+								<Alert severity="error">
+									{t('formErrors.invalidCredentials')}
+								</Alert>
+							</Grid>
+						)}
 						<Grid item xs={5}>
 							<Button
 								type="submit"
 								variant="contained"
 								fullWidth
-								sx={{ mt: 2 }}
+								sx={{ my: 2 }}
 							>
 								{t('form.signIn')}
 							</Button>
 						</Grid>
 					</Grid>
 				</Box>
+				<Box textAlign="right" mt={1}>
+					<Link
+						component="button"
+						variant="body2"
+						underline="none"
+						onClick={() => setOpenResetPwdDialog(true)}
+					>
+						{t('auth:forgot-pwd.link')}
+					</Link>
+				</Box>
 			</CardContent>
+			<ResetPwdDialog
+				open={openResetPwdDialog}
+				handleClose={() => setOpenResetPwdDialog(false)}
+			/>
 		</Card>
 	);
 }

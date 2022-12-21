@@ -15,7 +15,10 @@ import {
 	formatPhysicianDataToForm,
 } from '../utils/dataFormConvertor';
 import { updatePhysician } from '../utils/nof1-lib/api-calls/apiPhysicians';
-import { updateUser, userExists } from '../utils/nof1-lib/api-calls/apiUsers';
+import {
+	updateUserEmail,
+	userExists,
+} from '../utils/nof1-lib/api-calls/apiUsers';
 import AuthenticatedPage from '../components/layout/AuthenticatedPage';
 import { FormCard } from '../components/common/ui';
 import FormWithValidation, {
@@ -37,7 +40,7 @@ export default function Profile() {
 	>(userContext.user ? formatPhysicianDataToForm(userContext.user) : undefined);
 	const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
 	const [openFailSnackbar, setOpenFailSnackbar] = useState(false);
-	const [error, setError] = useState(false);
+	const [userAlreadyExists, setUserAlreadyExists] = useState(false);
 
 	// fetch user data if needed.
 	useEffect(() => {
@@ -56,9 +59,9 @@ export default function Profile() {
 	 * @param data User data from the form.
 	 */
 	const handleSubmit: SubmitHandler<PhysicianFormData> = async (data) => {
-		const userExist = await userExists(userContext.access_token, data.email);
+		const { success, exists } = await userExists(data.email);
 		const sameEmail = data.email === userContext.user?.email;
-		if (sameEmail || userExist === null) {
+		if (sameEmail || (success && !exists)) {
 			const physicianUpdate = formatPhysicianData(data);
 			const { statusCode } = await updatePhysician(
 				userContext.access_token,
@@ -68,7 +71,7 @@ export default function Profile() {
 			let userUpdateSuccess = true;
 			if (!sameEmail && statusCode === 200) {
 				// update user account email if necessary
-				const { statusCode } = await updateUser(userContext.access_token, {
+				const { statusCode } = await updateUserEmail(userContext.access_token, {
 					email: userContext.user!.email,
 					newEmail: physicianUpdate.email,
 				});
@@ -77,14 +80,14 @@ export default function Profile() {
 			if (statusCode === 200 && userUpdateSuccess) {
 				const newUserCtx = { ...userContext };
 				newUserCtx.user = physicianUpdate;
-				setError(false);
+				setUserAlreadyExists(false);
 				setOpenSuccessSnackbar(true);
 				setUserContext(newUserCtx);
 			} else {
 				setOpenFailSnackbar(true);
 			}
 		} else {
-			setError(true);
+			setUserAlreadyExists(true);
 		}
 	};
 
@@ -124,7 +127,7 @@ export default function Profile() {
 						<Skeleton variant="rectangular" animation="wave" height={'50vh'} />
 					) : (
 						<FormCard>
-							{error && (
+							{userAlreadyExists && (
 								<Alert severity="error">
 									{t('formErrors.userAlreadyExists2')}
 								</Alert>
@@ -132,7 +135,7 @@ export default function Profile() {
 							<FormWithValidation<PhysicianFormData>
 								schema={schema}
 								inputs={inputs}
-								btnLabel={t('button.saveDataBtn')}
+								btnLabel={t('button.save')}
 								errorMsg={t('formErrors.errorMsg')}
 								onSubmit={handleSubmit}
 								defaultValues={defaultValues}

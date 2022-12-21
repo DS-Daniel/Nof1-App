@@ -31,7 +31,7 @@ export default function CaptchaSS({ onValidation }: CaptchaSSProps) {
 	 * Fetches the captcha svg.
 	 */
 	const fetchCaptcha = async () => {
-		const { captchaImg } = await getCaptcha();
+		const captchaImg = await getCaptcha();
 		setCaptchaImg(captchaImg);
 	};
 
@@ -58,7 +58,7 @@ export default function CaptchaSS({ onValidation }: CaptchaSSProps) {
 	const validateCaptcha = async () => {
 		const input = inputRef.current?.value;
 		if (input) {
-			const { verified } = await verifyCaptcha(input);
+			const verified = await verifyCaptcha(input);
 			if (verified) {
 				setIsValid((prevState) => !prevState);
 			} else {
@@ -79,10 +79,7 @@ export default function CaptchaSS({ onValidation }: CaptchaSSProps) {
 			) : (
 				<Stack alignItems="center">
 					<Stack direction="row" alignItems="center" spacing={1}>
-						<Box
-              height={50}
-							dangerouslySetInnerHTML={{ __html: captchaImg }}
-						/>
+						<Box height={50} dangerouslySetInnerHTML={{ __html: captchaImg }} />
 						<IconButton
 							aria-label="reload-captcha"
 							size="small"

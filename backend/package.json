@@ -1,10 +1,10 @@
 {
-  "name": "backend",
+  "name": "nof1_companion_app-backend",
   "version": "0.0.1",
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "GNU AGPLv3",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",

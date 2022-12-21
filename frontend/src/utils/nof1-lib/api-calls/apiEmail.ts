@@ -84,3 +84,40 @@ export const sendPatientEmail = async (
 	const { response } = await apiCall(token, body, 'POST', '/mail/patient');
 	return response;
 };
+
+/**
+ * Sends an email to a user, with an access link to reset his password.
+ * @param msg Email message in text and HTML format.
+ * @param dest Recipient.
+ * @param subject Email subject.
+ * @returns An object of type { success: boolean, msg: string }.
+ */
+export const resetPassword = async (
+	msg: {
+		text: string;
+		html: string;
+	},
+	dest: string,
+	subject: string,
+): Promise<{
+	success: boolean;
+	msg: string;
+}> => {
+	const body = {
+		msg,
+		dest,
+		subject,
+	};
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/mail/resetPwd`,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(body),
+		},
+	);
+	const res = await response.json();
+	return { success: res.success, msg: res.msg };
+};

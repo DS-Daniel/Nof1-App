@@ -215,7 +215,7 @@ export default function SignUp({ login }: SignUpProps) {
 						<Grid item xs={12}>
 							<Alert variant="outlined" severity="warning">
 								<TypographyWLineBreak variant="body2">
-									{t('form.pwd-instructions')}
+									{t('auth:pwd-instructions')}
 								</TypographyWLineBreak>
 							</Alert>
 						</Grid>

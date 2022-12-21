@@ -112,7 +112,7 @@ export default function PatientForm({ participants }: PatientFormProps) {
 			<FormWithValidation<PatientFormData>
 				schema={schema}
 				inputs={inputs}
-				btnLabel={t('button.saveDataBtn')}
+				btnLabel={t('button.save')}
 				errorMsg={t('formErrors.errorMsg')}
 				onSubmit={handleSubmit}
 				defaultValues={formatPatientDataToForm(participants.current.patient)}

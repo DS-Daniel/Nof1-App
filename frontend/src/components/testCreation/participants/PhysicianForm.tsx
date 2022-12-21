@@ -116,7 +116,7 @@ export default function PhysicianForm({
 			<FormWithValidation<PhysicianFormData>
 				schema={schema}
 				inputs={inputs}
-				btnLabel={t('button.saveDataBtn')}
+				btnLabel={t('button.save')}
 				errorMsg={t('formErrors.errorMsg')}
 				onSubmit={handleSubmit}
 				defaultValues={formatPhysicianDataToForm(physician())}

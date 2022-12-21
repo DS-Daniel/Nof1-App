@@ -59,6 +59,8 @@ export default function Nof1() {
 		const testsIds = userContext.user?.tests;
 		if (testsIds && testsIds.length > 0) {
 			fetchTests(testsIds);
+		} else {
+			setLoading(false);
 		}
 	}, [userContext]);
 

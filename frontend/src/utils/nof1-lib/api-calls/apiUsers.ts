@@ -1,28 +1,58 @@
-import { apiCall, apiGet } from './common';
+import { apiCall } from './common';
 
 /**
- * Check if a user exists.
+ * Checks if a user exists.
  * @param token JWT API authorization token.
  * @param email User Email.
  * @returns A user if found, otherwise null.
  */
 export const userExists = async (
-	token: string,
 	email: string,
-): Promise<{ _id: string } | null> => {
-	const { response } = await apiGet(token, '/users', `/${email}`);
-	return response ? response : null;
+): Promise<{
+	success: boolean;
+	exists: boolean;
+}> => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/users/${email}`,
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		},
+	);
+	const res = await response.json();
+	return { success: response.ok, exists: res.userExists };
 };
 
 /**
- * Update a user email.
+ * Updates a user email.
  * @param token JWT API authorization token.
  * @param body Object with the current email and the new one.
  * @returns An object with the status of the request and the response.
  */
-export const updateUser = (
+export const updateUserEmail = (
 	token: string,
 	body: { email: string; newEmail: string },
 ) => {
 	return apiCall(token, body, 'PATCH', '/users');
+};
+
+/**
+ * Changes a user's password.
+ * @param token JWT API authorization token.
+ * @param body Object with the user id and new password.
+ * @returns An object indicating the success and the response.
+ */
+export const changePassword = async (
+	token: string,
+	body: { id: string; newPwd: string },
+) => {
+	const { statusCode, response } = await apiCall(
+		token,
+		body,
+		'PATCH',
+		'/users/reset-password',
+	);
+	return { success: statusCode === 200 || statusCode === 204, response };
 };
