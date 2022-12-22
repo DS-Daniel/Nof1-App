@@ -1,5 +1,5 @@
 import { UserContextType } from '../../../context/UserContext';
-import { toPhysician } from './common';
+import { apiGet2, toPhysician } from './common';
 
 /**
  * Authentication API call.
@@ -33,6 +33,11 @@ export const authenticate = async (
 	handleAuth(noError, result);
 };
 
+/**
+ * GET request with credentials. Used for the captcha challenge (and session).
+ * @param endpoint API endpoint.
+ * @returns The JSON response.
+ */
 const getWithCredentials = async (endpoint: string) => {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_BACKEND_API_URL}${endpoint}`,
@@ -47,12 +52,31 @@ const getWithCredentials = async (endpoint: string) => {
 	return await response.json();
 };
 
-export const getCaptcha = (): Promise<{ captchaImg: string }> => {
-	return getWithCredentials('/captcha');
+/**
+ * Retrieves the captcha challenge.
+ * @returns The captcha svg string.
+ */
+export const getCaptcha = async (): Promise<string> => {
+	const { captchaImg } = await getWithCredentials('/captcha');
+	return captchaImg;
 };
 
-export const verifyCaptcha = (
-	captcha: string,
-): Promise<{ verified: boolean }> => {
-	return getWithCredentials(`/captcha/verify/${captcha}`);
+/**
+ * Verifies the captcha challenge.
+ * @param captcha User input for the captcha.
+ * @returns True if the challenge is valid, false otherwise.
+ */
+export const verifyCaptcha = async (captcha: string): Promise<boolean> => {
+	const { verified } = await getWithCredentials(`/captcha/verify/${captcha}`);
+	return verified;
+};
+
+/**
+ * Checks a token validity.
+ * @param token Token.
+ * @returns True if the token is valid, false otherwise.
+ */
+export const checkTokenValidity = async (token: string) => {
+	const { success } = await apiGet2(token, '/auth/check-token');
+	return success;
 };

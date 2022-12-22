@@ -7,6 +7,7 @@ import { MongoServerError } from 'mongodb';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDoc } from './schemas/user.schema';
+import * as bcrypt from 'bcrypt';
 
 /**
  * Service managing users.
@@ -49,14 +50,14 @@ export class UsersService {
 
   /**
    * Check if a user with the provided email exists.
-   * @param email User email.
-   * @returns The user document id or null.
+   * @param email User's email.
+   * @returns An object { userExists: boolean } indicating existence.
    */
   async exists(email: string) {
     const response = await this.userModel
       .exists({ email: email })
       .lean({ getters: true });
-    return { response };
+    return { userExists: response ? true : false };
   }
 
   /**
@@ -65,9 +66,26 @@ export class UsersService {
    * @param newEmail New email.
    * @returns A message indicating a successful update or a BadRequest exception.
    */
-  async update(email: string, newEmail: string) {
+  async updateEmail(email: string, newEmail: string) {
     const response = await this.userModel
       .findOneAndUpdate({ email: email }, { email: newEmail })
+      .lean({ getters: true });
+    if (response === null) {
+      throw new BadRequestException('User not found');
+    }
+    return { msg: 'updated' };
+  }
+
+  /**
+   * Change a user's password.
+   * @param id User's id.
+   * @param newPwd User's new password.
+   * @returns A message indicating a successful update or a BadRequest exception.
+   */
+  async resetPassword(id: string, newPwd: string) {
+    const hashedPassword = await bcrypt.hash(newPwd, 10);
+    const response = await this.userModel
+      .findByIdAndUpdate(id, { password: hashedPassword })
       .lean({ getters: true });
     if (response === null) {
       throw new BadRequestException('User not found');

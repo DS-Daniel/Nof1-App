@@ -264,3 +264,48 @@ ${greetings}
 
 	return { text, html };
 };
+
+/**
+ * Prepare and return the email message to be sent for password reset.
+ * The message is formatted as text and html.
+ * Message use the locale of session for translation.
+ * @returns An object containing the email subject and
+ * the message as plain text and html.
+ */
+export const useResetPwdMsg = () => {
+	const { t } = useTranslation('auth');
+	const intro = t('reset-pwd.intro');
+	const intro2 = t('reset-pwd.intro-2');
+	const linkInfo = t('reset-pwd.link-info');
+	const link = `${process.env.NEXT_PUBLIC_APP_URL}reset-password?token=TOKEN&id=ID`;
+	const linkPlaceholder = t('reset-pwd.link');
+	const ignore = t('reset-pwd.ignore');
+	const greetings = t('reset-pwd.greetings');
+	const app = t('reset-pwd.app');
+
+	const text = `${intro}
+
+${intro2}
+
+${linkInfo}
+${link}
+
+${ignore}
+
+${greetings}
+${app}
+`;
+
+	const html = `<h3>${intro}</h3>
+  <p>${intro2}</p>
+	<p>${linkInfo}</p>
+	<a href=${link}>${linkPlaceholder}</a><br/>
+	<p>${ignore}</p>
+	<p>
+		${greetings}<br/>
+		${app}
+	</p>
+	`;
+
+	return { text, html, emailSubject: t('reset-pwd.subject') };
+};

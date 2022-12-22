@@ -52,7 +52,7 @@ export default function PharmaForm({ participants }: PharmaFormProps) {
 			<FormWithValidation<PharmacyFormData>
 				schema={schema}
 				inputs={inputs}
-				btnLabel={t('button.saveDataBtn')}
+				btnLabel={t('button.save')}
 				errorMsg={t('formErrors.errorMsg')}
 				onSubmit={handleSubmit}
 				defaultValues={formatPharmacyDataToForm(participants.current.pharmacy)}

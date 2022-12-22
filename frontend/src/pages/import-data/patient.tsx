@@ -77,11 +77,11 @@ export default function PatientData() {
 			if (!success) error = true;
 		} else {
 			// TODO own create API request ? and test period validity ?
-			const { statusCode } = await createNof1Data(apiToken, {
+			const { success } = await createNof1Data(apiToken, {
 				testId,
 				data: testData.current!,
 			});
-			if (statusCode !== 201) error = true;
+			if (!success) error = true;
 		}
 		return error;
 	};

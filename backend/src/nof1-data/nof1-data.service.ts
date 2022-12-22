@@ -41,8 +41,8 @@ export class Nof1DataService {
    * @returns The document or null.
    */
   async findOne(testId: string) {
-    const response = await this.nof1DataModel.findOne({ testId }).lean();
-    return { response };
+    const nof1Data = await this.nof1DataModel.findOne({ testId }).lean();
+    return { nof1Data };
   }
 
   /**
@@ -52,7 +52,7 @@ export class Nof1DataService {
    * health variables data if any.
    */
   async patientData(testId: string) {
-    const test = await this.nof1TestsService.findOne(testId);
+    const { test } = await this.nof1TestsService.findOne(testId);
     const nof1Data = await this.nof1DataModel.findOne({ testId }).lean();
     return { test, data: nof1Data?.data };
   }

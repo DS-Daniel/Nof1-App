@@ -3,6 +3,7 @@ import { useUserContext } from '../../context/UserContext';
 import useTranslation from 'next-translate/useTranslation';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { Nof1Test } from '../../entities/nof1Test';
@@ -34,20 +35,26 @@ export default function ImportData() {
 	const [success, setSuccess] = useState(false);
 	const [dbError, setDbError] = useState(false);
 	const [validityError, setValidityError] = useState(false);
+	const [notFound, setNotFound] = useState(false);
 
 	// fetch test information and initialize default health data.
 	useEffect(() => {
 		async function initData(id: string) {
-			const test: Nof1Test = await findNof1TestById(
+			const { success, response } = await findNof1TestById(
 				userContext.access_token,
 				id,
 			);
-			const { response } = await findNof1Data(userContext.access_token, id);
-			testData.current = response ? response.data : defaultData(test);
-			setDataFound(response !== null);
-			setTest(test);
-			// setTest() needs to be done after setting testData,
-			// because a render is needed to display testData
+			if (success && response.test) {
+				const test: Nof1Test = response.test;
+				const { nof1Data } = await findNof1Data(userContext.access_token, id);
+				testData.current = nof1Data ? nof1Data.data : defaultData(test);
+				setDataFound(nof1Data !== null);
+				setTest(test);
+				// setTest() needs to be done after setting testData,
+				// because a render is needed to display testData
+			} else {
+				setNotFound(true);
+			}
 		}
 		const { id } = router.query;
 		if (id && userContext.access_token) {
@@ -63,18 +70,18 @@ export default function ImportData() {
 		const testId = router.query.id as string;
 		let error = false;
 		if (dataFound) {
-			const { statusCode } = await updateNof1Data(
+			const { success } = await updateNof1Data(
 				userContext.access_token,
 				testId,
 				{ data: testData.current! },
 			);
-			if (statusCode !== 200) error = true;
+			if (!success) error = true;
 		} else {
-			const { statusCode } = await createNof1Data(userContext.access_token, {
+			const { success } = await createNof1Data(userContext.access_token, {
 				testId: router.query.id as string,
 				data: testData.current!,
 			});
-			if (statusCode !== 201) error = true;
+			if (!success) error = true;
 		}
 		return error;
 	};
@@ -93,6 +100,16 @@ export default function ImportData() {
 			setValidityError(true);
 		}
 	};
+
+	if (notFound) {
+		return (
+			<AuthenticatedPage>
+				<Stack alignItems="center">
+					<Alert severity="error">{t('common:errors.test-not-found')}</Alert>
+				</Stack>
+			</AuthenticatedPage>
+		);
+	}
 
 	return (
 		<AuthenticatedPage>

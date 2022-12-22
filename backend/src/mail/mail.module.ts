@@ -3,6 +3,7 @@ import { MailService } from './mail.service';
 import { MailController } from './mail.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { UsersModule } from '../users/users.module';
 
 /**
  * Mail Module configuration.
@@ -16,6 +17,7 @@ import { ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService],
     }),
+    UsersModule,
   ],
   providers: [MailService],
   controllers: [MailController],

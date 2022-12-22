@@ -266,7 +266,7 @@ export default function ClinicalInfo({
 					)}
 					<Grid item xs={6} sm={4}>
 						<Button type="submit" variant="contained" fullWidth>
-							{t('common:button.saveDataBtn')}
+							{t('common:button.save')}
 						</Button>
 					</Grid>
 				</Grid>

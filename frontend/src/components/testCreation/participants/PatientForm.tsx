@@ -77,22 +77,22 @@ export default function PatientForm({ participants }: PatientFormProps) {
 					// In case the email was changed for an existing patient
 					// and a new patient creation is triggered.
 				}
-				const { response, statusCode } = await createPatient(
+				const { success, response } = await createPatient(
 					userContext.access_token,
 					newPatient,
 				);
-				creationError = statusCode !== 201;
+				creationError = !success;
 				newPatient._id = response._id; // undefined if not present
 			} else {
 				newPatient._id = patientInDB._id;
 				if (!isPatientInfoEqual(patientInDB, newPatient)) {
 					// update information in DB if needed
-					const { statusCode } = await updatePatient(
+					const { success } = await updatePatient(
 						userContext.access_token,
 						newPatient._id!,
 						newPatient,
 					);
-					updateError = statusCode !== 200;
+					updateError = !success;
 				}
 			}
 		}
@@ -112,7 +112,7 @@ export default function PatientForm({ participants }: PatientFormProps) {
 			<FormWithValidation<PatientFormData>
 				schema={schema}
 				inputs={inputs}
-				btnLabel={t('button.saveDataBtn')}
+				btnLabel={t('button.save')}
 				errorMsg={t('formErrors.errorMsg')}
 				onSubmit={handleSubmit}
 				defaultValues={formatPatientDataToForm(participants.current.patient)}

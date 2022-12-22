@@ -1,5 +1,5 @@
 import { Nof1Test } from '../../../entities/nof1Test';
-import { apiCall, apiGet } from './common';
+import { apiCall, apiGet2 } from './common';
 
 /**
  * Retrieve the N-of-1 tests from the list of ids provided.
@@ -18,7 +18,7 @@ export const listOfTests = (token: string, body: { ids: string[] }) => {
  * @returns The result of the request.
  */
 export const findNof1TestById = (token: string, id: string) => {
-	return apiGet(token, '/nof1-tests', `/${id}`);
+	return apiGet2(token, '/nof1-tests', `/${id}`);
 };
 
 /**

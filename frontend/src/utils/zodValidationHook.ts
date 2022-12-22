@@ -2,6 +2,7 @@ import { boolean, object, string } from 'zod';
 import useTranslation from 'next-translate/useTranslation';
 import {
 	alphaRegex,
+	noWhiteSpaceRegex,
 	oneDigitOrSpecialRegex,
 	oneLowerRegex,
 	oneUpperRegex,
@@ -58,7 +59,8 @@ export function useRegisterSchema() {
 				.max(32, t('formErrors.maxLen'))
 				.regex(oneUpperRegex, t('formErrors.oneUpperLetter'))
 				.regex(oneLowerRegex, t('formErrors.oneLowerLetter'))
-				.regex(oneDigitOrSpecialRegex, t('formErrors.oneDigitOrSpecial')),
+				.regex(oneDigitOrSpecialRegex, t('formErrors.oneDigitOrSpecial'))
+				.regex(noWhiteSpaceRegex, t('formErrors.noWhiteSpace')),
 			passwordConfirm: string().min(1, t('formErrors.passwordConfirm')),
 		})
 		.refine((data) => data.password === data.passwordConfirm, {
