@@ -51,7 +51,10 @@ export class Nof1TestsService {
    * @returns The document.
    */
   async findOne(id: string) {
-    return await this.nof1Model.findOne({ uid: id }).lean({ getters: true });
+    const test = await this.nof1Model
+      .findOne({ uid: id })
+      .lean({ getters: true });
+    return { test };
   }
 
   /**

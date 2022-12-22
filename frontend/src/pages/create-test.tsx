@@ -72,37 +72,43 @@ export default function CreateTest() {
 	);
 	const [showPeriodQuestions, setShowPeriodQuestions] = useState(true);
 	const [creationDate, setCreationDate] = useState(new Date());
+	const [notFound, setNotFound] = useState(false);
 
 	// fills parameters in case of test edit or "new from template"
 	useEffect(() => {
 		async function fetchData(id: string, edit: string) {
-			const test: Nof1Test = await findNof1TestById(
+			const { success, response } = await findNof1TestById(
 				userContext.access_token,
 				id,
 			);
-			participants.current = {
-				...test.participants,
-				nof1Physician: userContext.user!,
-			};
-			setClinicalInfo(test.clinicalInfo);
-			setSubstances(
-				test.substances.map((s) => {
-					const { posology, decreasingDosage, ...rest } = s;
-					if (edit === 'true') {
-						return { ...rest, decreasingDosage };
-					}
-					return rest;
-				}),
-			);
-			setNbPeriods(test.nbPeriods);
-			setPeriodLen(test.periodLen);
-			setStrategy(test.randomization);
-			setAnalysisToPerform(test.statistics.analysisToPerform);
-			setVariables(test.monitoredVariables);
-			setShowPeriodQuestions(test.meta_info.showPeriodQuestions);
-			if (edit === 'true') {
-				setAllPosologies(test.posologies);
-				setCreationDate(test.meta_info.creationDate);
+			if (success && response.test) {
+				const test: Nof1Test = response.test;
+				participants.current = {
+					...test.participants,
+					nof1Physician: userContext.user!,
+				};
+				setClinicalInfo(test.clinicalInfo);
+				setSubstances(
+					test.substances.map((s) => {
+						const { posology, decreasingDosage, ...rest } = s;
+						if (edit === 'true') {
+							return { ...rest, decreasingDosage };
+						}
+						return rest;
+					}),
+				);
+				setNbPeriods(test.nbPeriods);
+				setPeriodLen(test.periodLen);
+				setStrategy(test.randomization);
+				setAnalysisToPerform(test.statistics.analysisToPerform);
+				setVariables(test.monitoredVariables);
+				setShowPeriodQuestions(test.meta_info.showPeriodQuestions);
+				if (edit === 'true') {
+					setAllPosologies(test.posologies);
+					setCreationDate(test.meta_info.creationDate);
+				}
+			} else {
+				setNotFound(true);
 			}
 			setLoading(false);
 		}
@@ -276,6 +282,16 @@ export default function CreateTest() {
 					width={'100%'}
 					height={'80vh'}
 				/>
+			</AuthenticatedPage>
+		);
+	}
+
+	if (notFound) {
+		return (
+			<AuthenticatedPage>
+				<Stack alignItems="center">
+					<Alert severity="error">{t('common:errors.test-not-found')}</Alert>
+				</Stack>
 			</AuthenticatedPage>
 		);
 	}

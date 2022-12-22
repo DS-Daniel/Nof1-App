@@ -124,5 +124,8 @@
 		"ANCOVAautoregr": "ANCOVA Auto-regression",
 		"ANCOVAautoregr-long": "ANCOVA for treatment effect accounting for autocorrelation",
 		"ANCOVAautoregr-desc": "This test compares treatment responses accounting for autocorrelation in observations (AR(1) auto-regressive component)."
+	},
+	"errors": {
+		"test-not-found": "This N-of-1 test does not exist !"
 	}
 }

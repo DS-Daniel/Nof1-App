@@ -30,6 +30,7 @@ import Button from '@mui/material/Button';
 import Typography, { TypographyProps } from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import Alert from '@mui/material/Alert';
 import dayjs from 'dayjs';
 
 // Custom Typography component.
@@ -51,22 +52,28 @@ export default function Results() {
 	const [openRecapModal, setOpenRecapModal] = useState(false);
 	const [openReportModal, setOpenReportModal] = useState(false);
 	const [openFailSB, setOpenFailSB] = useState(false);
+	const [notFound, setNotFound] = useState(false);
 	const renderStrategy = useRenderStrategy();
 
 	// fetch N-of-1 test and patient's health variables data.
 	useEffect(() => {
 		async function init(id: string) {
-			const test: Nof1Test = await findNof1TestById(
+			const { success, response } = await findNof1TestById(
 				userContext.access_token,
 				id,
 			);
-			// check if user can access result page
-			if (dayjs() < dayjs(test.endingDate)) {
-				await router.replace('/nof1');
+			if (success && response.test) {
+				const test: Nof1Test = response.test;
+				// check if user can access result page
+				if (dayjs() < dayjs(test.endingDate)) {
+					await router.replace('/nof1');
+				} else {
+					const { nof1Data } = await findNof1Data(userContext.access_token, id);
+					setTest(test);
+					if (nof1Data) setTestData(nof1Data.data);
+				}
 			} else {
-				const { response } = await findNof1Data(userContext.access_token, id);
-				setTest(test);
-				if (response) setTestData(response.data);
+				setNotFound(true);
 			}
 		}
 
@@ -139,6 +146,16 @@ export default function Results() {
 		return test.administrationSchema!;
 	};
 
+	if (notFound) {
+		return (
+			<AuthenticatedPage>
+				<Stack alignItems="center">
+					<Alert severity="error">{t('common:errors.test-not-found')}</Alert>
+				</Stack>
+			</AuthenticatedPage>
+		);
+	}
+
 	return (
 		<AuthenticatedPage>
 			<Stack
@@ -158,18 +175,23 @@ export default function Results() {
 				>
 					{t('btn.dataImport')}
 				</Button>
-				<Button variant="contained" onClick={() => setOpenRecapModal(true)}>
+				<Button
+					variant="contained"
+					onClick={() => setOpenRecapModal(true)}
+					disabled={test === null}
+				>
 					{t('btn.recap-modal')}
 				</Button>
 				<Button
 					variant="contained"
 					onClick={() => {
-						if (test && testData) {
+						if (testData) {
 							setOpenReportModal(true);
 						} else {
 							setOpenFailSB(true);
 						}
 					}}
+					disabled={test === null}
 				>
 					{t('btn.report')}
 				</Button>
