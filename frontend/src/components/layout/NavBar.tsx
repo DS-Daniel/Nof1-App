@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography, { TypographyProps } from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 import { AnchorHTMLAttributes, forwardRef } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
@@ -50,9 +51,18 @@ export default function NavBar() {
 		<AppBar position="static">
 			<Container component="div" maxWidth="xl">
 				<Toolbar component="nav">
-					<Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-						{t('nav.title')}
-					</Typography>
+					<Link href={userContext?.user ? '/nof1' : '/'}>
+						<Box flexGrow={1}>
+							<LinkTxt
+								variant="h5"
+								fontWeight="bold"
+								fontStyle="italic"
+								display="inline-block"
+							>
+								{t('nav.title')}
+							</LinkTxt>
+						</Box>
+					</Link>
 					{userContext?.user && (
 						<Stack direction="row" spacing={3}>
 							<Link href="/nof1">

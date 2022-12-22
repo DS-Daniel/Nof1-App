@@ -92,7 +92,7 @@ export default function ResetPassword() {
 						// resend a link or to go to the login page.
 						<>
 							<CardContent>
-								<Stack alignItems="center" spacing={2} mt={1}>
+								<Stack alignItems="center" spacing={4} mt={1}>
 									<Alert variant="outlined" severity="warning">
 										<Typography fontWeight="bold">
 											{t('reset-pwd.link-expired')}
