@@ -63,21 +63,22 @@ export default function Profile() {
 		const sameEmail = data.email === userContext.user?.email;
 		if (sameEmail || (success && !exists)) {
 			const physicianUpdate = formatPhysicianData(data);
-			const { statusCode } = await updatePhysician(
+			const { success } = await updatePhysician(
 				userContext.access_token,
 				physicianUpdate._id!,
 				physicianUpdate,
 			);
 			let userUpdateSuccess = true;
-			if (!sameEmail && statusCode === 200) {
+			if (!sameEmail && success) {
 				// update user account email if necessary
-				const { statusCode } = await updateUserEmail(userContext.access_token, {
+				const { success } = await updateUserEmail(userContext.access_token, {
 					email: userContext.user!.email,
 					newEmail: physicianUpdate.email,
 				});
-				if (statusCode !== 200) userUpdateSuccess = false;
+				if (!success) userUpdateSuccess = false;
 			}
-			if (statusCode === 200 && userUpdateSuccess) {
+			if (success && userUpdateSuccess) {
+				// update userCtx
 				const newUserCtx = { ...userContext };
 				newUserCtx.user = physicianUpdate;
 				setUserAlreadyExists(false);

@@ -44,15 +44,9 @@ export const updateUserEmail = (
  * @param body Object with the user id and new password.
  * @returns An object indicating the success and the response.
  */
-export const changePassword = async (
+export const changePassword = (
 	token: string,
 	body: { id: string; newPwd: string },
 ) => {
-	const { statusCode, response } = await apiCall(
-		token,
-		body,
-		'PATCH',
-		'/users/reset-password',
-	);
-	return { success: statusCode === 200 || statusCode === 204, response };
+	return apiCall(token, body, 'PATCH', '/users/reset-password');
 };

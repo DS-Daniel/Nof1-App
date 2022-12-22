@@ -79,7 +79,7 @@ export const apiCall = async (
 		},
 	);
 	const result = await response.json();
-	return { statusCode: response.status, response: result };
+	return { success: response.ok, response: result };
 };
 
 /**

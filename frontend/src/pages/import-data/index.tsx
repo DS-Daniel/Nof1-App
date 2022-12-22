@@ -63,18 +63,18 @@ export default function ImportData() {
 		const testId = router.query.id as string;
 		let error = false;
 		if (dataFound) {
-			const { statusCode } = await updateNof1Data(
+			const { success } = await updateNof1Data(
 				userContext.access_token,
 				testId,
 				{ data: testData.current! },
 			);
-			if (statusCode !== 200) error = true;
+			if (!success) error = true;
 		} else {
-			const { statusCode } = await createNof1Data(userContext.access_token, {
+			const { success } = await createNof1Data(userContext.access_token, {
 				testId: router.query.id as string,
 				data: testData.current!,
 			});
-			if (statusCode !== 201) error = true;
+			if (!success) error = true;
 		}
 		return error;
 	};

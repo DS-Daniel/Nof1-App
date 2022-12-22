@@ -179,11 +179,11 @@ export default function CreateTest() {
 		if (edit && edit === 'true') {
 			updateNof1Test(userContext.access_token, id! as string, testData);
 		} else {
-			const { statusCode, response } = await createNof1Test(
+			const { success, response } = await createNof1Test(
 				userContext.access_token,
 				testData,
 			);
-			if (statusCode !== 400) {
+			if (success) {
 				updateUserTests(response.id);
 			}
 		}

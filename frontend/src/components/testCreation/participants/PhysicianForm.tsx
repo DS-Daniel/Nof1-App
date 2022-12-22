@@ -81,22 +81,22 @@ export default function PhysicianForm({
 					// In case the email was changed for an existing physician
 					// and a new physician creation is triggered.
 				}
-				const { response, statusCode } = await createPhysician(
+				const { success, response } = await createPhysician(
 					userContext.access_token,
 					newPhysician,
 				);
-				creationError = statusCode !== 201;
+				creationError = !success;
 				newPhysician._id = response._id; // undefined if not present
 			} else {
 				newPhysician._id = physicianInDB._id;
 				if (!isPhysicianInfoEqual(physicianInDB, newPhysician)) {
 					// update information in DB if needed
-					const { statusCode } = await updatePhysician(
+					const { success } = await updatePhysician(
 						userContext.access_token,
 						newPhysician._id!,
 						newPhysician,
 					);
-					updateError = statusCode !== 200;
+					updateError = !success;
 				}
 			}
 		}
