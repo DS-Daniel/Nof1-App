@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { createTransport, Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { xlsx } from 'src/utils/xlsxGenerator';
+import { xlsx } from '../utils/xlsxGenerator';
 import { MailDto } from './dto/mail.dto';
 import { PatientMailDto } from './dto/patientMail.dto';
 import { PharmaMailDto } from './dto/pharmaMail.dto';

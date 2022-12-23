@@ -6,7 +6,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/utils/customDecorators/publicEndpoint';
+import { Public } from '../utils/customDecorators/publicEndpoint';
 import { MailDto } from './dto/mail.dto';
 import { PatientMailDto } from './dto/patientMail.dto';
 import { PharmaMailDto } from './dto/pharmaMail.dto';

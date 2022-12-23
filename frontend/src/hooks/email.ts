@@ -277,7 +277,7 @@ export const useResetPwdMsg = () => {
 	const intro = t('reset-pwd.intro');
 	const intro2 = t('reset-pwd.intro-2');
 	const linkInfo = t('reset-pwd.link-info');
-	const link = `${process.env.NEXT_PUBLIC_APP_URL}reset-password?token=TOKEN&id=ID`;
+	const link = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=TOKEN&id=ID`;
 	const linkPlaceholder = t('reset-pwd.link');
 	const ignore = t('reset-pwd.ignore');
 	const greetings = t('reset-pwd.greetings');

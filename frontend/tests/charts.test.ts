@@ -121,13 +121,14 @@ describe('formatGraphData', () => {
 	const periodLen = 3;
 
   const res = [
+		{ day: 0 },
 		{ day: 1, Aspirine: '10' },
 		{ day: 2, Aspirine: '11' },
 		{ day: 3, Aspirine: '12' },
-		{ day: 4, Aspirine: '13', Placebo: '13' },
+		{ day: 4, Placebo: '13' },
 		{ day: 5, Placebo: '14' },
 		{ day: 6, Placebo: '15' },
-		{ day: 7, Placebo: '16', Aspirine: '16' },
+		{ day: 7, Aspirine: '16' },
 		{ day: 8, Aspirine: '17' },
 		{ day: 9, Aspirine: '18' },
 	];

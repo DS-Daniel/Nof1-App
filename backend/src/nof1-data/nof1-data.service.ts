@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Error as MongooseError } from 'mongoose';
-import { anonymousXML, encryptedXML, generateOdmXML } from 'src/utils/odmXml';
+import { anonymousXML, encryptedXML, generateOdmXML } from '../utils/odmXml';
 import { Nof1TestsService } from '../nof1-tests/nof1-tests.service';
 import { CreateNof1DataDto } from './dto/create-nof1-data.dto';
 import { UpdateNof1DataDto } from './dto/update-nof1-data.dto';

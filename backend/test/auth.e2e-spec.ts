@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
+import supertest from 'supertest';
 import { AuthModule } from '../src/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -11,6 +11,7 @@ import { PhysiciansModule } from '../src/persons/physicians/physicians.module';
 describe('E2E Authentication', () => {
   let app: INestApplication;
   let mongod: MongoMemoryServer;
+  let request: any;
 
   beforeAll(async () => {
     const modRef: TestingModule = await Test.createTestingModule({
@@ -32,6 +33,7 @@ describe('E2E Authentication', () => {
 
     app = modRef.createNestApplication();
     await app.init();
+    request = supertest(app.getHttpServer());
   });
 
   afterAll(async () => {
@@ -58,10 +60,7 @@ describe('E2E Authentication', () => {
       institution: 'CHUV',
     };
 
-    await request(app.getHttpServer())
-      .post('/auth/register')
-      .send(newUser)
-      .expect(201);
+    await request.post('/auth/register').send(newUser).expect(201);
   });
 
   it('should not register an invalid new user', async () => {
@@ -79,7 +78,7 @@ describe('E2E Authentication', () => {
       institution: 'CHUV',
     };
 
-    await request(app.getHttpServer())
+    await request
       .post('/auth/register')
       .send(invalidUser)
       .expect(400)
@@ -91,7 +90,7 @@ describe('E2E Authentication', () => {
   });
 
   it('should not provide a JWT token to invalid user', async () => {
-    await request(app.getHttpServer())
+    await request
       .post('/auth/login')
       .send({ email: 'unkown@testing.com', password: '1234' })
       .expect(401)
@@ -99,7 +98,7 @@ describe('E2E Authentication', () => {
   });
 
   it('should get a JWT upon successful login', async () => {
-    const loginReq = await request(app.getHttpServer())
+    const loginReq = await request
       .post('/auth/login')
       .send({ email: 'nest@testing.com', password: '12345678' })
       .expect(201);
@@ -110,12 +109,12 @@ describe('E2E Authentication', () => {
   });
 
   it('should access protected route with the obtained JWT', async () => {
-    const loginReq = await request(app.getHttpServer())
+    const loginReq = await request
       .post('/auth/login')
       .send({ email: 'nest@testing.com', password: '12345678' })
       .expect(201);
 
-    return await request(app.getHttpServer())
+    return await request
       .get('/users/nest@testing.com')
       .set('Authorization', 'Bearer ' + loginReq.body.access_token)
       .expect(200);
