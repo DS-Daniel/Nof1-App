@@ -15,7 +15,6 @@ const substances = [
 ];
 const nbPeriods = 4,
 	periodLen = 4,
-	nbSub = 2,
 	skippedRunInDays = 2;
 let day = 1;
 const testData = [

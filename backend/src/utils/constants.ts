@@ -1,7 +1,3 @@
-// REGEX
-export const cityRegex = /^[A-Za-z' \-à-öù-ÿ]+$/gm;
-export const streetRegex = /^\d*[A-Za-z' ,.\-à-öù-ÿ]+\d*$/gm;
-
 // ENUMS
 export enum TestStatus {
   Draft = 'draft',

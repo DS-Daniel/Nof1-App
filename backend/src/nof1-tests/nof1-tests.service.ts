@@ -41,8 +41,8 @@ export class Nof1TestsService {
   /**
    * @returns All N-of-1 tests documents.
    */
-  async findAll() {
-    return await this.nof1Model.find().lean({ getters: true });
+  findAll() {
+    return this.nof1Model.find().lean({ getters: true });
   }
 
   /**
@@ -62,10 +62,8 @@ export class Nof1TestsService {
    * @param ids The list of ids of documents to retrieve.
    * @returns The list of documents.
    */
-  async findMany(ids: string[]) {
-    return await this.nof1Model
-      .find({ uid: { $in: ids } })
-      .lean({ getters: true });
+  findMany(ids: string[]) {
+    return this.nof1Model.find({ uid: { $in: ids } }).lean({ getters: true });
   }
 
   /**

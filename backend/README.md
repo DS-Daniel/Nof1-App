@@ -1,36 +1,38 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+  <a href="https://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
 
 # N-of-1 Companion - Backend
 
 ## Description
 
-N-of-1 Companion is a web application designed to facilitate the conduct of N-of-1 therapeutic tests. It allows you to design and manage your tests, collect patient data, perform statistical analysis and many other features. 
+N-of-1 Companion is a web application designed to facilitate the conduct of N-of-1 therapeutic tests. It allows you to design and manage your tests, collect patient data, perform statistical analysis and many other features.
 
-This tool is offered by the [Clinical Pharmacology Department of the University Hospital of Vaud (PCL - CHUV, Switzerland)](https://www.chuv.ch/fr/pcl/pcl-home/). 
+This tool is offered by the [Clinical Pharmacology Department of the University Hospital of Vaud (PCL - CHUV, Switzerland)](https://www.chuv.ch/fr/pcl/pcl-home/).
 With the collaboration of the [School of Engineering and Management Vaud (HEIG-VD)](https://heig-vd.ch).
 
-___
+---
 
-**This is the backend API of the *N-of-1 Companion* web application.**
+**This is the backend API of the _N-of-1 Companion_ web application.**
 
 Build with:
+
 - [NestJS](https://github.com/nestjs/nest)
 - [Mongoose](https://mongoosejs.com/)
 - [Passeport](https://www.passportjs.org/)
 - [Nodemailer](https://nodemailer.com/about/)
 - [TypeScript](https://www.typescriptlang.org/)
 
-> The frontend part of the application can be found [here][nof1Companion-frontend-repo].
+> The frontend part of the application can be found [here][nof1companion-frontend-repo].
 
 ## Prerequisites
 
 Please ensure that the following items are installed on your operating system :
+
 - [Node.js](https://nodejs.org/en/download/) (version >= 16.13.0)
 - [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
-You must have a working [MongoDB](https://www.mongodb.com/) database. You can use either the [MongoDB Server Community Edition](https://www.mongodb.com/docs/manual/administration/install-community/), a cloud-based [MongoDB Atlas]() instance, or a [Docker container](https://hub.docker.com/_/mongo). 
+You must have a working [MongoDB](https://www.mongodb.com/) database. You can use either the [MongoDB Server Community Edition](https://www.mongodb.com/docs/manual/administration/install-community/), a cloud-based [MongoDB Atlas]() instance, or a [Docker container](https://hub.docker.com/_/mongo).
 
 Create a `.env` file if not present and set the following environment variables :
 
@@ -91,7 +93,7 @@ $ npm run start:prod
 
 > Default url : http://localhost:3000/ (or port :process.env.PORT)
 
-Install the [frontend part][nof1Companion-frontend-repo] of the application to interact with the server, or use a tool like postman.
+Install the [frontend part][nof1companion-frontend-repo] of the application to interact with the server, or use a tool like postman.
 
 ## OpenAPI documentation
 
@@ -101,11 +103,12 @@ After launching the server, you can access the OpenAPI documentation (not comple
 
 - [Daniel Sciarra](https://github.com/DS-Daniel/)
 
-Initially developed as a Bachelor study project at the [HEIG-VD]((https://heig-vd.ch)), then taken over as a Junior Software Engineer.
+Initially developed as a Bachelor study project at the [HEIG-VD](https://heig-vd.ch), then taken over as a Junior Software Engineer.
 
 ## License
 
 Distributed under the GNU AGPLv3 license. See LICENSE for more information.
 
 <!-- MARKDOWN LINKS -->
-[nof1Companion-frontend-repo]: https://github.com/CHUV-PCL/Nof1-companion-frontend
+
+[nof1companion-frontend-repo]: https://github.com/CHUV-PCL/Nof1-companion-frontend

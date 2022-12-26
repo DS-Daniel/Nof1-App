@@ -67,7 +67,7 @@ export class PhysiciansService {
         .findByIdAndUpdate(id, updatePhysicianDto, { returnDocument: 'after' })
         .lean({ getters: true });
       if (response === null) {
-        throw new BadRequestException('Physician not found');
+        throw new Error('Physician not found');
       }
       return { msg: 'updated' };
     } catch (error) {

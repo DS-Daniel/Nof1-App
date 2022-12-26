@@ -2,7 +2,6 @@ import { apiCall } from './common';
 
 /**
  * Checks if a user exists.
- * @param token JWT API authorization token.
  * @param email User Email.
  * @returns A user if found, otherwise null.
  */

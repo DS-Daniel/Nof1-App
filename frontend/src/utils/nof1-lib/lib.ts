@@ -234,6 +234,8 @@ export const generateXlsxSchemaExample = (
 /**
  * Format the patient's health variables data, to render it into a table.
  * @param data Patient health variables data.
+ * @param showPeriodQuestions Indicates whether end-of-period questions
+ * should be displayed.
  * @returns The formatted data (as an array of string).
  */
 export const formatPatientDataToTable = (

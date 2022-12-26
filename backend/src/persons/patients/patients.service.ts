@@ -67,7 +67,7 @@ export class PatientsService {
         .findByIdAndUpdate(id, updatePatientDto, { returnDocument: 'after' })
         .lean({ getters: true });
       if (response === null) {
-        throw new BadRequestException('Patient not found');
+        throw new Error('Patient not found');
       }
       return { msg: 'updated' };
     } catch (error) {
