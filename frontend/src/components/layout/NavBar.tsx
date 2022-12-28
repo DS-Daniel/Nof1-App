@@ -2,23 +2,13 @@ import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
-import Typography, { TypographyProps } from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { AnchorHTMLAttributes, forwardRef } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useUserContext } from '../../context/UserContext';
 import ChangeLanguage from '../common/ChangeLanguage';
-
-// Custom Typography component for links
-const LinkTxt = styled(Typography)<TypographyProps>(({ theme }) => ({
-	textDecoration: 'none',
-	cursor: 'pointer',
-	'&:hover': {
-		color: theme.palette.primary.dark,
-	},
-}));
+import { LinkTxt } from '../common/ui';
 
 /**
  * Common navigation bar component.

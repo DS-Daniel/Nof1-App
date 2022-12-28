@@ -45,7 +45,7 @@
 		"invalidPassword": "Votre mot de passe ne respecte pas les critères de sécurité",
 		"passwordConfirm": "Veuillez confirmer votre mot de passe",
 		"passwordConfirmNoMatch": "Le mot de passe ne correspond pas",
-		"number": "Veuillez entrer un nombre (entier ou décimal, sans espace)",
+		"number": "Veuillez entrer un nombre (entier et sans espace)",
 		"textarea": "Autorisé: lettres, chiffres, espaces et les caractères suivants: ',.:;\"/+-?!#%()",
 		"digitsRequired": "Autorisé: chiffres (pas d'espace)",
 		"digitsMax": "Maximum 20 numéros",

@@ -45,7 +45,7 @@
 		"invalidPassword": "Your password does not meet the security criteria",
 		"passwordConfirm": "Please confirm your password",
 		"passwordConfirmNoMatch": "Passwords do not match",
-		"number": "Please enter a number (integer or decimal, without space)",
+		"number": "Please enter a number (integer and without space)",
 		"textarea": "Allowed: letters, digits, spaces and the following characters: ',.:;\"/+-?!#%()",
 		"digitsRequired": "Only digits (no space)",
 		"digitsMax": "Must be less than 20 digits",
