@@ -95,7 +95,7 @@ export default function ReadyOptions({ item, setItem }: ReadyOptionsProps) {
 	const handleReady = () => {
 		if (
 			beginningDate
-			// TODO revert for production !!!
+			// If we want to prevent the selection of an earlier date :
 			// beginningDate &&
 			// beginningDate.startOf('day') >= dayjs().startOf('day')
 		) {

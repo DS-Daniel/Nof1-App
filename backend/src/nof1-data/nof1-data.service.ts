@@ -122,12 +122,7 @@ export class Nof1DataService {
    */
   updatePatientData(testId: string, updateNof1DataDto: UpdateNof1DataDto) {
     const deadline = new Date(updateNof1DataDto.testEndDate);
-    console.log('date now: ', new Date().toLocaleDateString());
-    console.log('end date: ', deadline.toLocaleDateString());
-
     deadline.setDate(deadline.getDate() + 14); // modifications deadline
-    console.log('end date: ', deadline.toLocaleDateString());
-
     if (new Date() > deadline) {
       throw new BadRequestException('Deadline exceeded');
     }

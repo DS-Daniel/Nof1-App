@@ -71,7 +71,6 @@ export default function PatientData() {
 			});
 			if (!success) error = true;
 		} else {
-			// TODO own create API request ? and test period validity ?
 			const { success } = await createNof1Data(apiToken, {
 				testId,
 				data: testData.current!,

@@ -1,8 +1,7 @@
 {
   "name": "nof1_companion_app-backend",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Backend of the N-of-1 companion web application",
   "private": true,
   "license": "GNU AGPLv3",
   "scripts": {

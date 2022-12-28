@@ -27,11 +27,9 @@ export type PosologyDay = {
 
 // posology for a day with date for a substance.
 export type AdministrationSchema = {
-  // date: string;
   substance: string;
   unit: string;
 } & PosologyDay;
-// } & Omit<PosologyDay, 'day'>;
 
 // posology for a day, with repeated option.
 export type Posology = {

@@ -24,7 +24,7 @@ async function bootstrap() {
         sameSite: 'none',
         secure: true,
         path: '/captcha',
-        maxAge: 1000 * 60 * 15, // 15 minutes
+        maxAge: 1000 * 60 * 75, // 75 minutes
       },
     }),
   );

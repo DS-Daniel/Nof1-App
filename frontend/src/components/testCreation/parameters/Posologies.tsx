@@ -50,25 +50,6 @@ export default function Posologies({
 		});
 	};
 
-	// If we set up posologies as React state.
-	// const updatePosologies = (
-	// 	substanceIndex: number,
-	// 	posologyIndex: number,
-	// 	posologyDayIndex: number,
-	// 	property: string,
-	// 	value: number,
-	// ) => {
-	// 	setAllPosologies((prevData) => {
-	// 		const newData = [...prevData];
-	// 		newData[substanceIndex].posologies[posologyIndex].posology[
-	// 			posologyDayIndex
-	// 		][property as keyof PosologyDay] = value;
-	// 		return newData;
-	// 		// TODO update repeatLast too
-	// 	});
-	// };
-	// console.log('poso', allPosologies);
-
 	/**
 	 * Adds a new posology table form for a substance.
 	 * @param substanceIndex Substance index.
@@ -94,11 +75,9 @@ export default function Posologies({
 		substanceIndex: number,
 		posologyIndex: number,
 	) => {
-		console.log('idx', posologyIndex);
 		setAllPosologies((prevData) => {
 			const newData = [...prevData];
 			newData[substanceIndex].posologies.splice(posologyIndex, 1);
-			console.log('removed poso', newData);
 			return newData;
 		});
 	};
@@ -268,15 +247,6 @@ export default function Posologies({
 												savePosology(subIdx, newPosology, posoIdx);
 												setOpenSnackbar(true);
 											}}
-											// onChange={(posologyRow, property, value) =>
-											// 	updatePosologies(
-											// 		subIdx,
-											// 		posoIdx,
-											// 		posologyRow,
-											// 		property,
-											// 		value,
-											// 	)
-											// }
 											substanceUnit={unit}
 										/>
 									</Stack>

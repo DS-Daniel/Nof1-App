@@ -14,7 +14,7 @@ export const FormCard = styled(Paper)<PaperProps>(({ theme }) => ({
 	padding: theme.spacing(2),
 }));
 
-// custom Divider component, aligning with the middle.
+// Custom Divider component, aligning with the middle.
 export const MiddleDivider = styled(Divider, {
 	shouldForwardProp: (prop) =>
 		prop !== 'mx' && prop !== 'my' && prop !== 'mt' && prop !== 'mb',
