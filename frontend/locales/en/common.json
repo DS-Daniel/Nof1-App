@@ -6,9 +6,9 @@
 		"logout": "Logout"
 	},
 	"footer": {
-		"title": "This tool is offered by the ",
+		"1": "This tool is offered by the ",
 		"pcl": "Clinical Pharmacology Department of the University Hospital of Vaud (PCL - CHUV, Switzerland)",
-		"subtitle": "With the collaboration of the ",
+		"2": "With the collaboration of the ",
 		"heig": "School of Engineering and Management Vaud (HEIG-VD)",
 		"report": "This N-of-1 test was performed using the \"N-of-1 Companion\" tool, available online and offered by the Clinical Pharmacology Service of the Centre Hospitalier Universitaire Vaudois (PCL-CHUV, Switzerland)."
 	},

@@ -33,7 +33,7 @@ export default function Footer() {
 								{t('nav.title')}
 							</Typography>
 							<Typography variant="body2">
-								{t('footer.title')}
+								{t('footer.1')}
 								<Link
 									underline="hover"
 									color="inherit"
@@ -44,7 +44,7 @@ export default function Footer() {
 									{t('footer.pcl')}
 								</Link>
 								<br />
-								{t('footer.subtitle')}
+								{t('footer.2')}
 								<Link
 									underline="hover"
 									color="inherit"

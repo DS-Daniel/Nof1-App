@@ -32,11 +32,11 @@ export const tokenExpMargin = 14;
 // Charts colors
 export const chartsColors = [
 	'#e6194b',
+	'#4363d8',
+	'#911eb4',
 	'#3cb44b',
 	'#ffe119',
-	'#4363d8',
 	'#f58231',
-	'#911eb4',
 	'#46f0f0',
 	'#bcf60c',
 	'#f032e6',

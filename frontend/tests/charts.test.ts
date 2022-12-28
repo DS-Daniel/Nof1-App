@@ -118,7 +118,6 @@ describe('formatGraphData', () => {
 		type: VariableType.VAS,
 		desc: 'bla',
 	};
-	const periodLen = 3;
 
   const res = [
 		{ day: 0 },
@@ -134,7 +133,7 @@ describe('formatGraphData', () => {
 	];
 
 	it('should format graph data correctly', () => {
-		const graphData = formatGraphData(testData, variable, periodLen);
+		const graphData = formatGraphData(testData, variable);
     expect(graphData).toEqual(res);
 	});
 });
