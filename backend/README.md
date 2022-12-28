@@ -99,6 +99,9 @@ Install the [frontend part][nof1companion-frontend-repo] of the application to i
 
 After launching the server, you can access the OpenAPI documentation (not complete, but providing an overview of routes) at http://localhost:PORT/api.
 
+## Maintenance
+There is no guarantee that the project will be further developed. But you are welcome to fork the project.
+
 ## Contributors
 
 - [Daniel Sciarra](https://github.com/DS-Daniel/)

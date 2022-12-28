@@ -66,6 +66,9 @@ $ yarn start
 
 > Default url : http://localhost:3000/ (or port :process.env.PORT)
 
+## Maintenance
+There is no guarantee that the project will be further developed. But you are welcome to fork the project.
+
 ## Contributors
 
 - [Daniel Sciarra](https://github.com/DS-Daniel/)
