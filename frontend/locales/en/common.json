@@ -67,7 +67,9 @@
 		"send": "Send",
 		"delete": "Delete",
 		"close": "Close",
-		"download": "Download"
+		"download": "Download",
+		"backToLogin": "Back to the login page",
+    "backToNof1": "Back to the N-of-1 tests page"
 	},
 	"measure-unit-label": "Measurement unit",
 	"posology-table": {
@@ -127,5 +129,6 @@
 	},
 	"errors": {
 		"test-not-found": "This N-of-1 test does not exist !"
-	}
+	},
+  "404": "Page Not Found"
 }
