@@ -114,4 +114,4 @@ Distributed under the GNU AGPLv3 license. See LICENSE for more information.
 
 <!-- MARKDOWN LINKS -->
 
-[nof1companion-frontend-repo]: https://github.com/CHUV-PCL/Nof1-companion-frontend
+[nof1companion-frontend-repo]: https://github.com/CHUV-PCL/Nof1Companion-frontend

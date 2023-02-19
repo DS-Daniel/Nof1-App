@@ -81,4 +81,4 @@ Distributed under the GNU AGPLv3 license. See LICENSE for more information.
 
 <!-- MARKDOWN LINKS -->
 
-[nof1companion-backend-repo]: https://github.com/CHUV-PCL/Nof1-companion-backend
+[nof1companion-backend-repo]: https://github.com/CHUV-PCL/Nof1Companion-backend
