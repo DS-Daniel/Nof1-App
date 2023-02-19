@@ -44,8 +44,6 @@ export default function ResetPwdDialog({ open, handleClose }: Props) {
 	 * Checks validity and sends the request to send the password reset link.
 	 */
 	const handleSend = async () => {
-		if (!isInputValid()) return;
-
 		const { success, exists } = await userExists(value);
 		if (success && exists) {
 			const res = await resetPassword({ text, html }, value, emailSubject);
@@ -106,13 +104,15 @@ export default function ResetPwdDialog({ open, handleClose }: Props) {
 						<Button onClick={handleClose}>{t('button.cancel')}</Button>
 						{loading ? (
 							<Button disabled>
-								<CircularProgress size={2} />
+								<CircularProgress size="2rem" />
 							</Button>
 						) : (
 							<Button
 								onClick={() => {
-									setLoading(true);
-									handleSend();
+									if (isInputValid()) {
+										setLoading(true);
+										handleSend();
+									}
 								}}
 							>
 								{t('button.send')}

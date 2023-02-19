@@ -64,7 +64,7 @@
 			"values": "Valeurs (qualitative)",
 			"skip": "Jours de rodage sautées pour l'analyse"
 		},
-		"skipped-run-in-desc": "Détermine le nombre de jour (de la période) qui doivent être omis de l'analyse statistique.\nPar exemple lors d'une posologie croissante. Afin de ne prendre en compte que les jours où la concentration de la substance est significative pour l'analyse.",
+		"skipped-run-in-desc": "Détermine le nombre de jours (de la période) qui doivent être omis de l'analyse statistique.\nAfin de ne prendre en compte que les jours où la concentration de la substance est significative pour l'analyse (par exemple lors d'une posologie croissante).",
 		"types": {
 			"txt": "Textuelle",
 			"vas": "VAS",

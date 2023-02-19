@@ -1,6 +1,7 @@
 {
 	"name": "nof1_companion_app-frontend",
-	"version": "0.1.0",
+	"version": "1.0.0",
+	"description": "Frontend of the N-of-1 companion web application",
 	"private": true,
 	"license": "GNU AGPLv3",
 	"scripts": {
@@ -32,7 +33,7 @@
 		"react-dom": "18.1.0",
 		"react-hook-form": "^7.31.3",
 		"react-to-print": "^2.14.7",
-		"recharts": "^2.1.12",
+		"recharts": "2.2.0",
 		"recharts-to-png": "^2.2.0",
 		"xlsx": "https://cdn.sheetjs.com/xlsx-0.18.9/xlsx-0.18.9.tgz",
 		"zod": "^3.17.3"

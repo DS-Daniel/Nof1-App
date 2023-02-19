@@ -16,8 +16,8 @@ export default function AuthenticatedPage({ children }: PageProps) {
 	const { userContext, setUserContext, logout } = useUserContext();
 	const router = useRouter();
 
-	// Check if the user is authenticated, otherwise redirect to the login page.
-	// On refresh, check the browser session storage to find a user session information.
+	// Checks if the user is authenticated, otherwise redirects to the login page.
+	// On refresh, checks the browser session storage to find a user session information.
 	useEffect(() => {
 		async function checkAuth() {
 			if (userContext.user === null) {
@@ -36,10 +36,10 @@ export default function AuthenticatedPage({ children }: PageProps) {
 						});
 					} else {
 						logout();
-						router.replace('/');
+						await router.replace('/');
 					}
 				} else {
-					router.replace('/');
+					await router.replace('/');
 				}
 			}
 		}

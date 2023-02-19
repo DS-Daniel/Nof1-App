@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
-import { decrypt, encryptMail } from 'src/utils/cipher';
+import { decrypt, encryptMail } from '../../utils/cipher';
 import mongooseLeanGetters from 'mongoose-lean-getters';
 
 type UserDoc = User & Document;

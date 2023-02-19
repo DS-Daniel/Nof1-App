@@ -21,7 +21,6 @@ export class AppService {
     });
     const session = req.session;
     session['captcha'] = captcha.text;
-    console.log('get sessionID', req.sessionID);
     return { captchaImg: captcha.data };
   }
 
@@ -33,7 +32,6 @@ export class AppService {
    * input is valid or not.
    */
   verifyCaptcha(req: Record<string, any>, userCaptcha: string) {
-    console.log('verify sessionID', req.sessionID);
     const isVerified = req.session.captcha === userCaptcha;
     if (isVerified) {
       req.session.destroy(null);

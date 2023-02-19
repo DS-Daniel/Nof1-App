@@ -1,5 +1,5 @@
 import { IsNotEmptyObject, IsObject } from 'class-validator';
-import { AdministrationSchema } from 'src/nof1-tests/@types/types';
+import { AdministrationSchema } from '../../nof1-tests/@types/types';
 import { MailDto } from './mail.dto';
 
 export type XlsxSchema = (AdministrationSchema & {

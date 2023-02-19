@@ -16,6 +16,8 @@ dayjs.extend(LocalizedFormat);
 /**
  * Generate the rows of the table.
  * @param test N-of-1 test.
+ * @param testData N-of-1 test data.
+ * @param analysisType Type of statistical analysis.
  * @returns An array of table row.
  */
 const generateRows = (

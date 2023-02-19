@@ -30,7 +30,6 @@ import Button from '@mui/material/Button';
 import Typography, { TypographyProps } from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import Alert from '@mui/material/Alert';
 import dayjs from 'dayjs';
 
 // Custom Typography component.
@@ -52,7 +51,6 @@ export default function Results() {
 	const [openRecapModal, setOpenRecapModal] = useState(false);
 	const [openReportModal, setOpenReportModal] = useState(false);
 	const [openFailSB, setOpenFailSB] = useState(false);
-	const [notFound, setNotFound] = useState(false);
 	const renderStrategy = useRenderStrategy();
 
 	// fetch N-of-1 test and patient's health variables data.
@@ -62,7 +60,9 @@ export default function Results() {
 				userContext.access_token,
 				id,
 			);
-			if (success && response.test) {
+			if (!success || !userContext.user?.tests?.includes(id)) {
+				await router.replace('/404');
+			} else if (success && response.test) {
 				const test: Nof1Test = response.test;
 				// check if user can access result page
 				if (dayjs() < dayjs(test.endingDate)) {
@@ -72,8 +72,6 @@ export default function Results() {
 					setTest(test);
 					if (nof1Data) setTestData(nof1Data.data);
 				}
-			} else {
-				setNotFound(true);
 			}
 		}
 
@@ -146,16 +144,6 @@ export default function Results() {
 		return test.administrationSchema!;
 	};
 
-	if (notFound) {
-		return (
-			<AuthenticatedPage>
-				<Stack alignItems="center">
-					<Alert severity="error">{t('common:errors.test-not-found')}</Alert>
-				</Stack>
-			</AuthenticatedPage>
-		);
-	}
-
 	return (
 		<AuthenticatedPage>
 			<Stack
@@ -172,6 +160,7 @@ export default function Results() {
 							query: { id: router.query.id },
 						});
 					}}
+					disabled={test === null}
 				>
 					{t('btn.dataImport')}
 				</Button>

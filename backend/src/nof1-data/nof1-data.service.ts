@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Error as MongooseError } from 'mongoose';
-import { anonymousXML, encryptedXML, generateOdmXML } from 'src/utils/odmXml';
+import { anonymousXML, encryptedXML, generateOdmXML } from '../utils/odmXml';
 import { Nof1TestsService } from '../nof1-tests/nof1-tests.service';
 import { CreateNof1DataDto } from './dto/create-nof1-data.dto';
 import { UpdateNof1DataDto } from './dto/update-nof1-data.dto';
@@ -122,12 +122,7 @@ export class Nof1DataService {
    */
   updatePatientData(testId: string, updateNof1DataDto: UpdateNof1DataDto) {
     const deadline = new Date(updateNof1DataDto.testEndDate);
-    console.log('date now: ', new Date().toLocaleDateString());
-    console.log('end date: ', deadline.toLocaleDateString());
-
     deadline.setDate(deadline.getDate() + 14); // modifications deadline
-    console.log('end date: ', deadline.toLocaleDateString());
-
     if (new Date() > deadline) {
       throw new BadRequestException('Deadline exceeded');
     }

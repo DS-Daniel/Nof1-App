@@ -67,8 +67,7 @@ describe('AuthService - validateUser', () => {
   it('should return a user object when credentials are valid', async () => {
     const res = await service.validateUser(mockUser.email, mockUser.password);
     expect(res.email).toEqual(mockUser.email);
-    expect(res._id).toBeDefined();
-    expect(res._id).toEqual(mockUser._id);
+    expect(res.id).toEqual(mockUser._id);
   });
 
   it('should return null when credentials are invalid', async () => {

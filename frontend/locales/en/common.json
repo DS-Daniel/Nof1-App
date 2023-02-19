@@ -6,9 +6,9 @@
 		"logout": "Logout"
 	},
 	"footer": {
-		"title": "This tool is offered by the ",
+		"1": "This tool is offered by the ",
 		"pcl": "Clinical Pharmacology Department of the University Hospital of Vaud (PCL - CHUV, Switzerland)",
-		"subtitle": "With the collaboration of the ",
+		"2": "With the collaboration of the ",
 		"heig": "School of Engineering and Management Vaud (HEIG-VD)",
 		"report": "This N-of-1 test was performed using the \"N-of-1 Companion\" tool, available online and offered by the Clinical Pharmacology Service of the Centre Hospitalier Universitaire Vaudois (PCL-CHUV, Switzerland)."
 	},
@@ -45,7 +45,7 @@
 		"invalidPassword": "Your password does not meet the security criteria",
 		"passwordConfirm": "Please confirm your password",
 		"passwordConfirmNoMatch": "Passwords do not match",
-		"number": "Please enter a number (integer or decimal, without space)",
+		"number": "Please enter a number (integer and without space)",
 		"textarea": "Allowed: letters, digits, spaces and the following characters: ',.:;\"/+-?!#%()",
 		"digitsRequired": "Only digits (no space)",
 		"digitsMax": "Must be less than 20 digits",
@@ -67,7 +67,9 @@
 		"send": "Send",
 		"delete": "Delete",
 		"close": "Close",
-		"download": "Download"
+		"download": "Download",
+		"backToLogin": "Back to the login page",
+    "backToNof1": "Back to the N-of-1 tests page"
 	},
 	"measure-unit-label": "Measurement unit",
 	"posology-table": {
@@ -127,5 +129,6 @@
 	},
 	"errors": {
 		"test-not-found": "This N-of-1 test does not exist !"
-	}
+	},
+  "404": "Page Not Found"
 }

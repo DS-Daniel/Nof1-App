@@ -64,7 +64,7 @@
 			"values": "Values (qualitative)",
 			"skip": "Skipped run-in days for analysis"
 		},
-		"skipped-run-in-desc": "Determines the number of days (of the period) that should be omitted from the statistical analysis.\nFor example when the dosage is increasing. In order to take into account only the days when the concentration of the substance is significant for the analysis.",
+		"skipped-run-in-desc": "Determines the number of days (of the period) that should be omitted from the statistical analysis.\nIn order to take into account only the days when the concentration of the substance is significant for the analysis (for example when the dosage is increasing).",
 		"types": {
 			"txt": "Textual",
 			"vas": "VAS",

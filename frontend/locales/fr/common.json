@@ -6,9 +6,9 @@
 		"logout": "Déconnexion"
 	},
 	"footer": {
-		"title": "Cet outil vous est proposé par le ",
+		"1": "Cet outil vous est proposé par le ",
 		"pcl": "Service de Pharmacologie clinique du Centre Hospitalier Universitaire Vaudois (PCL - CHUV, Suisse)",
-		"subtitle": "Avec la collaboration de la ",
+		"2": "Avec la collaboration de la ",
 		"heig": "Haute École d'Ingénierie et de Gestion du Canton de Vaud (HEIG-VD)",
 		"report": "Ce test N-of-1 a été réalisé à l'aide de l'outil \"N-of-1 Companion\", disponible en ligne et proposé par le Service de Pharmacologie clinique du Centre Hospitalier Universitaire Vaudois (PCL-CHUV, Suisse)."
 	},
@@ -45,7 +45,7 @@
 		"invalidPassword": "Votre mot de passe ne respecte pas les critères de sécurité",
 		"passwordConfirm": "Veuillez confirmer votre mot de passe",
 		"passwordConfirmNoMatch": "Le mot de passe ne correspond pas",
-		"number": "Veuillez entrer un nombre (entier ou décimal, sans espace)",
+		"number": "Veuillez entrer un nombre (entier et sans espace)",
 		"textarea": "Autorisé: lettres, chiffres, espaces et les caractères suivants: ',.:;\"/+-?!#%()",
 		"digitsRequired": "Autorisé: chiffres (pas d'espace)",
 		"digitsMax": "Maximum 20 numéros",
@@ -67,7 +67,9 @@
 		"send": "Envoyer",
 		"delete": "Supprimer",
 		"close": "Fermer",
-		"download": "Télécharger"
+		"download": "Télécharger",
+		"backToLogin": "Retour à la page de connexion",
+		"backToNof1": "Retour à la page des tests N-of-1"
 	},
 	"measure-unit-label": "Unité de mesure",
 	"posology-table": {
@@ -127,5 +129,6 @@
 	},
 	"errors": {
 		"test-not-found": "Ce test N-of-1 n'existe pas !"
-	}
+	},
+  "404": "Page introuvable"
 }

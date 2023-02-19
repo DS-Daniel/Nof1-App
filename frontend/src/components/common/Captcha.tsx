@@ -83,7 +83,6 @@ const loadCaptchaEngine = (
 	bgColor = 'white',
 	fontColor = 'black',
 ) => {
-	// let canvas = document.getElementById('canv') as HTMLCanvasElement;
 	const numberOfChars = captcha.length;
 	const padding = 10;
 	const ctx = canvas?.getContext('2d');

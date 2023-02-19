@@ -3,7 +3,6 @@ import { useUserContext } from '../../context/UserContext';
 import useTranslation from 'next-translate/useTranslation';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { Nof1Test } from '../../entities/nof1Test';
@@ -30,12 +29,11 @@ export default function ImportData() {
 	const router = useRouter();
 	const { userContext } = useUserContext();
 	const [test, setTest] = useState<Nof1Test | undefined>(undefined);
-	const testData = useRef<TestData | undefined>(undefined);
+	const testData = useRef<TestData | undefined>(undefined); // Ref to avoid countless re-render.
 	const [dataFound, setDataFound] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [dbError, setDbError] = useState(false);
 	const [validityError, setValidityError] = useState(false);
-	const [notFound, setNotFound] = useState(false);
 
 	// fetch test information and initialize default health data.
 	useEffect(() => {
@@ -44,7 +42,9 @@ export default function ImportData() {
 				userContext.access_token,
 				id,
 			);
-			if (success && response.test) {
+			if (!success || !userContext.user?.tests?.includes(id)) {
+				await router.replace('/404');
+			} else if (success && response.test) {
 				const test: Nof1Test = response.test;
 				const { nof1Data } = await findNof1Data(userContext.access_token, id);
 				testData.current = nof1Data ? nof1Data.data : defaultData(test);
@@ -52,15 +52,13 @@ export default function ImportData() {
 				setTest(test);
 				// setTest() needs to be done after setting testData,
 				// because a render is needed to display testData
-			} else {
-				setNotFound(true);
 			}
 		}
 		const { id } = router.query;
 		if (id && userContext.access_token) {
 			initData(id as string);
 		}
-	}, [router.query, userContext]);
+	}, [router, userContext]);
 
 	/**
 	 * API call to create or update the patient's health data of the database.
@@ -100,16 +98,6 @@ export default function ImportData() {
 			setValidityError(true);
 		}
 	};
-
-	if (notFound) {
-		return (
-			<AuthenticatedPage>
-				<Stack alignItems="center">
-					<Alert severity="error">{t('common:errors.test-not-found')}</Alert>
-				</Stack>
-			</AuthenticatedPage>
-		);
-	}
 
 	return (
 		<AuthenticatedPage>

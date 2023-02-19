@@ -42,10 +42,8 @@ export class UsersService {
    * @param email User email.
    * @returns The user document or null.
    */
-  async findByEmail(email: string) {
-    return await this.userModel
-      .findOne({ email: email })
-      .lean({ getters: true });
+  findByEmail(email: string) {
+    return this.userModel.findOne({ email: email }).lean({ getters: true });
   }
 
   /**
@@ -98,7 +96,7 @@ export class UsersService {
    * @param email User email.
    * @returns An object indicating the delete count.
    */
-  async remove(email: string) {
-    return await this.userModel.deleteOne({ email: email });
+  remove(email: string) {
+    return this.userModel.deleteOne({ email: email });
   }
 }

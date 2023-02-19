@@ -15,5 +15,6 @@
 	"supposition": "Which treatment do you think you took this last period ?",
 	"optimal": "Do you think the treatment of this period is optimal for you ?",
 	"period-Q-remark": "Remarks regarding the two previous questions",
-	"idk": "I don't know'"
+	"idk": "I don't know",
+	"value-btw": "Value between {{x}} and {{y}}"
 }

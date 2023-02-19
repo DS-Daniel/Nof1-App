@@ -69,7 +69,7 @@ export default function ResetPassword() {
 	// button to navigate to the login page.
 	const backToLogin = (
 		<Button variant="outlined" onClick={() => router.replace('/')}>
-			{t('reset-pwd.backToLogin')}
+			{t('common:button.backToLogin')}
 		</Button>
 	);
 

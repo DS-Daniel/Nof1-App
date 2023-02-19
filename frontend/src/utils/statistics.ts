@@ -416,7 +416,7 @@ const autoregrANCOVA = (
 			treatSumXY[subIdx] += prev * obs;
 		}
 		prev = obs;
-		if (!isPrev && include) isPrev = true; // check to simplify
+		if (!isPrev && include) isPrev = true;
 		if (isPrev && !include) isPrev = false;
 	});
 
@@ -425,10 +425,7 @@ const autoregrANCOVA = (
 	const totalSSX = sumX2 - n * meanX ** 2;
 	const totalSSY = sumY2 - n * meanY ** 2;
 	const totalDf = n - 1;
-
 	const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX ** 2);
-	// const intercept = meanY - slope * meanX   // or: Intercept = (SumY * SumX2 - SumX * SumXY) / (N * SumX2 - SumX ^ 2) ' not used actually
-	// const correlation = Sqr(slope * totalSSX / totalSSY) // not used actually
 
 	for (let i = 0; i < nbSub; ++i) {
 		treatMX[i] = treatSumX[i] / treatN[i];
@@ -440,8 +437,6 @@ const autoregrANCOVA = (
 		treatSlope[i] =
 			(treatN[i] * treatSumXY[i] - treatSumX[i] * treatSumY[i]) /
 			(treatN[i] * treatSumX2[i] - treatSumX[i] ** 2);
-		// treatIntercept[i] = treatMY[i] - treatSlope[i] * treatMX[i]
-		// treatCorr[i] = Sqr(treatSlope[i] * treatSSX[i] / treatSSY[i])
 		ssXSlope += treatSlope[i] * treatSSX[i];
 	}
 

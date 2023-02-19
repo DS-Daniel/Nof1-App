@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Public } from 'src/utils/customDecorators/publicEndpoint';
+import { Public } from '../utils/customDecorators/publicEndpoint';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 /**

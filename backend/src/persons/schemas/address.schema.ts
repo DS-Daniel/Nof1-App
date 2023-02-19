@@ -15,28 +15,24 @@ export const AddressSchema = new Schema<Address>(
   {
     street: {
       type: String,
-      // required: true,
       get: decrypt,
       set: encrypt,
       default: '',
     },
     zip: {
       type: String,
-      // required: true,
       get: decrypt,
       set: encrypt,
       default: '',
     },
     city: {
       type: String,
-      // required: true,
       get: decrypt,
       set: encrypt,
       default: '',
     },
     country: {
       type: String,
-      // required: true,
       default: '',
     },
   },

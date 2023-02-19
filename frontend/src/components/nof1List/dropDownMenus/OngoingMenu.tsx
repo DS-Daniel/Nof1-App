@@ -46,7 +46,7 @@ export default function OngoingMenu({ item }: OngoingMenuProps) {
 	const patientEmailMsg = usePatientEmailMsg(
 		`${
 			process.env.NEXT_PUBLIC_APP_URL
-		}${lang}/import-data/patient?id=${item.uid!}&token=TOKEN`,
+		}/${lang}/import-data/patient?id=${item.uid!}&token=TOKEN`,
 		item.participants.nof1Physician,
 		dayjs(item.beginningDate).toDate().toLocaleDateString(),
 		dayjs(item.endingDate)

@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.set('trust proxy', 1);
   app.enableCors({
-    origin: [process.env.FRONTEND_URL, /ds-daniel\.vercel\.app$/], // TODO remove for production
+    origin: [process.env.FRONTEND_URL, process.env.FRONTEND_URL2],
     credentials: true,
   });
   // using session for captcha challenges
@@ -24,7 +24,7 @@ async function bootstrap() {
         sameSite: 'none',
         secure: true,
         path: '/captcha',
-        maxAge: 1000 * 60 * 15, // 15 minutes
+        maxAge: 1000 * 60 * 75, // 75 minutes
       },
     }),
   );

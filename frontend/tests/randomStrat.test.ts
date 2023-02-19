@@ -26,7 +26,6 @@ describe('Permutation class', () => {
 			Math.ceil(nbPeriods / seq2.length),
 		).map((i) => i.flatMap((x) => x).slice(0, nbPeriods));
 		const r = rnd.randomize(seq2, nbPeriods);
-		console.log(r);
 		expect(
 			allPerms.some((p) => JSON.stringify(p) === JSON.stringify(r)),
 		).toBeTruthy();
@@ -103,7 +102,6 @@ describe('MaxRep class', () => {
 			];
 			rnd = new MaxRep(1);
 			const r = rnd.randomize(seq2, nbPeriods);
-			// console.log(r);
 			expect(
 				allPerms.some((p) => JSON.stringify(p) === JSON.stringify(r)),
 			).toBeTruthy();
@@ -124,7 +122,6 @@ describe('MaxRep class', () => {
 			];
 			rnd = new MaxRep(2);
 			const r = rnd.randomize(seq2, nbPeriods);
-			// console.log(r);
 			expect(
 				allPerms.some((p) => JSON.stringify(p) === JSON.stringify(r)),
 			).toBeTruthy();
@@ -149,7 +146,6 @@ describe('MaxRep class', () => {
 			];
 			rnd = new MaxRep(3);
 			const r = rnd.randomize(seq2, nbPeriods);
-			// console.log(r);
 			expect(
 				allPerms.some((p) => JSON.stringify(p) === JSON.stringify(r)),
 			).toBeTruthy();
@@ -187,7 +183,6 @@ describe('MaxRep class', () => {
 			];
 			rnd = new MaxRep(1);
 			const r = rnd.randomize(seq3, nbPeriods);
-			// console.log(r);
 			expect(
 				allPerms.some((p) => JSON.stringify(p) === JSON.stringify(r)),
 			).toBeTruthy();

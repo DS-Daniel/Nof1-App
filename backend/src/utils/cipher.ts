@@ -30,6 +30,28 @@ const getKey = (salt: BinaryLike) => {
 };
 
 /**
+ * Encrypts a value using a derived key, the <algorithm> algorithm and the given
+ * encryption parameters.
+ * @param salt Random salt.
+ * @param iv Initialization vector.
+ * @param value Value to encrypt.
+ * @returns The encrypted value as a hex string.
+ */
+function _encrypt(salt: Buffer, iv: Buffer, value: string) {
+  const key = getKey(salt);
+
+  const cipher = createCipheriv(algorithm, key, iv);
+  const encrypted = Buffer.concat([
+    cipher.update(String(value), 'utf8'),
+    cipher.final(),
+  ]);
+
+  const tag = cipher.getAuthTag();
+
+  return Buffer.concat([salt, iv, tag, encrypted]).toString('hex');
+}
+
+/**
  * Encrypts a value using a derived key, the <algorithm> encryption algorithm,
  * a random initialization vector (iv) and a random salt.
  * @param value Value to encrypt.
@@ -43,17 +65,7 @@ export const encrypt = (value: string) => {
   const iv = randomBytes(ivLength); // initialization vector
   const salt = randomBytes(saltLength);
 
-  const key = getKey(salt);
-
-  const cipher = createCipheriv(algorithm, key, iv);
-  const encrypted = Buffer.concat([
-    cipher.update(String(value), 'utf8'),
-    cipher.final(),
-  ]);
-
-  const tag = cipher.getAuthTag();
-
-  return Buffer.concat([salt, iv, tag, encrypted]).toString('hex');
+  return _encrypt(salt, iv, value);
 };
 
 /**
@@ -105,15 +117,5 @@ export const encryptMail = (value: string) => {
   const iv = Buffer.from(process.env.IV_SECRET, 'utf8');
   const salt = Buffer.from(process.env.SALT_SECRET, 'utf8');
 
-  const key = getKey(salt);
-
-  const cipher = createCipheriv(algorithm, key, iv);
-  const encrypted = Buffer.concat([
-    cipher.update(String(value), 'utf8'),
-    cipher.final(),
-  ]);
-
-  const tag = cipher.getAuthTag();
-
-  return Buffer.concat([salt, iv, tag, encrypted]).toString('hex');
+  return _encrypt(salt, iv, value);
 };

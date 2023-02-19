@@ -19,13 +19,6 @@ interface StyledTableCellProps extends TableCellProps {
 export const StyledTableCell = styled(TableCell, {
 	shouldForwardProp: (prop) => prop !== 'borderR' && prop !== 'paddingX',
 })<StyledTableCellProps>(({ borderR = true, paddingX = 1, theme }) => ({
-	// [`&.${tableCellClasses.head}`]: {
-	// 	color: theme.palette.common.white,
-	// 	borderRight: '1px solid',
-	// },
-	// '&.MuiTableCell-root': {
-	// 	borderRight: '1px solid',
-	// },
 	...(borderR && { borderRight: '1px solid' }),
 	borderColor: theme.palette.divider,
 	paddingInline: `${paddingX}rem`,

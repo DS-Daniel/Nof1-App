@@ -3,6 +3,7 @@ import { encrypt } from './cipher';
 import { randomUUID } from 'node:crypto';
 import { TestData } from '../nof1-data/dto/create-nof1-data.dto';
 import { Nof1Test } from '../nof1-tests/schemas/nof1Test.schema';
+import { VariableType } from '../nof1-tests/@types/types';
 import { Patient } from '../persons/patients/schemas/patient.schema';
 import { Physician } from '../persons/physicians/schemas/physician.schema';
 import { Pharmacy } from '../persons/schemas/pharmacy.schema';
@@ -52,6 +53,7 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
             <FormRef FormOID="Form.clinicalInfo" Mandatory="No" />
             <FormRef FormOID="Form.nof1-parameters" Mandatory="Yes" />
             <FormRef FormOID="Form.nof1-substance-parameters" Mandatory="Yes" />
+            <FormRef FormOID="Form.nof1-monitoredVariables-def" Mandatory="Yes" />
          </StudyEventDef>
 
          <!-- Data -->
@@ -85,6 +87,11 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
             <ItemGroupRef ItemGroupOID="ItemGroup.nof1-substance" Mandatory="Yes" />
             <ItemGroupRef ItemGroupOID="ItemGroup.nof1-posology" Mandatory="Yes" />
             <ItemGroupRef ItemGroupOID="ItemGroup.nof1-decreasing-posology" Mandatory="No" />
+         </FormDef>
+
+         <!-- Nof1 variables def -->
+         <FormDef OID="Form.nof1-monitoredVariables-def" Name="Nof1 monitored variables def" Repeating="No">
+            <ItemGroupRef ItemGroupOID="ItemGroup.nof1-monitoredVariables-def" Mandatory="Yes" />
          </FormDef>
 
          <!-- Data -->
@@ -177,6 +184,17 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
             <ItemRef ItemOID="Item.nightFraction" Mandatory="Yes" />
          </ItemGroupDef>
 
+         <!-- Nof1 variables def -->
+         <ItemGroupDef OID="ItemGroup.nof1-monitoredVariables-def" Name="Monitored variable parameters" Repeating="Yes">
+            <ItemRef ItemOID="Item.VarName" Mandatory="Yes" />
+            <ItemRef ItemOID="Item.VarType" Mandatory="Yes" />
+            <ItemRef ItemOID="Item.unit" Mandatory="No" />
+            <ItemRef ItemOID="Item.min" Mandatory="No" />
+            <ItemRef ItemOID="Item.max" Mandatory="No" />
+            <ItemRef ItemOID="Item.values" Mandatory="No" />
+            <ItemRef ItemOID="Item.skippedRunInDays" Mandatory="No" />
+         </ItemGroupDef>
+
          <!-- Data -->
          <ItemGroupDef OID="ItemGroup.nof1-monitoredVariables" Name="Monitored variable" Repeating="No">
             ${test.monitoredVariables.reduce((acc, v, idx) => {
@@ -257,6 +275,14 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
          <ItemDef OID="Item.eveningFraction" Name="Evening Fraction" DataType="integer"></ItemDef>
          <ItemDef OID="Item.nightDose" Name="Night Dose" DataType="integer"></ItemDef>
          <ItemDef OID="Item.nightFraction" Name="Night Fraction" DataType="integer"></ItemDef>
+
+         <!-- Nof1 variables def -->
+         <ItemDef OID="Item.VarName" Name="VarName" DataType="string" Length="64"></ItemDef>
+         <ItemDef OID="Item.VarType" Name="VarType" DataType="string" Length="64"></ItemDef>
+         <ItemDef OID="Item.min" Name="min" DataType="string" Length="64"></ItemDef>
+         <ItemDef OID="Item.max" Name="max" DataType="string" Length="64"></ItemDef>
+         <ItemDef OID="Item.values" Name="values" DataType="string" Length="64"></ItemDef>
+         <ItemDef OID="Item.skippedRunInDays" Name="skippedRunInDays" DataType="integer"></ItemDef>
       </MetaDataVersion>
    </Study>
 
@@ -494,9 +520,9 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
                   <ItemDataInteger ItemOID="Item.periodLen">${
                     test.periodLen
                   }</ItemDataInteger>
-                  <ItemDataInteger ItemOID="Item.statisticalAnalysis">${
+                  <ItemDataString ItemOID="Item.statisticalAnalysis">${
                     test.statistics.analysisToPerform
-                  }</ItemDataInteger>
+                  }</ItemDataString>
                   <ItemDataString ItemOID="Item.randomizationStrategy">${
                     test.randomization.strategy
                   }${
@@ -562,6 +588,46 @@ export const generateOdmXML = (test: Nof1Test, data: TestData) => {
             </FormData>`;
               return acc;
             }, '')}
+            <FormData FormOID="Form.nof1-monitoredVariables-def">
+               ${test.monitoredVariables.reduce((acc, v, idx) => {
+                 const tab = idx > 0 ? '\n               ' : ''; // for indentation
+                 acc += `${tab}<ItemGroupData ItemGroupOID="ItemGroup.nof1-monitoredVariables-def" ItemGroupRepeatKey="${
+                   v.name
+                 }">
+                  <ItemDataString ItemOID="Item.VarName">
+                     <![CDATA[${v.name}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.VarType">
+                     <![CDATA[${v.type}]]>
+                  </ItemDataString>${
+                    v.type === VariableType.Numeric ||
+                    v.type === VariableType.VAS
+                      ? `\n                  <ItemDataString ItemOID="Item.unit">
+                     <![CDATA[${v.unit}]]>
+                  </ItemDataString>
+                  <ItemDataInteger ItemOID="Item.skippedRunInDays">${v.skippedRunInDays}</ItemDataInteger>`
+                      : ''
+                  }${
+                   v.type !== VariableType.Text &&
+                   v.type !== VariableType.Qualitative
+                     ? `\n                  <ItemDataString ItemOID="Item.min">
+                     <![CDATA[${v.min}]]>
+                  </ItemDataString>
+                  <ItemDataString ItemOID="Item.max">
+                     <![CDATA[${v.max}]]>
+                  </ItemDataString>`
+                     : ''
+                 }${
+                   v.type === VariableType.Qualitative
+                     ? `\n                  <ItemDataString ItemOID="Item.values">
+                     <![CDATA[${v.values}]]>
+                  </ItemDataString>`
+                     : ''
+                 }
+               </ItemGroupData>`;
+                 return acc;
+               }, '')}
+            </FormData>
          </StudyEventData>
 
          <!-- Data -->

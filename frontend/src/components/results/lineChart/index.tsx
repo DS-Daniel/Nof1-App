@@ -33,7 +33,6 @@ export default function ExtendedLineChart({
 }: Props) {
 	const { t } = useTranslation('common');
 	const [getPng, { ref }] = useCurrentPng();
-	// const data = formatGraphData(testData, variable, periodLen);
 
 	/**
 	 * Handle click on the download button. It triggers a file save.

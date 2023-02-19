@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
-import { useUserContext } from '../../context/UserContext';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Page from '../../components/layout/Page';
@@ -26,9 +25,8 @@ const dataFormId = 'patient-data-form';
 export default function PatientData() {
 	const { t } = useTranslation('importData');
 	const router = useRouter();
-	const { userContext } = useUserContext();
 	const [test, setTest] = useState<Nof1Test | undefined>(undefined);
-	const testData = useRef<TestData | undefined>(undefined); // Ref to avoid useless re-render.
+	const testData = useRef<TestData | undefined>(undefined); // Ref to avoid countless re-render.
 	const dataFound = useRef<boolean>(false);
 	const [successSB, setSuccessSB] = useState(false);
 	const [dbError, setDbError] = useState(false);
@@ -47,11 +45,8 @@ export default function PatientData() {
 				// check if previous data already exist.
 				const data: TestData = response.data;
 				dataFound.current = data !== undefined;
-				console.log('data found?', dataFound.current);
 				testData.current = dataFound.current ? data : defaultData(test);
 			} else {
-				// TODO display new page or replace content ?
-				// router.push('/404');
 				setDeadlineExceeded(true);
 			}
 		}
@@ -59,7 +54,7 @@ export default function PatientData() {
 		if (id && token) {
 			initData(id as string, token as string);
 		}
-	}, [router.query, userContext]);
+	}, [router.query]);
 
 	/**
 	 * API call to create or update the patient's health data of the database.
@@ -76,7 +71,6 @@ export default function PatientData() {
 			});
 			if (!success) error = true;
 		} else {
-			// TODO own create API request ? and test period validity ?
 			const { success } = await createNof1Data(apiToken, {
 				testId,
 				data: testData.current!,

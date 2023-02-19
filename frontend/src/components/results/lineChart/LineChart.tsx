@@ -46,7 +46,7 @@ const CustomLineChart = forwardRef<any, Props>(
 		ref,
 	) => {
 		const { t } = useTranslation('common');
-		const data = formatGraphData(testData, variable, periodLen);
+		const data = formatGraphData(testData, variable);
 
 		return (
 			<ResponsiveContainer width={width} height={height}>

@@ -10,6 +10,7 @@ import { TestData } from '../../../entities/nof1Data';
 import { VariableType } from '../../../entities/variable';
 import { AnalyseType, anova, isAnalysisValid } from '../../../utils/statistics';
 import { RandomStrategy } from '../../../utils/nof1-lib/randomizationStrategy';
+import CustomTooltip from '../../common/ui/CustomTooltip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
@@ -154,8 +155,11 @@ export default function Statistics({
 							{t('statistics.var-analyse', { variable: v.name })}
 						</Typography>
 						<Typography>
-							{t('createTest:variables.header.skip')} :{' '}
-							{v.skippedRunInDays ?? 0}
+							{t('createTest:variables.header.skip')}{' '}
+							<CustomTooltip
+								infoText={t('createTest:variables.skipped-run-in-desc')}
+							/>{' '}
+							: {v.skippedRunInDays ?? 0}
 						</Typography>
 						{renderDataWarning(v.name)}
 						{renderStatisticTable({
